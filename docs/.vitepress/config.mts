@@ -10,8 +10,9 @@ export default withMermaid(
 
   // Base URL untuk GitHub Pages
   // Sesuaikan dengan nama repository Anda
-  // Contoh: jika repo bernama 'bahan-ajar', maka base: '/bahan-ajar/'
-  base: '/',
+  // Jika repository bernama 'Perkuliahan', gunakan '/Perkuliahan/'
+  // Jika ini adalah user.github.io (root), gunakan '/'
+  base: '/Perkuliahan/',
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
