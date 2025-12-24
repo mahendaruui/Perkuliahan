@@ -5,7 +5,7 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 export default withMermaid(
   defineConfig({
   title: "Bahan Ajar",
-  description: "Dokumentasi Bahan Ajar Algoritma dan Pemrograman",
+  description: "Dokumentasi Bahan Ajar Algoritma dan Pemrograman - Mahendar Dwi Payana",
   lang: 'id-ID',
 
   // Base URL untuk GitHub Pages
@@ -14,11 +14,23 @@ export default withMermaid(
   // Jika ini adalah user.github.io (root), gunakan '/'
   base: '/Perkuliahan/',
 
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/Perkuliahan/uuifav.png' }],
+    ['meta', { name: 'author', content: 'Mahendar Dwi Payana' }],
+    ['meta', { property: 'og:title', content: 'Bahan Ajar - Universitas Ubudiyah Indonesia' }],
+    ['meta', { property: 'og:description', content: 'Dokumentasi Bahan Ajar Algoritma dan Pemrograman' }],
+  ],
+
   themeConfig: {
+    // Logo
+    logo: '/uuilogo.png',
+    siteTitle: 'Bahan Ajar UUI',
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Beranda', link: '/' },
-      { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' }
+      { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
+      { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' }
     ],
 
     sidebar: {
@@ -70,6 +82,42 @@ export default withMermaid(
             { text: 'Algoritma Pengurutan', link: '/algoritma-pemrograman/algoritma-pengurutan' }
           ]
         }
+      ],
+
+      '/kompleksitas-algoritma/': [
+        {
+          text: 'Pendahuluan',
+          items: [
+            { text: 'Daftar Materi', link: '/kompleksitas-algoritma/' },
+            { text: 'Pengenalan Kompleksitas', link: '/kompleksitas-algoritma/pengenalan' }
+          ]
+        },
+        {
+          text: 'Analisis Kompleksitas',
+          collapsed: false,
+          items: [
+            { text: 'Notasi Big O', link: '/kompleksitas-algoritma/big-o' },
+            { text: 'Time Complexity', link: '/kompleksitas-algoritma/time-complexity' },
+            { text: 'Space Complexity', link: '/kompleksitas-algoritma/space-complexity' }
+          ]
+        },
+        {
+          text: 'Analisis Algoritma',
+          collapsed: false,
+          items: [
+            { text: 'Best, Average, Worst Case', link: '/kompleksitas-algoritma/best-average-worst' },
+            { text: 'Asymptotic Analysis', link: '/kompleksitas-algoritma/asymptotic-analysis' }
+          ]
+        },
+        {
+          text: 'Studi Kasus',
+          collapsed: true,
+          items: [
+            { text: 'Analisis Algoritma Pencarian', link: '/kompleksitas-algoritma/analisis-pencarian' },
+            { text: 'Analisis Algoritma Sorting', link: '/kompleksitas-algoritma/analisis-sorting' },
+            { text: 'Optimasi Algoritma', link: '/kompleksitas-algoritma/optimasi' }
+          ]
+        }
       ]
     },
 
@@ -105,7 +153,7 @@ export default withMermaid(
 
     // Edit link
     editLink: {
-      pattern: 'https://github.com/YOUR_USERNAME/YOUR_REPO/edit/main/docs/:path',
+      pattern: 'https://github.com/mahendar/Perkuliahan/edit/main/docs/:path',
       text: 'Edit halaman ini di GitHub'
     },
 
@@ -128,6 +176,12 @@ export default withMermaid(
         dateStyle: 'medium',
         timeStyle: 'short'
       }
+    },
+
+    // Footer
+    footer: {
+      message: 'Universitas Ubudiyah Indonesia',
+      copyright: 'Copyright © 2024 Mahendar Dwi Payana'
     }
   },
 
