@@ -19,7 +19,7 @@ hero:
 features:
   - icon: 👨‍🏫
     title: Dosen Pengampu
-    details: Mahendar Dwi Payana, S.Kom., M.Kom. - Universitas Ubudiyah Indonesia
+    details: Mahendar Dwi Payana, S.ST., M.T. - Universitas Ubudiyah Indonesia
   - icon: 📚
     title: Materi Terstruktur
     details: Materi disusun secara sistematis dari dasar hingga lanjutan
@@ -56,9 +56,3 @@ Pilih topik yang ingin dipelajari dari menu navigasi di atas, atau mulai dengan 
 - Flowchart dan diagram
 - Latihan soal
 
----
-
-<div style="text-align: center; padding: 2rem 0; color: #666;">
-  <p><strong>Mahendar Dwi Payana</strong></p>
-  <p>Dosen Universitas Ubudiyah Indonesia</p>
-</div>
