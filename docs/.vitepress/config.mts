@@ -13,9 +13,6 @@ export default withMermaid(
     metaChunk: true,
 
     // Base URL untuk GitHub Pages
-    // Sesuaikan dengan nama repository Anda
-    // Jika repository bernama 'Perkuliahan', gunakan '/Perkuliahan/'
-    // Jika ini adalah user.github.io (root), gunakan '/'
     base: '/Perkuliahan/',
 
     head: [
@@ -34,7 +31,8 @@ export default withMermaid(
       nav: [
         { text: 'Beranda', link: '/' },
         { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
-        { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' }
+        { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' },
+        { text: 'Pemrograman Web', link: '/pemrograman-web/' }
       ],
 
       sidebar: {
@@ -123,6 +121,49 @@ export default withMermaid(
               { text: 'Analisis Algoritma Pencarian', link: '/kompleksitas-algoritma/analisis-pencarian' },
               { text: 'Analisis Algoritma Sorting', link: '/kompleksitas-algoritma/analisis-sorting' },
               { text: 'Optimasi Algoritma', link: '/kompleksitas-algoritma/optimasi' }
+            ]
+          }
+        ],
+
+        '/pemrograman-web/': [
+          {
+            text: 'Pendahuluan',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Materi', link: '/pemrograman-web/' }
+            ]
+          },
+          {
+            text: 'Frontend Dasar',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 1 — Pengenalan Web', link: '/pemrograman-web/minggu-1-pengenalan-web' },
+              { text: 'Minggu 2-3 — HTML5 & CSS3', link: '/pemrograman-web/minggu-2-3-html-css' },
+              { text: 'Minggu 4 — CSS Framework', link: '/pemrograman-web/minggu-4-css-framework' }
+            ]
+          },
+          {
+            text: 'JavaScript & API',
+            collapsed: true,
+            items: [
+              { text: 'Minggu 5-6 — JavaScript & DOM', link: '/pemrograman-web/minggu-5-6-javascript' },
+              { text: 'Minggu 7 — JSON & Fetch API', link: '/pemrograman-web/minggu-7-fetch-api' }
+            ]
+          },
+          {
+            text: 'Backend & Database',
+            collapsed: true,
+            items: [
+              { text: 'Minggu 9-10 — PHP Server-Side', link: '/pemrograman-web/minggu-9-10-php' },
+              { text: 'Minggu 11-12 — CRUD MySQL', link: '/pemrograman-web/minggu-11-12-database' }
+            ]
+          },
+          {
+            text: 'Framework & Deployment',
+            collapsed: true,
+            items: [
+              { text: 'Minggu 13-14 — MVC Laravel', link: '/pemrograman-web/minggu-13-14-framework-mvc' },
+              { text: 'Minggu 15 — Keamanan & Deploy', link: '/pemrograman-web/minggu-15-keamanan-deployment' }
             ]
           }
         ]

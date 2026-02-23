@@ -39,20 +39,22 @@ features:
 
 ## Tentang Bahan Ajar Ini
 
-Website ini berisi dokumentasi lengkap untuk mata kuliah **Algoritma dan Pemrograman** serta **Kompleksitas Algoritma** yang disusun oleh **Mahendar Dwi Payana** dari **Universitas Ubudiyah Indonesia**.
+Website ini berisi dokumentasi lengkap untuk tiga mata kuliah yang disusun oleh **Mahendar Dwi Payana, S.ST., M.T.** dari **Universitas Ubudiyah Indonesia**.
 
-### Topik yang Tersedia
+### Mata Kuliah yang Tersedia
 
-- **Algoritma & Pemrograman**: Materi dasar pemrograman mulai dari variabel, tipe data, struktur kontrol, array, string, fungsi, rekursi, hingga algoritma pencarian dan pengurutan.
+- **[Pemrograman Web](/pemrograman-web/)**: Membangun aplikasi web dari nol — HTML5, CSS3 responsif, JavaScript interaktif, PHP server-side, integrasi MySQL, hingga Laravel MVC dan deployment.
 
-- **Kompleksitas Algoritma**: Analisis mendalam tentang time complexity, space complexity, notasi Big O, dan optimasi algoritma.
+- **[Algoritma & Pemrograman](/algoritma-pemrograman/)**: Materi dasar pemrograman mulai dari variabel, tipe data, struktur kontrol, array, string, fungsi, rekursi, hingga algoritma pencarian dan pengurutan.
+
+- **[Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis mendalam tentang time complexity, space complexity, notasi Big O, dan optimasi algoritma.
 
 ### Cara Menggunakan
 
-Pilih topik yang ingin dipelajari dari menu navigasi di atas, atau mulai dengan materi pengenalan. Setiap topik dilengkapi dengan:
+Pilih topik dari menu navigasi di atas atau gunakan tombol pada hero section. Setiap topik dilengkapi dengan:
 
-- Penjelasan konsep
-- Contoh kode (Python & C++)
-- Flowchart dan diagram
-- Latihan soal
+- Penjelasan konsep yang jelas
+- Contoh kode siap pakai
+- Diagram dan flowchart
+- Latihan soal dan proyek praktikum
 
