@@ -32,7 +32,8 @@ export default withMermaid(
         { text: 'Beranda', link: '/' },
         { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
         { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' },
-        { text: 'Pemrograman Web', link: '/pemrograman-web/' }
+        { text: 'Pemrograman Web', link: '/pemrograman-web/' },
+        { text: 'Pemrograman Mobile', link: '/mobile-programming/' }
       ],
 
       sidebar: {
@@ -164,6 +165,44 @@ export default withMermaid(
             items: [
               { text: 'Minggu 13-14 — MVC Laravel', link: '/pemrograman-web/minggu-13-14-framework-mvc' },
               { text: 'Minggu 15 — Keamanan & Deploy', link: '/pemrograman-web/minggu-15-keamanan-deployment' }
+            ]
+          }
+        ],
+
+        '/mobile-programming/': [
+          {
+            text: 'Pendahuluan',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Materi', link: '/mobile-programming/' },
+              { text: 'RPS (Rencana Pembelajaran Semester)', link: '/mobile-programming/RPS' },
+              { text: 'Intro: Mobile Programming & React Native', link: '/mobile-programming/pengenalan' }
+            ]
+          },
+          {
+            text: 'Dasar-Dasar React Native',
+            collapsed: false,
+            items: [
+              { text: 'Env Setup, JSX, Component, State', link: '/mobile-programming/dasar-react' },
+              { text: 'React Hooks & Lifecycle', link: '/mobile-programming/hooks-lifecycle' },
+              { text: 'Core Component', link: '/mobile-programming/core-component' }
+            ]
+          },
+          {
+            text: 'Desain dan Navigasi',
+            collapsed: false,
+            items: [
+              { text: 'UI/UX & Styling', link: '/mobile-programming/ui-ux-styling' },
+              { text: 'Navigasi Aplikasi', link: '/mobile-programming/navigasi' }
+            ]
+          },
+          {
+            text: 'Manajemen Data dan Integrasi',
+            collapsed: false,
+            items: [
+              { text: 'Networking API', link: '/mobile-programming/networking-api' },
+              { text: 'Local Storage', link: '/mobile-programming/local-storage' },
+              { text: 'Library Peta & Lokasi', link: '/mobile-programming/peta-lokasi' }
             ]
           }
         ]
