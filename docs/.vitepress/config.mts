@@ -33,7 +33,8 @@ export default withMermaid(
         { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
         { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' },
         { text: 'Pemrograman Web', link: '/pemrograman-web/' },
-        { text: 'Pemrograman Mobile', link: '/mobile-programming/' }
+        { text: 'Pemrograman Mobile', link: '/mobile-programming/' },
+        { text: 'Struktur Data', link: '/struktur-data/' }
       ],
 
       sidebar: {
@@ -203,6 +204,54 @@ export default withMermaid(
               { text: 'Networking API', link: '/mobile-programming/networking-api' },
               { text: 'Local Storage', link: '/mobile-programming/local-storage' },
               { text: 'Library Peta & Lokasi', link: '/mobile-programming/peta-lokasi' }
+            ]
+          }
+        ],
+
+        '/struktur-data/': [
+          {
+            text: 'Pendahuluan',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Materi', link: '/struktur-data/' },
+              { text: 'RPS (Rencana Pembelajaran Semester)', link: '/struktur-data/RPS' },
+              { text: 'Minggu 1 - Pengantar Struktur Data', link: '/struktur-data/pengantar' }
+            ]
+          },
+          {
+            text: 'Dasar Memori & Golang',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 2 - Array, Slice, Struct & Pointer', link: '/struktur-data/pointer-struct' }
+            ]
+          },
+          {
+            text: 'Struktur Data Linear',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 3 - Stack (LIFO)', link: '/struktur-data/stack' },
+              { text: 'Minggu 4 - Queue (FIFO)', link: '/struktur-data/queue' },
+              { text: 'Minggu 5 - Singly Linked List', link: '/struktur-data/linked-list' },
+              { text: 'Minggu 6 - Opsi LinkedList Lanjutan', link: '/struktur-data/linked-list-lanjutan' },
+              { text: 'Minggu 7 & 8 - Studi Kasus & UTS', link: '/struktur-data/studi-kasus-uts' }
+            ]
+          },
+          {
+            text: 'Struktur Hierarki & Pencarian',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 9 - Pengenalan Tree', link: '/struktur-data/binary-tree' },
+              { text: 'Minggu 10 - Binary Search Tree', link: '/struktur-data/binary-search-tree' },
+              { text: 'Minggu 11 - Algoritma Searching', link: '/struktur-data/searching' }
+            ]
+          },
+          {
+            text: 'Jaringan Grafik & Evaluasi',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 12 - Pengenalan Graph', link: '/struktur-data/graph' },
+              { text: 'Minggu 13 - Rute Terpendek Dijkstra', link: '/struktur-data/dijkstra-graph' },
+              { text: 'Minggu 14,15,16 - Proyek Akhir (UAS)', link: '/struktur-data/proyek-akhir' }
             ]
           }
         ]
