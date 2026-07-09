@@ -395,6 +395,179 @@ $data = $stmt->fetch();
 
 ---
 
+## 🔍 Studi Kasus Nyata: Basis Data Sistem Ujian Online (Penerimaan Mahasiswa Baru)
+
+Sebagai contoh implementasi di dunia nyata, kita akan mengambil referensi dari penelitian berjudul **"Sistem Ujian Online Tes Masuk Universitas Ubudiyah Indonesia (UUI) Bagi Calon Mahasiswa Baru Berbasis Web"**. 
+
+Sistem ini memiliki dua aktor utama (**Admin** dan **Calon Mahasiswa**) dengan fitur pengelolaan bank soal acak (random), manajemen jadwal/gelombang ujian, pemetaan peserta, serta penentuan kelulusan ujian.
+
+### 1. Perancangan Skema Database (MySQL)
+
+Berdasarkan analisis kebutuhan sistem pada penelitian tersebut, berikut adalah rancangan tabel database relasional yang dibutuhkan:
+
+```mermaid
+erDiagram
+    GELOMBANG ||--o{ PESERTA : "memiliki"
+    PESERTA ||--o{ JAWABAN_PESERTA : "menjawab"
+    SOAL ||--o{ JAWABAN_PESERTA : "dijawab"
+    PESERTA ||--o| HASIL_UJIAN : "memiliki"
+
+    GELOMBANG {
+        int id PK
+        varchar nama_gelombang
+        date tanggal_ujian
+        time jam_mulai
+        int durasi_menit
+    }
+
+    PESERTA {
+        int id PK
+        varchar no_registrasi UK
+        varchar nama
+        varchar email UK
+        varchar password
+        text alamat
+        int gelombang_id FK
+    }
+
+    SOAL {
+        int id PK
+        text pertanyaan
+        varchar opsi_a
+        varchar opsi_b
+        varchar opsi_c
+        varchar opsi_d
+        char kunci_jawaban
+    }
+
+    JAWABAN_PESERTA {
+        int id PK
+        int peserta_id FK
+        int soal_id FK
+        char jawaban_pilihan
+        tinyint benar_salah
+    }
+
+    HASIL_UJIAN {
+        int id PK
+        int peserta_id FK
+        int total_benar
+        decimal nilai_akhir
+        enum status_lulus
+    }
+```
+
+#### SQL DDL untuk Pembuatan Tabel
+```sql
+-- 1. Tabel Gelombang Ujian
+CREATE TABLE gelombang (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nama_gelombang VARCHAR(50) NOT NULL,
+    tanggal_ujian DATE NOT NULL,
+    jam_mulai TIME NOT NULL,
+    durasi_menit INT NOT NULL
+);
+
+-- 2. Tabel Peserta (Calon Mahasiswa)
+CREATE TABLE peserta (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    no_registrasi VARCHAR(20) NOT NULL UNIQUE,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    alamat TEXT,
+    gelombang_id INT UNSIGNED,
+    FOREIGN KEY (gelombang_id) REFERENCES gelombang(id) ON DELETE SET NULL
+);
+
+-- 3. Tabel Bank Soal
+CREATE TABLE soal (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    pertanyaan TEXT NOT NULL,
+    opsi_a VARCHAR(255) NOT NULL,
+    opsi_b VARCHAR(255) NOT NULL,
+    opsi_c VARCHAR(255) NOT NULL,
+    opsi_d VARCHAR(255) NOT NULL,
+    kunci_jawaban CHAR(1) NOT NULL -- 'A', 'B', 'C', atau 'D'
+);
+
+-- 4. Tabel Jawaban Peserta (untuk menyimpan hasil submit ujian per soal)
+CREATE TABLE jawaban_peserta (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    peserta_id INT UNSIGNED NOT NULL,
+    soal_id INT UNSIGNED NOT NULL,
+    jawaban_pilihan CHAR(1),
+    benar_salah TINYINT(1) DEFAULT 0, -- 0 = salah, 1 = benar
+    FOREIGN KEY (peserta_id) REFERENCES peserta(id) ON DELETE CASCADE,
+    FOREIGN KEY (soal_id) REFERENCES soal(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_peserta_soal (peserta_id, soal_id)
+);
+
+-- 5. Tabel Hasil Akhir Ujian
+CREATE TABLE hasil_ujian (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    peserta_id INT UNSIGNED NOT NULL UNIQUE,
+    total_benar INT UNSIGNED NOT NULL DEFAULT 0,
+    nilai_akhir DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+    status_lulus ENUM('LULUS', 'TIDAK LULUS') DEFAULT 'TIDAK LULUS',
+    FOREIGN KEY (peserta_id) REFERENCES peserta(id) ON DELETE CASCADE
+);
+```
+
+### 2. Contoh Implementasi Query CRUD pada Ujian Online
+
+Berikut adalah implementasi query SQL relasional yang digunakan untuk mendukung fitur utama aplikasi ujian online tersebut:
+
+#### A. CREATE (Pendaftaran Calon Mahasiswa & Input Bank Soal)
+```sql
+-- Pendaftaran peserta baru
+INSERT INTO peserta (no_registrasi, nama, email, password, alamat, gelombang_id)
+VALUES ('UUI0219-17', 'Yusrina Dewi', 'yusrina99@email.com', '$2y$10$xyz...', 'Dusun I, Aceh Barat Daya', 1);
+
+-- Input soal baru ke bank soal
+INSERT INTO soal (pertanyaan, opsi_a, opsi_b, opsi_c, opsi_d, kunci_jawaban)
+VALUES ('Manakah yang merupakan komponen server local yang memaketkan Apache, MySQL, dan PHP?', 'Composer', 'XAMPP', 'Git', 'Vite', 'B');
+```
+
+#### B. READ (Ujian Acak / Random & Monitoring Hasil)
+```sql
+-- 1. Mengambil soal secara acak (random) sebanyak 10 soal untuk peserta ujian
+-- Fitur acak ini krusial agar meminimalisir kecurangan antar peserta.
+SELECT id, pertanyaan, opsi_a, opsi_b, opsi_c, opsi_d 
+FROM soal 
+ORDER BY RAND() 
+LIMIT 10;
+
+-- 2. Menampilkan daftar peserta beserta jadwal gelombang ujian mereka
+SELECT p.no_registrasi, p.nama, g.nama_gelombang, g.tanggal_ujian, g.jam_mulai
+FROM peserta p
+JOIN gelombang g ON p.gelombang_id = g.id
+ORDER BY g.tanggal_ujian ASC, p.nama ASC;
+```
+
+#### C. UPDATE (Menyimpan Jawaban & Penentuan Kelulusan)
+```sql
+-- 1. Menyimpan atau memperbarui jawaban peserta (jika jawaban diubah sebelum submit selesai)
+INSERT INTO jawaban_peserta (peserta_id, soal_id, jawaban_pilihan, benar_salah)
+VALUES (1, 12, 'B', 1)
+ON DUPLICATE KEY UPDATE jawaban_pilihan = 'B', benar_salah = 1;
+
+-- 2. Update status kelulusan peserta berdasarkan hasil pemeriksaan panitia/sistem
+UPDATE hasil_ujian 
+SET status_lulus = 'LULUS' 
+WHERE peserta_id = 1;
+```
+
+#### D. DELETE (Pembatalan Peserta / Penghapusan Gelombang)
+```sql
+-- Menghapus gelombang ujian
+-- (Karena menggunakan ON DELETE SET NULL pada tabel peserta, peserta yang terdaftar 
+-- di gelombang ini tidak akan terhapus, melainkan status gelombangnya menjadi NULL untuk dijadwalkan ulang)
+DELETE FROM gelombang WHERE id = 2;
+```
+
+---
+
 ## 🏗️ Proyek Praktikum: Sistem Manajemen Mahasiswa CRUD
 
 Buat aplikasi CRUD lengkap dengan fitur:
