@@ -140,3 +140,261 @@ const styles = StyleSheet.create({
 ```
 
 *Prasyarat Server Key Google Cloud Billing API Maps Production*: Apabila sistem dirilis ke Aplikasi App Store Apple / Playstore Google, Maps Native ini mewajibkan anda mengatur key token SDK Native `AndroidManifest.xml API KEY Map` dari Dashboard Google Cloud Platform Developer! Kegagalan integrasi Google Key menyebabkan peta akan Blank Putih kosong / Error layar Render Frame Abu-Abu!
+
+---
+
+## 🔍 Studi Kasus Integrasi: Sistem Jadwal Dokter & Peta Poliklinik (RS Sultan Iskandar Muda)
+
+Sebagai bentuk implementasi dari materi **Integrasi API** dan **Peta Lokasi**, kita akan mengambil studi kasus nyata dari penelitian berjudul **"Sistem Pendajadwalan Dokter dan Fasilitas Poli pada Rumah Sakit Sultan Iskandar Muda Nagan Raya Berbasis Android"** (Payana, dkk., 2023).
+
+Pada studi kasus ini, kita akan mengadaptasi rancangan aplikasi tersebut ke dalam **React Native** dengan membangun fitur:
+1. **Peta Interaktif** untuk menampilkan lokasi fisik RSUD Sultan Iskandar Muda beserta koordinatnya.
+2. **Integrasi REST API** untuk mengambil dan menampilkan jadwal praktek dokter secara dinamis berdasarkan hari yang dipilih.
+
+```mermaid
+graph TD
+    A[Dashboard App] -->|Pilih Fitur Lokasi| B[Layar Peta Lokasi RS]
+    A -->|Pilih Fitur Jadwal| C[Layar Daftar Hari]
+    C -->|Pilih Hari, misal: Senin| D[Layar Detail Jadwal Dokter]
+    D -->|Fetch API| E[Mock REST API Server]
+```
+
+### 1. Mock REST API Data Jadwal Dokter (`jadwal_dokter.json`)
+
+Berikut adalah contoh struktur data JSON yang disediakan oleh Web API Server untuk mengembalikan daftar dokter yang aktif di hari tertentu:
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "d-101",
+      "nama": "dr. Fheryanto, Sp.M",
+      "spesialis": "Spesialis Mata",
+      "poli": "Poliklinik Mata",
+      "jam_mulai": "14:00:00",
+      "jam_selesai": "18:00:00",
+      "foto_url": "https://raw.githubusercontent.com/mahendaruui/Perkuliahan/main/docs/public/images/doctor1.png"
+    },
+    {
+      "id": "d-102",
+      "nama": "dr. Ana Adista, Sp.A",
+      "spesialis": "Spesialis Anak",
+      "poli": "Poliklinik Anak",
+      "jam_mulai": "09:00:00",
+      "jam_selesai": "14:00:00",
+      "foto_url": "https://raw.githubusercontent.com/mahendaruui/Perkuliahan/main/docs/public/images/doctor2.png"
+    }
+  ]
+}
+```
+
+### 2. Implementasi Peta Lokasi RSUD Sultan Iskandar Muda
+
+Berdasarkan koordinat lokasi fisik rumah sakit pada alamat *Jl. Nasional Meulaboh-Tapak Tuan Km. 28.5 Ujung Patihah, Kabupaten Nagan Raya, Aceh* (Latitude: **4.1345**, Longitude: **96.2234** - koordinat simulasi), berikut adalah kode React Native untuk merender peta lokasinya:
+
+```javascript
+import React from 'react';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+
+export default function PetaRumahSakit() {
+  // Titik koordinat RSUD Sultan Iskandar Muda Nagan Raya
+  const lokasiRSUD = {
+    latitude: 4.1345,
+    longitude: 96.2234,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.015,
+  };
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={lokasiRSUD}
+        showsUserLocation={true}
+      >
+        <Marker
+          coordinate={{ latitude: 4.1345, longitude: 96.2234 }}
+          title="RSUD Sultan Iskandar Muda"
+          description="Jl. Nasional Meulaboh-Tapak Tuan Km. 28.5 Ujung Patihah"
+          pinColor="blue"
+        />
+      </MapView>
+      <View style={styles.infoCard}>
+        <Text style={styles.title}>RSUD Sultan Iskandar Muda</Text>
+        <Text style={styles.address}>Jl. Nasional Meulaboh-Tapak Tuan Km. 28.5, Ujung Patihah, Nagan Raya, Aceh.</Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - 150,
+  },
+  infoCard: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  address: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 5,
+  },
+});
+```
+
+### 3. Implementasi Fetch Jadwal Dokter Dinamis (React Native)
+
+Berikut adalah komponen untuk mengambil data jadwal dokter secara asinkronus menggunakan Fetch API dan merendernya dalam bentuk list dinamis (`FlatList`):
+
+```javascript
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet } from 'react-native';
+
+export default function DetailJadwalDokter({ route }) {
+  // Mengambil parameter hari yang dikirim lewat navigasi (default: 'senin')
+  const { hari } = route?.params || { hari: 'senin' };
+  
+  const [loading, setLoading] = useState(true);
+  const [jadwalList, setJadwalList] = useState([]);
+
+  const fetchJadwal = async () => {
+    try {
+      // Endpoint API simulasi
+      const endpoint = `https://api.simulasi-rsudsim.id/jadwal?hari=${hari}`;
+      const response = await fetch(endpoint);
+      const json = await response.json();
+      setJadwalList(json.data);
+    } catch (error) {
+      console.error("Gagal memuat jadwal dokter:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJadwal();
+  }, [hari]);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#00ff00" />
+        <Text style={{ marginTop: 10 }}>Memuat Jadwal Dokter...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Jadwal Praktek Dokter - Hari {hari.toUpperCase()}</Text>
+      <FlatList
+        data={jadwalList}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Image source={{ uri: item.foto_url }} style={styles.avatar} />
+            <View style={styles.infoContainer}>
+              <Text style={styles.docName}>{item.nama}</Text>
+              <Text style={styles.docSpec}>{item.spesialis}</Text>
+              <Text style={styles.docPoli}>{item.poli}</Text>
+              <Text style={styles.docTime}>🕒 {item.jam_mulai} - {item.jam_selesai}</Text>
+            </View>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#2e7d32',
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    elevation: 3,
+  },
+  avatar: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: '#ccc',
+  },
+  infoContainer: {
+    flex: 1,
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
+  docName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  docSpec: {
+    fontSize: 14,
+    color: '#00796b',
+    fontWeight: '600',
+  },
+  docPoli: {
+    fontSize: 13,
+    color: '#757575',
+  },
+  docTime: {
+    fontSize: 13,
+    color: '#d84315',
+    fontWeight: '600',
+    marginTop: 5,
+  },
+});
+```
+
+---
+
+## 🏋️ Latihan & Tugas Praktikum
+
+1. **Tambahkan Fitur Filter**: Buatlah menu dropdown pada layar jadwal dokter agar pengguna bisa memfilter daftar dokter berdasarkan Poliklinik (misal: hanya memunculkan Poliklinik Mata).
+2. **Kalkulasi Jarak (Opsional)**: Dengan menggabungkan `expo-location` dan koordinat RSUD Sultan Iskandar Muda, buatlah fungsi yang menghitung dan menampilkan estimasi jarak (dalam Km) dari posisi GPS pengguna saat ini menuju ke lokasi rumah sakit.
+3. **Penyimpanan Lokal Sesi**: Implementasikan `AsyncStorage` untuk menyimpan hari terakhir yang dicari oleh pengguna, sehingga ketika aplikasi dibuka kembali, hari tersebut yang otomatis terpilih di halaman jadwal.
+
+---
+
+## 📚 Referensi Penelitian
+* Payana, M. D., Musliyana, Z., Ardhiban, Z., Wibawa, M. B., & Yusian, D. R. (2023). Sistem Pendajadwalan Dokter dan Fasilitas Poli pada Rumah Sakit Sultan Iskandar Muda Nagan Raya Berbasis Android Menggunakan Flutter. *Journal of Informatics and Computer Science*, 9(1).
+
