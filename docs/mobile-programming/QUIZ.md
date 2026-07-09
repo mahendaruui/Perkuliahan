@@ -203,7 +203,7 @@ useEffect(() => {
 
 - A. `source="https://example.com/img.png"`
 - B. `source={require('https://example.com/img.png')}`
-- C. `source={{ uri: 'https://example.com/img.png' }}` ✅
+- C. <span v-pre>`source={{ uri: 'https://example.com/img.png' }}`</span> ✅
 - D. `src="https://example.com/img.png"`
 
 ---
