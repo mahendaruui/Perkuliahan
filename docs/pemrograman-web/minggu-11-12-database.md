@@ -608,3 +608,4 @@ crud-mahasiswa/
 - [PHP Manual — PDO](https://www.php.net/manual/en/book.pdo.php)
 - [OWASP SQL Injection Prevention](https://owasp.org/www-community/attacks/SQL_Injection)
 - Nixon, R. (2021). *Learning PHP, MySQL & JavaScript*. O'Reilly. — Bab 8-10
+- Payana, M. D., & Wibawa, M. B. (2020). Sistem Ujian Online Tes Masuk Universitas Ubudiyah Indonesia Bagi Calon Mahasiswa Baru Berbasis Web Menggunakan CI (Code Igniter). Journal of Informatics and Computer Science, 6(2).
