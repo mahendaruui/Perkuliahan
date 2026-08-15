@@ -27,15 +27,29 @@ export default withMermaid(
       logo: '/uuilogo.png',
       siteTitle: 'Bahan Ajar UUI',
 
-      // https://vitepress.dev/reference/default-theme-config
       nav: [
         { text: 'Beranda', link: '/' },
-        { text: 'Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
-        { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' },
-        { text: 'Pemrograman Web', link: '/pemrograman-web/' },
-        { text: 'Pemrograman Mobile', link: '/mobile-programming/' },
-        { text: 'Struktur Data', link: '/struktur-data/' },
-        { text: 'Pemrograman OOP (Java)', link: '/pemrograman-oop/' }
+        {
+          text: '📚 Daftar Mata Kuliah',
+          items: [
+            {
+              text: 'Pengembangan Perangkat Lunak',
+              items: [
+                { text: '☕ Pemrograman OOP (Java)', link: '/pemrograman-oop/' },
+                { text: '🌐 Pemrograman Web', link: '/pemrograman-web/' },
+                { text: '📱 Pemrograman Mobile', link: '/mobile-programming/' }
+              ]
+            },
+            {
+              text: 'Algoritma & Struktur Data',
+              items: [
+                { text: '🔷 Struktur Data (Golang)', link: '/struktur-data/' },
+                { text: '⚡ Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
+                { text: '📊 Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' }
+              ]
+            }
+          ]
+        }
       ],
 
       sidebar: {
