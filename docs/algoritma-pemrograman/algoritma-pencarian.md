@@ -1,4 +1,4 @@
-# Algoritma Pencarian
+# Minggu 12: Algoritma Pencarian (Searching)
 
 ## Pengenalan
 

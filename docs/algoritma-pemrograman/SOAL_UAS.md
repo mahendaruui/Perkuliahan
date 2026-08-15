@@ -1,5 +1,4 @@
-# SOAL UJIAN AKHIR SEMESTER (UAS)
-# ALGORITMA DAN PEMROGRAMAN
+# Minggu 16: Evaluasi Akhir & Bank Soal UAS
 
 ---
 

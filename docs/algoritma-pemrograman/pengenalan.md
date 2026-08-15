@@ -1,4 +1,4 @@
-# Pengenalan Algoritma dan Pemrograman
+# Minggu 1: Pengenalan Algoritma dan Pemrograman
 
 ## Apa itu Algoritma?
 

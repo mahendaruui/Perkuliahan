@@ -204,51 +204,52 @@ export default withMermaid(
         '/algoritma-pemrograman/': [
           {
             text: 'Pendahuluan',
-            collapsed: true,
+            collapsed: false,
             items: [
               { text: 'Daftar Materi', link: '/algoritma-pemrograman/' },
-              { text: 'RPS (Rencana Pembelajaran Semester)', link: '/algoritma-pemrograman/RPS' },
-              { text: 'Pengenalan', link: '/algoritma-pemrograman/pengenalan' }
+              { text: 'RPS (Rencana Pembelajaran)', link: '/algoritma-pemrograman/RPS' },
+              { text: 'Minggu 1 — Pengenalan Algoritma & Pemrograman', link: '/algoritma-pemrograman/pengenalan' }
             ]
           },
           {
-            text: 'Dasar-Dasar',
-            collapsed: true,
+            text: 'Dasar-Dasar Pemrograman',
+            collapsed: false,
             items: [
-              { text: 'Variabel dan Tipe Data', link: '/algoritma-pemrograman/variabel-tipe-data' },
-              { text: 'Operator', link: '/algoritma-pemrograman/operator' }
+              { text: 'Minggu 2 — Variabel dan Tipe Data', link: '/algoritma-pemrograman/variabel-tipe-data' },
+              { text: 'Minggu 3 — Operator & Ekspresi', link: '/algoritma-pemrograman/operator' }
             ]
           },
           {
-            text: 'Struktur Kontrol',
-            collapsed: true,
+            text: 'Struktur Kontrol Alur',
+            collapsed: false,
             items: [
-              { text: 'Percabangan', link: '/algoritma-pemrograman/percabangan' },
-              { text: 'Perulangan', link: '/algoritma-pemrograman/perulangan' }
+              { text: 'Minggu 4 — Percabangan (If-Else, Switch)', link: '/algoritma-pemrograman/percabangan' },
+              { text: 'Minggu 5 — Perulangan (For, While, Do-While)', link: '/algoritma-pemrograman/perulangan' }
             ]
           },
           {
             text: 'Struktur Data Dasar',
-            collapsed: true,
+            collapsed: false,
             items: [
-              { text: 'Array', link: '/algoritma-pemrograman/array' },
-              { text: 'String', link: '/algoritma-pemrograman/string' }
+              { text: 'Minggu 7 — Array (Larik)', link: '/algoritma-pemrograman/array' },
+              { text: 'Minggu 9 — String & Operasi Teks', link: '/algoritma-pemrograman/string' }
             ]
           },
           {
-            text: 'Fungsi dan Prosedur',
-            collapsed: true,
+            text: 'Modularisasi & Rekursi',
+            collapsed: false,
             items: [
-              { text: 'Fungsi dan Prosedur', link: '/algoritma-pemrograman/fungsi-prosedur' },
-              { text: 'Rekursi', link: '/algoritma-pemrograman/rekursi' }
+              { text: 'Minggu 10 — Fungsi dan Prosedur', link: '/algoritma-pemrograman/fungsi-prosedur' },
+              { text: 'Minggu 11 — Rekursi', link: '/algoritma-pemrograman/rekursi' }
             ]
           },
           {
-            text: 'Algoritma Dasar',
-            collapsed: true,
+            text: 'Algoritma Searching & Sorting',
+            collapsed: false,
             items: [
-              { text: 'Algoritma Pencarian', link: '/algoritma-pemrograman/algoritma-pencarian' },
-              { text: 'Algoritma Pengurutan', link: '/algoritma-pemrograman/algoritma-pengurutan' }
+              { text: 'Minggu 12 — Algoritma Pencarian (Searching)', link: '/algoritma-pemrograman/algoritma-pencarian' },
+              { text: 'Minggu 13-14 — Algoritma Pengurutan (Sorting)', link: '/algoritma-pemrograman/algoritma-pengurutan' },
+              { text: 'Minggu 16 — Bank Soal & Evaluasi UAS', link: '/algoritma-pemrograman/SOAL_UAS' }
             ]
           }
         ],

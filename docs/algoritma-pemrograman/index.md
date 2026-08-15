@@ -1,52 +1,41 @@
 # Algoritma dan Pemrograman
 
-Selamat datang di dokumentasi Algoritma dan Pemrograman!
+Selamat datang di materi perkuliahan **Algoritma dan Pemrograman** (3 SKS)!
 
-## 📋 Daftar Materi
+Dokumentasi ini dirancang secara terstruktur per minggu/pertemuan sesuai dengan Rencana Pembelajaran Semester (RPS).
 
-Berikut adalah daftar materi yang tersedia:
+---
 
-### Bagian 1: Dasar-Dasar
+## 📋 Daftar Materi Perkuliahan
 
-- [Pengenalan Algoritma dan Pemrograman](./pengenalan.md)
-- [Variabel dan Tipe Data](./variabel-tipe-data.md)
-- [Operator](./operator.md)
+### 🔹 Pendahuluan & Dasar Pemrograman
+- **[Rencana Pembelajaran Semester (RPS)](./RPS.md)** — Silabus, CPMK, Bahan Kajian & Penilaian
+- **[Minggu 1: Pengenalan Algoritma & Pemrograman](./pengenalan.md)** — Konsep Logika Algoritma, Karakteristik, Pseudocode & Flowchart
+- **[Minggu 2: Variabel dan Tipe Data](./variabel-tipe-data.md)** — Tipe Data Primitif, Deklarasi, Memory Allocation & Konversi
+- **[Minggu 3: Operator & Ekspresi](./operator.md)** — Aritmatika, Relasional, Logika, Assignment & Presedensi
 
-### Bagian 2: Struktur Kontrol
+### 🔹 Struktur Kontrol Alur Eksekusi
+- **[Minggu 4: Percabangan (Conditional Statement)](./percabangan.md)** — `if`, `if-else`, `nested-if`, `switch-case` & Ternary
+- **[Minggu 5: Perulangan (Looping)](./perulangan.md)** — `for`, `while`, `do-while`, `nested loop`, `break` & `continue`
 
-- [Percabangan (If-Else, Switch)](./percabangan.md)
-- [Perulangan (For, While, Do-While)](./perulangan.md)
+### 🔹 Struktur Data Dasar
+- **[Minggu 7: Array (Larik)](./array.md)** — Array 1D, Array Multidimensi, Traversal & Manipulasi Data
+- **[Minggu 9: String dan Manipulasi Teks](./string.md)** — Karakter, Operasi String, Built-in String Functions
 
-### Bagian 3: Struktur Data Dasar
+### 🔹 Modularisasi & Rekursi
+- **[Minggu 10: Fungsi dan Prosedur](./fungsi-prosedur.md)** — Deklarasi Parameter, Return Value, Pass by Value/Reference & Scope
+- **[Minggu 11: Rekursi](./rekursi.md)** — Base Case, Recursive Step, Call Stack & Pemecahan Masalah Rekursif
 
-- [Array](./array.md)
-- [String](./string.md)
+### 🔹 Algoritma Searching & Sorting
+- **[Minggu 12: Algoritma Pencarian (Searching)](./algoritma-pencarian.md)** — Linear Search & Binary Search
+- **[Minggu 13-14: Algoritma Pengurutan (Sorting)](./algoritma-pengurutan.md)** — Bubble Sort, Selection Sort & Insertion Sort
 
-### Bagian 4: Fungsi dan Prosedur
+### 🔹 Evaluasi & Ujian
+- **[Minggu 16: Bank Soal & Evaluasi UAS](./SOAL_UAS.md)** — Kumpulan Latihan Soal Teori & Praktikum Coding
 
-- [Fungsi dan Prosedur](./fungsi-prosedur.md)
-- [Rekursi](./rekursi.md)
+---
 
-### Bagian 5: Algoritma Dasar
-
-- [Algoritma Pencarian](./algoritma-pencarian.md)
-- [Algoritma Pengurutan](./algoritma-pengurutan.md)
-
-## 🎯 Tujuan Pembelajaran
-
-Setelah mempelajari materi ini, Anda diharapkan dapat:
-
-1. Memahami konsep dasar algoritma dan pemrograman
-2. Menulis kode program dengan struktur yang baik
-3. Menerapkan struktur kontrol dan struktur data
-4. Mengimplementasikan algoritma dasar
-5. Memecahkan masalah dengan pendekatan algoritmik
-
-## 📝 Cara Menggunakan
-
-1. Mulai dari materi pengenalan
-2. Ikuti urutan materi secara berurutan
-3. Praktikkan setiap contoh kode
-4. Kerjakan latihan soal di setiap bab
-
-Selamat belajar! 🚀
+## 🎯 Capaian Pembelajaran Lulusan
+1. **Logika & Pemecahan Masalah:** Merancang solusi algoritmik sistematis untuk berbagai skenario komputasi.
+2. **Implementasi Kode Bersih:** Menuliskan kode program modular dengan kaidah *clean code* dan struktur data yang efisien.
+3. **Optimasi Dasar:** Menganalisis efisiensi algoritma pencarian dan pengurutan.

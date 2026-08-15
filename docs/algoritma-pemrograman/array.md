@@ -1,4 +1,4 @@
-# Array
+# Minggu 7: Array (Struktur Data Larik)
 
 ## Apa itu Array?
 

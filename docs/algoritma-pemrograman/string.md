@@ -1,4 +1,4 @@
-# String
+# Minggu 9: String dan Manipulasi Teks
 
 ## Apa itu String?
 

@@ -1,4 +1,4 @@
-# Variabel dan Tipe Data
+# Minggu 2: Variabel dan Tipe Data
 
 ## Apa itu Variabel?
 
