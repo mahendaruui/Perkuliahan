@@ -2,67 +2,74 @@
 layout: home
 
 hero:
-  name: Bahan Ajar
-  text: Algoritma dan Pemrograman
-  tagline: Dokumentasi lengkap untuk mata kuliah Algoritma dan Pemrograman
+  name: Bahan Ajar Perkuliahan
+  text: Mahendar Dwi Payana, S.ST., M.T.
+  tagline: Portal materi dan modul pembelajaran perkuliahan Fakultas Sains dan Teknologi — Universitas Ubudiyah Indonesia
   image:
     src: /uuilogo.png
     alt: Logo Universitas Ubudiyah Indonesia
   actions:
     - theme: brand
-      text: Mulai Belajar
-      link: /algoritma-pemrograman/pengenalan
+      text: 📚 Jelajahi Mata Kuliah
+      link: /pemrograman-oop/
     - theme: alt
-      text: Lihat Materi
-      link: /algoritma-pemrograman/
+      text: ☕ OOP (Java)
+      link: /pemrograman-oop/
+    - theme: alt
+      text: 🐘 OOP (PHP)
+      link: /pemrograman-oop-php/
 
 features:
   - icon: 👨‍🏫
     title: Dosen Pengampu
-    details: Mahendar Dwi Payana, S.ST., M.T. - Universitas Ubudiyah Indonesia
-  - icon: 📚
-    title: Materi Terstruktur
-    details: Materi disusun secara sistematis dari dasar hingga lanjutan
-  - icon: 💡
-    title: Contoh Kode
-    details: Dilengkapi dengan contoh kode dalam Python dan C++ yang mudah dipahami
-  - icon: 📊
-    title: Analisis Kompleksitas
-    details: Pembahasan mendalam tentang time complexity dan space complexity
+    details: Mahendar Dwi Payana, S.ST., M.T. — Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia
   - icon: 🎯
-    title: Latihan Soal
-    details: Latihan soal untuk mengasah pemahaman di setiap topik
+    title: Berbasis Kurikulum OBE
+    details: Materi terstruktur berdasarkan Outcome-Based Education (OBE), RPS, dan pemenuhan CPL & CPMK
+  - icon: 💻
+    title: Multi Bahasa & Teknologi
+    details: Mencakup Java, PHP 8+, React Native, Golang, Web Stack (HTML/CSS/JS/Laravel), dan C++/Python
+  - icon: 📚
+    title: 7 Mata Kuliah Lengkap
+    details: Tersedia materi pertemuan 1–16, silabus RPS, modul praktikum, dan panduan proyek akhir
+  - icon: 💡
+    title: Contoh Kode & Studi Kasus
+    details: Disertai contoh kode siap pakai, best practices clean code, dan implementasi aplikasi riil
   - icon: 🚀
-    title: Praktis dan Aplikatif
-    details: Belajar dengan pendekatan praktis dan langsung dipraktikkan
+    title: Akses Cepat & Interaktif
+    details: Dokumentasi modern dengan navigasi minimalis, pencarian cepat, dan responsif di semua perangkat
 ---
 
-## Tentang Bahan Ajar Ini
+## 🏛️ Tentang Portal Bahan Ajar
 
-Website ini berisi dokumentasi lengkap untuk tiga mata kuliah yang disusun oleh **Mahendar Dwi Payana, S.ST., M.T.** dari **Universitas Ubudiyah Indonesia**.
+Website ini merupakan pusat dokumentasi resmi dan bahan ajar perkuliahan yang diampu oleh **Mahendar Dwi Payana, S.ST., M.T.** di lingkungan **Universitas Ubudiyah Indonesia**.
 
-### Mata Kuliah yang Tersedia
+Setiap mata kuliah telah disusun secara komprehensif mengikuti standar **Rencana Pembelajaran Semester (RPS) berbasis Outcome-Based Education (OBE)**, dilengkapi dengan penjelasan konsep, modul praktikum terbimbing, studi kasus, serta panduan proyek akhir.
 
-- **[Pemrograman Berorientasi Objek (Java)](/pemrograman-oop/)**: Paradigma OOP berbasis Java — Class & Object, 4 Pilar OOP (Encapsulation, Inheritance, Polymorphism, Abstraction), Exception Handling, Java Collections Framework, File I/O, Dasar SOLID Principle, hingga Mini Project OBE.
+---
 
-- **[Pemrograman Berorientasi Objek (PHP)](/pemrograman-oop-php/)**: Paradigma OOP berbasis PHP 8+ — Class, Object, Trait, Namespace, Composer Autoloading, Exception Handling, File I/O (CSV/JSON), SOLID Principle, hingga Mini Project berbasis PHP modern.
+### 📚 Mata Kuliah yang Diampu
 
-- **[Pemrograman Web](/pemrograman-web/)**: Membangun aplikasi web dari nol — HTML5, CSS3 responsif, JavaScript interaktif, PHP server-side, integrasi MySQL, hingga Laravel MVC dan deployment.
+- **[☕ Pemrograman Berorientasi Objek (Java)](/pemrograman-oop/)**: Paradigma OOP berbasis Java — Class & Object, 4 Pilar OOP (Encapsulation, Inheritance, Polymorphism, Abstraction), Exception Handling, Java Collections Framework, File I/O Streams, Dasar SOLID Principle, hingga Mini Project OBE.
 
-- **[Pemrograman Mobile](/mobile-programming/)**: Pengembangan aplikasi mobile modern berbasis React Native — JSX, Hooks, Navigation, State Management, API Networking, dan integrasi maps.
+- **[🐘 Pemrograman Berorientasi Objek (PHP)](/pemrograman-oop-php/)**: Paradigma OOP modern berbasis PHP 8+ — Class, Object, Constructor Promotion, Trait, Namespace, Composer PSR-4 Autoloading, Exception Handling, File I/O (CSV/JSON), SOLID Principle, hingga Mini Project.
 
-- **[Struktur Data](/struktur-data/)**: Implementasi struktur data komputasi modern dengan Golang — Pointer, Stack, Queue, Linked List, Tree, Graph, dan Algoritma Dijkstra.
+- **[🌐 Pemrograman Web](/pemrograman-web/)**: Pengembangan aplikasi web dari fundamental hingga modern — HTML5 Semantic, CSS3 Flexbox/Grid, Responsive Web Design, JavaScript DOM & Fetch API, PHP Backend, Integrasi Basis Data MySQL, hingga Framework MVC Laravel.
 
-- **[Algoritma & Pemrograman](/algoritma-pemrograman/)**: Materi dasar pemrograman mulai dari variabel, tipe data, struktur kontrol, array, string, fungsi, rekursi, hingga algoritma pencarian dan pengurutan.
+- **[📱 Pemrograman Mobile](/mobile-programming/)**: Pengembangan aplikasi mobile cross-platform modern berbasis React Native — JSX, Component Architecture, React Hooks, State Management, Navigation, API Networking, Local Storage, dan integrasi Maps/GPS.
 
-- **[Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis mendalam tentang time complexity, space complexity, notasi Big O, dan optimasi algoritma.
+- **[🔷 Struktur Data (Golang)](/struktur-data/)**: Implementasi struktur data komputasi modern dengan Go — Manajemen Memori & Pointer, Stack (LIFO), Queue (FIFO), Singly/Circular Linked List, Binary Search Tree, Graph, dan Algoritma Rute Terpendek Dijkstra.
 
-### Cara Menggunakan
+- **[⚡ Algoritma & Pemrograman](/algoritma-pemrograman/)**: Fondasi dasar logika dan algoritma pemrograman — Variabel, Tipe Data, Operator, Percabangan, Perulangan, Array, String, Fungsi & Prosedur, Rekursi, hingga Algoritma Searching dan Sorting.
 
-Pilih topik dari menu navigasi di atas atau gunakan tombol pada hero section. Setiap topik dilengkapi dengan:
+- **[📊 Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis efisiensi algoritma secara mendalam — Notasi Asimtotik Big O, Big $\Omega$, Big $\Theta$, Time Complexity, Space Complexity, Best/Average/Worst Case Analysis, serta teknik optimasi kode.
 
-- Penjelasan konsep yang jelas
-- Contoh kode siap pakai
-- Diagram dan flowchart
-- Latihan soal dan proyek praktikum
+---
+
+### 📖 Panduan Penggunaan
+
+1. **Pilih Mata Kuliah:** Gunakan menu navigasi di bagian atas (*Daftar Mata Kuliah*) atau klik salah satu mata kuliah di atas.
+2. **Pelajari Sesuai Silabus:** Ikuti alur materi mingguan dari pertemuan 1 hingga 16 untuk pemahaman bertahap.
+3. **Praktikkan Kode:** Setiap materi dilengkapi contoh kode yang dapat langsung disalin dan dijalankan di komputer Anda.
+4. **Gunakan Pencarian:** Tekan tombol `Ctrl + K` (atau `Cmd + K` di Mac) untuk mencari topik atau istilah pemrograman secara instan.
 

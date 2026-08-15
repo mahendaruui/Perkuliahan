@@ -4,8 +4,8 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 // https://vitepress.dev/reference/site-config
 export default withMermaid(
   defineConfig({
-    title: "Bahan Ajar",
-    description: "Dokumentasi Bahan Ajar Algoritma dan Pemrograman - Mahendar Dwi Payana",
+    title: "Bahan Ajar UUI",
+    description: "Portal Dokumentasi Bahan Ajar Perkuliahan - Mahendar Dwi Payana",
     lang: 'id-ID',
 
     lastUpdated: true,
@@ -18,8 +18,8 @@ export default withMermaid(
     head: [
       ['link', { rel: 'icon', type: 'image/png', href: '/Perkuliahan/uuifav.png' }],
       ['meta', { name: 'author', content: 'Mahendar Dwi Payana' }],
-      ['meta', { property: 'og:title', content: 'Bahan Ajar - Universitas Ubudiyah Indonesia' }],
-      ['meta', { property: 'og:description', content: 'Dokumentasi Bahan Ajar Algoritma dan Pemrograman' }],
+      ['meta', { property: 'og:title', content: 'Bahan Ajar Perkuliahan - Universitas Ubudiyah Indonesia' }],
+      ['meta', { property: 'og:description', content: 'Portal Dokumentasi Bahan Ajar Perkuliahan yang Diampu oleh Mahendar Dwi Payana, S.ST., M.T.' }],
     ],
 
     themeConfig: {
