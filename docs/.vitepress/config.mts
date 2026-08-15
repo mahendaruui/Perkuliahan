@@ -34,10 +34,60 @@ export default withMermaid(
         { text: 'Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' },
         { text: 'Pemrograman Web', link: '/pemrograman-web/' },
         { text: 'Pemrograman Mobile', link: '/mobile-programming/' },
-        { text: 'Struktur Data', link: '/struktur-data/' }
+        { text: 'Struktur Data', link: '/struktur-data/' },
+        { text: 'Pemrograman OOP (Java)', link: '/pemrograman-oop/' }
       ],
 
       sidebar: {
+        '/pemrograman-oop/': [
+          {
+            text: 'Pendahuluan',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Materi', link: '/pemrograman-oop/' },
+              { text: 'RPS (Rencana Pembelajaran)', link: '/pemrograman-oop/RPS' },
+              { text: 'Minggu 1 — Pengantar OOP', link: '/pemrograman-oop/pengantar-oop' }
+            ]
+          },
+          {
+            text: 'Dasar Objek & Kelas',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 2 — Class dan Object', link: '/pemrograman-oop/class-dan-object' },
+              { text: 'Minggu 3 — Constructor & Method', link: '/pemrograman-oop/constructor-method' }
+            ]
+          },
+          {
+            text: 'Pilar-Pilar OOP',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 4 — Encapsulation', link: '/pemrograman-oop/encapsulation' },
+              { text: 'Minggu 5 — Inheritance', link: '/pemrograman-oop/inheritance' },
+              { text: 'Minggu 6 — Polymorphism', link: '/pemrograman-oop/polymorphism' },
+              { text: 'Minggu 7 — Abstraction & Interface', link: '/pemrograman-oop/interface-abstract' }
+            ]
+          },
+          {
+            text: 'OOP Lanjutan & Libraries',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 9 — Package Management', link: '/pemrograman-oop/package' },
+              { text: 'Minggu 10 — Exception Handling', link: '/pemrograman-oop/exception-handling' },
+              { text: 'Minggu 11 — Collection Framework', link: '/pemrograman-oop/collection' },
+              { text: 'Minggu 12 — File Handling (I/O)', link: '/pemrograman-oop/file-handling' }
+            ]
+          },
+          {
+            text: 'Desain & Proyek',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 13 — Dasar SOLID Principle', link: '/pemrograman-oop/solid-principle' },
+              { text: 'Minggu 14 — Implementasi Aplikasi OOP', link: '/pemrograman-oop/aplikasi-oop' },
+              { text: 'Minggu 15 — Mini Project OOP', link: '/pemrograman-oop/mini-project' },
+              { text: 'Minggu 16 — Evaluasi & Presentasi UAS', link: '/pemrograman-oop/evaluasi-akhir' }
+            ]
+          }
+        ],
         '/algoritma-pemrograman/': [
           {
             text: 'Pendahuluan',

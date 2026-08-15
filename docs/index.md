@@ -43,7 +43,13 @@ Website ini berisi dokumentasi lengkap untuk tiga mata kuliah yang disusun oleh 
 
 ### Mata Kuliah yang Tersedia
 
+- **[Pemrograman Berorientasi Objek (Java)](/pemrograman-oop/)**: Paradigma OOP berbasis Java — Class & Object, 4 Pilar OOP (Encapsulation, Inheritance, Polymorphism, Abstraction), Exception Handling, Java Collections Framework, File I/O, Dasar SOLID Principle, hingga Mini Project OBE.
+
 - **[Pemrograman Web](/pemrograman-web/)**: Membangun aplikasi web dari nol — HTML5, CSS3 responsif, JavaScript interaktif, PHP server-side, integrasi MySQL, hingga Laravel MVC dan deployment.
+
+- **[Pemrograman Mobile](/mobile-programming/)**: Pengembangan aplikasi mobile modern berbasis React Native — JSX, Hooks, Navigation, State Management, API Networking, dan integrasi maps.
+
+- **[Struktur Data](/struktur-data/)**: Implementasi struktur data komputasi modern dengan Golang — Pointer, Stack, Queue, Linked List, Tree, Graph, dan Algoritma Dijkstra.
 
 - **[Algoritma & Pemrograman](/algoritma-pemrograman/)**: Materi dasar pemrograman mulai dari variabel, tipe data, struktur kontrol, array, string, fungsi, rekursi, hingga algoritma pencarian dan pengurutan.
 
