@@ -51,18 +51,55 @@ export default withMermaid(
             }
           ]
         },
-        { text: '📽️ Slide Presentasi', link: '/presentasi/' }
+        {
+          text: '📽️ Slide Presentasi',
+          items: [
+            { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
+            {
+              text: '🐘 Pemrograman OOP (PHP)',
+              items: [
+                { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-php' },
+                { text: 'Pertemuan 2: Class & Object', link: '/presentasi/pertemuan-2-php' },
+                { text: 'Pertemuan 3: Constructor & Method', link: '/presentasi/pertemuan-3-php' },
+                { text: 'Pertemuan 4: Encapsulation & Readonly', link: '/presentasi/pertemuan-4-php' },
+                { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' }
+              ]
+            },
+            {
+              text: '☕ Pemrograman OOP (Java)',
+              items: [
+                { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-java' }
+              ]
+            }
+          ]
+        }
       ],
 
       sidebar: {
         '/presentasi/': [
           {
-            text: 'Slide Presentasi Kuliah',
+            text: 'Ikhtisar',
             collapsed: false,
             items: [
-              { text: 'Daftar Seluruh Slide', link: '/presentasi/' },
-              { text: '☕ Pertemuan 1 - OOP (Java)', link: '/presentasi/pertemuan-1-java' },
-              { text: '🐘 Pertemuan 1 - OOP (PHP)', link: '/presentasi/pertemuan-1-php' }
+              { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' }
+            ]
+          },
+          {
+            text: '🐘 Pemrograman OOP (PHP)',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-php' },
+              { text: 'Pertemuan 2: Class & Object', link: '/presentasi/pertemuan-2-php' },
+              { text: 'Pertemuan 3: Constructor & Method', link: '/presentasi/pertemuan-3-php' },
+              { text: 'Pertemuan 4: Encapsulation & Readonly', link: '/presentasi/pertemuan-4-php' },
+              { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' }
+            ]
+          },
+          {
+            text: '☕ Pemrograman OOP (Java)',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-java' }
             ]
           }
         ],

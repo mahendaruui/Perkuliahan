@@ -1,192 +1,216 @@
-# Minggu 3: Constructor dan Method
+# Minggu 3: Constructor, Method, dan Static di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 2)
 Setelah menyelesaikan materi ini, mahasiswa mampu:
-1. Memahami fungsi **Constructor** (`__construct`) dan **Destructor** (`__destruct`).
-2. Menerapkan **Constructor Promotion** (PHP 8.0+) untuk penulisan yang lebih ringkas.
-3. Memahami perbedaan **method biasa** dan **static method**.
-4. Mengimplementasikan method dengan return type dan parameter type hints.
+1. Memahami siklus hidup objek melalui magic method **`__construct()`** dan **`__destruct()`**.
+2. Menerapkan fitur revolusioner **Constructor Property Promotion** di PHP 8.0+.
+3. Menggunakan **Named Arguments** dan **Default Parameter Values** saat instansiasi objek.
+4. Mendeklarasikan **Type Hints, Return Types**, dan **Union Types** pada method.
+5. Memahami konsep **Static Properties & Static Methods** (`self::`, `static::`) serta pola *Static Factory Method*.
+
+> [!TIP]
+> 📽️ **Slide Presentasi Perkuliahan:** Anda dapat melihat dan memutar [Slide Interaktif Pertemuan 3 PHP](/presentasi/pertemuan-3-php) atau [Buka Layar Penuh (Tab Baru)](/Perkuliahan/presentasi/pertemuan-3-constructor-method-php.html){target="_blank"}.
 
 ---
 
-## 1. Constructor: `__construct()`
+## 1. Magic Method `__construct()`
 
-**Constructor** adalah method khusus yang otomatis dipanggil saat objek diinstansiasi (`new`). Di PHP, constructor dideklarasikan dengan nama magic method `__construct()`.
+**Constructor** adalah method spesial yang otomatis dieksekusi saat operator `new` dipanggil untuk menginisialisasi nilai awal (*state*) objek.
 
 ```php
 <?php
+declare(strict_types=1);
 
-class RekeningBank
+// Cara Tradisional (PHP 5/7)
+class RekeningLama
 {
     public string $nomorRekening;
     public string $pemilik;
     public float $saldo;
 
-    // Constructor klasik
-    public function __construct(string $nomorRekening, string $pemilik, float $saldoAwal = 0)
+    public function __construct(string $nomorRekening, string $pemilik, float $saldoAwal = 0.0)
     {
         $this->nomorRekening = $nomorRekening;
         $this->pemilik = $pemilik;
         $this->saldo = $saldoAwal;
     }
 }
-
-// Pemakaian
-$rek1 = new RekeningBank("123456", "Budi", 500000);
-$rek2 = new RekeningBank("789012", "Siti"); // saldo default = 0
 ```
 
 ---
 
-## 2. Constructor Promotion (PHP 8.0+)
+## 2. Constructor Property Promotion (PHP 8.0+)
 
-PHP 8 memperkenalkan fitur **Constructor Promotion** — deklarasi properti langsung di parameter constructor, sehingga kode jauh lebih ringkas:
+Di PHP 8+, Anda dapat menggabungkan **deklarasi properti, parameter constructor, dan assignment** menjadi satu baris yang sangat elegan:
 
 ```php
 <?php
+declare(strict_types=1);
 
 class RekeningBank
 {
-    // Properti otomatis dideklarasikan dari parameter constructor
+    // Properti otomatis dibuat & diisi langsung dari parameter constructor!
     public function __construct(
-        public string $nomorRekening,
+        public readonly string $nomorRekening,
         public string $pemilik,
-        public float $saldo = 0
+        public float $saldo = 0.0
     ) {}
 }
 
-$rek = new RekeningBank("123456", "Budi", 500000);
-echo $rek->pemilik; // Output: Budi
+$rek = new RekeningBank("12345678", "Budi Santoso", 500_000);
+echo $rek->pemilik; // Output: Budi Santoso
 ```
-
-> [!TIP]
-> Constructor Promotion sangat dianjurkan di PHP 8+ karena mengurangi boilerplate code secara signifikan.
 
 ---
 
-## 3. Destructor: `__destruct()`
+## 3. Named Arguments (PHP 8.0+)
 
-**Destructor** dipanggil otomatis saat objek dihancurkan atau skrip selesai dieksekusi:
+Dengan *Named Arguments*, pemanggilan method/constructor dapat menyebutkan nama parameternya secara eksplisit, sehingga **urutan parameter menjadi bebas**:
 
 ```php
 <?php
 
-class KoneksiDatabase
+class Pelanggan
 {
-    public function __construct(private string $host)
+    public function __construct(
+        public string $nama,
+        public string $email,
+        public string $kota = "Banda Aceh",
+        public bool $isMember = false
+    ) {}
+}
+
+// Urutan parameter bebas karena menyebutkan namanya!
+$p = new Pelanggan(
+    email: "budi@email.com",
+    nama: "Budi Pratama",
+    isMember: true
+);
+```
+
+---
+
+## 4. Destructor: `__destruct()`
+
+**Destructor** dipanggil otomatis saat objek tidak lagi memiliki referensi di memori atau saat skrip PHP selesai dieksekusi. Umumnya digunakan untuk melepaskan resource (menutup koneksi database, menghapus temporary file, atau mencatat log sesi).
+
+```php
+<?php
+
+class SesiDatabase
+{
+    public function __construct(private string $koneksi)
     {
-        echo "Koneksi ke {$this->host} dibuka.\n";
+        echo "🔌 Koneksi ke {$this->koneksi} dibuka.\n";
     }
 
     public function __destruct()
     {
-        echo "Koneksi ke {$this->host} ditutup.\n";
+        echo "🔒 Koneksi ke {$this->koneksi} ditutup secara otomatis.\n";
     }
 }
 
-$db = new KoneksiDatabase("localhost");
-// ... kode lainnya ...
-// Saat script selesai: "Koneksi ke localhost ditutup."
+$db = new SesiDatabase("MySQL-Perkuliahan");
+// Saat skrip selesai: "Koneksi ke MySQL-Perkuliahan ditutup secara otomatis."
 ```
 
 ---
 
-## 4. Method dengan Type Hints & Return Type
-
-PHP modern mendukung **type declaration** pada parameter dan return value:
+## 5. Method Type Declarations & Union Types
 
 ```php
 <?php
 
 class Kalkulator
 {
-    // Method dengan return type int
-    public function tambah(int $a, int $b): int
+    // Union Type: $a dan $b bisa menerima tipe int ATAU float
+    public function tambah(int|float $a, int|float $b): int|float
     {
         return $a + $b;
     }
 
-    // Method dengan return type float
-    public function bagi(float $a, float $b): float
+    // Method void: Tidak mengembalikan nilai
+    public function cetakHasil(string $label, float $nilai): void
     {
-        if ($b == 0) {
-            throw new \DivisionByZeroError("Tidak bisa membagi dengan nol!");
-        }
-        return $a / $b;
-    }
-
-    // Method void (tidak mengembalikan nilai)
-    public function tampilkanHasil(string $operasi, float $hasil): void
-    {
-        echo "Hasil {$operasi}: {$hasil}\n";
+        echo "{$label}: " . number_format($nilai, 2) . "\n";
     }
 }
 ```
 
 ---
 
-## 5. Static Method & Static Property
+## 6. Static Methods & Static Properties (`self::`)
 
-**Static member** milik Class secara keseluruhan — bisa diakses tanpa membuat objek menggunakan operator `::`:
+Member `static` terikat pada **Class itu sendiri**, bukan pada instance objek tertentu. Diakses menggunakan operator scope resolution (`::`):
 
 ```php
 <?php
 
-class KonversiSuhu
+class KonversiMataUang
 {
-    // Konstanta class
-    public const FAKTOR_REAMUR = 0.8;
+    // Static Property (Konstanta kurs)
+    public static float $kursUsdKeIdr = 16_200.0;
 
-    // Static method
-    public static function celciusKeFahrenheit(float $celcius): float
+    // Static Method (Fungsi utilitas tanpa perlu membuat objek)
+    public static function usdKeIdr(float $usd): float
     {
-        return ($celcius * 9 / 5) + 32;
+        return $usd * self::$kursUsdKeIdr;
     }
 
-    public static function celciusKeReamur(float $celcius): float
+    public static function idrKeUsd(float $idr): float
     {
-        return $celcius * self::FAKTOR_REAMUR;
+        return $idr / self::$kursUsdKeIdr;
     }
 }
 
-// Akses tanpa membuat objek (menggunakan ::)
-echo KonversiSuhu::celciusKeFahrenheit(100); // 212
-echo KonversiSuhu::celciusKeReamur(100);     // 80
+// Akses langsung lewat Class
+echo "100 USD = Rp " . number_format(KonversiMataUang::usdKeIdr(100), 0, ',', '.');
 ```
 
 ---
 
-## 6. Named Arguments (PHP 8.0+)
+## 7. Pola Static Factory Method
 
-PHP 8 mendukung pemanggilan fungsi/constructor dengan menyebutkan nama parameter:
+Karena PHP tidak mendukung multiple constructor, *Static Factory Method* adalah solusi standar industri untuk membuat objek dengan berbagai konfigurasi:
 
 ```php
 <?php
 
-class Produk
+class User
 {
-    public function __construct(
-        public string $nama,
-        public float $harga,
-        public int $stok = 0,
-        public string $kategori = 'Umum'
+    private function __construct(
+        public string $username,
+        public string $email,
+        public string $role
     ) {}
+
+    // Factory 1: Membuat akun Member biasa
+    public static function createMember(string $username, string $email): self
+    {
+        return new self($username, $email, 'Member');
+    }
+
+    // Factory 2: Membuat akun Administrator
+    public static function createAdmin(string $username, string $email): self
+    {
+        return new self($username, $email, 'SuperAdmin');
+    }
 }
 
-// Named arguments — urutan bebas!
-$produk = new Produk(
-    nama: "Laptop ASUS",
-    harga: 12_500_000,
-    kategori: "Elektronik",
-    stok: 15
-);
+$user1 = User::createMember("budi99", "budi@mail.com");
+$admin = User::createAdmin("admin_pusat", "admin@uui.ac.id");
 ```
 
 ---
 
-## 📝 Tugas Praktikum
+## 📝 Tugas Praktikum Mandiri
 
-1. Buat class `AkunPengguna` menggunakan **Constructor Promotion** dengan properti: `$username`, `$email`, `$statusAktif` (bool), dan `$role` (string, default "User").
-2. Tambahkan static method `buatAdmin(string $username, string $email)` yang mengembalikan objek `AkunPengguna` dengan `$role = "Admin"`.
-3. Tambahkan method `tampilkanProfil()` untuk menampilkan semua informasi akun.
-4. Uji program di file `main.php` — buat 1 user biasa dan 1 admin menggunakan static method.
+1. Buat class `Karyawan` menggunakan **Constructor Property Promotion** dengan properti:
+   - `$idKaryawan` (string, readonly)
+   - `$nama` (string)
+   - `$divisi` (string)
+   - `$gajiPokok` (float)
+   - `$jamLembur` (int, default 0)
+2. Sediakan static method `buatStaffBaru(string $id, string $nama, string $divisi)` yang mengembalikan objek `Karyawan` dengan gaji pokok default Rp 4.500.000.
+3. Sediakan static method `buatManager(string $id, string $nama)` dengan divisi "Manajerial" dan gaji pokok default Rp 9.000.000.
+4. Buat file `main.php` untuk mendemonstrasikan pembuatan kedua karyawan tersebut menggunakan *Static Factory Method* dan *Named Arguments*!

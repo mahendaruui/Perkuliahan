@@ -8,7 +8,7 @@
 | **Fakultas** | Fakultas Sains dan Teknologi |
 | **Perguruan Tinggi** | Universitas Ubudiyah Indonesia |
 | **Kode Dokumen** | 01 |
-| **Kode Mata Kuliah** | SIF 212 |
+| **Kode Mata Kuliah** | IFR 214 |
 | **Bobot (SKS)** | 3 SKS (T=2, P=1) |
 | **Semester** | III (Tiga) |
 | **Rumpun MK** | Mata Kuliah Wajib Prodi |

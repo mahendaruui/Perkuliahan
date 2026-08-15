@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 4 - Encapsulation, Visibility & Readonly di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: #eef2ff;
+      --secondary: #0ea5e9;
+      --dark-bg: #0f172a;
+      --dark-card: #1e293b;
+      --dark-text: #f8fafc;
+      --dark-muted: #94a3b8;
+      --border: #334155;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      color: #818cf8;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--dark-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      color: var(--dark-text);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: #273549;
+      border-color: #475569;
+    }
+
+    .slide-badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+    }
+
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #818cf8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    h1.slide-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--dark-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .card-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--dark-muted);
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .badge-php { background: rgba(99, 102, 241, 0.25); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .badge-blue { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .custom-table th {
+      background: rgba(30, 41, 59, 0.9);
+      color: #ffffff;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .custom-table td {
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .custom-table tr:hover td {
+      background: rgba(30, 41, 59, 0.6);
+    }
+
+    pre {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-top: 12px;
+    }
+
+    .code-keyword { color: #f43f5e; font-weight: 600; }
+    .code-class { color: #38bdf8; font-weight: 600; }
+    .code-func { color: #a78bfa; }
+    .code-str { color: #34d399; }
+    .code-var { color: #fbbf24; }
+    .code-num { color: #f59e0b; }
+    .code-comment { color: #64748b; font-style: italic; }
+
+    footer {
+      padding: 14px 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-container {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: #334155;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6366f1, #818cf8);
+      transition: width 0.3s ease;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-nav.secondary {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      color: var(--dark-text);
+    }
+
+    .btn-nav.secondary:hover {
+      background: #273549;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .key-hint {
+      font-size: 0.75rem;
+      color: var(--dark-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .cover-slide {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .avatar-box {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+    }
+
+    .avatar-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f5b93, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .author-info {
+      text-align: left;
+    }
+    .author-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+    .author-role {
+      font-size: 0.8rem;
+      color: var(--dark-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">PEMROGRAMAN BERORIENTASI OBJEK <span>(PHP 8+)</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 4</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 10</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active cover-slide">
+      <span class="cover-badge">🔒 IFR 214 • PERTEMUAN 4</span>
+      <h1 class="slide-title" style="font-size: 3rem; max-width: 950px;">
+        Encapsulation, Visibility &amp; Readonly di PHP 8+
+      </h1>
+      <h2 class="slide-subtitle" style="max-width: 780px; margin-bottom: 20px;">
+        Pilar ke-1 OOP: Melindungi integritas data objek dengan <code>private/protected</code>, validasi Getter &amp; Setter, serta fitur mutakhir <strong>Readonly</strong> di PHP 8.1 &amp; 8.2.
+      </h2>
+      
+      <div class="avatar-box">
+        <div class="avatar-img">MD</div>
+        <div class="author-info">
+          <div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="author-role">Dosen Pengampu • Fakultas Sains dan Teknologi UUI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Agenda Pertemuan 4 -->
+    <div class="slide">
+      <div class="slide-tag">📍 Roadmap Pembahasan</div>
+      <h1 class="slide-title">Agenda Pertemuan 4</h1>
+      <h2 class="slide-subtitle">Ikhtisar konsep enkapsulasi dan keamanan data yang akan kita bedah:</h2>
+
+      <div class="grid-3">
+        <div class="card-box">
+          <div class="card-icon">💊</div>
+          <div class="card-title">1. Filosofi Encapsulation</div>
+          <div class="card-desc">Konsep Information Hiding: mengapa data tidak boleh diakses sembarangan secara publik.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🔑</div>
+          <div class="card-title">2. 3 Visibility Modifiers</div>
+          <div class="card-desc">Perbedaan hak akses antara <code>public</code>, <code>protected</code>, dan <code>private</code> di PHP.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🛡️</div>
+          <div class="card-title">3. Getter &amp; Setter</div>
+          <div class="card-desc">Mekanisme kontrol akses data yang disertai dengan validasi aturan logika bisnis.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🧊</div>
+          <div class="card-title">4. Readonly Properties</div>
+          <div class="card-desc">Fitur PHP 8.1: Properti immutable yang hanya bisa diisi 1 kali saat konstruksi objek.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">📦</div>
+          <div class="card-title">5. Readonly Class (8.2)</div>
+          <div class="card-desc">Mendefinisikan Data Transfer Objects (DTO) yang aman dan bersih dari manipulasi.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">💳</div>
+          <div class="card-title">6. Studi Kasus E-Wallet</div>
+          <div class="card-desc">Praktikum membangun dompet digital dengan enkapsulasi PIN dan proteksi saldo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Mengapa Butuh Encapsulation? -->
+    <div class="slide">
+      <div class="slide-tag">💊 Analogi Kapsul &amp; Brankas Bank</div>
+      <h1 class="slide-title">Pilar 1: Filosofi Encapsulation</h1>
+      <h2 class="slide-subtitle">Mengikat data &amp; fungsi ke dalam class sekaligus menyembunyikan detail internal (*Information Hiding*):</h2>
+
+      <div class="grid-2">
+        <div class="card-box" style="border-top: 4px solid #f43f5e;">
+          <span class="badge badge-pink">❌ TANPA ENKAPSULASI (SEMUA PUBLIC)</span>
+          <p class="card-desc" style="margin-top: 8px;">
+            Data saldo terbuka bebas. Siapa pun (atau kode lain yang memiliki bug) dapat memanipulasi saldo tanpa otorisasi!
+          </p>
+          <pre><code><span class="code-var">$akun</span> = <span class="code-keyword">new</span> <span class="code-class">Rekening</span>();
+<span class="code-comment">// 💥 Bahaya: Saldo diubah sembarangan</span>
+<span class="code-var">$akun</span>-&gt;saldo = -<span class="code-num">5000000</span>; <span class="code-comment">// Saldo negatif?!</span>
+<span class="code-var">$akun</span>-&gt;saldo = <span class="code-num">999999999</span>; <span class="code-comment">// Hacker mengubah saldo</span></code></pre>
+        </div>
+
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <span class="badge badge-green">✅ DENGAN ENKAPSULASI (PROTECTED/PRIVATE)</span>
+          <p class="card-desc" style="margin-top: 8px;">
+            Data saldo dikunci dengan <code>private</code>. Perubahan saldo HANYA bisa melalui method resmi yang memvalidasi PIN &amp; limit!
+          </p>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">Rekening</span> {
+    <span class="code-keyword">private float</span> <span class="code-var">$saldo</span>;
+    <span class="code-keyword">public function</span> <span class="code-func">tarik</span>(<span class="code-var">$pin</span>, <span class="code-var">$nominal</span>) {
+        <span class="code-comment">// Validasi PIN &amp; kecukupan saldo</span>
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: 3 Visibility Modifiers di PHP -->
+    <div class="slide">
+      <div class="slide-tag">🔑 Hak Akses Objek</div>
+      <h1 class="slide-title">Tiga Visibility Modifiers di PHP</h1>
+      <h2 class="slide-subtitle">Matriks perbandingan izin akses untuk properti dan method:</h2>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Modifier</th>
+            <th>Class Sendiri</th>
+            <th>Child Class (Pewarisan)</th>
+            <th>Luar Class (Client Code)</th>
+            <th>Kegunaan Utama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #34d399;">public</strong></td>
+            <td>✅ Boleh</td>
+            <td>✅ Boleh</td>
+            <td>✅ Boleh</td>
+            <td>Antarmuka luar / method interaksi utama</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #fbbf24;">protected</strong></td>
+            <td>✅ Boleh</td>
+            <td>✅ Boleh</td>
+            <td>❌ Ditolak (Error)</td>
+            <td>Data untuk diwariskan ke turunan (Child)</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #f87171;">private</strong></td>
+            <td>✅ Boleh</td>
+            <td>❌ Ditolak (Error)</td>
+            <td>❌ Ditolak (Error)</td>
+            <td>Data rahasia &amp; helper internal class</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card-box" style="margin-top: 16px; border-left: 4px solid var(--primary);">
+        <div class="card-desc">
+          💡 <strong>Prinsip Desain Bersih:</strong> Jadikan seluruh properti berstatus <code>private</code> atau <code>protected</code> secara default, dan hanya buka akses modifikasi melalui method publik yang tervalidasi.
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Getter dan Setter dengan Validasi -->
+    <div class="slide">
+      <div class="slide-tag">🛡️ Data Integrity</div>
+      <h1 class="slide-title">Getter &amp; Setter Ber-Validasi</h1>
+      <h2 class="slide-subtitle">Mengontrol alur pembacaan dan penulisan data agar tidak melanggar aturan logika:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">Pasien</span> {
+    <span class="code-keyword">private int</span> <span class="code-var">$umur</span> = <span class="code-num">0</span>;
+
+    <span class="code-comment">// Getter: Membaca nilai private</span>
+    <span class="code-keyword">public function</span> <span class="code-func">getUmur</span>(): <span class="code-keyword">int</span> {
+        <span class="code-keyword">return</span> <span class="code-var">$this</span>-&gt;umur;
+    }
+
+    <span class="code-comment">// Setter: Mengubah nilai DENGAN validasi</span>
+    <span class="code-keyword">public function</span> <span class="code-func">setUmur</span>(<span class="code-keyword">int</span> <span class="code-var">$umur</span>): <span class="code-keyword">void</span> {
+        <span class="code-keyword">if</span> (<span class="code-var">$umur</span> &lt; <span class="code-num">0</span> || <span class="code-var">$umur</span> &gt; <span class="code-num">130</span>) {
+            <span class="code-keyword">throw new</span> <span class="code-class">\InvalidArgumentException</span>(
+                <span class="code-str">"Umur tidak masuk akal ({$umur})!"</span>
+            );
+        }
+        <span class="code-var">$this</span>-&gt;umur = <span class="code-var">$umur</span>;
+    }
+}</code></pre>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+            <div class="card-title">Manfaat Validasi Setter:</div>
+            <div class="card-desc">
+              1. <strong>Mencegah Data Rusak:</strong> Nilai negatif, string kosong, atau format salah ditolak seketika.<br>
+              2. <strong>Sentralisasi Aturan:</strong> Jika aturan bisnis berubah, cukup ubah di satu setter saja.<br>
+              3. <strong>Read-Only Fleksibel:</strong> Buat method Getter tanpa membuat Setter jika properti tidak boleh diubah dari luar.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Readonly Properties di PHP 8.1 -->
+    <div class="slide">
+      <div class="slide-tag">🧊 Immutability</div>
+      <h1 class="slide-title">Readonly Properties (PHP 8.1+)</h1>
+      <h2 class="slide-subtitle">Solusi elegan untuk properti yang boleh dibaca publik tapi tidak boleh diubah:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">Mahasiswa</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-comment">// Readonly: Hanya bisa di-set saat new</span>
+        <span class="code-keyword">public readonly string</span> <span class="code-var">$nim</span>,
+        <span class="code-keyword">public readonly string</span> <span class="code-var">$nama</span>,
+        <span class="code-keyword">private float</span> <span class="code-var">$ipk</span> = <span class="code-num">0.0</span>
+    ) {}
+}
+
+<span class="code-var">$mhs</span> = <span class="code-keyword">new</span> <span class="code-class">Mahasiswa</span>(<span class="code-str">"240101"</span>, <span class="code-str">"Ahmad"</span>);
+
+<span class="code-comment">// ✅ Boleh dibaca langsung (tanpa getter boilerplate)</span>
+<span class="code-keyword">echo</span> <span class="code-var">$mhs</span>-&gt;nim; 
+
+<span class="code-comment">// ❌ FATAL ERROR saat mencoba modifikasi!</span>
+<span class="code-var">$mhs</span>-&gt;nim = <span class="code-str">"999999"</span>; 
+<span class="code-comment">// Error: Cannot modify readonly property</span></code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <div class="card-title">Mengapa Readonly Begitu Populer?</div>
+          <div class="card-desc">
+            • <strong>Menghilangkan Getter Boilerplate:</strong> Tidak perlu lagi menulis puluhan method <code>getNim()</code>, <code>getNama()</code>.<br><br>
+            • <strong>100% Aman dari Modifikasi:</strong> Zend Engine secara ketat mengunci properti setelah constructor selesai dieksekusi.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Readonly Classes di PHP 8.2 -->
+    <div class="slide">
+      <div class="slide-tag">📦 DTO Pattern</div>
+      <h1 class="slide-title">Readonly Classes (PHP 8.2+)</h1>
+      <h2 class="slide-subtitle">Menjadikan seluruh properti dalam class otomatis berstatus readonly:</h2>
+
+      <pre><code><span class="code-comment">// PHP 8.2: Seluruh properti otomatis readonly dan harus bertipe</span>
+<span class="code-keyword">readonly class</span> <span class="code-class">DataPenggunaDTO</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">public string</span> <span class="code-var">$userId</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$email</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$role</span>,
+        <span class="code-keyword">public \DateTimeImmutable</span> <span class="code-var">$createdAt</span>
+    ) {}
+}
+
+<span class="code-var">$user</span> = <span class="code-keyword">new</span> <span class="code-class">DataPenggunaDTO</span>(
+    userId: <span class="code-str">"USR-101"</span>,
+    email: <span class="code-str">"budi@uui.ac.id"</span>,
+    role: <span class="code-str">"Dosen"</span>,
+    createdAt: <span class="code-keyword">new</span> <span class="code-class">\DateTimeImmutable</span>()
+);
+
+<span class="code-comment">// Sangat ideal untuk Data Transfer Objects (DTO) dan Entity Immutability</span></code></pre>
+    </div>
+
+    <!-- Slide 8: Magic Methods __get dan __set -->
+    <div class="slide">
+      <div class="slide-tag">🪄 Dynamic Property Access</div>
+      <h1 class="slide-title">Magic Methods <code>__get()</code> &amp; <code>__set()</code></h1>
+      <h2 class="slide-subtitle">Menangani pembacaan dan penulisan properti dinamis secara terkontrol:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">KamusData</span> {
+    <span class="code-keyword">private array</span> <span class="code-var">$penyimpanan</span> = [];
+
+    <span class="code-comment">// Mencegat penulisan: $obj->key = $val</span>
+    <span class="code-keyword">public function</span> <span class="code-func">__set</span>(<span class="code-keyword">string</span> <span class="code-var">$key</span>, <span class="code-keyword">mixed</span> <span class="code-var">$val</span>): <span class="code-keyword">void</span> {
+        <span class="code-var">$this</span>-&gt;penyimpanan[<span class="code-var">$key</span>] = <span class="code-var">$val</span>;
+    }
+
+    <span class="code-comment">// Mencegat pembacaan: echo $obj->key</span>
+    <span class="code-keyword">public function</span> <span class="code-func">__get</span>(<span class="code-keyword">string</span> <span class="code-var">$key</span>): <span class="code-keyword">mixed</span> {
+        <span class="code-keyword">return</span> <span class="code-var">$this</span>-&gt;penyimpanan[<span class="code-var">$key</span>] ?? <span class="code-keyword">null</span>;
+    }
+}
+
+<span class="code-var">$kamus</span> = <span class="code-keyword">new</span> <span class="code-class">KamusData</span>();
+<span class="code-var">$kamus</span>-&gt;temaWarna = <span class="code-str">"Gelap"</span>; <span class="code-comment">// Memicu __set()</span>
+<span class="code-keyword">echo</span> <span class="code-var">$kamus</span>-&gt;temaWarna;      <span class="code-comment">// Memicu __get()</span></code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--accent-amber);">
+          <div class="card-title">Kapan Menggunakan Magic Methods?</div>
+          <div class="card-desc">
+            • <strong>ORM / Database Model (seperti Eloquent di Laravel):</strong> Membaca kolom tabel database secara dinamis.<br><br>
+            • <strong>Property Overloading:</strong> Menyimpan atribut dinamis tanpa perlu deklarasi manual satu per satu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Studi Kasus Dompet Digital -->
+    <div class="slide">
+      <div class="slide-tag">💳 Praktikum Terbimbing</div>
+      <h1 class="slide-title">Studi Kasus: Dompet Digital (E-Wallet)</h1>
+      <h2 class="slide-subtitle">Penerapan enkapsulasi PIN, readonly nomor ponsel, dan proteksi saldo:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre style="font-size: 0.8rem;"><code><span class="code-keyword">class</span> <span class="code-class">DompetDigital</span> {
+    <span class="code-keyword">private float</span> <span class="code-var">$saldo</span>;
+
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">public readonly string</span> <span class="code-var">$noHp</span>,
+        <span class="code-keyword">private string</span> <span class="code-var">$pin</span>,
+        <span class="code-keyword">float</span> <span class="code-var">$saldoAwal</span> = <span class="code-num">0</span>
+    ) {
+        <span class="code-var">$this</span>-&gt;saldo = <span class="code-func">max</span>(<span class="code-num">0</span>, <span class="code-var">$saldoAwal</span>);
+    }
+
+    <span class="code-keyword">public function</span> <span class="code-func">getSaldo</span>(): <span class="code-keyword">float</span> {
+        <span class="code-keyword">return</span> <span class="code-var">$this</span>-&gt;saldo;
+    }
+
+    <span class="code-keyword">public function</span> <span class="code-func">transfer</span>(<span class="code-var">$pin</span>, <span class="code-var">$nominal</span>, <span class="code-var">$tujuan</span>): <span class="code-keyword">bool</span> {
+        <span class="code-keyword">if</span> (<span class="code-var">$this</span>-&gt;pin !== <span class="code-var">$pin</span>) <span class="code-keyword">return false</span>;
+        <span class="code-keyword">if</span> (<span class="code-var">$nominal</span> &gt; <span class="code-var">$this</span>-&gt;saldo) <span class="code-keyword">return false</span>;
+        
+        <span class="code-var">$this</span>-&gt;saldo -= <span class="code-var">$nominal</span>;
+        <span class="code-keyword">return true</span>;
+    }
+}</code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <div class="card-title">Aspek Enkapsulasi Teruji:</div>
+          <div class="card-desc">
+            • <code>$pin</code> bersifat <code>private</code> (tidak bisa dibaca dari luar).<br>
+            • <code>$noHp</code> bersifat <code>public readonly</code> (bisa dibaca bebas, tapi mustahil dibajak/diubah).<br>
+            • <code>$saldo</code> hanya bisa berkurang jika PIN cocok dan nominal mencukupi.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Kesimpulan & Tugas Mandiri -->
+    <div class="slide cover-slide">
+      <span class="cover-badge" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+        ✅ SELESAI PERTEMUAN 4
+      </span>
+      <h1 class="slide-title" style="font-size: 2.8rem;">Kesimpulan &amp; Latihan</h1>
+      <h2 class="slide-subtitle" style="max-width: 680px; margin-bottom: 24px;">
+        "Enkapsulasi bukan hanya tentang menyembunyikan data, melainkan tentang membangun kontrak integritas aplikasi yang tidak dapat dirusak."
+      </h2>
+
+      <div class="card-box" style="max-width: 650px; text-align: left; margin: 0 auto 24px auto;">
+        <div class="card-title" style="color: #818cf8;">📝 Tugas Praktikum Mandiri:</div>
+        <div class="card-desc">
+          1. Buat class <code>NilaiAkademik</code> dengan properti private: <code>$tugas, $uts, $uas</code>.<br>
+          2. Pasang Setter &amp; Getter dengan validasi rentang nilai <code>0 – 100</code>.<br>
+          3. Buat method <code>hitungNilaiAkhir()</code> (30% Tugas, 30% UTS, 40% UAS) dan <code>getGrade()</code>.<br>
+          4. <strong>Minggu Depan (Pertemuan 5):</strong> Kita akan masuk ke pilar kedua OOP: <strong>Inheritance (Pewarisan Class) &amp; Trait di PHP</strong>!
+        </div>
+      </div>
+
+      <div style="font-size: 0.9rem; color: var(--dark-muted);">
+        Modul Lengkap: <strong>https://mahendaruui.github.io/Perkuliahan/pemrograman-oop-php/encapsulation</strong>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer>
+    <div class="key-hint">
+      Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> | Layar Penuh: <kbd>F</kbd>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const slideIndicator = document.getElementById('slideIndicator');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        if (index === currentSlide) {
+          slide.classList.add('active');
+        }
+      });
+
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? 'Selesai 🏁' : 'Selanjutnya ▶';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Home') {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>

@@ -17,6 +17,10 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
 | :---: | :--- | :---: | :---: |
 | **01** | Kontrak Kuliah & Pengantar OOP PHP 8+ | [Lihat di Web](/presentasi/pertemuan-1-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-oop-php.html){target="_blank"} |
+| **02** | Class, Object & Perilaku di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-2-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-class-object-php.html){target="_blank"} |
+| **03** | Constructor, Method & Static di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-3-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-constructor-method-php.html){target="_blank"} |
+| **04** | Encapsulation, Visibility & Readonly di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-4-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-encapsulation-php.html){target="_blank"} |
+| **05** | Inheritance & Trait di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-5-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-inheritance-trait-php.html){target="_blank"} |
 
 ---
 

@@ -1,5 +1,5 @@
 # Rencana Pembelajaran Semester (RPS)
-**Mata Kuliah: Pemrograman Berorientasi Objek (Java) - SIF 212**
+**Mata Kuliah: Pemrograman Berorientasi Objek (Java) - IFR 214**
 
 ---
 
@@ -11,7 +11,7 @@
 | **Fakultas** | Fakultas Sains dan Teknologi |
 | **Program Studi** | Sistem Informasi |
 | **Mata Kuliah** | Pemrograman Berorientasi Objek (Java) |
-| **Kode MK / Bobot** | SIF 212 / 3 SKS (T=2, P=1) |
+| **Kode MK / Bobot** | IFR 214 / 3 SKS (T=2, P=1) |
 | **Semester / Rumpun** | 3 / Mata Kuliah Wajib Prodi |
 | **Dosen Pengembang RPS** | Mahendar Dwi Payana, S.ST., M.T. |
 | **Koordinator RMK** | Rizka Albar, S.Kom., M.T. |

@@ -14,14 +14,14 @@ Setelah menyelesaikan materi ini, mahasiswa mampu:
 
 ```mermaid
 flowchart TD
-    subgraph Objek Encapsulated [Class AkunBank Terenkapsulasi]
+    subgraph Objek Encapsulated ["Class AkunBank Terenkapsulasi"]
         PrivateData["🔒 Atribut Private<br>- saldo: double<br>- pin: String"]
         PublicMethods["🔓 Method Public (Antarmuka)<br>+ getSaldo()<br>+ setor(double)<br>+ tarik(double)"]
-        PublicMethods -->|Mengakses & Memvalidasi| PrivateData
+        PublicMethods -->|"Mengakses dan Memvalidasi"| PrivateData
     end
 
-    Luar["🌍 Kode Luar / Main Class"] -->|Hanya boleh lewat method| PublicMethods
-    Luar -.->|❌ DILARANG Akses Langsung| PrivateData
+    Luar["🌍 Kode Luar / Main Class"] -->|"Hanya boleh lewat method"| PublicMethods
+    Luar -.->|"DILARANG Akses Langsung"| PrivateData
 ```
 
 ### Mengapa Encapsulation Penting?

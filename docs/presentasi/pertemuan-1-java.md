@@ -4,7 +4,7 @@
   <a href="/Perkuliahan/presentasi/pertemuan-1-pengantar-oop.html" target="_blank" style="background-color: #dc2626; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
     ⛶ Buka Slide Layar Penuh (Tab Baru)
   </a>
-  <a href="/pemrograman-oop/pengantar-oop" style="background-color: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+  <a href="/Perkuliahan/pemrograman-oop/pengantar-oop" style="background-color: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
     📖 Baca Modul Pertemuan 1
   </a>
 </div>

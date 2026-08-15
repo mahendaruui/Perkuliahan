@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 3 - Constructor, Method & Static di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: #eef2ff;
+      --secondary: #0ea5e9;
+      --dark-bg: #0f172a;
+      --dark-card: #1e293b;
+      --dark-text: #f8fafc;
+      --dark-muted: #94a3b8;
+      --border: #334155;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      color: #818cf8;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--dark-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      color: var(--dark-text);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: #273549;
+      border-color: #475569;
+    }
+
+    .slide-badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+    }
+
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #818cf8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    h1.slide-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--dark-muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .card-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--dark-muted);
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .badge-php { background: rgba(99, 102, 241, 0.25); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .badge-blue { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+
+    pre {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-top: 12px;
+    }
+
+    .code-keyword { color: #f43f5e; font-weight: 600; }
+    .code-class { color: #38bdf8; font-weight: 600; }
+    .code-func { color: #a78bfa; }
+    .code-str { color: #34d399; }
+    .code-var { color: #fbbf24; }
+    .code-num { color: #f59e0b; }
+    .code-comment { color: #64748b; font-style: italic; }
+
+    footer {
+      padding: 14px 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-container {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: #334155;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6366f1, #818cf8);
+      transition: width 0.3s ease;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-nav.secondary {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      color: var(--dark-text);
+    }
+
+    .btn-nav.secondary:hover {
+      background: #273549;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .key-hint {
+      font-size: 0.75rem;
+      color: var(--dark-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .cover-slide {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .avatar-box {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+    }
+
+    .avatar-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f5b93, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .author-info {
+      text-align: left;
+    }
+    .author-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+    .author-role {
+      font-size: 0.8rem;
+      color: var(--dark-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">PEMROGRAMAN BERORIENTASI OBJEK <span>(PHP 8+)</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 3</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 10</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active cover-slide">
+      <span class="cover-badge">🐘 IFR 214 • PERTEMUAN 3</span>
+      <h1 class="slide-title" style="font-size: 3rem; max-width: 920px;">
+        Constructor, Method &amp; Static di PHP 8+
+      </h1>
+      <h2 class="slide-subtitle" style="max-width: 760px; margin-bottom: 20px;">
+        Menguasai inisialisasi instan dengan <code>__construct()</code>, revolusi <strong>Constructor Promotion</strong> di PHP 8, Destructor, Named Arguments, serta Static Factory Method.
+      </h2>
+      
+      <div class="avatar-box">
+        <div class="avatar-img">MD</div>
+        <div class="author-info">
+          <div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="author-role">Dosen Pengampu • Fakultas Sains dan Teknologi UUI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Agenda Pertemuan 3 -->
+    <div class="slide">
+      <div class="slide-tag">📍 Roadmap Pembahasan</div>
+      <h1 class="slide-title">Agenda Pertemuan 3</h1>
+      <h2 class="slide-subtitle">Topik mendalam yang akan kita pelajari pada pertemuan ini:</h2>
+
+      <div class="grid-3">
+        <div class="card-box">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">1. Magic __construct()</div>
+          <div class="card-desc">Fungsi inisialisasi otomatis dan pencegahan objek dengan state tidak valid.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🚀</div>
+          <div class="card-title">2. Constructor Promotion</div>
+          <div class="card-desc">Fitur revolusioner PHP 8.0: deklarasi properti langsung pada parameter constructor.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🎯</div>
+          <div class="card-title">3. Named Arguments</div>
+          <div class="card-desc">Fleksibilitas pemanggilan parameter berdasarkan nama tanpa terikat urutan posisi.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🧹</div>
+          <div class="card-title">4. Destructor __destruct()</div>
+          <div class="card-desc">Siklus pelepasan resource otomatis (tutup database connection, log sesi).</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🔒</div>
+          <div class="card-title">5. Static Member (self::)</div>
+          <div class="card-desc">Properti dan method tingkat Class yang tidak memerlukan instansiasi objek.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🏭</div>
+          <div class="card-title">6. Static Factory Pattern</div>
+          <div class="card-desc">Solusi elegan pengganti multiple constructor di PHP menggunakan method statis.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Mengapa Butuh Constructor? -->
+    <div class="slide">
+      <div class="slide-tag">🛠️ Siklus Hidup Objek</div>
+      <h1 class="slide-title">Mengapa Kita Membutuhkan Constructor?</h1>
+      <h2 class="slide-subtitle">Menjamin setiap objek yang lahir langsung memiliki data valid (*Initialized State*):</h2>
+
+      <div class="grid-2">
+        <div class="card-box" style="border-top: 4px solid #f43f5e;">
+          <span class="badge badge-pink">❌ TANPA CONSTRUCTOR (RAWAN ERROR)</span>
+          <pre><code><span class="code-var">$rek</span> = <span class="code-keyword">new</span> <span class="code-class">RekeningBank</span>();
+<span class="code-comment">// Developer lupa mengisi properti penting:</span>
+<span class="code-comment">// $rek-&gt;nomorRekening = ...</span>
+<span class="code-comment">// $rek-&gt;saldo = ...</span>
+
+<span class="code-comment">// 💥 Objek lahir dalam kondisi kosong/rusak</span>
+<span class="code-var">$rek</span>-&gt;<span class="code-func">transfer</span>(<span class="code-num">50000</span>);</code></pre>
+        </div>
+
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <span class="badge badge-green">✅ DENGAN CONSTRUCTOR (WAJIB ISI)</span>
+          <pre><code><span class="code-comment">// Constructor MEMAKSA pengisian data wajib</span>
+<span class="code-var">$rek</span> = <span class="code-keyword">new</span> <span class="code-class">RekeningBank</span>(
+    nomorRekening: <span class="code-str">"123-456"</span>,
+    pemilik: <span class="code-str">"Budi Santoso"</span>,
+    saldoAwal: <span class="code-num">500_000</span>
+);
+
+<span class="code-comment">// 🌟 Objek dijamin 100% siap pakai</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Revolusi Constructor Property Promotion -->
+    <div class="slide">
+      <div class="slide-tag">🚀 PHP 8.0 Super Feature</div>
+      <h1 class="slide-title">Constructor Property Promotion</h1>
+      <h2 class="slide-subtitle">Mengurangi 70% baris kode boilerplate deklarasi properti di PHP:</h2>
+
+      <div class="grid-2">
+        <div class="card-box" style="border-top: 4px solid var(--accent-amber);">
+          <div class="card-title" style="font-size: 1rem;">PHP 5 / 7 (Cara Klasik - 16 Baris)</div>
+          <pre style="font-size: 0.8rem;"><code><span class="code-keyword">class</span> <span class="code-class">User</span> {
+    <span class="code-keyword">public string</span> <span class="code-var">$id</span>;
+    <span class="code-keyword">public string</span> <span class="code-var">$nama</span>;
+    <span class="code-keyword">public string</span> <span class="code-var">$email</span>;
+
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">string</span> <span class="code-var">$id</span>,
+        <span class="code-keyword">string</span> <span class="code-var">$nama</span>,
+        <span class="code-keyword">string</span> <span class="code-var">$email</span>
+    ) {
+        <span class="code-var">$this</span>-&gt;id = <span class="code-var">$id</span>;
+        <span class="code-var">$this</span>-&gt;nama = <span class="code-var">$nama</span>;
+        <span class="code-var">$this</span>-&gt;email = <span class="code-var">$email</span>;
+    }
+}</code></pre>
+        </div>
+
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <div class="card-title" style="font-size: 1rem; color: #818cf8;">PHP 8+ (Constructor Promotion - 7 Baris!)</div>
+          <pre style="font-size: 0.8rem;"><code><span class="code-keyword">class</span> <span class="code-class">User</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">public readonly string</span> <span class="code-var">$id</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$nama</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$email</span>
+    ) {}
+}
+
+<span class="code-comment">// PHP otomatis membuat properti</span>
+<span class="code-comment">// dan mengisinya saat instansiasi!</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Named Arguments di PHP 8 -->
+    <div class="slide">
+      <div class="slide-tag">🎯 Sintaks Modern</div>
+      <h1 class="slide-title">Named Arguments &amp; Default Values</h1>
+      <h2 class="slide-subtitle">Sebutkan nama argumen saat memanggil method/constructor tanpa terikat urutan:</h2>
+
+      <pre><code><span class="code-keyword">class</span> <span class="code-class">Produk</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">public string</span> <span class="code-var">$nama</span>,
+        <span class="code-keyword">public float</span> <span class="code-var">$harga</span>,
+        <span class="code-keyword">public int</span> <span class="code-var">$stok</span> = <span class="code-num">0</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$kategori</span> = <span class="code-str">"Umum"</span>
+    ) {}
+}
+
+<span class="code-comment">// Named Arguments: Urutan bebas dan parameter default bisa dilewati!</span>
+<span class="code-var">$p</span> = <span class="code-keyword">new</span> <span class="code-class">Produk</span>(
+    kategori: <span class="code-str">"Elektronik"</span>,
+    harga: <span class="code-num">12_500_000</span>,
+    nama: <span class="code-str">"Monitor LG 27 Inch"</span>
+    <span class="code-comment">// $stok otomatis menggunakan default (0)</span>
+);</code></pre>
+    </div>
+
+    <!-- Slide 6: Destructor __destruct() -->
+    <div class="slide">
+      <div class="slide-tag">🧹 Lifecycle Cleanup</div>
+      <h1 class="slide-title">Destructor: <code>__destruct()</code></h1>
+      <h2 class="slide-subtitle">Method yang otomatis dipanggil saat objek dihancurkan atau memori dibersihkan:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">KoneksiDatabase</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">private string</span> <span class="code-var">$host</span>
+    ) {
+        <span class="code-keyword">echo</span> <span class="code-str">"🔌 Koneksi ke {$this-&gt;host} dibuka.\n"</span>;
+    }
+
+    <span class="code-keyword">public function</span> <span class="code-func">__destruct</span>() {
+        <span class="code-keyword">echo</span> <span class="code-str">"🔒 Koneksi ke {$this-&gt;host} ditutup.\n"</span>;
+    }
+}
+
+<span class="code-var">$db</span> = <span class="code-keyword">new</span> <span class="code-class">KoneksiDatabase</span>(<span class="code-str">"localhost:3306"</span>);
+<span class="code-comment">// ... transaksi query berlangsung ...</span>
+<span class="code-comment">// Saat script PHP selesai, destructor otomatis jalan!</span></code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <div class="card-title">Kegunaan Umum Destructor:</div>
+          <div class="card-desc">
+            • <strong>Penutupan Koneksi Database:</strong> Mencegah connection leak di server.<br>
+            • <strong>File Stream:</strong> Menutup handle file (<code>fclose()</code>) secara aman.<br>
+            • <strong>Audit Log:</strong> Mencatat durasi eksekusi atau transaksi ke file log.<br>
+            • <strong>Pembersihan Cache:</strong> Menghapus file sementara di disk.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Type Hints & Union Types -->
+    <div class="slide">
+      <div class="slide-tag">🛡️ Strict Type System</div>
+      <h1 class="slide-title">Type Declarations &amp; Union Types</h1>
+      <h2 class="slide-subtitle">Menjamin integritas data parameter method dan return value:</h2>
+
+      <pre><code><span class="code-keyword">declare</span>(strict_types=<span class="code-num">1</span>);
+
+<span class="code-keyword">class</span> <span class="code-class">KalkulatorKeuangan</span> {
+    <span class="code-comment">// Union Type (int|float): Menerima bilangan bulat ATAU desimal</span>
+    <span class="code-keyword">public function</span> <span class="code-func">hitungPajak</span>(<span class="code-keyword">int|float</span> <span class="code-var">$nominal</span>, <span class="code-keyword">float</span> <span class="code-var">$persen</span>): <span class="code-keyword">float</span> {
+        <span class="code-keyword">return</span> <span class="code-var">$nominal</span> * (<span class="code-var">$persen</span> / <span class="code-num">100</span>);
+    }
+
+    <span class="code-comment">// Nullable Type (?string): Boleh mengembalikan string ATAU null</span>
+    <span class="code-keyword">public function</span> <span class="code-func">cariKodePromo</span>(<span class="code-keyword">string</span> <span class="code-var">$kode</span>): <span class="code-keyword">?string</span> {
+        <span class="code-keyword">return</span> (<span class="code-var">$kode</span> === <span class="code-str">"DISKON50"</span>) ? <span class="code-str">"Potongan 50%"</span> : <span class="code-keyword">null</span>;
+    }
+}</code></pre>
+    </div>
+
+    <!-- Slide 8: Static Member (self::) -->
+    <div class="slide">
+      <div class="slide-tag">⚡ Level Class vs Level Objek</div>
+      <h1 class="slide-title">Static Properties &amp; Static Methods</h1>
+      <h2 class="slide-subtitle">Member yang terikat pada Class secara global tanpa perlu <code>new</code>:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-keyword">class</span> <span class="code-class">KursValuta</span> {
+    <span class="code-comment">// Static Property</span>
+    <span class="code-keyword">public static float</span> <span class="code-var">$kursUsd</span> = <span class="code-num">16_200.0</span>;
+
+    <span class="code-comment">// Static Method</span>
+    <span class="code-keyword">public static function</span> <span class="code-func">usdKeIdr</span>(<span class="code-keyword">float</span> <span class="code-var">$usd</span>): <span class="code-keyword">float</span> {
+        <span class="code-comment">// Gunakan self::$ untuk akses static</span>
+        <span class="code-keyword">return</span> <span class="code-var">$usd</span> * <span class="code-keyword">self</span>::<span class="code-var">$kursUsd</span>;
+    }
+}
+
+<span class="code-comment">// Panggil langsung tanpa new!</span>
+<span class="code-keyword">echo</span> <span class="code-class">KursValuta</span>::<span class="code-func">usdKeIdr</span>(<span class="code-num">100</span>); <span class="code-comment">// Rp 1.620.000</span></code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--accent-amber);">
+          <div class="card-title">Perbedaan Kunci: <code>$this-&gt;</code> vs <code>self::</code></div>
+          <div class="card-desc">
+            • <strong><code>$this-&gt;</code> (Instance Level):</strong> Merujuk ke objek aktif spesifik (beda objek, beda data).<br><br>
+            • <strong><code>self::</code> (Class Level):</strong> Merujuk ke definisi Class (satu nilai dipakai bersama oleh seluruh aplikasi).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Static Factory Method -->
+    <div class="slide">
+      <div class="slide-tag">🏭 Design Pattern</div>
+      <h1 class="slide-title">Pola Static Factory Method</h1>
+      <h2 class="slide-subtitle">Solusi standar industri untuk variasi pembuatan objek di PHP:</h2>
+
+      <pre><code><span class="code-keyword">class</span> <span class="code-class">User</span> {
+    <span class="code-comment">// Constructor private agar instansiasi hanya lewat Factory</span>
+    <span class="code-keyword">private function</span> <span class="code-func">__construct</span>(
+        <span class="code-keyword">public string</span> <span class="code-var">$username</span>,
+        <span class="code-keyword">public string</span> <span class="code-var">$role</span>,
+        <span class="code-keyword">public float</span> <span class="code-var">$saldoLimit</span>
+    ) {}
+
+    <span class="code-comment">// Factory Method 1: Member Standar</span>
+    <span class="code-keyword">public static function</span> <span class="code-func">createRegular</span>(<span class="code-keyword">string</span> <span class="code-var">$username</span>): <span class="code-keyword">self</span> {
+        <span class="code-keyword">return new self</span>(<span class="code-var">$username</span>, <span class="code-str">"Regular"</span>, <span class="code-num">1_000_000</span>);
+    }
+
+    <span class="code-comment">// Factory Method 2: Akun VIP</span>
+    <span class="code-keyword">public static function</span> <span class="code-func">createVIP</span>(<span class="code-keyword">string</span> <span class="code-var">$username</span>): <span class="code-keyword">self</span> {
+        <span class="code-keyword">return new self</span>(<span class="code-var">$username</span>, <span class="code-str">"VIP Gold"</span>, <span class="code-num">50_000_000</span>);
+    }
+}
+
+<span class="code-var">$userBiasa</span> = <span class="code-class">User</span>::<span class="code-func">createRegular</span>(<span class="code-str">"budi99"</span>);
+<span class="code-var">$userSultan</span> = <span class="code-class">User</span>::<span class="code-func">createVIP</span>(<span class="code-str">"sultan_aceh"</span>);</code></pre>
+    </div>
+
+    <!-- Slide 10: Kesimpulan & Tugas Mandiri -->
+    <div class="slide cover-slide">
+      <span class="cover-badge" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+        ✅ SELESAI PERTEMUAN 3
+      </span>
+      <h1 class="slide-title" style="font-size: 2.8rem;">Kesimpulan &amp; Latihan</h1>
+      <h2 class="slide-subtitle" style="max-width: 680px; margin-bottom: 24px;">
+        "Constructor menjamin integritas awal objek, sedangkan Static Factory memberikan fleksibilitas arsitektur yang bersih."
+      </h2>
+
+      <div class="card-box" style="max-width: 650px; text-align: left; margin: 0 auto 24px auto;">
+        <div class="card-title" style="color: #818cf8;">📝 Tugas Praktikum Mandiri:</div>
+        <div class="card-desc">
+          1. Buat class <code>Karyawan</code> menggunakan <strong>Constructor Property Promotion</strong>.<br>
+          2. Buat static factory method <code>buatStaff($id, $nama)</code> (gaji: 4.5jt) dan <code>buatManager($id, $nama)</code> (gaji: 9jt).<br>
+          3. <strong>Minggu Depan (Pertemuan 4):</strong> Kita akan masuk ke pilar pertama OOP: <strong>Encapsulation, Visibility Modifiers, Getter-Setter, dan Readonly Properties</strong>!
+        </div>
+      </div>
+
+      <div style="font-size: 0.9rem; color: var(--dark-muted);">
+        Modul Lengkap: <strong>https://mahendaruui.github.io/Perkuliahan/pemrograman-oop-php/constructor-method</strong>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer>
+    <div class="key-hint">
+      Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> | Layar Penuh: <kbd>F</kbd>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const slideIndicator = document.getElementById('slideIndicator');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        if (index === currentSlide) {
+          slide.classList.add('active');
+        }
+      });
+
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? 'Selesai 🏁' : 'Selanjutnya ▶';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Home') {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>

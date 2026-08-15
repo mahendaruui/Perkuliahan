@@ -6,7 +6,7 @@ Selamat datang di materi perkuliahan **Pemrograman Berorientasi Objek (Object-Or
 
 ## 📋 Informasi Mata Kuliah
 - **Mata Kuliah:** Pemrograman Berorientasi Objek (Java)
-- **Kode MK:** SIF 212
+- **Kode MK:** IFR 214
 - **Bobot:** 3 SKS (Teori: 2 SKS, Praktik: 1 SKS)
 - **Program Studi:** Sistem Informasi - Fakultas Sains dan Teknologi
 - **Dosen Pengampu:** Mahendar Dwi Payana, S.ST., M.T.
