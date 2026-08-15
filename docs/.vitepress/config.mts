@@ -50,10 +50,22 @@ export default withMermaid(
               ]
             }
           ]
-        }
+        },
+        { text: '📽️ Slide Presentasi', link: '/presentasi/' }
       ],
 
       sidebar: {
+        '/presentasi/': [
+          {
+            text: 'Slide Presentasi Kuliah',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Seluruh Slide', link: '/presentasi/' },
+              { text: '☕ Pertemuan 1 - OOP (Java)', link: '/presentasi/pertemuan-1-java' },
+              { text: '🐘 Pertemuan 1 - OOP (PHP)', link: '/presentasi/pertemuan-1-php' }
+            ]
+          }
+        ],
         '/pemrograman-oop/': [
           {
             text: 'Pendahuluan',

@@ -6,6 +6,9 @@ Setelah menyelesaikan materi ini, mahasiswa mampu:
 2. Membandingkan paradigma pemrograman prosedural (terstruktur) dengan paradigma berorientasi objek.
 3. Mengidentifikasi kelebihan dan manfaat penerapan OOP dalam rekayasa perangkat lunak modern.
 
+> [!TIP]
+> 📽️ **Slide Presentasi Perkuliahan:** Anda dapat melihat dan memutar [Slide Interaktif Pertemuan 1](/presentasi/pertemuan-1-java) atau [Buka Layar Penuh (Tab Baru)](/Perkuliahan/presentasi/pertemuan-1-pengantar-oop.html){target="_blank"}.
+
 ---
 
 ## 1. Apa itu Paradigma Pemrograman?

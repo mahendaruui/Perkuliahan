@@ -7,6 +7,9 @@ Setelah menyelesaikan materi ini, mahasiswa mampu:
 3. Mengidentifikasi kelebihan OOP dalam pengembangan aplikasi web modern.
 4. Menyiapkan lingkungan pengembangan PHP 8+.
 
+> [!TIP]
+> 📽️ **Slide Presentasi Perkuliahan:** Anda dapat melihat dan memutar [Slide Interaktif Pertemuan 1 PHP](/presentasi/pertemuan-1-php) atau [Buka Layar Penuh (Tab Baru)](/Perkuliahan/presentasi/pertemuan-1-pengantar-oop-php.html){target="_blank"}.
+
 ---
 
 ## 1. Apa itu Paradigma Pemrograman?
