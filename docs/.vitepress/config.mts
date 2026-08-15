@@ -36,6 +36,7 @@ export default withMermaid(
               text: 'Pengembangan Perangkat Lunak',
               items: [
                 { text: '☕ Pemrograman OOP (Java)', link: '/pemrograman-oop/' },
+                { text: '🐘 Pemrograman OOP (PHP)', link: '/pemrograman-oop-php/' },
                 { text: '🌐 Pemrograman Web', link: '/pemrograman-web/' },
                 { text: '📱 Pemrograman Mobile', link: '/mobile-programming/' }
               ]
@@ -99,6 +100,55 @@ export default withMermaid(
               { text: 'Minggu 14 — Implementasi Aplikasi OOP', link: '/pemrograman-oop/aplikasi-oop' },
               { text: 'Minggu 15 — Mini Project OOP', link: '/pemrograman-oop/mini-project' },
               { text: 'Minggu 16 — Evaluasi & Presentasi UAS', link: '/pemrograman-oop/evaluasi-akhir' }
+            ]
+          }
+        ],
+        '/pemrograman-oop-php/': [
+          {
+            text: 'Pendahuluan',
+            collapsed: false,
+            items: [
+              { text: 'Daftar Materi', link: '/pemrograman-oop-php/' },
+              { text: 'RPS (Rencana Pembelajaran)', link: '/pemrograman-oop-php/RPS' },
+              { text: 'Minggu 1 — Pengantar OOP', link: '/pemrograman-oop-php/pengantar-oop' }
+            ]
+          },
+          {
+            text: 'Dasar Objek & Kelas',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 2 — Class dan Object', link: '/pemrograman-oop-php/class-dan-object' },
+              { text: 'Minggu 3 — Constructor & Method', link: '/pemrograman-oop-php/constructor-method' }
+            ]
+          },
+          {
+            text: 'Pilar-Pilar OOP',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 4 — Encapsulation', link: '/pemrograman-oop-php/encapsulation' },
+              { text: 'Minggu 5 — Inheritance & Trait', link: '/pemrograman-oop-php/inheritance' },
+              { text: 'Minggu 6 — Polymorphism', link: '/pemrograman-oop-php/polymorphism' },
+              { text: 'Minggu 7 — Abstraction & Interface', link: '/pemrograman-oop-php/interface-abstract' }
+            ]
+          },
+          {
+            text: 'OOP Lanjutan & Libraries',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 9 — Namespace & Composer', link: '/pemrograman-oop-php/namespace' },
+              { text: 'Minggu 10 — Exception Handling', link: '/pemrograman-oop-php/exception-handling' },
+              { text: 'Minggu 11 — Collections & Array', link: '/pemrograman-oop-php/collection' },
+              { text: 'Minggu 12 — File Handling (I/O)', link: '/pemrograman-oop-php/file-handling' }
+            ]
+          },
+          {
+            text: 'Desain & Proyek',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 13 — Dasar SOLID Principle', link: '/pemrograman-oop-php/solid-principle' },
+              { text: 'Minggu 14 — Implementasi Aplikasi OOP', link: '/pemrograman-oop-php/aplikasi-oop' },
+              { text: 'Minggu 15 — Mini Project OOP', link: '/pemrograman-oop-php/mini-project' },
+              { text: 'Minggu 16 — Evaluasi & Presentasi UAS', link: '/pemrograman-oop-php/evaluasi-akhir' }
             ]
           }
         ],

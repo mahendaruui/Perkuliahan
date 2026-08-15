@@ -8,3 +8,4 @@ cache
 *.local
 docs/.vitepress/dist
 docs/.vitepress/cache
+/Presentasi

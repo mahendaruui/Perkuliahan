@@ -45,6 +45,8 @@ Website ini berisi dokumentasi lengkap untuk tiga mata kuliah yang disusun oleh 
 
 - **[Pemrograman Berorientasi Objek (Java)](/pemrograman-oop/)**: Paradigma OOP berbasis Java — Class & Object, 4 Pilar OOP (Encapsulation, Inheritance, Polymorphism, Abstraction), Exception Handling, Java Collections Framework, File I/O, Dasar SOLID Principle, hingga Mini Project OBE.
 
+- **[Pemrograman Berorientasi Objek (PHP)](/pemrograman-oop-php/)**: Paradigma OOP berbasis PHP 8+ — Class, Object, Trait, Namespace, Composer Autoloading, Exception Handling, File I/O (CSV/JSON), SOLID Principle, hingga Mini Project berbasis PHP modern.
+
 - **[Pemrograman Web](/pemrograman-web/)**: Membangun aplikasi web dari nol — HTML5, CSS3 responsif, JavaScript interaktif, PHP server-side, integrasi MySQL, hingga Laravel MVC dan deployment.
 
 - **[Pemrograman Mobile](/mobile-programming/)**: Pengembangan aplikasi mobile modern berbasis React Native — JSX, Hooks, Navigation, State Management, API Networking, dan integrasi maps.
