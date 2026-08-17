@@ -9,13 +9,13 @@
 | :--- | :--- |
 | **Perguruan Tinggi** | Universitas Ubudiyah Indonesia |
 | **Fakultas** | Fakultas Sains dan Teknologi |
-| **Program Studi** | Sistem Informasi |
+| **Program Studi** | S1 Informatika |
 | **Mata Kuliah** | Pemrograman Berorientasi Objek (PHP) |
 | **Kode MK / Bobot** | IFR 214 / 3 SKS (T=2, P=1) |
 | **Semester / Rumpun** | 3 / Mata Kuliah Wajib Prodi |
 | **Dosen Pengembang RPS** | Mahendar Dwi Payana, S.ST., M.T. |
-| **Koordinator RMK** | Rizka Albar, S.Kom., M.T. |
-| **Ketua Program Studi** | Juanda Nurgaza, S.Kom., M.T. |
+| **Koordinator RMK** | Mahendar Dwi Payana, S.ST., M.T |
+| **Ketua Program Studi** | - |
 
 ---
 
