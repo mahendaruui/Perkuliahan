@@ -62,7 +62,9 @@ export default withMermaid(
                 { text: 'Pertemuan 2: Class & Object', link: '/presentasi/pertemuan-2-php' },
                 { text: 'Pertemuan 3: Constructor & Method', link: '/presentasi/pertemuan-3-php' },
                 { text: 'Pertemuan 4: Encapsulation & Readonly', link: '/presentasi/pertemuan-4-php' },
-                { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' }
+                { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' },
+                { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
+                { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' }
               ]
             },
             {
@@ -92,7 +94,9 @@ export default withMermaid(
               { text: 'Pertemuan 2: Class & Object', link: '/presentasi/pertemuan-2-php' },
               { text: 'Pertemuan 3: Constructor & Method', link: '/presentasi/pertemuan-3-php' },
               { text: 'Pertemuan 4: Encapsulation & Readonly', link: '/presentasi/pertemuan-4-php' },
-              { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' }
+              { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' },
+              { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
+              { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' }
             ]
           },
           {

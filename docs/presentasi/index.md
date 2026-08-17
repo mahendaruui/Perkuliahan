@@ -21,6 +21,8 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **03** | Constructor, Method & Static di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-3-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-constructor-method-php.html){target="_blank"} |
 | **04** | Encapsulation, Visibility & Readonly di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-4-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-encapsulation-php.html){target="_blank"} |
 | **05** | Inheritance & Trait di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-5-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-inheritance-trait-php.html){target="_blank"} |
+| **06** | Polymorphism (Polimorfisme) di PHP 8+ | [Lihat di Web](/presentasi/pertemuan-6-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-polymorphism-php.html){target="_blank"} |
+| **07** | Abstraction, Abstract Classes & Interfaces | [Lihat di Web](/presentasi/pertemuan-7-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-interface-abstract-php.html){target="_blank"} |
 
 ---
 

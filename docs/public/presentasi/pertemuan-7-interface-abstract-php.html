@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 7 - Abstraction, Abstract Classes & Interfaces di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-pink: #db2777;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: #4f46e5;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
+    .slide-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Presentation Main Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Content Typography */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    h1.slide-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      color: #0f172a;
+      background: none;
+      -webkit-text-fill-color: initial;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    /* Card Box */
+    .card-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    /* Custom Badges */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .badge-php { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .badge-blue { background: #e0f2fe; color: #0369a1; }
+    .badge-green { background: #d1fae5; color: #047857; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+    .badge-amber { background: #fef3c7; color: #b45309; }
+    .badge-pink { background: #fce7f3; color: #be185d; }
+
+    /* Tables */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .custom-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border-dark);
+    }
+
+    .custom-table td {
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: #334155;
+      border-bottom: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .custom-table tr:hover td {
+      background: #f8fafc;
+    }
+
+    /* Code Block */
+    pre {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #f8fafc;
+      margin-top: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .code-keyword { color: #fb7185; font-weight: 600; }
+    .code-class { color: #38bdf8; font-weight: 600; }
+    .code-func { color: #c084fc; }
+    .code-str { color: #4ade80; }
+    .code-var { color: #fde047; }
+    .code-num { color: #fb923c; }
+    .code-comment { color: #94a3b8; font-style: italic; }
+
+    /* Footer & Controls */
+    footer {
+      padding: 14px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .progress-container {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4f46e5, #6366f1);
+      transition: width 0.3s ease;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-nav.secondary {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-nav.secondary:hover {
+      background: #f8fafc;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .key-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Cover Slide */
+    .cover-slide {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .avatar-box {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #f8fafc;
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .avatar-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .author-info {
+      text-align: left;
+    }
+    .author-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0f172a;
+    }
+    .author-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">PEMROGRAMAN BERORIENTASI OBJEK <span>(PHP 8+)</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 7</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 10</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active cover-slide">
+      <span class="cover-badge">🧩 IFR 214 • PERTEMUAN 7</span>
+      <h1 class="slide-title" style="font-size: 3rem; max-width: 950px;">
+        Abstraction, Abstract Classes &amp; Interfaces di PHP 8+
+      </h1>
+      <h2 class="slide-subtitle" style="max-width: 780px; margin-bottom: 20px;">
+        Pilar ke-4 OOP: Menyembunyikan kerumitan implementasi, merancang arsitektur kontrak sistem yang kuat dengan <code>abstract</code> &amp; <code>interface</code>, Multiple Interface, dan Backed Enum (PHP 8.1+).
+      </h2>
+      
+      <div class="avatar-box">
+        <div class="avatar-img">MD</div>
+        <div class="author-info">
+          <div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="author-role">Dosen Pengampu • Fakultas Sains dan Teknologi UUI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Agenda Pertemuan 7 -->
+    <div class="slide">
+      <div class="slide-tag">📍 Roadmap Pembahasan</div>
+      <h1 class="slide-title">Agenda Pertemuan 7</h1>
+      <h2 class="slide-subtitle">Topik penting arsitektur sistem enterprise yang akan kita kuasai:</h2>
+
+      <div class="grid-3">
+        <div class="card-box">
+          <div class="card-icon">🧩</div>
+          <div class="card-title">1. Filosofi Abstraction</div>
+          <div class="card-desc">Konsep menyembunyikan detail mesin yang rumit di balik antarmuka yang bersih.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">2. Abstract Class</div>
+          <div class="card-desc">Kerangka dasar setengah jadi yang tidak bisa diinstansiasi langsung via operator <code>new</code>.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">📜</div>
+          <div class="card-title">3. Interface (Kontrak)</div>
+          <div class="card-desc">Standarisasi perilaku murni tanpa data: mendefinisikan apa yang harus dibuat oleh class.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">🔗</div>
+          <div class="card-title">4. Multiple Interface</div>
+          <div class="card-desc">Menghubungkan banyak kontrak kemampuan (CAN-DO) sekaligus dalam satu class.</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">⚖️</div>
+          <div class="card-title">5. Komparasi Mendalam</div>
+          <div class="card-desc">Matriks perbandingan: Kapan memilih Abstract Class (IS-A) vs Interface (CAN-DO).</div>
+        </div>
+        <div class="card-box">
+          <div class="card-icon">📦</div>
+          <div class="card-title">6. Backed Enum (8.1)</div>
+          <div class="card-desc">Tipe data status aman dengan nilai string/int dan pattern matching bawaan.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Filosofi Abstraction -->
+    <div class="slide">
+      <div class="slide-tag">🧩 Pilar 4 OOP</div>
+      <h1 class="slide-title">Filosofi Abstraction: Menyembunyikan Kompleksitas</h1>
+      <h2 class="slide-subtitle">Fokus pada <em>APA</em> yang dapat dilakukan objek, bukan <em>BAGAIMANA</em> cara mesin melakukannya di dalam:</h2>
+
+      <div class="grid-2">
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <div class="card-title">🚗 Analogi Pedal Mobil:</div>
+          <div class="card-desc">
+            • <strong>Antarmuka Sederhana:</strong> Pengemudi cukup menekan pedal gas untuk melaju dan pedal rem untuk berhenti.<br><br>
+            • <strong>Kompleksitas Internal Tersembunyi:</strong> Injeksi bahan bakar, pembakaran piston silinder, dan putaran transmisi girbox berjalan otomatis tanpa perlu dipikirkan oleh pengemudi.
+          </div>
+        </div>
+
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <div class="card-title">📺 Analogi Remote TV:</div>
+          <div class="card-desc">
+            • <strong>Antarmuka Sederhana:</strong> Pengguna cukup menekan tombol Power, Volume Up, atau Pindah Channel.<br><br>
+            • <strong>Kompleksitas Internal Tersembunyi:</strong> Pemrosesan sinyal inframerah / frekuensi radio, decoding data digital, dan pencahayaan panel LED.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Abstract Class & Method -->
+    <div class="slide">
+      <div class="slide-tag">🏛️ Kerangka Cetak Biru</div>
+      <h1 class="slide-title">Abstract Class &amp; Abstract Method</h1>
+      <h2 class="slide-subtitle">Class induk yang mewajibkan seluruh subclass untuk mengimplementasikan method tertentu:</h2>
+
+      <pre><code><span class="code-comment">// Abstract Class: Tidak bisa diinstansiasi ($obj = new BangunDatar() -> ERROR)</span>
+<span class="code-keyword">abstract class</span> <span class="code-class">BangunDatar</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(<span class="code-keyword">protected string</span> <span class="code-var">$nama</span>) {}
+
+    <span class="code-comment">// Concrete Method: Sudah memiliki isi fungsional</span>
+    <span class="code-keyword">public function</span> <span class="code-func">getNama</span>(): <span class="code-keyword">string</span> { <span class="code-keyword">return</span> <span class="code-var">$this</span>-&gt;nama; }
+
+    <span class="code-comment">// Abstract Methods: WAJIB diisi rumus oleh subclass</span>
+    <span class="code-keyword">abstract public function</span> <span class="code-func">hitungLuas</span>(): <span class="code-keyword">float</span>;
+    <span class="code-keyword">abstract public function</span> <span class="code-func">hitungKeliling</span>(): <span class="code-keyword">float</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">Persegi</span> <span class="code-keyword">extends</span> <span class="code-class">BangunDatar</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">__construct</span>(<span class="code-keyword">private float</span> <span class="code-var">$sisi</span>) { <span class="code-keyword">parent</span>::<span class="code-func">__construct</span>(<span class="code-str">"Persegi"</span>); }
+    <span class="code-keyword">public function</span> <span class="code-func">hitungLuas</span>(): <span class="code-keyword">float</span> { <span class="code-keyword">return</span> <span class="code-var">$this</span>-&gt;sisi ** <span class="code-num">2</span>; }
+    <span class="code-keyword">public function</span> <span class="code-func">hitungKeliling</span>(): <span class="code-keyword">float</span> { <span class="code-keyword">return</span> <span class="code-num">4</span> * <span class="code-var">$this</span>-&gt;sisi; }
+}</code></pre>
+    </div>
+
+    <!-- Slide 5: Interface di PHP -->
+    <div class="slide">
+      <div class="slide-tag">📜 Standarisasi Kontrak</div>
+      <h1 class="slide-title">Interface (Kontrak Murni)</h1>
+      <h2 class="slide-subtitle">Mendefinisikan daftar method yang WAJIB dimiliki class tanpa membawa data properti:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre><code><span class="code-comment">// Deklarasi Interface</span>
+<span class="code-keyword">interface</span> <span class="code-class">NotifikasiInterface</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">kirim</span>(<span class="code-keyword">string</span> <span class="code-var">$ke</span>, <span class="code-keyword">string</span> <span class="code-var">$pesan</span>): <span class="code-keyword">bool</span>;
+}
+
+<span class="code-comment">// Implementasi oleh Class</span>
+<span class="code-keyword">class</span> <span class="code-class">EmailNotifikasi</span> <span class="code-keyword">implements</span> <span class="code-class">NotifikasiInterface</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">kirim</span>(<span class="code-keyword">string</span> <span class="code-var">$ke</span>, <span class="code-keyword">string</span> <span class="code-var">$pesan</span>): <span class="code-keyword">bool</span> {
+        <span class="code-keyword">echo</span> <span class="code-str">"📧 Kirim Email ke {$ke}: '{$pesan}'\n"</span>;
+        <span class="code-keyword">return true</span>;
+    }
+}</code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <div class="card-title">Ciri Khas Interface di PHP:</div>
+          <div class="card-desc">
+            1. Menggunakan kata kunci <code>interface</code> dan dihubungkan dengan <code>implements</code>.<br>
+            2. Semua method di dalamnya otomatis bersifat <code>public abstract</code>.<br>
+            3. Tidak boleh memiliki properti biasa (hanya boleh konstanta <code>const</code>).<br>
+            4. Tidak memiliki constructor.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Multiple Interface Implementation -->
+    <div class="slide">
+      <div class="slide-tag">🔗 Kontrak Ganda</div>
+      <h1 class="slide-title">Multiple Interface Implementation</h1>
+      <h2 class="slide-subtitle">Satu class di PHP dapat mengimplementasikan banyak interface sekaligus:</h2>
+
+      <pre><code><span class="code-keyword">interface</span> <span class="code-class">KirimPesan</span> { <span class="code-keyword">public function</span> <span class="code-func">kirim</span>(<span class="code-keyword">string</span> <span class="code-var">$teks</span>): <span class="code-keyword">void</span>; }
+<span class="code-keyword">interface</span> <span class="code-class">LogAudit</span>   { <span class="code-keyword">public function</span> <span class="code-func">catatWaktu</span>(): <span class="code-keyword">void</span>; }
+<span class="code-keyword">interface</span> <span class="code-class">Enkripsi</span>   { <span class="code-keyword">public function</span> <span class="code-func">enkripsiData</span>(): <span class="code-keyword">string</span>; }
+
+<span class="code-comment">// Menggabungkan 3 kontrak kemampuan sekaligus:</span>
+<span class="code-keyword">class</span> <span class="code-class">WhatsAppService</span> <span class="code-keyword">implements</span> <span class="code-class">KirimPesan</span>, <span class="code-class">LogAudit</span>, <span class="code-class">Enkripsi</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">kirim</span>(<span class="code-keyword">string</span> <span class="code-var">$teks</span>): <span class="code-keyword">void</span> { <span class="code-keyword">echo</span> <span class="code-str">"📲 Pesan WA: {$teks}\n"</span>; }
+    <span class="code-keyword">public function</span> <span class="code-func">catatWaktu</span>(): <span class="code-keyword">void</span> { <span class="code-keyword">echo</span> <span class="code-str">"⏱️ Log dicatat.\n"</span>; }
+    <span class="code-keyword">public function</span> <span class="code-func">enkripsiData</span>(): <span class="code-keyword">string</span> { <span class="code-keyword">return</span> <span class="code-str">"🔐 SHA-256 Encrypted"</span>; }
+}</code></pre>
+    </div>
+
+    <!-- Slide 7: Perbandingan Abstract Class vs Interface -->
+    <div class="slide">
+      <div class="slide-tag">⚖️ Panduan Keputusan Desain</div>
+      <h1 class="slide-title">Abstract Class vs Interface</h1>
+      <h2 class="slide-subtitle">Matriks komparasi untuk menentukan arsitektur yang tepat:</h2>
+
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Kriteria</th>
+            <th>Abstract Class</th>
+            <th>Interface</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Kata Kunci</strong></td>
+            <td><code>abstract class</code> &amp; <code>extends</code></td>
+            <td><code>interface</code> &amp; <code>implements</code></td>
+          </tr>
+          <tr>
+            <td><strong>Jumlah Implementasi</strong></td>
+            <td>❌ Single Inheritance (Hanya 1 parent)</td>
+            <td>✅ Multiple (Bisa banyak interface)</td>
+          </tr>
+          <tr>
+            <td><strong>Properti / State</strong></td>
+            <td>✅ Bebas (<code>public, protected, private</code>)</td>
+            <td>❌ Hanya konstanta (<code>const</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Isi Method</strong></td>
+            <td>Campuran (Bisa konkret + abstract)</td>
+            <td>Murni deklarasi tanpa isi tubuh</td>
+          </tr>
+          <tr>
+            <td><strong>Constructor</strong></td>
+            <td>✅ Bisa memiliki <code>__construct()</code></td>
+            <td>❌ Tidak boleh ada constructor</td>
+          </tr>
+          <tr>
+            <td><strong>Filosofi Relasi</strong></td>
+            <td><strong>IS-A</strong> (Keluarga biologis objek)</td>
+            <td><strong>CAN-DO</strong> (Sertifikasi keahlian/perilaku)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Slide 8: Backed Enum di PHP 8.1+ -->
+    <div class="slide">
+      <div class="slide-tag">📦 Fitur Modern PHP 8.1</div>
+      <h1 class="slide-title">Backed Enum untuk Tipe Data Aman</h1>
+      <h2 class="slide-subtitle">Menghindari kesalahan pengetikan string (*magic strings*) pada status aplikasi:</h2>
+
+      <pre><code><span class="code-keyword">enum</span> <span class="code-class">StatusPesanan</span>: <span class="code-keyword">string</span> {
+    <span class="code-keyword">case</span> PENDING = <span class="code-str">'Menunggu Pembayaran'</span>;
+    <span class="code-keyword">case</span> PROSES  = <span class="code-str">'Sedang Dikemas'</span>;
+    <span class="code-keyword">case</span> KIRIM   = <span class="code-str">'Dalam Pengiriman'</span>;
+    <span class="code-keyword">case</span> SELESAI = <span class="code-str">'Pesanan Diterima'</span>;
+
+    <span class="code-keyword">public function</span> <span class="code-func">getIcon</span>(): <span class="code-keyword">string</span> {
+        <span class="code-keyword">return match</span>(<span class="code-var">$this</span>) {
+            <span class="code-keyword">self</span>::PENDING =&gt; <span class="code-str">"⏳"</span>,
+            <span class="code-keyword">self</span>::PROSES  =&gt; <span class="code-str">"📦"</span>,
+            <span class="code-keyword">self</span>::KIRIM   =&gt; <span class="code-str">"🚚"</span>,
+            <span class="code-keyword">self</span>::SELESAI =&gt; <span class="code-str">"✅"</span>,
+        };
+    }
+}
+
+<span class="code-var">$status</span> = <span class="code-class">StatusPesanan</span>::KIRIM;
+<span class="code-keyword">echo</span> <span class="code-var">$status</span>-&gt;<span class="code-func">getIcon</span>() . <span class="code-str">" "</span> . <span class="code-var">$status</span>-&gt;value; <span class="code-comment">// 🚚 Dalam Pengiriman</span></code></pre>
+    </div>
+
+    <!-- Slide 9: Studi Kasus Multi-Channel Notification -->
+    <div class="slide">
+      <div class="slide-tag">🔔 Praktikum Terbimbing</div>
+      <h1 class="slide-title">Studi Kasus: Sistem Notifikasi Kampus</h1>
+      <h2 class="slide-subtitle">Menerapkan interface notifikasi terstandar untuk Email, SMS, dan WhatsApp:</h2>
+
+      <div class="grid-2">
+        <div>
+          <pre style="font-size: 0.8rem;"><code><span class="code-keyword">interface</span> <span class="code-class">ChannelNotifikasi</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">kirimNotifikasi</span>(<span class="code-keyword">string</span> <span class="code-var">$target</span>, <span class="code-keyword">string</span> <span class="code-var">$judul</span>): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">PusatPemberitahuan</span> {
+    <span class="code-keyword">public function</span> <span class="code-func">broadcast</span>(<span class="code-class">ChannelNotifikasi</span> <span class="code-var">$ch</span>, <span class="code-keyword">string</span> <span class="code-var">$target</span>, <span class="code-keyword">string</span> <span class="code-var">$msg</span>): <span class="code-keyword">void</span> {
+        <span class="code-var">$ch</span>-&gt;<span class="code-func">kirimNotifikasi</span>(<span class="code-var">$target</span>, <span class="code-var">$msg</span>);
+    }
+}</code></pre>
+        </div>
+
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <div class="card-title">Mengapa Pendekatan Ini Sangat Tangguh?</div>
+          <div class="card-desc">
+            • Jika kampus ingin menambah channel notifikasi baru (misal: <em>Telegram Bot</em> atau <em>Push Notification</em>), cukup buat class baru <code>implements ChannelNotifikasi</code>.<br><br>
+            • Class <code>PusatPemberitahuan</code> tetap utuh tanpa perlu diedit ulang!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Kesimpulan & Menuju UTS -->
+    <div class="slide cover-slide">
+      <span class="cover-badge" style="background: #ecfdf5; border-color: rgba(16, 185, 129, 0.4); color: #059669;">
+        🎯 TUNTAS 4 PILAR OOP (PERTEMUAN 1 - 7)
+      </span>
+      <h1 class="slide-title" style="font-size: 2.8rem;">Menghadapi UTS Minggu Depan</h1>
+      <h2 class="slide-subtitle" style="max-width: 720px; margin-bottom: 24px;">
+        "Kombinasi 4 Pilar (Encapsulation, Inheritance, Polymorphism, Abstraction) adalah fondasi mutlak seorang Software Engineer profesional."
+      </h2>
+
+      <div class="card-box" style="max-width: 650px; text-align: left; margin: 0 auto 24px auto;">
+        <div class="card-title" style="color: #4f46e5;">📋 Persiapan Ujian Tengah Semester (UTS):</div>
+        <div class="card-desc">
+          • <strong>Materi Ujian:</strong> Pertemuan 1 s/d 7 (Konsep OOP, Class/Object, Constructor, Encapsulation, Inheritance, Polymorphism, Abstract &amp; Interface).<br>
+          • <strong>Bentuk Ujian:</strong> Teori Pemahaman Konsep + Praktikum Coding Studi Kasus Mandiri.
+        </div>
+      </div>
+
+      <div style="font-size: 0.9rem; color: var(--text-muted);">
+        Modul Lengkap: <strong>https://mahendaruui.github.io/Perkuliahan/pemrograman-oop-php/interface-abstract</strong>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer>
+    <div class="key-hint">
+      Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> | Layar Penuh: <kbd>F</kbd>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-nav secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const slideIndicator = document.getElementById('slideIndicator');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Presentation Timer (Global Scope - Persists across slide transitions)
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+    const timerElement = document.getElementById('presentationTimer');
+
+    function formatTime(totalSec) {
+      const mins = Math.floor(totalSec / 60);
+      const secs = totalSec % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${formatTime(timerSeconds)}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (!timerRunning) {
+          timerElement.classList.add('paused');
+          timerElement.title = "Timer Dijeda (Klik: Lanjut, Dobel Klik: Reset)";
+        } else {
+          timerElement.classList.remove('paused');
+          timerElement.title = "Timer Berjalan (Klik: Jeda, Dobel Klik: Reset)";
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove('paused');
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener('click', toggleTimer);
+      timerElement.addEventListener('dblclick', resetTimer);
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        if (index === currentSlide) {
+          slide.classList.add('active');
+        }
+      });
+
+      // Update indicator & progress
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update button states
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? 'Selesai 🏁' : 'Selanjutnya ▶';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Home') {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    // Touch navigation for mobile/tablet
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // Initial render & timer start
+    updateSlide();
+    startTimer();
+  </script>
+</body>
+</html>

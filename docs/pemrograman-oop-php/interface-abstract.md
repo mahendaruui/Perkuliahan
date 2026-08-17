@@ -1,30 +1,54 @@
-# Minggu 7: Abstraction (Interface dan Abstract Class)
+# Minggu 7: Abstraction (Interface & Abstract Class) di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah menyelesaikan materi ini, mahasiswa mampu:
-1. Mendefinisikan dan menerapkan **Abstract Class** dan **Abstract Method**.
-2. Mendefinisikan dan mengimplementasikan **Interface** dengan `implements`.
-3. Membedakan kapan menggunakan Abstract Class vs Interface.
-4. Mengimplementasikan **Multiple Interface**.
+1. Memahami konsep **Abstraction** sebagai pilar ke-4 OOP (Menyembunyikan detail teknis yang rumit).
+2. Mendeklarasikan dan menerapkan **Abstract Class** dan **Abstract Method** menggunakan kata kunci `abstract`.
+3. Merancang kontrak sistem murni menggunakan **Interface** dan kata kunci `implements`.
+4. Mengimplementasikan **Multiple Interfaces** pada sebuah Class di PHP.
+5. Membedakan secara tajam kapan harus menggunakan *Abstract Class* (IS-A) vs *Interface* (CAN-DO).
+6. Menggunakan fitur modern **Backed Enum (PHP 8.1+)** untuk tipe data status yang *type-safe*.
+
+> [!TIP]
+> 📽️ **Slide Presentasi Perkuliahan:** Anda dapat melihat dan memutar [Slide Interaktif Pertemuan 7 PHP](/presentasi/pertemuan-7-php) atau [Buka Layar Penuh (Tab Baru)](/Perkuliahan/presentasi/pertemuan-7-interface-abstract-php.html){target="_blank"}.
 
 ---
 
-## 1. Abstract Class
+## 1. Filosofi Abstraction: Menyembunyikan Kompleksitas
+
+```mermaid
+flowchart LR
+    User["👨‍💻 Pengemudi (Client Code)"]
+    Pedal["🕹️ Antarmuka Abstrak:<br>• tekanGas()<br>• tekanRem()"]
+    Mesin["⚙️ Rincian Internal Rumit:<br>• Injeksi BBM<br>• Pembakaran Silinder<br>• Putaran Transmisi"]
+
+    User -->|Hanya Mengoperasikan| Pedal
+    Pedal -.->|Mengatur Otomatis| Mesin
+```
+
+**Abstraction (Abstraksi)** adalah teknik menyembunyikan detail implementasi internal yang rumit dan hanya menyajikan fitur atau antarmuka penting kepada pengguna kode (*Client Code*).
+
+---
+
+## 2. Abstract Class & Abstract Method
+
+**Abstract Class** adalah class induk setengah jadi yang **tidak dapat diinstansiasi langsung** (`new`). Class ini bertindak sebagai kerangka wajib yang harus disempurnakan oleh subclass-nya.
 
 ```php
 <?php
+declare(strict_types=1);
 
 abstract class BangunDatar
 {
     public function __construct(protected string $nama) {}
 
-    // Concrete method (punya implementasi)
-    public function info(): void
+    // Concrete Method (Sudah ada kode fungsinya)
+    public function getNama(): string
     {
-        echo "Bangun datar: {$this->nama}\n";
+        return $this->nama;
     }
 
-    // Abstract method (WAJIB diimplementasikan subclass)
+    // Abstract Method: Subclass WAJIB membuat rumus perhitungannya
     abstract public function hitungLuas(): float;
     abstract public function hitungKeliling(): float;
 }
@@ -38,7 +62,7 @@ class Lingkaran extends BangunDatar
 
     public function hitungLuas(): float
     {
-        return M_PI * $this->jariJari ** 2;
+        return M_PI * ($this->jariJari ** 2);
     }
 
     public function hitungKeliling(): float
@@ -46,123 +70,94 @@ class Lingkaran extends BangunDatar
         return 2 * M_PI * $this->jariJari;
     }
 }
+```
 
-class Persegi extends BangunDatar
+---
+
+## 3. Interface: Kontrak Murni Perilaku
+
+**Interface** adalah kontrak antarmuka murni tanpa properti data dan tanpa implementasi method (semua method otomatis bersifat *public abstract*):
+
+```php
+<?php
+
+interface NotifikasiInterface
 {
-    public function __construct(private float $sisi)
+    public function kirim(string $tujuan, string $pesan): bool;
+}
+
+interface LoggableInterface
+{
+    public function catatLog(string $aktivitas): void;
+}
+
+// Implementasi Multiple Interface
+class WhatsAppNotifikasi implements NotifikasiInterface, LoggableInterface
+{
+    public function kirim(string $tujuan, string $pesan): bool
     {
-        parent::__construct("Persegi");
+        echo "📲 Mengirim WhatsApp ke {$tujuan}: '{$pesan}'\n";
+        $this->catatLog("Pesan WA terkirim ke {$tujuan}");
+        return true;
     }
 
-    public function hitungLuas(): float
+    public function catatLog(string $aktivitas): void
     {
-        return $this->sisi ** 2;
-    }
-
-    public function hitungKeliling(): float
-    {
-        return 4 * $this->sisi;
+        echo "📝 [LOG] {$aktivitas}\n";
     }
 }
 ```
 
 ---
 
-## 2. Interface
+## 4. Matriks Perbandingan: Abstract Class vs Interface
 
-**Interface** mendefinisikan kontrak — semua method yang harus diimplementasikan oleh class yang meng-`implements`:
-
-```php
-<?php
-
-interface Pembayaran
-{
-    public function bayar(float $nominal): void;
-    public function cetakBukti(): string;
-}
-
-interface NotifikasiSMS
-{
-    public function kirimSMS(string $nomorHp, string $pesan): void;
-}
-```
-
-### Multiple Interface Implementation:
-
-```php
-<?php
-
-class TransaksiECommerce implements Pembayaran, NotifikasiSMS
-{
-    public function __construct(private string $idPesanan) {}
-
-    public function bayar(float $nominal): void
-    {
-        echo "Pesanan {$this->idPesanan} dibayar Rp " . number_format($nominal) . "\n";
-    }
-
-    public function cetakBukti(): string
-    {
-        return "Bukti pembayaran order: {$this->idPesanan}";
-    }
-
-    public function kirimSMS(string $nomorHp, string $pesan): void
-    {
-        echo "SMS ke {$nomorHp}: {$pesan}\n";
-    }
-}
-```
-
----
-
-## 3. Perbandingan Abstract Class vs Interface
-
-| Kriteria | Abstract Class | Interface |
+| Kriteria Analisis | Abstract Class | Interface |
 | :--- | :--- | :--- |
 | **Kata Kunci** | `abstract class` + `extends` | `interface` + `implements` |
-| **Multiple** | ❌ (hanya 1 parent) | ✅ (bisa banyak interface) |
-| **Properti** | Bisa punya properti biasa | Hanya konstanta (`const`) |
-| **Method** | Campuran (abstract + concrete) | Semua abstract (kecuali `default` method) |
-| **Constructor** | ✅ Bisa punya | ❌ Tidak bisa |
-| **Tujuan** | Berbagi kode + kontrak (IS-A) | Kontrak perilaku murni (CAN-DO) |
+| **Pewarisan Ganda** | ❌ Hanya bisa mewarisi 1 parent | ✅ Bisa mengimplementasikan banyak interface |
+| **Properti & State** | ✅ Bisa punya properti (`public/protected/private`) | ❌ Hanya konstanta (`const`) |
+| **Isi Method** | Campuran (Ada yang konkrit & abstract) | Murni deklarasi signature method |
+| **Constructor** | ✅ Bisa memiliki `__construct()` | ❌ Tidak boleh memiliki constructor |
+| **Hubungan Konseptual** | **IS-A** (Hubungan kekeluargaan erat) | **CAN-DO** (Kontrak kemampuan/perilaku) |
 
 ---
 
-## 4. Enum (PHP 8.1+)
+## 5. Backed Enum di PHP 8.1+
 
-PHP 8.1 memperkenalkan **Enum** — tipe data yang membatasi nilai ke sekumpulan opsi:
+PHP 8.1 menghadirkan **Backed Enum** yang sangat cocok dikombinasikan dengan arsitektur interface untuk menjamin integritas status:
 
 ```php
 <?php
 
-enum StatusPesanan: string
+enum StatusPengiriman: string
 {
-    case Pending = 'pending';
-    case Diproses = 'diproses';
-    case Dikirim = 'dikirim';
-    case Selesai = 'selesai';
+    case PENDING = 'Menunggu Pembayaran';
+    case PROCESSED = 'Sedang Dikemas';
+    case SHIPPED = 'Dalam Pengiriman Kurir';
+    case DELIVERED = 'Paket Diterima';
 
-    public function label(): string
+    public function icon(): string
     {
         return match($this) {
-            self::Pending => '⏳ Menunggu',
-            self::Diproses => '🔄 Sedang Diproses',
-            self::Dikirim => '🚚 Dalam Pengiriman',
-            self::Selesai => '✅ Selesai',
+            self::PENDING => '⏳',
+            self::PROCESSED => '📦',
+            self::SHIPPED => '🚚',
+            self::DELIVERED => '✅',
         };
     }
 }
 
-$status = StatusPesanan::Dikirim;
-echo $status->label(); // 🚚 Dalam Pengiriman
+$status = StatusPengiriman::SHIPPED;
+echo $status->icon() . " Status: " . $status->value; // 🚚 Status: Dalam Pengiriman Kurir
 ```
 
 ---
 
-## 📝 Tugas Praktikum
+## 📝 Tugas Praktikum Mandiri (Persiapan UTS)
 
-1. Buat interface `BisaTerbang` (method `terbang()`) dan `BisaBerenang` (method `berenang()`).
-2. Buat abstract class `Hewan` dengan properti `$nama` dan abstract method `makan()`.
-3. Buat class `Bebek` yang extends `Hewan` dan implements `BisaTerbang, BisaBerenang`.
-4. Buat class `Penguin` yang extends `Hewan` dan hanya implements `BisaBerenang`.
-5. Buat Enum `JenisHewan` dengan case `Domestik`, `Liar`, `Langka`.
+1. Buat interface `BisaTerbang` (method `terbang(): string`) dan `BisaBerenang` (method `berenang(): string`).
+2. Buat abstract class `Hewan` dengan properti protected `$nama` dan abstract method `bersuara(): string`.
+3. Buat class `Bebek` yang mewarisi `Hewan` dan mengimplementasikan `BisaTerbang` serta `BisaBerenang`.
+4. Buat class `Penguin` yang mewarisi `Hewan` dan hanya mengimplementasikan `BisaBerenang`.
+5. Uji seluruh class dalam skrip `main.php` untuk memvalidasi kontrak interface polimorfik!
