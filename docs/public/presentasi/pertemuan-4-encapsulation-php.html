@@ -7,21 +7,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
+    <style>
     :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --primary-light: #eef2ff;
-      --secondary: #0ea5e9;
-      --dark-bg: #0f172a;
-      --dark-card: #1e293b;
-      --dark-text: #f8fafc;
-      --dark-muted: #94a3b8;
-      --border: #334155;
-      --accent-green: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-purple: #a855f7;
-      --accent-pink: #ec4899;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-pink: #db2777;
     }
 
     * {
@@ -32,8 +34,8 @@
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--dark-bg);
-      color: var(--dark-text);
+      background-color: var(--bg-page);
+      color: var(--text-main);
       overflow: hidden;
       height: 100vh;
       width: 100vw;
@@ -42,15 +44,17 @@
       user-select: none;
     }
 
+    /* Top Navigation Bar */
     header {
       padding: 12px 24px;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .brand {
@@ -69,15 +73,16 @@
       font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: -0.02em;
+      color: #0f172a;
     }
 
     .brand-text span {
-      color: #818cf8;
+      color: #4f46e5;
     }
 
     .brand-sub {
       font-size: 0.75rem;
-      color: var(--dark-muted);
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -88,9 +93,9 @@
     }
 
     .btn-icon {
-      background: var(--dark-card);
-      border: 1px solid var(--border);
-      color: var(--dark-text);
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
       padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -100,17 +105,18 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     }
 
     .btn-icon:hover {
-      background: #273549;
-      border-color: #475569;
+      background: #f1f5f9;
+      border-color: #94a3b8;
     }
 
     .slide-badge {
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      color: #a5b4fc;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 0.8rem;
@@ -118,6 +124,7 @@
       font-family: 'Fira Code', monospace;
     }
 
+    /* Presentation Main Stage */
     main {
       flex: 1;
       position: relative;
@@ -133,7 +140,7 @@
       width: 92%;
       max-width: 1200px;
       height: 85%;
-      background: var(--dark-card);
+      background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 48px;
@@ -144,7 +151,7 @@
       transform: scale(0.95) translateY(20px);
       pointer-events: none;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
       overflow-y: auto;
     }
 
@@ -155,13 +162,14 @@
       z-index: 10;
     }
 
+    /* Slide Content Typography */
     .slide-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       font-size: 0.85rem;
       font-weight: 700;
-      color: #818cf8;
+      color: #4f46e5;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 12px;
@@ -173,19 +181,20 @@
       line-height: 1.15;
       letter-spacing: -0.03em;
       margin-bottom: 16px;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0f172a;
+      background: none;
+      -webkit-text-fill-color: initial;
     }
 
     h2.slide-subtitle {
       font-size: 1.25rem;
       font-weight: 500;
-      color: var(--dark-muted);
-      margin-bottom: 28px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
       line-height: 1.5;
     }
 
+    /* Grid Layouts */
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -200,8 +209,16 @@
       margin-top: 16px;
     }
 
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    /* Card Box */
     .card-box {
-      background: rgba(15, 23, 42, 0.6);
+      background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 24px;
@@ -209,7 +226,8 @@
     }
 
     .card-box:hover {
-      border-color: rgba(99, 102, 241, 0.4);
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
       transform: translateY(-2px);
     }
 
@@ -221,16 +239,17 @@
     .card-title {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #ffffff;
+      color: #0f172a;
       margin-bottom: 8px;
     }
 
     .card-desc {
       font-size: 0.9rem;
-      color: var(--dark-muted);
+      color: #475569;
       line-height: 1.6;
     }
 
+    /* Custom Badges */
     .badge {
       display: inline-block;
       padding: 4px 10px;
@@ -239,44 +258,49 @@
       font-weight: 700;
       margin-bottom: 8px;
     }
-    .badge-php { background: rgba(99, 102, 241, 0.25); color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4); }
-    .badge-blue { background: rgba(14, 165, 233, 0.2); color: #38bdf8; }
-    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+    .badge-php { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .badge-blue { background: #e0f2fe; color: #0369a1; }
+    .badge-green { background: #d1fae5; color: #047857; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+    .badge-amber { background: #fef3c7; color: #b45309; }
+    .badge-pink { background: #fce7f3; color: #be185d; }
 
+    /* Tables */
     .custom-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 16px;
       border-radius: 10px;
       overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
 
     .custom-table th {
-      background: rgba(30, 41, 59, 0.9);
-      color: #ffffff;
+      background: #f1f5f9;
+      color: #0f172a;
       padding: 12px 16px;
       font-size: 0.9rem;
       text-align: left;
       font-weight: 700;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 2px solid var(--border-dark);
     }
 
     .custom-table td {
       padding: 12px 16px;
       font-size: 0.88rem;
-      color: #cbd5e1;
-      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
-      background: rgba(15, 23, 42, 0.4);
+      color: #334155;
+      border-bottom: 1px solid var(--border);
+      background: #ffffff;
     }
 
     .custom-table tr:hover td {
-      background: rgba(30, 41, 59, 0.6);
+      background: #f8fafc;
     }
 
+    /* Code Block (High contrast syntax block) */
     pre {
-      background: #090d16;
+      background: #0f172a;
       border: 1px solid #1e293b;
       border-radius: 12px;
       padding: 18px;
@@ -284,34 +308,37 @@
       font-family: 'Fira Code', monospace;
       font-size: 0.88rem;
       line-height: 1.6;
-      color: #e2e8f0;
+      color: #f8fafc;
       margin-top: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    .code-keyword { color: #f43f5e; font-weight: 600; }
+    .code-keyword { color: #fb7185; font-weight: 600; }
     .code-class { color: #38bdf8; font-weight: 600; }
-    .code-func { color: #a78bfa; }
-    .code-str { color: #34d399; }
-    .code-var { color: #fbbf24; }
-    .code-num { color: #f59e0b; }
-    .code-comment { color: #64748b; font-style: italic; }
+    .code-func { color: #c084fc; }
+    .code-str { color: #4ade80; }
+    .code-var { color: #fde047; }
+    .code-num { color: #fb923c; }
+    .code-comment { color: #94a3b8; font-style: italic; }
 
+    /* Footer & Controls */
     footer {
       padding: 14px 24px;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 100;
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.03);
     }
 
     .progress-container {
       flex: 1;
       max-width: 400px;
       height: 6px;
-      background: #334155;
+      background: #e2e8f0;
       border-radius: 3px;
       overflow: hidden;
       margin: 0 20px;
@@ -320,7 +347,7 @@
     .progress-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #6366f1, #818cf8);
+      background: linear-gradient(90deg, #4f46e5, #6366f1);
       transition: width 0.3s ease;
     }
 
@@ -342,6 +369,7 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
     }
 
     .btn-nav:hover {
@@ -350,13 +378,14 @@
     }
 
     .btn-nav.secondary {
-      background: var(--dark-card);
-      border: 1px solid var(--border);
-      color: var(--dark-text);
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     }
 
     .btn-nav.secondary:hover {
-      background: #273549;
+      background: #f8fafc;
     }
 
     .btn-nav:disabled {
@@ -367,10 +396,11 @@
 
     .key-hint {
       font-size: 0.75rem;
-      color: var(--dark-muted);
+      color: var(--text-muted);
       font-family: 'Fira Code', monospace;
     }
 
+    /* Cover Slide */
     .cover-slide {
       text-align: center;
       align-items: center;
@@ -378,9 +408,9 @@
     }
 
     .cover-badge {
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.4);
-      color: #a5b4fc;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
       padding: 6px 16px;
       border-radius: 30px;
       font-weight: 700;
@@ -394,17 +424,19 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      background: rgba(15, 23, 42, 0.7);
+      background: #f8fafc;
       padding: 12px 24px;
       border-radius: 50px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .avatar-img {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #4f5b93, #6366f1);
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -418,11 +450,11 @@
     .author-name {
       font-weight: 700;
       font-size: 1rem;
-      color: #ffffff;
+      color: #0f172a;
     }
     .author-role {
       font-size: 0.8rem;
-      color: var(--dark-muted);
+      color: var(--text-muted);
     }
   </style>
 </head>
@@ -774,7 +806,7 @@
 
     <!-- Slide 10: Kesimpulan & Tugas Mandiri -->
     <div class="slide cover-slide">
-      <span class="cover-badge" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+      <span class="cover-badge" style="background: #ecfdf5; border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
         ✅ SELESAI PERTEMUAN 4
       </span>
       <h1 class="slide-title" style="font-size: 2.8rem;">Kesimpulan &amp; Latihan</h1>
@@ -792,7 +824,7 @@
         </div>
       </div>
 
-      <div style="font-size: 0.9rem; color: var(--dark-muted);">
+      <div style="font-size: 0.9rem; color: var(--text-muted);">
         Modul Lengkap: <strong>https://mahendaruui.github.io/Perkuliahan/pemrograman-oop-php/encapsulation</strong>
       </div>
     </div>

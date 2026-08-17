@@ -7,25 +7,25 @@ footer: 'Mahendar Dwi Payana, S.ST., M.T. • Universitas Ubudiyah Indonesia'
 style: |
   section {
     background-color: #0f172a;
-    color: #f8fafc;
+    color: #0f172a;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
   h1 {
     color: #ef4444;
   }
   h2 {
-    color: #94a3b8;
+    color: #475569;
   }
   th {
-    background-color: #1e293b;
-    color: #ffffff;
+    background-color: #e2e8f0;
+    color: #0f172a;
   }
   td {
     background-color: #0f172a;
-    color: #cbd5e1;
+    color: #334155;
   }
   code {
-    background-color: #1e293b;
+    background-color: #e2e8f0;
     color: #38bdf8;
   }
 ---
