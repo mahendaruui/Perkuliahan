@@ -113,6 +113,33 @@
       border-color: #94a3b8;
     }
 
+    
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
     .slide-badge {
       background: #eef2ff;
       border: 1px solid #c7d2fe;
@@ -470,6 +497,7 @@
       </div>
     </div>
     <div class="header-controls">
+      <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
       <span class="slide-badge" id="slideIndicator">SLIDE 1 / 10</span>
       <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
     </div>
@@ -909,7 +937,7 @@
     </div>
   </footer>
 
-  <script>
+    <script>
     const slides = document.querySelectorAll('.slide');
     const slideIndicator = document.getElementById('slideIndicator');
     const progressBar = document.getElementById('progressBar');
@@ -918,6 +946,57 @@
 
     let currentSlide = 0;
     const totalSlides = slides.length;
+
+    // Presentation Timer (Global Scope - Persists across slide transitions)
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+    const timerElement = document.getElementById('presentationTimer');
+
+    function formatTime(totalSec) {
+      const mins = Math.floor(totalSec / 60);
+      const secs = totalSec % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${formatTime(timerSeconds)}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (!timerRunning) {
+          timerElement.classList.add('paused');
+          timerElement.title = "Timer Dijeda (Klik: Lanjut, Dobel Klik: Reset)";
+        } else {
+          timerElement.classList.remove('paused');
+          timerElement.title = "Timer Berjalan (Klik: Jeda, Dobel Klik: Reset)";
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove('paused');
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener('click', toggleTimer);
+      timerElement.addEventListener('dblclick', resetTimer);
+    }
 
     function updateSlide() {
       slides.forEach((slide, index) => {
@@ -984,7 +1063,7 @@
       }
     });
 
-    // Touch swipe support for mobile/tablet
+    // Touch navigation for mobile/tablet
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -1002,8 +1081,9 @@
       }
     });
 
-    // Initial render
+    // Initial render & timer start
     updateSlide();
+    startTimer();
   </script>
 </body>
 </html>
