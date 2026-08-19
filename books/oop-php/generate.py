@@ -694,12 +694,228 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         "Bagaimana cara mengamankan array mutasi transaksi perbankan agar tidak dapat dimodifikasi oleh kode pemanggil saat dikembalikan melalui getter (Defensive Copying)?"
     ])
 
-    builder.add_bab_title(5, "Pewarisan (Inheritance) dan Komposisi Kode Menggunakan Trait")
-    builder.add_learning_objectives("Sub-CPMK 3", ["Memahami relasi Is-A.", "Menggunakan extends dan parent::.", "Memanfaatkan Trait untuk Horizontal Code Reuse."])
-    builder.add_heading_2("5.1 Konsep Dasar Pewarisan & Trait")
-    builder.add_code("<?php\ntrait AuditLogTrait { public function log(string $msg): void { echo \"[LOG] {$msg}\\n\"; } }\nclass Pegawai { public function __construct(protected string $nip, protected string $nama) {} }\nclass Dosen extends Pegawai { use AuditLogTrait; }\n")
-    builder.add_tip("Tips Desain Pewarisan", "Hindari hierarki pewarisan yang terlalu dalam (lebih dari 3 level) guna mencegah Fragile Base Class.")
-    builder.add_summary_and_questions(["Pewarisan mendukung DRY dan Trait mengatasi batasan Single Inheritance."], ["Jelaskan kapan harus menggunakan Trait!"])
+    # =========================================================================
+    # BAB 5: PEWARISAN (INHERITANCE) DAN KOMPOSISI KODE MENGGUNAKAN TRAIT
+    # =========================================================================
+    builder.add_bab_title(5, "Pewarisan (Inheritance), Final Keyword, dan Komposisi Trait")
+    builder.add_learning_objectives("Sub-CPMK 3", [
+        "Memahami fondasi teoretis Inheritance (Pewarisan Sifat), prinsip Taksonomi 'Is-A', serta perbedaan antara Subtyping dan Code Reuse.",
+        "Mengimplementasikan pewarisan menggunakan kata kunci extends dan mengelola siklus hidup inisialisasi menggunakan parent::__construct().",
+        "Menerapkan teknik Method Overriding untuk menyesuaikan perilaku subclass seraya mempertahankan integritas antarmuka induk.",
+        "Mengendalikan dan mengamankan rancangan hierarki menggunakan kata kunci final pada class, method, dan class constants (PHP 8.1+).",
+        "Mengatasi keterbatasan Single Inheritance di PHP menggunakan Trait (Horizontal Code Reuse), mengelola resolusi konflik (insteadof dan as), serta memanfaatkan konstanta di dalam Trait (PHP 8.2+).",
+        "Menganalisis kelemahan desain hierarki (Fragile Base Class Problem) dan menerapkan prinsip 'Favor Composition over Inheritance'."
+    ])
+
+    builder.add_heading_2("5.1 Filosofi dan Fondasi Teoretis Pewarisan")
+    builder.add_paragraph(
+        "Dalam rekayasa perangkat lunak berorientasi objek, Pewarisan (Inheritance) merupakan pilar kedua yang memungkinkan suatu class baru (Subclass / Child Class) mengadopsi seluruh atribut (state) dan method (behavior) yang telah didefinisikan pada class yang sudah ada sebelumnya (Superclass / Parent Class)."
+    )
+    builder.add_paragraph(
+        "Relasi pewarisan mencerminkan hubungan taksonomi 'Is-A' (Adalah Seorang / Adalah Sebuah): Dosen adalah seorang Sivitas Akademika, Mahasiswa adalah seorang Sivitas Akademika, dan Mobil Listrik adalah sebuah Kendaraan Bermotor. Melalui pewarisan, atribut dan perilaku umum yang berlaku untuk seluruh anggota taksonomi (seperti nomor identitas, nama lengkap, dan email) cukup dituliskan satu kali pada superclass. Hal ini secara langsung mewujudkan prinsip DRY (Don't Repeat Yourself) dan mempermudah pemeliharaan sistem."
+    )
+    builder.add_paragraph(
+        "Namun, seorang arsitek perangkat lunak wajib mewaspadai fenomena Fragile Base Class Problem. Ketika pohon pewarisan dibuat terlalu dalam (misalnya lebih dari 3 atau 4 tingkat hierarki), sistem menjadi sangat rapuh: modifikasi kecil pada kode internal superclass dapat memicu kerusakan berantai (ripple effects) pada puluhan subclass di bawahnya. Oleh karena itu, standar industri merekomendasikan prinsip 'Favor Composition over Inheritance' (Utamakan Komposisi dan Trait dibandingkan Pewarisan Kelas yang Terlalu Dalam)."
+    )
+
+    builder.add_heading_2("5.2 Anatomi Pewarisan di PHP: `extends`, `parent::`, dan Method Overriding")
+    builder.add_paragraph(
+        "Di dalam PHP, proses penurunan sifat dinyatakan dengan kata kunci extends. Ketika sebuah subclass mendefinisikan constructor-nya sendiri, Zend Engine tidak secara otomatis memanggil constructor milik superclass. Oleh sebab itu, pengembang wajib memanggil constructor induk secara eksplisit menggunakan sintaks parent::__construct(...)."
+    )
+    builder.add_paragraph(
+        "Method Overriding adalah kemampuan subclass untuk menulis ulang implementasi method yang diwarisinya dari parent class agar sesuai dengan kebutuhan spesifik subclass bersangkutan, seraya tetap dapat memanggil fungsionalitas dasar parent melalui parent::namaMethod()."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Domain;\n\n"
+        "// Superclass (Parent Class)\n"
+        "class SivitasAkademika\n"
+        "{\n"
+        "    public function __construct(\n"
+        "        protected readonly string $nomorIdentitas,\n"
+        "        protected string $namaLengkap,\n"
+        "        protected string $emailKampus\n"
+        "    ) {\n"
+        "        if (empty($nomorIdentitas) || empty($namaLengkap)) {\n"
+        "            throw new \\InvalidArgumentException(\"Nomor Identitas dan Nama wajib diisi!\");\n"
+        "        }\n"
+        "    }\n\n"
+        "    public function cetakKartuIdentitas(): void {\n"
+        "        echo \"========================================\\n\";\n"
+        "        echo \"KARTU SIVITAS AKADEMIKA UUI\\n\";\n"
+        "        echo \"Nomor ID : {$this->nomorIdentitas}\\n\";\n"
+        "        echo \"Nama     : {$this->namaLengkap}\\n\";\n"
+        "        echo \"Email    : {$this->emailKampus}\\n\";\n"
+        "        echo \"Peran    : \" . static::class . \"\\n\";\n"
+        "    }\n\n"
+        "    public function hitungBantuanFasilitas(): float {\n"
+        "        return 100_000.0; // Bantuan kuota internet dasar universitas\n"
+        "    }\n"
+        "}\n\n"
+        "// Subclass Dosen (Mewarisi SivitasAkademika)\n"
+        "class Dosen extends SivitasAkademika\n"
+        "{\n"
+        "    public function __construct(\n"
+        "        string $nidn,\n"
+        "        string $namaLengkap,\n"
+        "        string $emailKampus,\n"
+        "        private string $jabatanFungsional = \"Asisten Ahli\",\n"
+        "        private int $sksMengajar = 12\n"
+        "    ) {\n"
+        "        // 1. Constructor Chaining: Inisialisasi properti parent\n"
+        "        parent::__construct($nidn, $namaLengkap, $emailKampus);\n"
+        "    }\n\n"
+        "    // 2. Method Overriding: Menyesuaikan kalkulasi tunjangan khusus dosen\n"
+        "    public function hitungBantuanFasilitas(): float {\n"
+        "        $dasar = parent::hitungBantuanFasilitas(); // Mengambil nilai Rp 100.000 dari parent\n"
+        "        $tunjanganSks = $this->sksMengajar * 50_000.0;\n"
+        "        return $dasar + $tunjanganSks;\n"
+        "    }\n\n"
+        "    public function cetakKartuIdentitas(): void {\n"
+        "        parent::cetakKartuIdentitas();\n"
+        "        echo \"Jabatan Fungsional : {$this->jabatanFungsional}\\n\";\n"
+        "        echo \"Beban Mengajar     : {$this->sksMengajar} SKS\\n\";\n"
+        "        echo \"Total Bantuan Fas. : Rp \" . number_format($this->hitungBantuanFasilitas(), 0, ',', '.') . \"\\n\";\n"
+        "        echo \"========================================\\n\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("5.3 Pengendalian Hierarki dengan Kata Kunci `final`")
+    builder.add_paragraph(
+        "Kata kunci final digunakan untuk mengunci elemen arsitektur agar tidak dapat diperluas atau diubah oleh pengembang lain. PHP mendukung tiga tingkat penguncian final:"
+    )
+    builder.add_bullet("1. final class", "Melarang class dijadikan superclass bagi class lain mana pun. Sangat berguna untuk class konfigurasi keamanan atau utilitas tertutup.")
+    builder.add_bullet("2. final method", "Melarang method tertentu di-override oleh subclass turunan. Pola ini merupakan inti dari Template Method Pattern.")
+    builder.add_bullet("3. final class constant (PHP 8.1+)", "Mencegah nilai konstanta class ditimpa (overridden) oleh subclass turunan.")
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "// Contoh final class: Terkunci rapat dari pewarisan\n"
+        "final class EnkripsiKeamananToken\n"
+        "{\n"
+        "    // PHP 8.1: final constant\n"
+        "    final public const ALGORITMA = \"AES-256-GCM\";\n"
+        "}\n\n"
+        "class AturanKelulusanProdi\n"
+        "{\n"
+        "    // final method: Rumus penentuan yudisium dilarang diutak-atik subclass\n"
+        "    final public function validasiYudisium(float $ipk, int $totalSks): bool {\n"
+        "        return $ipk >= 2.00 && $totalSks >= 144;\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("5.4 Trait: Solusi Horizontal Code Reuse di PHP")
+    builder.add_paragraph(
+        "PHP menganut model Single Inheritance (setiap class hanya boleh memiliki satu parent langsung). Keterbatasan ini sering menimbulkan kesulitan ketika kita ingin berbagi fungsionalitas umum (misalnya logging, serialisasi JSON, soft deletion) ke banyak class yang tidak berada dalam satu pohon taksonomi warisan."
+    )
+    builder.add_paragraph(
+        "Trait (diteliti oleh Scharli et al., 2003) menyediakan mekanisme Horizontal Code Reuse di mana potongan-potongan perilaku dapat disisipkan ke berbagai class independen menggunakan instruksi use."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Traits;\n\n"
+        "trait AuditLoggableTrait\n"
+        "{\n"
+        "    public function catatAudit(string $aktivitas): void {\n"
+        "        $waktu = date('Y-m-d H:i:s');\n"
+        "        echo \"[AUDIT LOG] [{$waktu}] [\" . static::class . \"] {$aktivitas}\\n\";\n"
+        "    }\n"
+        "}\n\n"
+        "trait ExportableJsonTrait\n"
+        "{\n"
+        "    public function keJson(): string {\n"
+        "        return json_encode(get_object_vars($this), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);\n"
+        "    }\n"
+        "}\n\n"
+        "// PHP 8.2+: Konstanta di dalam Trait\n"
+        "trait CacheConfigTrait\n"
+        "{\n"
+        "    public const DEFAULT_TTL = 3600; // 1 Jam\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("5.5 Resolusi Konflik Trait: `insteadof` dan `as`")
+    builder.add_paragraph(
+        "Ketika sebuah class mengimpor dua Trait berbeda yang kebetulan memiliki nama method yang sama, Zend Engine akan memicu Fatal Error akibat bentrok nama (Name Collision). PHP menyediakan operator insteadof (untuk memilih implementasi mana yang menang) dan operator as (untuk memberikan nama alias pada implementasi yang kalah):"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "trait EmailNotifierTrait {\n"
+        "    public function kirimPesan(string $teks): void {\n"
+        "        echo \"📧 Mengirim Email: {$teks}\\n\";\n"
+        "    }\n"
+        "}\n\n"
+        "trait TelegramNotifierTrait {\n"
+        "    public function kirimPesan(string $teks): void {\n"
+        "        echo \"📱 Mengirim Bot Telegram: {$teks}\\n\";\n"
+        "    }\n"
+        "}\n\n"
+        "class PusatNotifikasi\n"
+        "{\n"
+        "    use EmailNotifierTrait, TelegramNotifierTrait {\n"
+        "        // 1. Pilih TelegramNotifierTrait untuk method kirimPesan utama:\n"
+        "        TelegramNotifierTrait::kirimPesan insteadof EmailNotifierTrait;\n\n"
+        "        // 2. Beri nama alias untuk EmailNotifierTrait agar tetap dapat dipanggil:\n"
+        "        EmailNotifierTrait::kirimPesan as kirimEmail;\n"
+        "    }\n"
+        "}\n\n"
+        "$notif = new PusatNotifikasi();\n"
+        "$notif->kirimPesan(\"Server pulih kembali.\"); // Memanggil Telegram Notifier\n"
+        "$notif->kirimEmail(\"Laporan rekapitulasi.\"); // Memanggil Email Notifier\n"
+    )
+
+    builder.add_heading_2("5.6 Abstract Method di dalam Trait")
+    builder.add_paragraph(
+        "Trait juga dapat mendeklarasikan Abstract Method untuk menuntut class pengguna menyediakan method atau data tertentu agar logika internal Trait dapat berjalan dengan sempurna:"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "trait NomorSuratOtomatisTrait\n"
+        "{\n"
+        "    // Menuntut class pengguna mengembalikan kode unit\n"
+        "    abstract public function getKodeUnit(): string;\n\n"
+        "    public function buatNomorSurat(int $urutan): string {\n"
+        "        $tahun = date('Y');\n"
+        "        return sprintf(\"%04d/UUI-%s/%s\", $urutan, $this->getKodeUnit(), $tahun);\n"
+        "    }\n"
+        "}\n\n"
+        "class SuratKeputusanDekan\n"
+        "{\n"
+        "    use NomorSuratOtomatisTrait;\n\n"
+        "    public function getKodeUnit(): string {\n"
+        "        return \"FST-DEKAN\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_tip(
+        "Tips Desain Pewarisan: Pedoman Komposisi vs Pewarisan",
+        "Gunakan Pewarisan Kelas (extends) hanya jika relasi 'Is-A' terpenuhi secara murni dan tidak ada pelanggaran Liskov Substitution Principle. Untuk fungsionalitas utilitas lintas divisi yang bersifat modular (seperti logging, caching, hashing), selalu utamakan penggunaan Trait atau Dependency Injection."
+    )
+
+    builder.add_summary_and_questions([
+        "Pewarisan ('extends') membangun relasi taksonomi 'Is-A' dan memaksimalkan penggunaan ulang kode (DRY).",
+        "Sintaks parent::__construct() wajib dipanggil saat subclass mendefinisikan constructor-nya sendiri.",
+        "Method Overriding memungkinkan penyesuaian perilaku induk seraya memperluas fungsionalitas.",
+        "Kata kunci final mengunci class, method, dan konstanta (PHP 8.1+) dari risiko modifikasi liar.",
+        "Trait menyediakan solusi Horizontal Code Reuse untuk mengatasi batasan Single Inheritance di PHP.",
+        "Operator 'insteadof' dan 'as' menyelesaikan konflik bentrok nama method antar-trait secara presisi."
+    ], [
+        "Jelaskan mengapa hierarki pewarisan yang terlalu dalam memicu Fragile Base Class Problem!",
+        "Bagaimana cara menyelesaikan bentrok nama method ketika sebuah class menggunakan dua Trait yang memiliki nama fungsi identik?",
+        "Rancanglah hierarki class: Parent `Kendaraan`, Child `MobilListrik` (menambahkan baterai dan kalkulasi jarak tempuh) yang dilengkapi Trait `AuditLoggableTrait`!",
+        "Kapan sebuah konstanta class sebaiknya ditandai dengan kata kunci `final const` di PHP 8.1+?"
+    ])
 
     builder.add_bab_title(6, "Polimorfisme (Polymorphism) dan Dynamic Dispatch")
     builder.add_learning_objectives("Sub-CPMK 3", ["Memahami konsep Dynamic Dispatch.", "Menerapkan Polymorphic Type Hinting.", "Mematuhi Open/Closed Principle."])
