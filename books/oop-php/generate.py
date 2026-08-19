@@ -1073,11 +1073,194 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         "Mengapa terlalu banyak menggunakan percabangan `if ($obj instanceof X)` di dalam alur logika bisnis dianggap sebagai code smell?"
     ])
 
-    builder.add_bab_title(7, "Abstraksi: Interface, Abstract Class, dan Backed Enum")
-    builder.add_learning_objectives("Sub-CPMK 3", ["Membedakan IS-A vs CAN-DO.", "Menerapkan Multiple Interfaces.", "Mengintegrasikan Backed Enum PHP 8.1+."])
-    builder.add_code("<?php\ninterface ExportablePdfInterface { public function generatePdf(): string; }\nenum StatusTransaksi: string { case PENDING = 'PENDING'; case LUNAS = 'LUNAS'; }\n")
-    builder.add_tip("Tips Abstraksi", "Gunakan Interface untuk mendefinisikan kemampuan lintas modul (CAN-DO).")
-    builder.add_summary_and_questions(["Abstract Class untuk relasi IS-A, Interface untuk kontrak CAN-DO."], ["Bandingkan interface vs abstract class!"])
+    # =========================================================================
+    # BAB 7: ABSTRAKSI: INTERFACE, ABSTRACT CLASS, DAN BACKED ENUM
+    # =========================================================================
+    builder.add_bab_title(7, "Abstraksi: Abstract Class, Interface, dan Backed Enum")
+    builder.add_learning_objectives("Sub-CPMK 3", [
+        "Memahami filosofi fundamental Abstraction (Abstraksi) sebagai pilar ke-4 OOP, konsep Separation of Interface and Implementation, serta Design by Contract (DbC).",
+        "Mendeklarasikan dan menerapkan Abstract Class serta Abstract Method menggunakan kata kunci abstract dan merancang pola Template Method Pattern.",
+        "Merancang kontrak antarmuka murni menggunakan Interface, kata kunci implements, serta pewarisan antar-interface (Interface Inheritance).",
+        "Mengimplementasikan Multiple Interfaces pada sebuah Class untuk mengatasi keterbatasan pewarisan tunggal.",
+        "Membedakan secara tajam kapan harus menggunakan Abstract Class (IS-A) vs Interface (CAN-DO) dalam arsitektur perangkat lunak skala enterprise.",
+        "Mengintegrasikan fitur modern Backed Enum (PHP 8.1+) dengan method fungsional dan pattern matching (match) untuk manajemen status yang type-safe."
+    ])
+
+    builder.add_heading_2("7.1 Filosofi dan Fondasi Teoretis Abstraksi")
+    builder.add_paragraph(
+        "Dalam rekayasa perangkat lunak, Abstraksi (Abstraction) adalah proses menyederhanakan kompleksitas sistem dengan hanya menampilkan karakteristik dan antarmuka penting kepada dunia luar, seraya menyembunyikan mekanisme teknis internal yang rumit."
+    )
+    builder.add_paragraph(
+        "Sebagai analogi dunia nyata, ketika seseorang mengemudikan mobil, ia cukup berinteraksi dengan pedal gas, pedal rem, dan roda kemudi. Pengemudi tidak perlu mengetahui secara mikroskopis rasio kompresi bahan bakar di dalam ruang silinder atau perpindahan fluida transmisi hidrolik. Antarmuka pedal menyederhanakan kompleksitas mesin tersebut."
+    )
+    builder.add_paragraph(
+        "Dalam bahasa PHP modern, pilar abstraksi diwujudkan melalui dua konstruksi utama: Abstract Class (kerangka dasar setengah jadi untuk hierarki keluarga erat IS-A) dan Interface (kontrak perilaku murni untuk kemampuan lintas modul CAN-DO)."
+    )
+
+    builder.add_heading_2("7.2 Abstract Class & Template Method Pattern")
+    builder.add_paragraph(
+        "Abstract Class adalah class induk yang tidak dapat diinstansiasi langsung menggunakan operator new. Class ini memuat gabungan antara Concrete Method (method yang sudah memiliki kode fungsional teruji) dan Abstract Method (method tanpa badan fungsi yang wajib disempurnakan oleh subclass turunan)."
+    )
+    builder.add_paragraph(
+        "Pola desain Template Method Pattern mengunci alur kerja utama (master workflow) pada parent class menggunakan kata kunci final, sementara langkah-langkah detailnya diserahkan kepada subclass melalui abstract method:"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Laporan;\n\n"
+        "// Abstract Superclass\n"
+        "abstract class TemplateLaporanAkademik\n"
+        "{\n"
+        "    public function __construct(\n"
+        "        protected string $judulLaporan,\n"
+        "        protected string $semester\n"
+        "    ) {}\n\n"
+        "    // 1. Concrete Method: Kop Surat Standar Universitas\n"
+        "    public function cetakKopSurat(): void {\n"
+        "        echo \"========================================================\\n\";\n"
+        "        echo \"UNIVERSITAS UBUDIYAH INDONESIA\\n\";\n"
+        "        echo \"FAKULTAS SAINS DAN TEKNOLOGI - PROGRAM STUDI INFORMATIKA\\n\";\n"
+        "        echo \"Judul Laporan : {$this->judulLaporan}\\n\";\n"
+        "        echo \"Semester      : {$this->semester}\\n\";\n"
+        "        echo \"--------------------------------------------------------\\n\";\n"
+        "    }\n\n"
+        "    // 2. Abstract Methods: Wajib disediakan oleh subclass\n"
+        "    abstract protected function ambilSumberData(): array;\n"
+        "    abstract protected function susunBadanLaporan(array $data): string;\n"
+        "    abstract public function exportFormat(): string;\n\n"
+        "    // 3. Template Method (Final): Alur kerja utama terkunci aman\n"
+        "    final public function generateDokumen(): void {\n"
+        "        $this->cetakKopSurat();\n"
+        "        $data = $this->ambilSumberData();\n"
+        "        $konten = $this->susunBadanLaporan($data);\n"
+        "        echo $konten . \"\\n\";\n"
+        "        echo \"Format Dokumen: \" . $this->exportFormat() . \"\\n\";\n"
+        "        echo \"========================================================\\n\";\n"
+        "    }\n"
+        "}\n\n"
+        "// Subclass Konkrit: Rekapitulasi IPK Mahasiswa\n"
+        "class LaporanIpMahasiswa extends TemplateLaporanAkademik\n"
+        "{\n"
+        "    protected function ambilSumberData(): array {\n"
+        "        return [\n"
+        "            ['nim' => '240101', 'nama' => 'Cut Meurah Intan', 'ipk' => 3.92],\n"
+        "            ['nim' => '240102', 'nama' => 'Teuku Rayhan', 'ipk' => 3.85]\n"
+        "        ];\n"
+        "    }\n\n"
+        "    protected function susunBadanLaporan(array $data): string {\n"
+        "        $out = \"REKAPITULASI IPK MAHASISWA:\\n\";\n"
+        "        foreach ($data as $mhs) {\n"
+        "            $out .= sprintf(\"• [%s] %-20s : IPK %.2f\\n\", $mhs['nim'], $mhs['nama'], $mhs['ipk']);\n"
+        "        }\n"
+        "        return $out;\n"
+        "    }\n\n"
+        "    public function exportFormat(): string {\n"
+        "        return \"Dokumen Portabel (PDF A4 Landscape)\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("7.3 Interface: Kontrak Perilaku Murni (*CAN-DO*)")
+    builder.add_paragraph(
+        "Interface adalah kontrak murni tanpa properti data dan tanpa implementasi method. Seluruh method yang dideklarasikan di dalam interface otomatis bersifat public abstract. Sebuah class dapat mengimplementasikan banyak interface sekaligus (Multiple Interface Implementation)."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Kontrak;\n\n"
+        "interface ExportablePdfInterface { public function renderPdf(): string; }\n"
+        "interface KirimEmailInterface { public function kirimEmail(string $tujuan): bool; }\n"
+        "interface AuditLoggableInterface { public function catatLog(string $pesan): void; }\n\n"
+        "// Implementasi Multiple Interfaces\n"
+        "class BerkasTranskripNilai implements ExportablePdfInterface, KirimEmailInterface, AuditLoggableInterface\n"
+        "{\n"
+        "    public function __construct(public readonly string $nim, public readonly string $nama) {}\n\n"
+        "    public function renderPdf(): string {\n"
+        "        return \"[PDF-BINARY] Transkrip Resmi {$this->nama} ({$this->nim}) siap diunduh.\";\n"
+        "    }\n\n"
+        "    public function kirimEmail(string $tujuan): bool {\n"
+        "        echo \"📧 Mengirim transkrip ke <{$tujuan}>... Berhasil!\\n\";\n"
+        "        $this->catatLog(\"Transkrip dikirim ke {$tujuan}\");\n"
+        "        return true;\n"
+        "    }\n\n"
+        "    public function catatLog(string $pesan): void {\n"
+        "        echo \"📝 [LOG] \" . date('Y-m-d H:i:s') . \" - {$pesan}\\n\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("7.4 Matriks Komparasi: Abstract Class vs Interface")
+    table_abs = [
+        ["Parameter Analisis", "Abstract Class", "Interface"],
+        ["Kata Kunci", "abstract class + extends", "interface + implements"],
+        ["Relasi Konseptual", "IS-A (Identitas kekeluargaan erat)", "CAN-DO (Kontrak kemampuan/perilaku)"],
+        ["Pewarisan Ganda", "❌ Dilarang (Single Inheritance)", "✅ Diizinkan (Multiple Implementation)"],
+        ["Properti / State", "✅ Boleh (public, protected, private)", "❌ Dilarang (Hanya konstanta const)"],
+        ["Implementasi Method", "Campuran (Bisa konkret + abstract)", "Murni deklarasi tanpa kurung kurawal {}"],
+        ["Constructor", "✅ Bisa memiliki __construct()", "❌ Tidak boleh memiliki constructor"]
+    ]
+    builder.add_table(table_abs[0], table_abs[1:])
+
+    builder.add_heading_2("7.5 Backed Enum di PHP 8.1+ dan Pattern Matching")
+    builder.add_paragraph(
+        "PHP 8.1 memperkenalkan Backed Enum (tipe data enumerasi yang nilainya terikat pada string atau integer). Backed Enum sangat ideal dipadukan dengan Interface dan Abstract Class untuk mengelola status sistem secara type-safe serta mendukung ekspresi match:"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Enums;\n\n"
+        "interface LabelledEnumInterface {\n"
+        "    public function getLabel(): string;\n"
+        "    public function getBadgeColor(): string;\n"
+        "}\n\n"
+        "enum StatusKelulusan: string implements LabelledEnumInterface\n"
+        "{\n"
+        "    case LULUS_CUMLAUDE  = 'CUMLAUDE';\n"
+        "    case LULUS_MEMUASKAN = 'MEMUASKAN';\n"
+        "    case BERSYARAT       = 'BERSYARAT';\n"
+        "    case MENGULANG       = 'MENGULANG';\n\n"
+        "    public function getLabel(): string {\n"
+        "        return match($this) {\n"
+        "            self::LULUS_CUMLAUDE  => 'Lulus dengan Pujian (Cum Laude)',\n"
+        "            self::LULUS_MEMUASKAN => 'Lulus Sangat Memuaskan',\n"
+        "            self::BERSYARAT       => 'Lulus Bersyarat (Revisi Skripsi)',\n"
+        "            self::MENGULANG       => 'Wajib Mengulang Sidang',\n"
+        "        };\n"
+        "    }\n\n"
+        "    public function getBadgeColor(): string {\n"
+        "        return match($this) {\n"
+        "            self::LULUS_CUMLAUDE  => '#10B981',\n"
+        "            self::LULUS_MEMUASKAN => '#3B82F6',\n"
+        "            self::BERSYARAT       => '#F59E0B',\n"
+        "            self::MENGULANG       => '#EF4444',\n"
+        "        };\n"
+        "    }\n"
+        "}\n\n"
+        "$status = StatusKelulusan::from('CUMLAUDE');\n"
+        "echo \"Predikat : \" . $status->getLabel() . \"\\n\";\n"
+        "echo \"Warna Tag: \" . $status->getBadgeColor() . \"\\n\";\n"
+    )
+
+    builder.add_tip(
+        "Tips Abstraksi: Prinsip 'Program to an Interface, not an Implementation'",
+        "Rancanglah lapisan bisnis aplikasi Anda dengan selalu bergantung pada Interface (abstraksi), bukan pada class konkrit. Dengan cara ini, Anda dapat mengganti pustaka pihak ketiga (misal: mengganti Mailgun dengan AWS SES, atau mengganti MySQL dengan PostgreSQL) tanpa perlu mengubah kode domain aplikasi sama sekali."
+    )
+
+    builder.add_summary_and_questions([
+        "Abstraksi menyembunyikan detail teknis yang rumit dan menyajikan antarmuka esensial kepada pengguna.",
+        "Abstract Class memadukan concrete methods dan abstract methods dalam pola Template Method Pattern.",
+        "Interface adalah kontrak murni tanpa state data, memungkinkan Multiple Interfaces pada class.",
+        "Pewarisan antar-interface (Interface Inheritance) dapat dilakukan menggunakan kata kunci extends.",
+        "Backed Enum (PHP 8.1+) menghadirkan type safety untuk status data dengan dukungan method dan match expression."
+    ], [
+        "Jelaskan perbedaan mendasar antara relasi 'IS-A' pada Abstract Class dan 'CAN-DO' pada Interface!",
+        "Bagaimana cara kerja Template Method Pattern dalam menjaga integritas master workflow sebuah laporan akademik?",
+        "Rancanglah sebuah Backed Enum `StatusPembayaran` (PENDING, PAID, EXPIRED, FAILED) yang mengimplementasikan method `isFinal(): bool`!",
+        "Mengapa sebuah Interface dilarang memiliki properti variabel dan constructor?"
+    ])
 
     builder.add_bab_title(8, "Manajemen Namespace, Standar PSR-4, dan Composer Autoloading")
     builder.add_learning_objectives("Sub-CPMK 4", ["Mencegah tabrakan nama class.", "Menerapkan use dan aliasing.", "Mengonfigurasi PSR-4 Autoloader."])
