@@ -917,11 +917,161 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         "Kapan sebuah konstanta class sebaiknya ditandai dengan kata kunci `final const` di PHP 8.1+?"
     ])
 
+    # =========================================================================
+    # BAB 6: POLIMORFISME (POLYMORPHISM) DAN DYNAMIC DISPATCH
+    # =========================================================================
     builder.add_bab_title(6, "Polimorfisme (Polymorphism) dan Dynamic Dispatch")
-    builder.add_learning_objectives("Sub-CPMK 3", ["Memahami konsep Dynamic Dispatch.", "Menerapkan Polymorphic Type Hinting.", "Mematuhi Open/Closed Principle."])
-    builder.add_code("<?php\nabstract class SaluranPembayaran { abstract public function bayar(): string; }\nclass BankTransfer extends SaluranPembayaran { public function bayar(): string { return \"Transfer Bank Berhasil\"; } }\nclass QrisInstant extends SaluranPembayaran { public function bayar(): string { return \"Scan QRIS Lunas\"; } }\n")
-    builder.add_tip("Tips Polimorfisme", "Gunakan Polymorphic Type Hinting untuk mempermudah pembuatan Mock Object saat unit testing.")
-    builder.add_summary_and_questions(["Polimorfisme memisahkan antarmuka umum dari implementasi spesifik."], ["Buat skema pembayaran multi-kanal!"])
+    builder.add_learning_objectives("Sub-CPMK 3", [
+        "Memahami filosofi fundamental Polymorphism (Polimorfisme), taksonomi teori tipe Cardelli & Wegner, serta prinsip 'Satu Antarmuka, Banyak Perilaku'.",
+        "Memahami mekanisme eksekusi Dynamic Method Dispatch pada Zend Engine runtime PHP.",
+        "Mengimplementasikan Polymorphic Type Hinting dan memproses Koleksi Objek Polimorfik (Polymorphic Collections).",
+        "Membedakan secara analitis Polimorfisme berbasis Pewarisan Class (Class Inheritance) vs Polimorfisme berbasis Kontrak (Interface-based Polymorphism).",
+        "Menggunakan operator instanceof secara tepat untuk Type Narrowing seraya menghindari Anti-pattern Type Checking.",
+        "Merancang arsitektur perangkat lunak yang mematuhi Open/Closed Principle (OCP) dan Liskov Substitution Principle (LSP)."
+    ])
+
+    builder.add_heading_2("6.1 Filosofi dan Fondasi Teoretis Polimorfisme")
+    builder.add_paragraph(
+        "Secara etimologi bahasa Yunani, Polimorfisme berasal dari kata poly (banyak) dan morph (bentuk atau rupa). Dalam ilmu rekayasa perangkat lunak berorientasi objek, polimorfisme adalah prinsip kemampuan objek-objek dari berbagai class turunan yang berbeda untuk merespons pemanggilan pesan atau method yang sama dengan cara dan implementasi unik mereka masing-masing."
+    )
+    builder.add_paragraph(
+        "Kekuatan utama polimorfisme terletak pada pemisahan yang tegas antara 'Apa yang harus dilakukan' (didefinisikan pada antarmuka umum / superclass) dan 'Bagaimana cara melakukannya' (didefinisikan secara spesifik oleh masing-masing subclass). Kode pemanggil (Client Code) cukup berkomunikasi dengan tipe acuan abstrak tanpa perlu mengetahui secara detail class konkrit mana yang sedang aktif saat runtime."
+    )
+    builder.add_paragraph(
+        "Dalam literatur klasik teori tipe komputasi (Cardelli & Wegner, 1985), polimorfisme pada OOP bertumpu pada Subtyping / Inclusion Polymorphism, di mana sebuah variabel ber-tipe superclass dapat menampung objek dari subclass mana pun yang sah dan secara otomatis mengeksekusi perilaku yang tepat tanpa memerlukan percabangan logika if-else."
+    )
+
+    builder.add_heading_2("6.2 Mekanisme Dynamic Method Dispatch pada PHP Runtime")
+    builder.add_paragraph(
+        "Di dalam PHP, resolusi pemanggilan method ($objek->bayar()) diselesaikan secara dinamis pada saat program berjalan (runtime). Ketika method dipanggil, Zend Engine memeriksa Virtual Method Table (V-Table) atau tabel simbol kelas dari instance objek yang tersimpan di memori dan melompat langsung ke alamat fungsi yang sesuai."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "namespace App\\Pembayaran;\n\n"
+        "// Superclass Abstraksi\n"
+        "abstract class SaluranPembayaran\n"
+        "{\n"
+        "    public function __construct(protected float $totalTagihan) {}\n\n"
+        "    abstract public function bayar(): string;\n"
+        "    abstract public function hitungBiayaAdmin(): float;\n"
+        "}\n\n"
+        "// Subclass 1: Transfer Bank\n"
+        "class TransferBank extends SaluranPembayaran\n"
+        "{\n"
+        "    public function __construct(float $total, private string $namaBank, private string $rekening) {\n"
+        "        parent::__construct($total);\n"
+        "    }\n\n"
+        "    public function hitungBiayaAdmin(): float { return 4_000.0; }\n\n"
+        "    public function bayar(): string {\n"
+        "        $totalBayar = $this->totalTagihan + $this->hitungBiayaAdmin();\n"
+        "        return \"🏦 [TRANSFER BANK] {$this->namaBank} ({$this->rekening}) | Total: Rp \" . \n"
+        "               number_format($totalBayar, 0, ',', '.') . \" (Termasuk Biaya Admin: Rp 4.000)\";\n"
+        "    }\n"
+        "}\n\n"
+        "// Subclass 2: QRIS Instant\n"
+        "class QrisInstant extends SaluranPembayaran\n"
+        "{\n"
+        "    public function __construct(float $total, private string $merchantNMID) {\n"
+        "        parent::__construct($total);\n"
+        "    }\n\n"
+        "    public function hitungBiayaAdmin(): float { return $this->totalTagihan * 0.007; } // 0.7%\n\n"
+        "    public function bayar(): string {\n"
+        "        $totalBayar = $this->totalTagihan + $this->hitungBiayaAdmin();\n"
+        "        return \"📱 [QRIS INSTANT] NMID: {$this->merchantNMID} | Total: Rp \" . \n"
+        "               number_format($totalBayar, 0, ',', '.') . \" [LUNAS REALTIME]\";\n"
+        "    }\n"
+        "}\n\n"
+        "// Subclass 3: Dompet Digital\n"
+        "class EWalletGoPay extends SaluranPembayaran\n"
+        "{\n"
+        "    public function __construct(float $total, private string $nomorHp) {\n"
+        "        parent::__construct($total);\n"
+        "    }\n\n"
+        "    public function hitungBiayaAdmin(): float { return 1_000.0; }\n\n"
+        "    public function bayar(): string {\n"
+        "        $totalBayar = $this->totalTagihan + $this->hitungBiayaAdmin();\n"
+        "        return \"💳 [E-WALLET GOPAY] Akun {$this->nomorHp} terdebet Rp \" . \n"
+        "               number_format($totalBayar, 0, ',', '.') . \" [SUKSES]\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("6.3 Polymorphic Type Hinting & Koleksi Polimorfik")
+    builder.add_paragraph(
+        "Dengan Polymorphic Type Hinting, fungsi proses transaksi hanya perlu bergantung pada superclass SaluranPembayaran. Fungsi ini secara otomatis mematuhi Open/Closed Principle (terbuka untuk penambahan saluran baru, namun tertutup dari modifikasi kode lama)."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "// Fungsi Konsumen Polimorfik\n"
+        "function prosesTransaksiKasir(SaluranPembayaran $saluran): void {\n"
+        "    echo \"Menghubungkan ke payment gateway...\\n\";\n"
+        "    $struk = $saluran->bayar(); // Dynamic Dispatch mengeksekusi implementasi child yang tepat\n"
+        "    echo $struk . \"\\n\";\n"
+        "    echo \"Biaya Admin: Rp \" . number_format($saluran->hitungBiayaAdmin(), 0, ',', '.') . \"\\n\";\n"
+        "    echo \"--------------------------------------------------------\\n\";\n"
+        "}\n\n"
+        "// Array Polimorfik: Berisi ragam subclass berbeda dalam satu wadah seragam\n"
+        "$antreanPembayaran = [\n"
+        "    new TransferBank(500_000.0, \"Bank Syariah Indonesia (BSI)\", \"7123456789\"),\n"
+        "    new QrisInstant(25_000.0, \"ID1020304050\"),\n"
+        "    new EWalletGoPay(75_000.0, \"081269001122\"),\n"
+        "    new QrisInstant(150_000.0, \"ID1020304050\")\n"
+        "];\n\n"
+        "foreach ($antreanPembayaran as $transaksi) {\n"
+        "    prosesTransaksiKasir($transaksi);\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("6.4 Matriks Analisis: Polimorfisme Class vs Interface")
+    table_poly = [
+        ["Dimensi Analisis", "Polimorfisme Berbasis Class (extends)", "Polimorfisme Berbasis Interface (implements)"],
+        ["Relasi Konseptual", "Hubungan keluarga taksonomi ketat (Is-A)", "Hubungan kontrak kemampuan perilaku (Can-Do)"],
+        ["Pewarisan State", "Mewarisi properti dan method konkrit parent", "Murni kontrak antarmuka tanpa state bersama"],
+        ["Fleksibilitas", "Terikat batas Single Inheritance (1 parent)", "Bebas diimplementasikan banyak class (Multiple)"],
+        ["Standar Industri", "Hierarki entitas domain inti", "Desain Clean Architecture & Dependency Injection"]
+    ]
+    builder.add_table(table_poly[0], table_poly[1:])
+
+    builder.add_heading_2("6.5 Type Narrowing Menggunakan Operator `instanceof`")
+    builder.add_paragraph(
+        "Operator instanceof digunakan ketika kode perlu memeriksa tipe objek spesifik sebelum menjalankan operasi yang hanya ada pada subclass tertentu. Namun, perancang sistem harus menghindari penggunaan instanceof yang berlebihan (Anti-pattern Type Checking), karena hal tersebut mengindikasikan bahwa logika seharusnya ditempatkan ke dalam method polimorfik milik subclass."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "class AuditorKeuangan\n"
+        "{\n"
+        "    public function audit(SaluranPembayaran $saluran): void {\n"
+        "        echo \"Audit Transaksi: \" . $saluran->bayar() . \"\\n\";\n"
+        "        if ($saluran instanceof QrisInstant) {\n"
+        "            echo \"ℹ️ Validasi signature QRIS dengan Bank Indonesia.\\n\";\n"
+        "        } elseif ($saluran instanceof TransferBank) {\n"
+        "            echo \"ℹ️ Rekonsiliasi mutasi rekening koran perbankan.\\n\";\n"
+        "        }\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_tip(
+        "Tips Polimorfisme: Desain Berbasis Kontrak untuk Kemudahan Pengujian",
+        "Gunakan Polymorphic Type Hinting pada seluruh service layer aplikasi Anda. Dengan mengandalkan interface atau tipe abstrak, Anda dapat dengan mudah membuat Mock Object (objek tiruan) saat menjalankan Automated Unit Testing (PHPUnit) tanpa perlu menghubungkan sistem ke database atau payment gateway nyata."
+    )
+
+    builder.add_summary_and_questions([
+        "Polimorfisme ('Satu Antarmuka, Banyak Wujud') memisahkan antarmuka umum dari implementasi spesifik.",
+        "Dynamic Method Dispatch pada Zend Engine menyelesaikan pemanggilan method secara dinamis di runtime.",
+        "Polymorphic Type Hinting memungkinkan penulisan kode modular yang mematuhi Open/Closed Principle.",
+        "Polimorfisme berbasis Interface memberikan fleksibilitas tertinggi tanpa batasan Single Inheritance.",
+        "Operator instanceof menjamin Type Safety ketika diperlukan inspeksi tipe objek spesifik."
+    ], [
+        "Jelaskan bagaimana polimorfisme memfasilitasi penambahan metode pembayaran Cryptocurrency baru tanpa memodifikasi kode kasir yang sudah ada!",
+        "Apa perbedaan mendasar antara Polimorfisme Berbasis Pewarisan Class vs Polimorfisme Berbasis Interface?",
+        "Rancanglah sebuah sistem notifikasi polimorfik (Email, SMS, WhatsApp) dengan antarmuka `kirim(string $tujuan, string $pesan)`!",
+        "Mengapa terlalu banyak menggunakan percabangan `if ($obj instanceof X)` di dalam alur logika bisnis dianggap sebagai code smell?"
+    ])
 
     builder.add_bab_title(7, "Abstraksi: Interface, Abstract Class, dan Backed Enum")
     builder.add_learning_objectives("Sub-CPMK 3", ["Membedakan IS-A vs CAN-DO.", "Menerapkan Multiple Interfaces.", "Mengintegrasikan Backed Enum PHP 8.1+."])

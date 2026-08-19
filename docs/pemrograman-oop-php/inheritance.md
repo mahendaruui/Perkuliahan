@@ -45,9 +45,9 @@ classDiagram
         +hitungTunjanganFasilitas() float
     }
 
-    SivitasAkademika <|-- Dosen : extends (Is-A)
-    SivitasAkademika <|-- Mahasiswa : extends (Is-A)
-    SivitasAkademika <|-- TenagaKependidikan : extends (Is-A)
+    SivitasAkademika <|-- Dosen : extends
+    SivitasAkademika <|-- Mahasiswa : extends
+    SivitasAkademika <|-- TenagaKependidikan : extends
 ```
 
 ### A. Hakikat Pewarisan dan Hubungan "Is-A"
@@ -210,23 +210,23 @@ PHP menganut model **Single Inheritance** (setiap class hanya boleh memiliki sat
 
 ```mermaid
 flowchart TD
-    subgraph Traits ["Pustaka Trait (Horizontal Reuse)"]
-        T1["trait AuditLoggableTrait<br>+catatAktivitas(pesan)"]
-        T2["trait ExportableJsonTrait<br>+keJson(): string"]
-        T3["trait SoftDeletesTrait<br>+hapusSementara()<br>+pulihkan()"]
+    subgraph Traits["Pustaka Trait (Horizontal Reuse)"]
+        T1["AuditLoggableTrait<br>+catatAktivitas()"]
+        T2["ExportableJsonTrait<br>+keJson()"]
+        T3["SoftDeletesTrait<br>+hapusSementara()"]
     end
 
-    C1["class Mahasiswa<br>(Rumpun Akademik)"]
-    C2["class TransaksiKasir<br>(Rumpun Finansial)"]
-    C3["class BerkasDigital<br>(Rumpun Dokumen)"]
+    C1["Mahasiswa<br>(Akademik)"]
+    C2["TransaksiKasir<br>(Finansial)"]
+    C3["BerkasDigital<br>(Dokumen)"]
 
-    T1 -.->|"use"| C1
-    T1 -.->|"use"| C2
-    T2 -.->|"use"| C1
-    T2 -.->|"use"| C2
-    T2 -.->|"use"| C3
-    T3 -.->|"use"| C1
-    T3 -.->|"use"| C3
+    T1 -.->|use| C1
+    T1 -.->|use| C2
+    T2 -.->|use| C1
+    T2 -.->|use| C2
+    T2 -.->|use| C3
+    T3 -.->|use| C1
+    T3 -.->|use| C3
 ```
 
 ### A. Contoh Komposisi Multi-Trait:

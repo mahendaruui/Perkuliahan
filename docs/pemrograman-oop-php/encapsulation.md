@@ -18,14 +18,14 @@ Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:
 
 ```mermaid
 flowchart LR
-    subgraph Kapsul ["Pilar Encapsulation (Class Boundary)"]
-        PrivateData["🔒 PRIVATE STATE (Data Sensitif)<br>• Saldo Rekening<br>• PIN / Hash Password<br>• Limit Kredit Harian"]
-        PublicMethod["🔑 VALIDATED INTERFACE (Public API)<br>• getSaldo(): float<br>• setorTunai(nominal): void<br>• tarikTunai(pin, nominal): bool"]
-        PublicMethod -->|"Validasi Aturan Bisnis (State Invariant)"| PrivateData
+    subgraph Kapsul["Pilar Encapsulation"]
+        PrivateData["PRIVATE STATE<br>- Saldo Rekening<br>- PIN Password<br>- Limit Transaksi"]
+        PublicMethod["VALIDATED INTERFACE<br>- getSaldo()<br>- setorTunai(nominal)<br>- tarikTunai(pin, nominal)"]
+        PublicMethod -->|Validasi Aturan Bisnis| PrivateData
     end
 
-    Luar["🌍 Dunia Luar (Client Code / Controller)"] -->|"Mengakses Lewat Antarmuka Publik"| PublicMethod
-    Luar -.->|"❌ DITOLAK / Fatal Error (Akses Ilegal)"| PrivateData
+    Luar["Dunia Luar (Client Code)"] -->|Antarmuka Publik| PublicMethod
+    Luar -.->|Ditolak / Akses Ilegal| PrivateData
 ```
 
 ### A. Konsep Information Hiding (David Parnas, 1972)
