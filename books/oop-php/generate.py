@@ -402,14 +402,297 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         "Implementasikan Static Factory Method pada class `TransaksiKasir` untuk membuat transaksi tipe 'Tunai', 'Debit', dan 'QRIS'!"
     ])
 
-    # BAB 4 s.d. BAB 14 (Semua bab lengkap)
-    builder.add_bab_title(4, "Enkapsulasi, Visibility Modifiers, dan Readonly Properties")
-    builder.add_learning_objectives("Sub-CPMK 3", ["Memahami prinsip Enkapsulasi.", "Menguasai public, protected, private.", "Membuat Getter/Setter dengan validasi.", "Menerapkan readonly properties & class."])
-    builder.add_heading_2("4.1 Filosofi Enkapsulasi: Menjaga Integritas Data Sistem")
-    builder.add_paragraph("Enkapsulasi membungkus variabel-variabel sensitif di dalam class dan melarang pihak luar memodifikasi variabel tersebut secara sembarangan guna menjaga integritas data sistem.")
-    builder.add_code("<?php\ndeclare(strict_types=1);\n\nclass RekeningNasabah {\n    private float $saldo = 0.0;\n    public function getSaldo(): float { return $this->saldo; }\n    public function setorTunai(float $nominal): void {\n        if ($nominal <= 0.0) throw new \\InvalidArgumentException(\"Nominal harus positif!\");\n        $this->saldo += $nominal;\n    }\n}\n")
-    builder.add_tip("Tips Keamanan Enkapsulasi", "Terapkan prinsip Least Privilege secara konsisten: jadikan properti 'private' secara default.")
-    builder.add_summary_and_questions(["Enkapsulasi mencegah manipulasi liar terhadap status internal objek."], ["Rancang class RekeningBank dengan validasi PIN!"])
+    # =========================================================================
+    # BAB 4: ENKAPSULASI, VISIBILITY MODIFIERS, DAN READONLY PROPERTIES
+    # =========================================================================
+    builder.add_bab_title(4, "Enkapsulasi, Visibility Modifiers, Readonly, dan Asymmetric Visibility")
+    builder.add_learning_objectives("Sub-CPMK 3", [
+        "Memahami filosofi fundamental Enkapsulasi, Information Hiding, dan konsep State Invariant.",
+        "Menguasai secara mendalam 3 tingkatan Visibility Modifiers: public, protected, dan private pada properti, method, dan konstanta.",
+        "Mengimplementasikan Getter (Accessor) dan Setter (Mutator) dengan validasi aturan domain bisnis serta pola Method Chaining.",
+        "Menerapkan fitur modern readonly Properties (PHP 8.1+) dan readonly class (PHP 8.2+) untuk menjamin kekekalan status data (Data Immutability).",
+        "Menganalisis dan mengimplementasikan fitur mutakhir PHP 8.4: Asymmetric Visibility (public private(set)) dan Property Hooks (get/set).",
+        "Memahami mekanisme kendali properti dinamis melalui magic methods (__get, __set, __isset, __unset) serta aturan penolakan Dynamic Properties di PHP 8.2+."
+    ])
+
+    builder.add_heading_2("4.1 Filosofi dan Fondasi Teoretis Enkapsulasi")
+    builder.add_paragraph(
+        "Dalam rekayasa perangkat lunak modern, Enkapsulasi (Encapsulation) merupakan pilar fundamental pertama yang menyatukan data (state/properti) dan perilaku pemroses data (behavior/method) ke dalam satu unit struktural mandiri yang kohesif (Class), seraya menyembunyikan detail representasi internal yang sensitif dari akses luar langsung (Information Hiding)."
+    )
+    builder.add_paragraph(
+        "Prinsip Information Hiding pertama kali dicetuskan secara ilmiah oleh David Parnas pada tahun 1972 dalam karya klasiknya mengenai dekomposisi modular sistem perangkat lunak. Parnas menegaskan bahwa modul perangkat lunak yang bermutu tinggi harus menyembunyikan keputusan perancangan internalnya dari modul lain. Kode pemanggil (client code) cukup berinteraksi dengan antarmuka publik (public interface) yang stabil tanpa perlu mengetahui bagaimana struktur data fisik disimpan atau dimanipulasi di dalam memori."
+    )
+    builder.add_paragraph(
+        "Tujuan utama enkapsulasi adalah memelihara State Invariant, yaitu kondisi atau aturan kebenaran bisnis yang harus selalu terjamin validitasnya di setiap saat sepanjang masa hidup objek. Sebagai contoh, saldo rekening perbankan tidak boleh bernilai negatif secara sembarangan, usia pasien rumah sakit harus berada pada rentang biologis logis (0 hingga 130 tahun), dan koordinat GPS harus berada pada rentang batas bola bumi (-90 s.d. +90 untuk latitude)."
+    )
+    builder.add_paragraph(
+        "Jika seluruh properti dibiarkan public, pihak luar dapat merusak invariant kapan saja ($rekening->saldo = -999999;). Melalui enkapsulasi, akses penulisan dikunci rapat dan hanya dapat dilakukan melalui method yang memeriksa invariant terlebih dahulu."
+    )
+
+    builder.add_heading_3("Prinsip 'Tell, Don't Ask' vs Antipattern Anemic Domain Model:")
+    builder.add_paragraph(
+        "Salah satu jebakan yang sering dialami oleh pemula adalah menerapkan enkapsulasi setengah hati dengan membuat semua properti private, namun langsung membuatkan method getter dan setter untuk setiap properti tanpa logika bisnis apa pun. Pendekatan ini menghasilkan Anemic Domain Model (objek yang hanya menjadi kantong data pasif tanpa kecerdasan bisnis)."
+    )
+    builder.add_paragraph(
+        "Prinsip desain berorientasi objek yang elegan adalah Tell, Don't Ask (Perintahkan, Jangan Bertanya): Alih-alih kode luar mengambil saldo lalu menghitung sendiri pemotongan uang dan meng-set nilai baru, kode luar cukup memerintahkan objek rekening untuk mengeksekusi penarikan uang ($rekening->tarikTunai($nominal, $pin);). Objek rekening secara mandiri akan memvalidasi otorisasi PIN, memastikan kecukupan saldo, mengurangi saldo internal, dan mencatat riwayat mutasi audit."
+    )
+
+    builder.add_heading_2("4.2 Tiga Tingkat Hak Akses (Visibility Modifiers) di PHP")
+    builder.add_paragraph(
+        "PHP menyediakan tiga kata kunci pengatur hak akses (Visibility Modifiers) yang dapat disematkan pada properti, method, dan konstanta class:"
+    )
+
+    table_vis = [
+        ["Modifier", "Akses dari Dalam Class", "Akses dari Child Class (extends)", "Akses dari Luar (Client Code)", "Tingkat Keamanan"],
+        ["public", "✅ Diizinkan penuh", "✅ Diizinkan penuh", "✅ Bebas diakses langsung", "Terbuka (Public API)"],
+        ["protected", "✅ Diizinkan penuh", "✅ Diizinkan penuh (Inheritance)", "❌ Dilarang (Fatal Error)", "Internal Keluarga Warisan"],
+        ["private", "✅ Diizinkan penuh", "❌ Dilarang (Hanya class asal)", "❌ Dilarang (Terkunci rapat)", "Terkunci Paling Rapat"]
+    ]
+    builder.add_table(table_vis[0], table_vis[1:])
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "class RekeningInduk\n"
+        "{\n"
+        "    public string $nomorRekening;      // Bebas dibaca dan ditulis publik\n"
+        "    protected float $saldo = 0.0;      // Hanya bisa diakses class ini dan subclass\n"
+        "    private string $pinRahasia;        // Terkunci rapat hanya untuk class RekeningInduk\n\n"
+        "    public function __construct(string $nomor, float $saldoAwal, string $pin) {\n"
+        "        $this->nomorRekening = $nomor;\n"
+        "        $this->saldo         = $saldoAwal;\n"
+        "        $this->pinRahasia    = $pin;\n"
+        "    }\n\n"
+        "    protected function verifikasiPin(string $pinInput): bool {\n"
+        "        return $this->pinRahasia === $pinInput;\n"
+        "    }\n"
+        "}\n\n"
+        "class RekeningTabungan extends RekeningInduk\n"
+        "{\n"
+        "    public function ambilUang(float $nominal, string $pinInput): void {\n"
+        "        // ✅ Boleh mengakses method protected milik parent:\n"
+        "        if (!$this->verifikasiPin($pinInput)) {\n"
+        "            throw new \\DomainException(\"Autentikasi PIN gagal!\");\n"
+        "        }\n"
+        "        if ($nominal > $this->saldo) {\n"
+        "            throw new \\UnderflowException(\"Saldo tabungan tidak mencukupi!\");\n"
+        "        }\n"
+        "        $this->saldo -= $nominal; // ✅ Boleh memodifikasi properti protected parent\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_3("Hak Akses pada Konstanta Class (Class Constants):")
+    builder.add_paragraph(
+        "Sejak era PHP 7.1+, konstanta di dalam class dapat dikunci menggunakan visibility modifier untuk mencegah kebocoran konfigurasi internal ke pihak luar:"
+    )
+    builder.add_code(
+        "<?php\n"
+        "class KonfigurasiKeamanan {\n"
+        "    public const VERSI_SISTEM = \"3.2.1\";        // Konfigurasi publik\n"
+        "    protected const BATAS_LOGIN_GAGAL = 5;       // Hanya untuk subclass autentikasi\n"
+        "    private const KUNCI_ENKRIPSI = \"UUI-KEY-2025\"; // Rahasia internal mutlak\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("4.3 Getter, Setter, dan Validasi Aturan Domain Bisnis")
+    builder.add_paragraph(
+        "Getter (Accessor) bertugas membaca nilai properti private secara terkontrol, sedangkan Setter (Mutator) bertugas memodifikasi nilai properti seraya menegakkan aturan validasi bisnis (Business Rules Enforcement)."
+    )
+    builder.add_paragraph(
+        "Penerapan Method Chaining (Fluent Interface) pada setter dilakukan dengan mengembalikan referensi objek saat ini (return $this;), sehingga pengembang dapat memperbarui beberapa nilai properti dalam satu rangkaian instruksi yang ringkas dan ekspresif."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "class PasienRumahSakit\n"
+        "{\n"
+        "    private string $rekamMedisId;\n"
+        "    private string $namaPasien;\n"
+        "    private int $umur;\n"
+        "    private float $suhuTubuh;\n\n"
+        "    public function __construct(string $id, string $nama, int $umur, float $suhu) {\n"
+        "        $this->setRekamMedisId($id);\n"
+        "        $this->setNamaPasien($nama);\n"
+        "        $this->setUmur($umur);\n"
+        "        $this->setSuhuTubuh($suhu);\n"
+        "    }\n\n"
+        "    public function getRekamMedisId(): string { return $this->rekamMedisId; }\n"
+        "    private function setRekamMedisId(string $id): void {\n"
+        "        if (!preg_match('/^RM-\\d{5}$/', $id)) {\n"
+        "            throw new \\InvalidArgumentException(\"Format ID Rekam Medis harus RM-XXXXX!\");\n"
+        "        }\n"
+        "        $this->rekamMedisId = $id;\n"
+        "    }\n\n"
+        "    public function getNamaPasien(): string { return $this->namaPasien; }\n"
+        "    public function setNamaPasien(string $nama): self {\n"
+        "        $bersih = trim($nama);\n"
+        "        if (strlen($bersih) < 3) {\n"
+        "            throw new \\InvalidArgumentException(\"Nama pasien minimal 3 karakter!\");\n"
+        "        }\n"
+        "        $this->namaPasien = $bersih;\n"
+        "        return $this; // Fluent Method Chaining\n"
+        "    }\n\n"
+        "    public function getUmur(): int { return $this->umur; }\n"
+        "    public function setUmur(int $umur): self {\n"
+        "        if ($umur < 0 || $umur > 130) {\n"
+        "            throw new \\InvalidArgumentException(\"Rentang umur tidak realistis: {$umur} tahun!\");\n"
+        "        }\n"
+        "        $this->umur = $umur;\n"
+        "        return $this;\n"
+        "    }\n\n"
+        "    public function getSuhuTubuh(): float { return $this->suhuTubuh; }\n"
+        "    public function setSuhuTubuh(float $suhu): self {\n"
+        "        if ($suhu < 30.0 || $suhu > 45.0) {\n"
+        "            throw new \\InvalidArgumentException(\"Pengukuran suhu di luar ambang medis manusia!\");\n"
+        "        }\n"
+        "        $this->suhuTubuh = $suhu;\n"
+        "        return $this;\n"
+        "    }\n"
+        "}\n\n"
+        "// Penggunaan Fluent Setter Chaining:\n"
+        "$pasien = new PasienRumahSakit(\"RM-10245\", \"Teuku Iskandar\", 28, 36.6);\n"
+        "$pasien->setNamaPasien(\"Teuku Iskandar Muda\")\n"
+        "       ->setUmur(29)\n"
+        "       ->setSuhuTubuh(37.1);\n"
+    )
+
+    builder.add_heading_2("4.4 Konsep Kekekalan Data (Immutability): readonly di PHP 8.1 & 8.2")
+    builder.add_paragraph(
+        "Dalam arsitektur perangkat lunak modern (seperti Domain-Driven Design / DDD), konsep Immutability (ketetapan nilai objek) memegang peranan krusial. Objek yang immutable (disebut Value Object) tidak dapat diubah status datanya setelah pertama kali diinisialisasi di constructor. Sifat kekal ini mencegah side-effects tak terduga, aman saat diproses dalam konkurensi, dan memudahkan debugging."
+    )
+    builder.add_paragraph(
+        "PHP 8.1 memperkenalkan readonly property, dan PHP 8.2 melengkapinya dengan readonly class yang secara otomatis menjadikan seluruh properti class bersifat readonly serta melarang pembuatan properti dinamis."
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "// PHP 8.2: Readonly Class (Value Object Uang)\n"
+        "readonly class NilaiMataUang\n"
+        "{\n"
+        "    public function __construct(\n"
+        "        public float $nominal,\n"
+        "        public string $kodeMataUang = \"IDR\"\n"
+        "    ) {\n"
+        "        if ($nominal < 0) {\n"
+        "            throw new \\InvalidArgumentException(\"Nominal uang tidak boleh negatif!\");\n"
+        "        }\n"
+        "    }\n\n"
+        "    // Operasi matematika menghasilkan Objek BARU (tidak memodifikasi status objek lama)\n"
+        "    public function tambah(NilaiMataUang $lain): self {\n"
+        "        if ($this->kodeMataUang !== $lain->kodeMataUang) {\n"
+        "            throw new \\InvalidArgumentException(\"Mata uang harus sejenis!\");\n"
+        "        }\n"
+        "        return new self($this->nominal + $lain->nominal, $this->kodeMataUang);\n"
+        "    }\n"
+        "}\n\n"
+        "$uang1 = new NilaiMataUang(50_000, \"IDR\");\n"
+        "$uang2 = new NilaiMataUang(25_000, \"IDR\");\n"
+        "$total = $uang1->tambah($uang2); // Objek baru dengan nominal Rp 75.000\n"
+    )
+
+    builder.add_heading_2("4.5 Paradigma Mutakhir PHP 8.4: Asymmetric Visibility & Property Hooks")
+    builder.add_paragraph(
+        "Rilis PHP 8.4 menghadirkan terobosan terbesar dalam evolusi enkapsulasi dengan dua fitur revolusioner:"
+    )
+
+    builder.add_heading_3("1. Asymmetric Visibility (public private(set)):")
+    builder.add_paragraph(
+        "Seringkali kita menginginkan suatu properti dapat dibaca secara bebas oleh pihak luar (public read), namun perubahan nilainya hanya boleh dilakukan oleh internal class itu sendiri (private write). Di masa lalu, kita terpaksa mendeklarasikan properti private dan menuliskan getter method secara berulang-ulang."
+    )
+    builder.add_paragraph(
+        "Di PHP 8.4, hal ini diselesaikan secara native dengan sintaks public private(set) atau public protected(set):"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "// PHP 8.4: Asymmetric Visibility\n"
+        "class AnggotaPerpustakaan\n"
+        "{\n"
+        "    // Publik bebas membaca ($a->id, $a->totalPoin), tapi penulisan dikunci di internal class:\n"
+        "    public private(set) string $idAnggota;\n"
+        "    public private(set) string $nama;\n"
+        "    public private(set) int $totalPoinAktivitas = 0;\n\n"
+        "    public function __construct(string $id, string $nama) {\n"
+        "        $this->idAnggota = $id;\n"
+        "        $this->nama      = $nama;\n"
+        "    }\n\n"
+        "    public function tambahPoinKunjungan(): void {\n"
+        "        $this->totalPoinAktivitas += 10; // ✅ Diizinkan: mutasi dari dalam class\n"
+        "    }\n"
+        "}\n\n"
+        "$mhs = new AnggotaPerpustakaan(\"MHS-001\", \"Cut Nyak Dhien\");\n"
+        "echo $mhs->nama;                // ✅ Boleh dibaca langsung! Output: Cut Nyak Dhien\n"
+        "echo $mhs->totalPoinAktivitas;  // ✅ Boleh dibaca langsung! Output: 0\n"
+        "// $mhs->totalPoinAktivitas = 999; // ❌ FATAL ERROR: Cannot modify private(set) property from outside!\n"
+    )
+
+    builder.add_heading_3("2. Property Hooks (get dan set hooks):")
+    builder.add_paragraph(
+        "PHP 8.4 memperkenalkan Property Hooks yang memungkinkan penyematan logika validasi, transformasi string, maupun komputasi virtual langsung pada definisi properti tanpa memerlukan method pembantu:"
+    )
+
+    builder.add_code(
+        "<?php\n"
+        "declare(strict_types=1);\n\n"
+        "// PHP 8.4: Property Hooks\n"
+        "class ProfilAkun\n"
+        "{\n"
+        "    // Backed Property dengan Hook Validasi Format Email\n"
+        "    public string $email {\n"
+        "        get => $this->email;\n"
+        "        set(string $nilaiBaru) {\n"
+        "            if (!filter_var($nilaiBaru, FILTER_VALIDATE_EMAIL)) {\n"
+        "                throw new \\InvalidArgumentException(\"Format email tidak valid!\");\n"
+        "            }\n"
+        "            $this->email = strtolower(trim($nilaiBaru));\n"
+        "        }\n"
+        "    }\n\n"
+        "    public string $namaDepan;\n"
+        "    public string $namaBelakang;\n\n"
+        "    // Virtual Property: Tidak memakan alokasi RAM, dikomputasi saat diakses\n"
+        "    public string $namaLengkap {\n"
+        "        get => \"{$this->namaDepan} {$this->namaBelakang}\";\n"
+        "    }\n"
+        "}\n"
+    )
+
+    builder.add_heading_2("4.6 Magic Methods untuk Kendali Akses Properti Dinamis")
+    builder.add_paragraph(
+        "PHP menyediakan magic methods khusus untuk mencegat (intercept) upaya pembacaan, penulisan, pemeriksaan, maupun penghapusan properti yang tidak dapat diakses langsung:"
+    )
+    builder.add_bullet("__get(string $name): mixed", "Mencegat pembacaan properti yang private atau belum didefinisikan.")
+    builder.add_bullet("__set(string $name, mixed $value): void", "Mencegat penulisan nilai ke properti yang private atau belum terdefinisi.")
+    builder.add_bullet("__isset(string $name): bool", "Mencegat pemanggilan fungsi isset() atau empty() pada properti terenkapsulasi.")
+    builder.add_bullet("__unset(string $name): void", "Mencegat pemanggilan instruksi unset() pada properti terenkapsulasi.")
+
+    builder.add_callout(
+        "Peringatan PHP 8.2+: Deprekasi Dynamic Properties",
+        "Mulai PHP 8.2, penulisan properti dinamis tanpa deklarasi ($obj->propertiBaru = 100;) telah resmi di-deprecate dan memicu peringatan runtime. Seluruh properti wajib dideklarasikan secara eksplisit di dalam class, atau class tersebut harus ditandai dengan atribut #[\\AllowDynamicProperties].",
+        "warning"
+    )
+
+    builder.add_tip(
+        "Tips Keamanan Enkapsulasi: Terapkan Prinsip Least Privilege",
+        "Terapkan prinsip Least Privilege secara konsisten pada setiap anggota class. Awali seluruh properti data sebagai 'private'. Hanya naikkan hak akses ke 'protected' jika memang disiapkan untuk diwariskan ke subclass, dan manfaatkan fitur 'public private(set)' pada PHP 8.4+ untuk mengekspos data publik yang terlindungi dari manipulasi luar."
+    )
+
+    builder.add_summary_and_questions([
+        "Enkapsulasi menyatukan data dan metode seraya melindungi status internal objek (Information Hiding).",
+        "State Invariant menjamin bahwa status data bisnis objek selalu valid dari lahir hingga selesai dieksekusi.",
+        "Prinsip 'Tell, Don't Ask' menolak Anemic Domain Model dengan menempatkan logika bisnis langsung pada class pemilik data.",
+        "Tiga level hak akses: public (terbuka), protected (keluarga warisan), dan private (terkunci rapat).",
+        "Fitur readonly (PHP 8.1/8.2) mewujudkan Value Object yang immutable dan aman dari efek samping konkurensi.",
+        "PHP 8.4 menghadirkan Asymmetric Visibility (public private(set)) dan Property Hooks (get/set) yang menyederhanakan penulisan kode enkapsulasi kelas industri."
+    ], [
+        "Jelaskan mengapa pendekatan 'Tell, Don't Ask' lebih unggul dibandingkan membuat Getter dan Setter untuk setiap variabel tanpa aturan validasi!",
+        "Uraikan perbedaan fungsional antara `readonly property` di PHP 8.1 dengan `public private(set)` di PHP 8.4!",
+        "Rancanglah class `NilaiMahasiswa` dengan enkapsulasi ketat untuk properti `$tugas`, `$uts`, `$uas` (rentang 0-100), method `hitungNilaiAkhir()`, dan method `getHurufMutu()`!",
+        "Bagaimana cara mengamankan array mutasi transaksi perbankan agar tidak dapat dimodifikasi oleh kode pemanggil saat dikembalikan melalui getter (Defensive Copying)?"
+    ])
 
     builder.add_bab_title(5, "Pewarisan (Inheritance) dan Komposisi Kode Menggunakan Trait")
     builder.add_learning_objectives("Sub-CPMK 3", ["Memahami relasi Is-A.", "Menggunakan extends dan parent::.", "Memanfaatkan Trait untuk Horizontal Code Reuse."])
