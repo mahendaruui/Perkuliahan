@@ -1,137 +1,245 @@
-# Minggu 11: PHP Collections & Array Functions
+# Minggu 10: Koleksi Objek (Object Collections) & Manipulasi Array Modern di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 4)
-Setelah menyelesaikan materi ini, mahasiswa mampu:
-1. Menguasai **PHP Array** sebagai struktur data utama (indexed, associative, multidimensional).
-2. Menggunakan fungsi-fungsi array bawaan PHP untuk manipulasi data.
-3. Membangun pola **Collection Object** sederhana menggunakan OOP.
+Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:
+1. Memahami filosofi **First-Class Collections** (*Object Calisthenics*) dan batasan keamanan tipe (*Type Safety*) pada array bawaan PHP.
+2. Membangun **Type-Safe Object Collection** yang mengenkapsulasi array internal dan mencegah kontaminasi data heterogen.
+3. Mengintegrasikan antarmuka pustaka standar PHP (**SPL**): **`Countable`**, **`IteratorAggregate`**, **`ArrayAccess`**, dan **`JsonSerializable`**.
+4. Menguasai paradigma pemrograman fungsional pada manipulasi data menggunakan **`array_map`**, **`array_filter`**, **`array_reduce`**, dan **Arrow Functions (`fn() =>`)**.
+5. Menerapkan fitur modern PHP 8+: **Array Unpacking dengan String Keys (PHP 8.1+)**, **`array_is_list()` (PHP 8.1+)**, serta *Method Chaining* (Fluent Interface).
+6. Merancang modul rekapitulasi data akademik skala besar berbasis *Immutable Collection Transformation*.
+
+> [!NOTE]
+> 💡 **Standar Desain:** Pola *First-Class Collection* mengajarkan bahwa setiap class yang memegang koleksi entitas dilarang memiliki properti lain, sehingga seluruh logika manipulasi data terisolasi secara kohesif.
 
 ---
 
-## 1. Array di PHP (Review & Lanjutan)
+## 1. Filosofi First-Class Collections & Masalah Type Safety
 
-PHP memiliki array yang sangat fleksibel — berperan sebagai list, map, stack, dan queue sekaligus.
+```mermaid
+flowchart TD
+    subgraph SPL["Integrasi Antarmuka SPL"]
+        C["Countable<br>+count(): int"]
+        I["IteratorAggregate<br>+getIterator(): Traversable"]
+        J["JsonSerializable<br>+jsonSerialize(): mixed"]
+    end
 
-### Indexed Array:
-```php
-$buah = ["Apel", "Mangga", "Jeruk"];
-$buah[] = "Semangka"; // Tambah elemen
+    Col["Class: MahasiswaCollection<br>-array items<br>+tambah(Mahasiswa mhs): self<br>+ambilCumLaude(): self<br>+hitungRataRataIpk(): float"]
+
+    C --> Col
+    I --> Col
+    J --> Col
+
+    Client["Client Code"] -->|"foreach ($koleksi as $m)"| Col
+    Client -->|"count($koleksi)"| Col
+    Client -->|"json_encode($koleksi)"| Col
 ```
 
-### Associative Array (seperti HashMap):
-```php
-$mahasiswa = [
-    "2401001" => "Budi Santoso",
-    "2401002" => "Siti Aminah",
-    "2401003" => "Andi Wijaya",
-];
+### A. Kelemahan Array Primitif di PHP
+Array bawaan PHP sangat fleksibel namun bersifat *loosely-typed*. Array dapat menampung campuran tipe data integer, string, boolean, dan beragam instance class berbeda tanpa perlindungan kompilasi:
 
-echo $mahasiswa["2401002"]; // Siti Aminah
+```php
+$daftar = [];
+$daftar[] = new Mahasiswa("240101", "Ahmad", 3.8);
+$daftar[] = "Teks liar yang merusak"; // ❌ Tidak ada type-check!
+$daftar[] = 12345;                     // ❌ Rawan Fatal Error saat di-loop
 ```
+
+### B. Solusi First-Class Collection
+Pola **First-Class Collection** membungkus array di dalam class khusus yang hanya menerima tipe objek spesifik (`Mahasiswa`). Hal ini memberikan garansi *Type Safety 100%* dan memungkinkan penambahan metode analitik bisnis langsung pada objek koleksi tersebut.
 
 ---
 
-## 2. Fungsi Array yang Penting
+## 2. Mengintegrasikan Antarmuka Standar PHP (SPL)
+
+Agar objek koleksi dapat diperlakukan senyaman array bawaan PHP (dihitung dengan `count()`, diulang dengan `foreach`, dan diserialisasi dengan `json_encode()`), implementasikan antarmuka SPL berikut:
 
 ```php
 <?php
+declare(strict_types=1);
 
-$nilai = [85, 72, 90, 65, 78, 95, 88];
+namespace App\Domain\Model;
 
-// Sorting
-sort($nilai);                    // [65, 72, 78, 85, 88, 90, 95]
-rsort($nilai);                   // Descending
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+use ArrayIterator;
+use Traversable;
 
-// Filtering
-$lulusCumLaude = array_filter($nilai, fn($n) => $n >= 85);
-// [85, 88, 90, 95]
-
-// Mapping (transformasi)
-$nilaiHuruf = array_map(function($n) {
-    return match(true) {
-        $n >= 85 => 'A',
-        $n >= 70 => 'B',
-        $n >= 55 => 'C',
-        default  => 'D',
-    };
-}, $nilai);
-
-// Reduce (akumulasi)
-$total = array_reduce($nilai, fn($carry, $item) => $carry + $item, 0);
-$rataRata = $total / count($nilai);
-```
-
----
-
-## 3. Koleksi Objek (Object Collection Pattern)
-
-```php
-<?php
-
-class Produk
+class Mahasiswa
 {
     public function __construct(
-        public readonly string $id,
+        public readonly string $nim,
         public string $nama,
-        public float $harga,
-        public int $stok
+        public float $ipk
     ) {}
-
-    public function __toString(): string
-    {
-        return "[{$this->id}] {$this->nama} - Rp " . number_format($this->harga) . " ({$this->stok} pcs)";
-    }
 }
 
-class KoleksiProduk
+class MahasiswaCollection implements Countable, IteratorAggregate, JsonSerializable
 {
-    /** @var Produk[] */
+    /** @var Mahasiswa[] */
     private array $items = [];
 
-    public function tambah(Produk $produk): void
+    public function __construct(Mahasiswa ...$mahasiswa)
     {
-        $this->items[$produk->id] = $produk;
+        foreach ($mahasiswa as $mhs) {
+            $this->tambah($mhs);
+        }
     }
 
-    public function cariById(string $id): ?Produk
+    // 1. Type-Safe Addition (Mendukung Method Chaining)
+    public function tambah(Mahasiswa $mhs): self
     {
-        return $this->items[$id] ?? null;
+        $this->items[$mhs->nim] = $mhs;
+        return $this;
     }
 
-    public function semua(): array
+    // 2. Implementasi Countable: Mengizinkan pemanggilan count($collection)
+    public function count(): int
     {
-        return $this->items;
+        return count($this->items);
     }
 
-    public function totalNilaiStok(): float
+    // 3. Implementasi IteratorAggregate: Mengizinkan loop 'foreach ($collection as $mhs)'
+    public function getIterator(): Traversable
     {
-        return array_reduce($this->items, function(float $total, Produk $p) {
-            return $total + ($p->harga * $p->stok);
-        }, 0);
+        return new ArrayIterator($this->items);
     }
 
-    public function filterByMinHarga(float $min): array
+    // 4. Implementasi JsonSerializable: Mengizinkan pemanggilan json_encode($collection)
+    public function jsonSerialize(): array
     {
-        return array_filter($this->items, fn(Produk $p) => $p->harga >= $min);
+        return array_values($this->items);
+    }
+
+    public function cariBerdasarkanNim(string $nim): ?Mahasiswa
+    {
+        return $this->items[$nim] ?? null;
     }
 }
-
-// Penggunaan
-$inventaris = new KoleksiProduk();
-$inventaris->tambah(new Produk("P01", "Laptop ASUS", 12_500_000, 5));
-$inventaris->tambah(new Produk("P02", "Mouse Logitech", 350_000, 20));
-$inventaris->tambah(new Produk("P03", "Monitor LG 24\"", 2_800_000, 8));
-
-foreach ($inventaris->semua() as $p) {
-    echo $p . "\n";
-}
-
-echo "\nTotal Nilai Stok: Rp " . number_format($inventaris->totalNilaiStok()) . "\n";
 ```
 
 ---
 
-## 📝 Tugas Praktikum
+## 3. Manipulasi Fungsional: `array_map`, `array_filter`, `array_reduce`
 
-1. Buat class `Mahasiswa` dan class `DaftarMahasiswa` (Collection).
-2. Implementasikan fitur: tambah, cari berdasarkan NIM, filter IPK cumlaude ($\ge$ 3.50), urutkan berdasarkan IPK (tertinggi dulu).
+Pendekatan fungsional memastikan data asli tidak mengalami mutasi liar (*Side-Effect Free*):
+
+```php
+<?php
+// Melanjutkan Class MahasiswaCollection:
+
+// A. FILTERING: Menghasilkan instance MahasiswaCollection BARU
+public function filterCumLaude(): self
+{
+    $hasil = array_filter($this->items, fn(Mahasiswa $m) => $m->ipk >= 3.50);
+    $koleksiBaru = new self();
+    $koleksiBaru->items = $hasil;
+    return $koleksiBaru;
+}
+
+// B. MAPPING: Mengambil daftar nama saja (Pluck)
+public function ambilSemuaNama(): array
+{
+    return array_map(fn(Mahasiswa $m) => $m->nama, array_values($this->items));
+}
+
+// C. REDUCING: Mengkalkulasi rata-rata IPK seluruh angkatan
+public function hitungRataRataIpk(): float
+{
+    if (empty($this->items)) {
+        return 0.0;
+    }
+    $totalIpk = array_reduce($this->items, fn(float $total, Mahasiswa $m) => $total + $m->ipk, 0.0);
+    return $totalIpk / count($this->items);
+}
+
+// D. SORTING: Mengurutkan IPK tertinggi ke terendah (Descending)
+public function urutkanBerdasarkanIpkTertinggi(): self
+{
+    $salinan = $this->items;
+    uasort($salinan, fn(Mahasiswa $a, Mahasiswa $b) => $b->ipk <=> $a->ipk);
+    $koleksiBaru = new self();
+    $koleksiBaru->items = $salinan;
+    return $koleksiBaru;
+}
+```
+
+---
+
+## 4. Fitur Modern Array di PHP 8+
+
+### A. Arrow Functions (`fn() =>`)
+Meringkas penulisan closure tanpa perlu menyertakan `use ($variabelLuar)`:
+```php
+$ambangBatas = 3.75;
+// Otomatis menangkap $ambangBatas dari scope luar:
+$bintangKelas = array_filter($daftar, fn(Mahasiswa $m) => $m->ipk >= $ambangBatas);
+```
+
+### B. Array Unpacking dengan String Keys (PHP 8.1+)
+```php
+$dataAwal = ['A' => 'Sistem Informasi', 'B' => 'Informatika'];
+$dataBaru = ['C' => 'Teknik Elektro', ...$dataAwal]; // PHP 8.1+ mendukung string keys unpacking
+```
+
+### C. Fungsi `array_is_list()` (PHP 8.1+)
+Memastikan apakah array berbentuk sequential list (0, 1, 2, ...):
+```php
+array_is_list(['Apel', 'Jeruk']);        // true
+array_is_list(['nama' => 'Budi']);        // false
+array_is_list([0 => 'A', 2 => 'B']);      // false (karena indeks 1 melompat)
+```
+
+---
+
+## 💻 5. Praktikum Terbimbing: Analisis Data Yudisium
+
+```php
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/MahasiswaCollection.php';
+
+use App\Domain\Model\Mahasiswa;
+use App\Domain\Model\MahasiswaCollection;
+
+$angkatan2024 = new MahasiswaCollection(
+    new Mahasiswa("240101", "Cut Meurah Intan", 3.92),
+    new Mahasiswa("240102", "Teuku Rayhan", 3.45),
+    new Mahasiswa("240103", "Siti Nurhaliza", 3.88),
+    new Mahasiswa("240104", "Muhammad Fajar", 3.20),
+    new Mahasiswa("240105", "Zulfa Safira", 3.95)
+);
+
+echo "========================================================\n";
+echo "REKAPITULASI AKADEMIK ANGKATAN 2024\n";
+echo "Total Mahasiswa : " . count($angkatan2024) . " orang\n";
+echo sprintf("Rata-rata IPK   : %.2f\n", $angkatan2024->hitungRataRataIpk());
+echo "--------------------------------------------------------\n";
+
+echo "DAFTAR MAHASISWA CUMLAUDE (IPK >= 3.50) URUT TERTINGGI:\n";
+$cumlaudeSorted = $angkatan2024->filterCumLaude()->urutkanBerdasarkanIpkTertinggi();
+
+foreach ($cumlaudeSorted as $mhs) {
+    echo sprintf("🏆 [%s] %-20s : IPK %.2f\n", $mhs->nim, $mhs->nama, $mhs->ipk);
+}
+
+echo "--------------------------------------------------------\n";
+echo "SERIALISASI JSON RESMI:\n";
+echo json_encode($cumlaudeSorted, JSON_PRETTY_PRINT) . "\n";
+echo "========================================================\n";
+```
+
+---
+
+## 📝 Evaluasi & Tugas Praktikum Mandiri
+
+1. **Rancang Class `ProdukCollection`:**
+   - Model `ItemProduk` dengan properti `$sku`, `$nama`, `$harga`, `$stok`, dan `$kategori`.
+   - Bangun `ProdukCollection` yang mengimplementasikan `Countable`, `IteratorAggregate`, dan `JsonSerializable`.
+   - Tambahkan method `filterByKategori(string $kat): self`, `hitungTotalNilaiAset(): float`, dan `ambilStokKritis(int $ambang = 5): self`.
+2. **Penerapan Paginate pada Koleksi:**
+   - Tambahkan method `paginate(int $halaman, int $perHalaman): self` yang mengembalikan potongan sub-koleksi menggunakan `array_slice`.
+3. **Analisis Reflektif:**
+   - Mengapa method-method manipulasi pada *First-Class Collection* (seperti `filter` dan `sort`) sebaiknya mengembalikan *instance* objek baru (*Immutable*) daripada mengubah array internal secara langsung?

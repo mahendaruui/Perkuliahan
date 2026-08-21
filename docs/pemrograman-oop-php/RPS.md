@@ -80,15 +80,20 @@ Mata kuliah **Pemrograman Berorientasi Objek** membahas konsep, prinsip, dan imp
 
 ---
 
-## 📚 Daftar Pustaka
+## 📚 Daftar Pustaka & Referensi Akademis
 
-### Pustaka Utama
-1. Lockhart, J. *Modern PHP: New Features and Good Practices*. O'Reilly Media.
-2. Prettyman, S. *Learn PHP 8: Using MySQL, JavaScript, CSS3, and HTML5*. Apress.
-3. Oficina PHP. *PHP 8 Objects, Patterns, and Practice*. Apress.
-4. Skvorc, B. *PHP Application Development with Composer, PHP-FIG, and More*. SitePoint.
+### Pustaka Utama (Textbooks & Standards)
+1. **Zandstra, M.** (2021). *PHP 8 Objects, Patterns, and Practice: Mastering OO Enhancements, Design Patterns, and Test-Driven Development* (6th ed.). Apress.
+2. **Martin, R. C.** (2017). *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Prentice Hall.
+3. **Lockhart, J.** (2015). *Modern PHP: New Features and Good Practices*. O'Reilly Media.
+4. **Saradhna, M.** (2021). *Mastering PHP 8: Build enterprise-ready applications using the new features, architecture, and design patterns*. Packt Publishing.
+5. **PHP-FIG.** (2014–2024). *PHP Standard Recommendations (PSR-3 Logger, PSR-4 Autoloader, PSR-12 Coding Style)*. https://www.php-fig.org/
 
-### Pustaka Pendukung
-1. Martin, R. C. *Clean Code: A Handbook of Agile Software Craftsmanship*. Pearson.
-2. Gamma, E., et al. *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley.
-3. PHP Official Documentation — [https://www.php.net/manual/en/](https://www.php.net/manual/en/)
+### Pustaka Pendukung & Makalah Klasik
+1. **Gamma, E., Helm, R., Johnson, R., & Vlissides, J.** (1994). *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley.
+2. **Fowler, M.** (2002). *Patterns of Enterprise Application Architecture*. Addison-Wesley Professional.
+3. **Martin, R. C.** (2008). *Clean Code: A Handbook of Agile Software Craftsmanship*. Prentice Hall.
+4. **Cardelli, L., & Wegner, P.** (1985). On understanding types, data abstraction, and polymorphism. *ACM Computing Surveys (CSUR)*, 17(4), 471–523.
+5. **Parnas, D. L.** (1972). On the criteria to be used in decomposing systems into modules. *Communications of the ACM*, 15(12), 1053–1058.
+6. **Liskov, B.** (1987). Data abstraction and hierarchy. *ACM SIGPLAN Notices*, 23(5), 17–34.
+7. **PHP Documentation Group.** (2025). *PHP Manual: Classes, Objects, Exceptions, and SPL*. https://www.php.net/manual/en/language.oop5.php
