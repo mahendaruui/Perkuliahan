@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 12 - File Handling & I/O Streams di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-rose: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: #4f46e5;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
+    .slide-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Presentation Main Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Content Typography */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    /* Card Box */
+    .card-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-box h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-box p {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    .card-box ul {
+      margin-left: 18px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    /* Highlight Banner */
+    .banner {
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .banner-blue {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
+    }
+
+    .banner-green {
+      background: #ecfdf5;
+      border-left: 4px solid #059669;
+      color: #065f46;
+    }
+
+    .banner-amber {
+      background: #fffbeb;
+      border-left: 4px solid #d97706;
+      color: #92400e;
+    }
+
+    .banner-rose {
+      background: #fff1f2;
+      border-left: 4px solid #e11d48;
+      color: #9f1239;
+    }
+
+    .banner-purple {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      color: #581c87;
+    }
+
+    /* Code Container */
+    .code-container {
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      font-family: "Fira Code", monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
+    }
+
+    .code-header {
+      background: #1e293b;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .code-title {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .code-body {
+      padding: 16px;
+      color: #f8fafc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Syntax Highlighting */
+    .c-kw { color: #38bdf8; font-weight: 600; }
+    .c-fn { color: #818cf8; }
+    .c-str { color: #4ade80; }
+    .c-cls { color: #fbbf24; }
+    .c-cm { color: #64748b; font-style: italic; }
+    .c-var { color: #f472b6; }
+    .c-num { color: #f87171; }
+
+    /* Footer Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 380px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #0284c7);
+      width: 8.33%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-nav-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn-nav-secondary:hover:not(:disabled) {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+    }
+
+    .hero-container {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="Logo UUI" class="brand-logo" onerror="this.src='/uuilogo.png'">
+      <div>
+        <div class="brand-text">Pemrograman Berorientasi Objek <span>PHP 8+</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Program Studi Informatika</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="timer-badge" id="slideTimer" title="Klik untuk Jeda/Lanjut, Klik Ganda untuk Reset">⏱️ 00:00</span>
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 12</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Mode Layar Penuh (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Stage -->
+  <main id="slideStage">
+
+    <!-- SLIDE 1: Title & Hero -->
+    <div class="slide active" id="slide-1">
+      <div class="hero-container">
+        <div class="hero-badge">📁 PERTEMUAN 12 — PERSISTENCE & STREAM I/O</div>
+        <h1 class="hero-title">Manajemen Berkas & <span>I/O Streams</span> di PHP 8+</h1>
+        <p class="hero-subtitle" style="font-size: 1.15rem; color: #64748b; line-height: 1.6;">
+          Menguasai Arsitektur Persistensi Berkas, Stream-Based vs Buffered I/O, File Locking (flock), SplFileObject, Keamanan JSON/CSV, dan File-Based Repository Pattern.
+        </p>
+        
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-label">Mata Kuliah</div>
+            <div class="meta-value">Pemrograman Berorientasi Objek (PHP 8+)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dosen Pengampu</div>
+            <div class="meta-value">Mahendar Dwi Payana, S.ST., M.T. & Tim</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Institusi</div>
+            <div class="meta-value">Universitas Ubudiyah Indonesia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Capaian & Agenda -->
+    <div class="slide" id="slide-2">
+      <div class="slide-tag">🎯 TUJUAN & SILABUS</div>
+      <h1 class="slide-title">Capaian Pembelajaran (Sub-CPMK 12)</h1>
+      <h2 class="slide-subtitle">Mahasiswa mampu mengelola I/O berkas secara hemat memori, mencegah korupsi konkurensi, dan merancang repository persistensi data berstandar enterprise.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>📋 Agenda Pembahasan Perkuliahan</h3>
+          <ul>
+            <li><strong>1. Stream vs Buffered I/O:</strong> Optimasi konsumsi RAM $O(1)$ untuk berkas berukuran besar.</li>
+            <li><strong>2. Pencegahan Race Condition:</strong> Penguncian berkas konkurensi dengan <code class="c-fn">flock()</code>.</li>
+            <li><strong>3. SPL OOP File Handling:</strong> Menggunakan <code class="c-cls">SplFileObject</code> & <code class="c-cls">SplFileInfo</code>.</li>
+            <li><strong>4. CSV & JSON Processing:</strong> Standar aman <code class="c-cls">JSON_THROW_ON_ERROR</code> & <code class="c-fn">json_validate()</code> PHP 8.3+.</li>
+            <li><strong>5. File-Based Repository Pattern:</strong> Memisahkan logika persistensi dari lapisan domain bisnis.</li>
+            <li><strong>6. Audit Logger & Rotasi:</strong> Membangun sistem pencatatan log transaksi persisten.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <h3>💡 Nilai Rekayasa Perangkat Lunak</h3>
+          <p>Persistensi berbasis berkas adalah fondasi penting sebelum melangkah ke RDBMS/NoSQL:</p>
+          <ul style="margin-top: 10px;">
+            <li>Mencegah crash server akibat <em>Allowed Memory Size Exhausted</em> saat memproses file CSV/Log raksasa.</li>
+            <li>Menjamin integritas data saat ratusan pengguna menulis transaksi secara bersamaan.</li>
+            <li>Memudahkan migrasi database di masa depan melalui <em>Repository Interface</em> yang terisolasi.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Stream I/O vs Buffered I/O -->
+    <div class="slide" id="slide-3">
+      <div class="slide-tag">⚖️ EFISIENSI MEMORI</div>
+      <h1 class="slide-title">Stream-Based I/O vs Buffered I/O</h1>
+      <h2 class="slide-subtitle">Mengapa membaca file besar sekaligus ke dalam variabel memori (<code class="c-fn">file_get_contents</code>) sangat berisiko?</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="background: #fff1f2; border-color: #fecdd3;">
+          <h3 style="color: #9f1239;">❌ Buffered I/O (file_get_contents)</h3>
+          <p style="font-size: 0.88rem; color: #881337; margin-bottom: 8px;">
+            Memuat seluruh isi file 500MB sekaligus ke RAM. Jika <code class="c-var">memory_limit</code> server 128MB, PHP langsung melempar <strong>Fatal Error</strong> dan sistem mati seketika!
+          </p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-cm">// ⚠️ Memakan RAM = Ukuran File (500 MB)</span>
+<span class="c-var">$data</span> = <span class="c-fn">file_get_contents</span>(<span class="c-str">'transaksi_raksasa.csv'</span>);
+<span class="c-cm">// 💥 Fatal error: Allowed memory size exhausted!</span></div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="background: #ecfdf5; border-color: #a7f3d0;">
+          <h3 style="color: #065f46;">✅ Stream-Based I/O (SplFileObject)</h3>
+          <p style="font-size: 0.88rem; color: #064e3b; margin-bottom: 8px;">
+            Membaca baris demi baris via buffer kecil (4-8 KB). File berukuran puluhan Gigabyte dapat diproses lancar dengan konsumsi RAM konstan $O(1)$.
+          </p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-var">$file</span> = <span class="c-kw">new</span> <span class="c-cls">\SplFileObject</span>(<span class="c-str">'transaksi_raksasa.csv'</span>, <span class="c-str">'r'</span>);
+<span class="c-kw">while</span> (!<span class="c-var">$file</span>-><span class="c-fn">eof</span>()) {
+    <span class="c-var">$baris</span> = <span class="c-var">$file</span>-><span class="c-fn">fgets</span>(); <span class="c-cm">// ✨ RAM hanya ~2 MB</span>
+}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>Aturan Emas:</strong> Gunakan Buffered I/O (<code>file_get_contents</code>) hanya untuk file konfigurasi kecil (< 1MB). Untuk dataset, log, dan import data massal, selalu gunakan Stream I/O!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: File Locking (flock) -->
+    <div class="slide" id="slide-4">
+      <div class="slide-tag">🔒 INTEGRITAS KONKURENSI</div>
+      <h1 class="slide-title">Pencegahan <em>Race Condition</em> dengan <code class="c-fn">flock()</code></h1>
+      <h2 class="slide-subtitle">Mengendalikan hak akses baca dan tulis saat ratusan request pengguna datang pada milidetik yang sama.</h2>
+      
+      <div class="grid-3">
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <h3>1. LOCK_SH (Shared)</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Kunci bersama untuk operasi <strong>Membaca</strong>. Banyak proses dapat membaca bersamaan, namun penulisan akan ditunda.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-fn">flock</span>(<span class="c-var">$handle</span>, <span class="c-cls">LOCK_SH</span>);
+<span class="c-cm">// Banyak user baca aman</span></div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-rose);">
+          <h3 style="color: #9f1239;">2. LOCK_EX (Exclusive)</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Kunci eksklusif untuk operasi <strong>Menulis</strong>. Hanya 1 proses yang boleh aktif, proses lain wajib antre.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-fn">flock</span>(<span class="c-var">$handle</span>, <span class="c-cls">LOCK_EX</span>);
+<span class="c-cm">// Tulis data eksklusif</span></div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <h3>3. LOCK_UN (Unlock)</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Melepaskan kunci segera setelah operasi baca/tulis tuntas (biasanya di blok <code class="c-kw">finally</code>).</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-fn">flock</span>(<span class="c-var">$handle</span>, <span class="c-cls">LOCK_UN</span>);
+<span class="c-fn">fclose</span>(<span class="c-var">$handle</span>);</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner banner-amber" style="margin-top: 14px;">
+        <div><strong>⚠️ Tanpa Penguncian Eksklusif:</strong> Operasi konkurensi akan menyebabkan file tertulis setengah (*Partial Write*), JSON menjadi korup (*Invalid Syntax*), atau data saldo rekening hilang!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SplFileObject OOP -->
+    <div class="slide" id="slide-5">
+      <div class="slide-tag">🧱 STANDARD PHP LIBRARY (SPL)</div>
+      <h1 class="slide-title">Pemrosesan Berkas Berbasis Objek: <code class="c-cls">SplFileObject</code></h1>
+      <h2 class="slide-subtitle">Mengganti fungsi prosedural kuno (<code class="c-fn">fopen</code>, <code class="c-fn">fread</code>, <code class="c-fn">fclose</code>) menjadi objek iterator yang modern.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Keunggulan <code class="c-cls">SplFileObject</code>:</h3>
+          <ul>
+            <li><strong>Auto Resource Cleanup:</strong> Berkas ditutup otomatis saat objek dihancurkan (*Destructor*) tanpa risiko <em>file handle leak</em>.</li>
+            <li><strong>Iterator Bawaan:</strong> File dapat langsung di-loop dengan <code class="c-kw">foreach</code> baris per baris.</li>
+            <li><strong>Flags Cerdas:</strong> Mampu otomatis mengabaikan baris kosong (<code class="c-cls">SKIP_EMPTY</code>) dan menghapus karakter newline (<code class="c-cls">DROP_NEW_LINE</code>).</li>
+            <li><strong>Metadata Ekstensif:</strong> Menyediakan method <code class="c-fn">getSize()</code>, <code class="c-fn">getMTime()</code>, <code class="c-fn">getExtension()</code>.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">demo_spl_file.php</span>
+          </div>
+          <div class="code-body"><span class="c-var">$file</span> = <span class="c-kw">new</span> <span class="c-cls">\SplFileObject</span>(<span class="c-str">'data/catatan.txt'</span>, <span class="c-str">'r'</span>);
+<span class="c-var">$file</span>-><span class="c-fn">setFlags</span>(
+    <span class="c-cls">\SplFileObject</span>::<span class="c-cls">SKIP_EMPTY</span> | 
+    <span class="c-cls">\SplFileObject</span>::<span class="c-cls">DROP_NEW_LINE</span>
+);
+
+<span class="c-kw">foreach</span> (<span class="c-var">$file</span> <span class="c-kw">as</span> <span class="c-var">$nomorBaris</span> => <span class="c-var">$teks</span>) {
+    <span class="c-fn">echo</span> <span class="c-str">"Baris #{$nomorBaris}: {$teks}
+"</span>;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Pengolahan CSV dengan SplFileObject -->
+    <div class="slide" id="slide-6">
+      <div class="slide-tag">📊 PARSING CSV MODERN</div>
+      <h1 class="slide-title">Membaca & Menulis Berkas CSV Berbasis OOP</h1>
+      <h2 class="slide-subtitle">Mengubah data tabular CSV menjadi objek domain secara otomatis dan hemat memori.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Konfigurasi Flag CSV:</h3>
+          <p style="font-size: 0.88rem; color: #475569; margin-bottom: 8px;">
+            Cukup aktifkan flag <code class="c-cls">READ_CSV</code>, maka setiap iterasi <code class="c-kw">foreach</code> akan otomatis menghasilkan array kolom yang sudah di-parse sesuai delimiter!
+          </p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-var">$file</span> = <span class="c-kw">new</span> <span class="c-cls">\SplFileObject</span>(<span class="c-str">'mahasiswa.csv'</span>, <span class="c-str">'r'</span>);
+<span class="c-var">$file</span>-><span class="c-fn">setFlags</span>(<span class="c-cls">\SplFileObject</span>::<span class="c-cls">READ_CSV</span>);
+<span class="c-var">$file</span>-><span class="c-fn">setCsvControl</span>(<span class="c-str">','</span>, <span class="c-str">'"'</span>);
+
+<span class="c-kw">foreach</span> (<span class="c-var">$file</span> <span class="c-kw">as</span> [<span class="c-var">$npm</span>, <span class="c-var">$nama</span>, <span class="c-var">$prodi</span>]) {
+    <span class="c-var">$mhs</span> = <span class="c-kw">new</span> <span class="c-cls">Mahasiswa</span>(<span class="c-var">$npm</span>, <span class="c-var">$nama</span>, <span class="c-var">$prodi</span>);
+}</div>
+          </div>
+        </div>
+        
+        <div class="card-box">
+          <h3>📌 Menulis CSV dengan <code class="c-fn">fputcsv()</code>:</h3>
+          <p style="font-size: 0.88rem; color: #475569; margin-bottom: 8px;">
+            Menyimpan array ke file CSV dengan proteksi escape karakter khusus otomatis:
+          </p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-var">$export</span> = <span class="c-kw">new</span> <span class="c-cls">\SplFileObject</span>(<span class="c-str">'laporan.csv'</span>, <span class="c-str">'w'</span>);
+<span class="c-var">$export</span>-><span class="c-fn">fputcsv</span>([<span class="c-str">'NPM'</span>, <span class="c-str">'Nama'</span>, <span class="c-str">'IPK'</span>]); <span class="c-cm">// Header</span>
+
+<span class="c-kw">foreach</span> (<span class="c-var">$koleksiMahasiswa</span> <span class="c-kw">as</span> <span class="c-var">$m</span>) {
+    <span class="c-var">$export</span>-><span class="c-fn">fputcsv</span>([<span class="c-var">$m</span>-><span class="c-var">npm</span>, <span class="c-var">$m</span>-><span class="c-var">nama</span>, <span class="c-var">$m</span>-><span class="c-var">ipk</span>]);
+}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: JSON Modern & PHP 8.3+ -->
+    <div class="slide" id="slide-7">
+      <div class="slide-tag">⚡ PARSING JSON & PHP 8.3+</div>
+      <h1 class="slide-title">Pengolahan JSON Aman & Fitur <code class="c-fn">json_validate()</code></h1>
+      <h2 class="slide-subtitle">Menghilangkan silent error pada serialisasi dan memvalidasi sintaks JSON tanpa beban alokasi memori.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>1. Flag JSON_THROW_ON_ERROR</h3>
+          <p style="font-size: 0.86rem; color: #475569; margin-bottom: 6px;">
+            Memaksa PHP melempar <code class="c-cls">JsonException</code> saat decode/encode gagal, alih-alih mengembalikan <code class="c-kw">null</code>:
+          </p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-kw">try</span> {
+    <span class="c-var">$data</span> = <span class="c-fn">json_decode</span>(
+        <span class="c-var">$jsonString</span>, 
+        associative: <span class="c-kw">true</span>, 
+        flags: <span class="c-cls">JSON_THROW_ON_ERROR</span>
+    );
+} <span class="c-kw">catch</span> (<span class="c-cls">\JsonException</span> <span class="c-var">$e</span>) {
+    <span class="c-fn">logError</span>(<span class="c-str">"JSON Korup: "</span> . <span class="c-var">$e</span>-><span class="c-fn">getMessage</span>());
+}</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="background: #eff6ff; border-color: #bfdbfe;">
+          <h3 style="color: #1e40af;">2. Fitur Baru PHP 8.3+: json_validate()</h3>
+          <p style="font-size: 0.86rem; color: #1e3a8a; margin-bottom: 6px;">
+            Memeriksa validitas sintaks JSON string tanpa perlu membangun struktur data array di RAM:
+          </p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-kw">if</span> (!<span class="c-fn">json_validate</span>(<span class="c-var">$payloadJson</span>)) {
+    <span class="c-kw">throw new</span> <span class="c-cls">\InvalidArgumentException</span>(<span class="c-str">"Payload bukan JSON valid!"</span>);
+}
+<span class="c-cm">// ✨ Super cepat & hemat RAM sebelum json_decode</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: File-Based Repository Pattern -->
+    <div class="slide" id="slide-8">
+      <div class="slide-tag">🏛️ ARSITEKTUR BERLAPIS</div>
+      <h1 class="slide-title">Pola Desain: <em>File-Based Repository Pattern</em></h1>
+      <h2 class="slide-subtitle">Memisahkan logika bisnis dari mekanisme penyimpanan berkas fisik melalui antarmuka (Interface).</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Mengapa Repository Pattern?</h3>
+          <ul>
+            <li><strong>Decoupling:</strong> Lapisan Service/Domain tidak perlu tahu apakah data disimpan di JSON, CSV, MySQL, atau SQLite.</li>
+            <li><strong>Testability:</strong> Memudahkan pembuatan Mock Repository saat unit test tanpa perlu membaca disk fisik.</li>
+            <li><strong>Single Responsibility:</strong> Satu class repository hanya fokus pada urusan I/O berkas dan serialisasi.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">Domain/Repository/MahasiswaRepositoryInterface.php</span>
+          </div>
+          <div class="code-body"><span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Repository</span>;
+
+<span class="c-kw">use</span> <span class="c-cls">App\Domain\Model\Mahasiswa</span>;
+
+<span class="c-kw">interface</span> <span class="c-cls">MahasiswaRepositoryInterface</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">simpan</span>(<span class="c-cls">Mahasiswa</span> <span class="c-var">$mhs</span>): <span class="c-kw">void</span>;
+    <span class="c-kw">public function</span> <span class="c-fn">cariByNpm</span>(<span class="c-kw">string</span> <span class="c-var">$npm</span>): ?<span class="c-cls">Mahasiswa</span>;
+    <span class="c-kw">public function</span> <span class="c-fn">ambilSemua</span>(): <span class="c-kw">array</span>;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Implementasi Json Repository Transaksional -->
+    <div class="slide" id="slide-9">
+      <div class="slide-tag">💾 REPOSITORY IMPLEMENTATION</div>
+      <h1 class="slide-title">Implementasi <code class="c-cls">JsonMahasiswaRepository</code> Aman</h1>
+      <h2 class="slide-subtitle">Menyimpan entitas ke berkas JSON dengan garansi penguncian eksklusif (<code class="c-cls">LOCK_EX</code>).</h2>
+      
+      <div class="code-container" style="font-size: 0.76rem;">
+        <div class="code-header"><span class="code-title">Infrastructure/Persistence/JsonMahasiswaRepository.php</span></div>
+        <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">simpan</span>(<span class="c-cls">Mahasiswa</span> <span class="c-var">$mhs</span>): <span class="c-kw">void</span>
+{
+    <span class="c-var">$handle</span> = <span class="c-fn">fopen</span>(<span class="c-var">$this</span>-><span class="c-var">filePath</span>, <span class="c-str">'c+'</span>); <span class="c-cm">// Buka untuk baca & tulis</span>
+    <span class="c-kw">if</span> (!<span class="c-fn">flock</span>(<span class="c-var">$handle</span>, <span class="c-cls">LOCK_EX</span>)) {
+        <span class="c-kw">throw new</span> <span class="c-cls">\RuntimeException</span>(<span class="c-str">"Gagal mengunci berkas database JSON!"</span>);
+    }
+    <span class="c-kw">try</span> {
+        <span class="c-var">$konten</span> = <span class="c-fn">stream_get_contents</span>(<span class="c-var">$handle</span>);
+        <span class="c-var">$data</span> = <span class="c-var">$konten</span> ? <span class="c-fn">json_decode</span>(<span class="c-var">$konten</span>, <span class="c-kw">true</span>, flags: <span class="c-cls">JSON_THROW_ON_ERROR</span>) : [];
+        <span class="c-var">$data</span>[<span class="c-var">$mhs</span>-><span class="c-var">npm</span>] = <span class="c-var">$mhs</span>-><span class="c-fn">toArray</span>();
+
+        <span class="c-fn">ftruncate</span>(<span class="c-var">$handle</span>, <span class="c-num">0</span>); <span class="c-cm">// Kosongkan isi lama</span>
+        <span class="c-fn">rewind</span>(<span class="c-var">$handle</span>);       <span class="c-cm">// Kembali ke awal file</span>
+        <span class="c-fn">fwrite</span>(<span class="c-var">$handle</span>, <span class="c-fn">json_encode</span>(<span class="c-var">$data</span>, <span class="c-cls">JSON_PRETTY_PRINT</span> | <span class="c-cls">JSON_THROW_ON_ERROR</span>));
+    } <span class="c-kw">finally</span> {
+        <span class="c-fn">flock</span>(<span class="c-var">$handle</span>, <span class="c-cls">LOCK_UN</span>); <span class="c-cm">// ✨ Garansi lepas kunci</span>
+        <span class="c-fn">fclose</span>(<span class="c-var">$handle</span>);
+    }
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Audit Logger & File Rotation -->
+    <div class="slide" id="slide-10">
+      <div class="slide-tag">📝 AUDIT LOGGING</div>
+      <h1 class="slide-title">Audit Logger Persisten & Rotasi Berkas</h1>
+      <h2 class="slide-subtitle">Merekam setiap aksi mutasi sistem ke dalam berkas log terstruktur dengan rotasi kapasitas otomatis.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Strategi Rotasi Berkas Log:</h3>
+          <p style="font-size: 0.88rem; color: #475569; line-height: 1.6;">
+            Jika ukuran berkas <code class="c-str">app.log</code> melampaui batas (misal 5 MB), sistem otomatis me-rename file lama menjadi <code class="c-str">app.log.1</code> dan membuat file log baru yang bersih.
+          </p>
+          <ul style="margin-top: 10px; font-size: 0.86rem;">
+            <li>Mencegah partisi harddisk server penuh 100%.</li>
+            <li>Memudahkan analisis log harian / mingguan.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header"><span class="code-title">Infrastructure/Logging/FileLogger.php</span></div>
+          <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">log</span>(<span class="c-kw">string</span> <span class="c-var">$level</span>, <span class="c-kw">string</span> <span class="c-var">$pesan</span>): <span class="c-kw">void</span>
+{
+    <span class="c-kw">if</span> (<span class="c-fn">file_exists</span>(<span class="c-var">$this</span>-><span class="c-var">logPath</span>) && <span class="c-fn">filesize</span>(<span class="c-var">$this</span>-><span class="c-var">logPath</span>) > <span class="c-num">5242880</span>) {
+        <span class="c-fn">rename</span>(<span class="c-var">$this</span>-><span class="c-var">logPath</span>, <span class="c-var">$this</span>-><span class="c-var">logPath</span> . <span class="c-str">'.'</span> . <span class="c-fn">time</span>());
+    }
+
+    <span class="c-var">$entry</span> = <span class="c-fn">sprintf</span>(
+        <span class="c-str">"[%s] [%s]: %s
+"</span>, 
+        <span class="c-fn">date</span>(<span class="c-str">'Y-m-d H:i:s'</span>), 
+        <span class="c-fn">strtoupper</span>(<span class="c-var">$level</span>), 
+        <span class="c-var">$pesan</span>
+    );
+    <span class="c-fn">file_put_contents</span>(<span class="c-var">$this</span>-><span class="c-var">logPath</span>, <span class="c-var">$entry</span>, <span class="c-cls">FILE_APPEND</span> | <span class="c-cls">LOCK_EX</span>);
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Studi Kasus Nyata -->
+    <div class="slide" id="slide-11">
+      <div class="slide-tag">💻 STUDI KASUS INTEGRATIF</div>
+      <h1 class="slide-title">Studi Kasus: Pipeline Import Mahasiswa</h1>
+      <h2 class="slide-subtitle">Membaca file CSV, memvalidasi dengan regex, dan menyimpannya ke Json Repository ber-lock.</h2>
+      
+      <div class="grid-2">
+        <div class="code-container">
+          <div class="code-header"><span class="code-title">Service/MahasiswaImportService.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">MahasiswaImportService</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">__construct</span>(
+        <span class="c-kw">private</span> <span class="c-cls">MahasiswaRepositoryInterface</span> <span class="c-var">$repo</span>,
+        <span class="c-kw">private</span> <span class="c-cls">FileLogger</span> <span class="c-var">$logger</span>
+    ) {}
+
+    <span class="c-kw">public function</span> <span class="c-fn">importCsv</span>(<span class="c-kw">string</span> <span class="c-var">$csvPath</span>): <span class="c-kw">int</span>
+    {
+        <span class="c-var">$reader</span> = <span class="c-kw">new</span> <span class="c-cls">\SplFileObject</span>(<span class="c-var">$csvPath</span>);
+        <span class="c-var">$reader</span>-><span class="c-fn">setFlags</span>(<span class="c-cls">\SplFileObject</span>::<span class="c-cls">READ_CSV</span>);
+        <span class="c-var">$sukses</span> = <span class="c-num">0</span>;
+
+        <span class="c-kw">foreach</span> (<span class="c-var">$reader</span> <span class="c-kw">as</span> [<span class="c-var">$npm</span>, <span class="c-var">$nama</span>, <span class="c-var">$prodi</span>]) {
+            <span class="c-var">$this</span>-><span class="c-var">repo</span>-><span class="c-fn">simpan</span>(<span class="c-kw">new</span> <span class="c-cls">Mahasiswa</span>(<span class="c-var">$npm</span>, <span class="c-var">$nama</span>, <span class="c-var">$prodi</span>));
+            <span class="c-var">$sukses</span>++;
+        }
+        <span class="c-var">$this</span>-><span class="c-var">logger</span>-><span class="c-fn">log</span>(<span class="c-str">'info'</span>, <span class="c-str">"Sukses import {$sukses} data."</span>);
+        <span class="c-kw">return</span> <span class="c-var">$sukses</span>;
+    }
+}</div>
+        </div>
+        
+        <div class="card-box" style="display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="color: var(--primary);">✨ Keunggulan Arsitektur Ini:</h3>
+          <ul style="font-size: 0.9rem; line-height: 1.7;">
+            <li><strong>Hemat RAM:</strong> CSV 100.000 baris dibaca baris per baris secara streaming tanpa lonjakan memori.</li>
+            <li><strong>Thread-Safe:</strong> Penguncian <code class="c-cls">LOCK_EX</code> memastikan data JSON tidak corrupt saat dieksekusi simultan.</li>
+            <li><strong>Terdokumentasi:</strong> Audit logger mencatat waktu dan kuantitas data yang sukses di-import.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Rangkuman & Kuis Reflektif -->
+    <div class="slide" id="slide-12">
+      <div class="slide-tag">🎓 EVALUASI & PENUTUP</div>
+      <h1 class="slide-title">Rangkuman Pertemuan 12 & Kuis Reflektif</h1>
+      <h2 class="slide-subtitle">Sintesis persistensi berkas dan persiapan menuju prinsip desain arsitektur SOLID.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>🔑 4 Inti Konsep Hari Ini:</h3>
+          <ul>
+            <li><strong>Stream I/O:</strong> Konsumsi memori konstan $O(1)$ untuk berkas raksasa via <code class="c-cls">SplFileObject</code>.</li>
+            <li><strong>File Locking:</strong> Mengunci berkas (<code class="c-cls">LOCK_EX</code>) demi mencegah <em>Race Condition</em>.</li>
+            <li><strong>Safe JSON/CSV:</strong> Memanfaatkan <code class="c-cls">JSON_THROW_ON_ERROR</code> & <code class="c-fn">json_validate()</code>.</li>
+            <li><strong>Repository Pattern:</strong> Mengisolasi detail media penyimpanan dari entitas domain bisnis.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-purple); background: #faf5ff;">
+          <h3 style="color: #6b21a8;">❓ Kuis Pemahaman Mahasiswa:</h3>
+          <ol style="margin-left: 18px; font-size: 0.88rem; color: #581c87; line-height: 1.6;">
+            <li>Mengapa mode pembacaan Stream I/O lebih unggul daripada Buffered I/O untuk memproses berkas log berukuran 500 MB?</li>
+            <li>Apa perbedaan mendasar antara mode penguncian berkas <code class="c-cls">LOCK_SH</code> dan <code class="c-cls">LOCK_EX</code> pada fungsi <code class="c-fn">flock()</code>?</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>🔜 Pertemuan 13 Minggu Depan:</strong> <em>Prinsip Desain Perangkat Lunak SOLID di PHP 8+</em> (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion).</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer>
+    <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">
+      Tekan <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> untuk pindah slide &bull; Tekan <kbd>F</kbd> untuk Fullscreen
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-nav btn-nav-secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <!-- Slide Engine JavaScript -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+    const slideIndicator = document.getElementById("slideIndicator");
+    const progressBar = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const timerElement = document.getElementById("slideTimer");
+
+    // Timer Implementation
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          const mins = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+          const secs = String(timerSeconds % 60).padStart(2, "0");
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${mins}:${secs}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (timerRunning) {
+          timerElement.classList.remove("paused");
+        } else {
+          timerElement.classList.add("paused");
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove("paused");
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener("click", toggleTimer);
+      timerElement.addEventListener("dblclick", resetTimer);
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove("active");
+        if (index === currentSlide) {
+          slide.classList.add("active");
+        }
+      });
+
+      // Update indicator & progress
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update button states
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? "Selesai 🏁" : "Selanjutnya ▶";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === "Home") {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === "End") {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    // Touch navigation for mobile/tablet
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // Initial render & timer start
+    updateSlide();
+    startTimer();
+  </script>
+</body>
+</html>

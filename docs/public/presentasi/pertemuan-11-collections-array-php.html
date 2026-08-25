@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 11 - Object Collections & Modern Array di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-rose: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: #4f46e5;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
+    .slide-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Presentation Main Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Content Typography */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    /* Card Box */
+    .card-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-box h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-box p {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    .card-box ul {
+      margin-left: 18px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    /* Highlight Banner */
+    .banner {
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .banner-blue {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
+    }
+
+    .banner-green {
+      background: #ecfdf5;
+      border-left: 4px solid #059669;
+      color: #065f46;
+    }
+
+    .banner-amber {
+      background: #fffbeb;
+      border-left: 4px solid #d97706;
+      color: #92400e;
+    }
+
+    .banner-rose {
+      background: #fff1f2;
+      border-left: 4px solid #e11d48;
+      color: #9f1239;
+    }
+
+    .banner-purple {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      color: #581c87;
+    }
+
+    /* Code Container */
+    .code-container {
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      font-family: "Fira Code", monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
+    }
+
+    .code-header {
+      background: #1e293b;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .code-title {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .code-body {
+      padding: 16px;
+      color: #f8fafc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Syntax Highlighting */
+    .c-kw { color: #38bdf8; font-weight: 600; }
+    .c-fn { color: #818cf8; }
+    .c-str { color: #4ade80; }
+    .c-cls { color: #fbbf24; }
+    .c-cm { color: #64748b; font-style: italic; }
+    .c-var { color: #f472b6; }
+    .c-num { color: #f87171; }
+
+    /* Footer Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 380px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #0284c7);
+      width: 8.33%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-nav-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn-nav-secondary:hover:not(:disabled) {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+    }
+
+    .hero-container {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="Logo UUI" class="brand-logo" onerror="this.src='/uuilogo.png'">
+      <div>
+        <div class="brand-text">Pemrograman Berorientasi Objek <span>PHP 8+</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Program Studi Informatika</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="timer-badge" id="slideTimer" title="Klik untuk Jeda/Lanjut, Klik Ganda untuk Reset">⏱️ 00:00</span>
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 12</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Mode Layar Penuh (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Stage -->
+  <main id="slideStage">
+
+    <!-- SLIDE 1: Title & Hero -->
+    <div class="slide active" id="slide-1">
+      <div class="hero-container">
+        <div class="hero-badge">📦 PERTEMUAN 11 — DATA STRUCTURES & MODERN ARRAYS</div>
+        <h1 class="hero-title">Koleksi Objek & <span>Manipulasi Array Modern</span> di PHP 8+</h1>
+        <p class="hero-subtitle" style="font-size: 1.15rem; color: #64748b; line-height: 1.6;">
+          Menguasai Filosofi First-Class Collections, Standard PHP Library (SPL), Pipeline Fungsional Map-Filter-Reduce, Arrow Functions, serta Deteksi Array List PHP 8.1+.
+        </p>
+        
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-label">Mata Kuliah</div>
+            <div class="meta-value">Pemrograman Berorientasi Objek (PHP 8+)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dosen Pengampu</div>
+            <div class="meta-value">Mahendar Dwi Payana, S.ST., M.T. & Tim</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Institusi</div>
+            <div class="meta-value">Universitas Ubudiyah Indonesia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Capaian & Agenda -->
+    <div class="slide" id="slide-2">
+      <div class="slide-tag">🎯 TUJUAN & SILABUS</div>
+      <h1 class="slide-title">Capaian Pembelajaran (Sub-CPMK 11)</h1>
+      <h2 class="slide-subtitle">Mahasiswa mampu membungkus data jamak ke dalam First-Class Collections, mengimplementasikan antarmuka SPL, dan memproses data melalui pipeline fungsional modern.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>📋 Agenda Pembahasan Perkuliahan</h3>
+          <ul>
+            <li><strong>1. Batasan Array Primitif:</strong> Kelemahan *Anemic Primitive Array* pada domain kompleks.</li>
+            <li><strong>2. First-Class Collections:</strong> Filosofi *Object Calisthenics* untuk *Type Safety*.</li>
+            <li><strong>3. Antarmuka SPL:</strong> Implementasi <code class="c-cls">Countable</code>, <code class="c-cls">IteratorAggregate</code>, & <code class="c-cls">JsonSerializable</code>.</li>
+            <li><strong>4. Pipeline Fungsional:</strong> <code class="c-fn">array_map</code>, <code class="c-fn">array_filter</code>, <code class="c-fn">array_reduce</code> dengan Arrow Functions.</li>
+            <li><strong>5. Fitur PHP 8.1+:</strong> Validasi array sekuensial menggunakan fungsi <code class="c-fn">array_is_list()</code>.</li>
+            <li><strong>6. Studi Kasus Domain:</strong> Keranjang Belanja Terenkapsulasi (*Encapsulated Shopping Cart*).</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <h3>💡 Kompetensi Rekayasa Perangkat Lunak</h3>
+          <p>Setelah materi ini, mahasiswa dapat mengatasi masalah klasik dalam kode backend:</p>
+          <ul style="margin-top: 10px;">
+            <li>Mencegah *Type Pollution* (masuknya data bertipe salah ke dalam array).</li>
+            <li>Menghilangkan duplikasi logika kalkulasi agregasi (*sum*, *average*, *filter*) yang berceceran di controller.</li>
+            <li>Memastikan objek koleksi dapat di-iterasi dengan <code class="c-kw">foreach</code> dan diubah ke JSON secara otomatis.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Batasan Array Primitif -->
+    <div class="slide" id="slide-3">
+      <div class="slide-tag">⚠️ MASALAH ARSITEKTUR</div>
+      <h1 class="slide-title">Tantangan: Bahaya Array Primitif Tanpa Enkapsulasi</h1>
+      <h2 class="slide-subtitle">Mengapa menggunakan array biasa untuk kumpulan entitas bisnis sering menimbulkan bug tersembunyi?</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="background: #fff1f2; border-color: #fecdd3;">
+          <h3 style="color: #9f1239;">❌ Masalah 1: Ketiadaan Type Safety</h3>
+          <p style="font-size: 0.88rem; color: #881337;">
+            Array PHP menerima tipe apa pun secara bebas. String atau integer dapat masuk tanpa sengaja ke daftar Mahasiswa:
+          </p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-var">$daftarMhs</span> = [];
+<span class="c-var">$daftarMhs</span>[] = <span class="c-kw">new</span> <span class="c-cls">Mahasiswa</span>(<span class="c-str">"2301"</span>, <span class="c-str">"Ali"</span>);
+<span class="c-var">$daftarMhs</span>[] = <span class="c-str">"Bukan Objek Mahasiswa!"</span>; <span class="c-cm">// ⚠️ Lolos!</span>
+
+<span class="c-kw">foreach</span> (<span class="c-var">$daftarMhs</span> <span class="c-kw">as</span> <span class="c-var">$m</span>) {
+    <span class="c-fn">echo</span> <span class="c-var">$m</span>-><span class="c-fn">getNama</span>(); <span class="c-cm">// 💥 Fatal Error di Runtime</span>
+}</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="background: #fff1f2; border-color: #fecdd3;">
+          <h3 style="color: #9f1239;">❌ Masalah 2: Logika Bisnis Berceceran</h3>
+          <p style="font-size: 0.88rem; color: #881337;">
+            Perhitungan total SKS, filter mahasiswa cumlaude, atau validasi duplikasi ditulis ulang di banyak controller (melanggar DRY).
+          </p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-cm">// Logika kalkulasi ditulis manual berulang-ulang:</span>
+<span class="c-var">$totalSks</span> = <span class="c-num">0</span>;
+<span class="c-kw">foreach</span> (<span class="c-var">$krs</span> <span class="c-kw">as</span> <span class="c-var">$mk</span>) {
+    <span class="c-var">$totalSks</span> += <span class="c-var">$mk</span>-><span class="c-var">sks</span>;
+}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>Aturan Object Calisthenics (Jeff Bay):</strong> <em>"Rule #8: No classes with more than two instance variables, and Wrap all collections."</em> Setiap class yang menampung kumpulan data jamak wajib dijadikan First-Class Collection!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Konsep First-Class Collections -->
+    <div class="slide" id="slide-4">
+      <div class="slide-tag">💎 DESAIN BERSIH</div>
+      <h1 class="slide-title">Filosofi <em>First-Class Collections</em></h1>
+      <h2 class="slide-subtitle">Membungkus array mentah ke dalam class khusus yang memiliki perilaku dan validasi domain sendiri.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Ciri Khas First-Class Collection:</h3>
+          <ul>
+            <li><strong>Satu-satunya Properti:</strong> Properti internal utamanya adalah array bertipe privat (<code class="c-kw">private array</code> <code class="c-var">$items</code>).</li>
+            <li><strong>Type Enforcing:</strong> Method <code class="c-fn">add()</code> memvalidasi bahwa hanya objek bertipe benar yang dapat masuk.</li>
+            <li><strong>Logika Agregasi Terpusat:</strong> Memiliki method domain seperti <code class="c-fn">hitungTotalIpk()</code>, <code class="c-fn">filterLulus()</code>, <code class="c-fn">cariByNpm()</code>.</li>
+            <li><strong>Immutability:</strong> Method operasi menghasilkan instans koleksi baru tanpa merusak data asli.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">Domain/Collection/MahasiswaCollection.php</span>
+          </div>
+          <div class="code-body"><span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Collection</span>;
+
+<span class="c-kw">use</span> <span class="c-cls">App\Domain\Model\Mahasiswa</span>;
+
+<span class="c-kw">class</span> <span class="c-cls">MahasiswaCollection</span>
+{
+    <span class="c-kw">private array</span> <span class="c-var">$items</span> = [];
+
+    <span class="c-kw">public function</span> <span class="c-fn">add</span>(<span class="c-cls">Mahasiswa</span> <span class="c-var">$mhs</span>): <span class="c-kw">void</span>
+    {
+        <span class="c-cm">// ✨ Type Safety Terjamin 100% saat Compile & Runtime</span>
+        <span class="c-var">$this</span>-><span class="c-var">items</span>[] = <span class="c-var">$mhs</span>;
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">hitungRataRataIpk</span>(): <span class="c-kw">float</span>
+    {
+        <span class="c-kw">if</span> (<span class="c-fn">empty</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>)) <span class="c-kw">return</span> <span class="c-num">0.0</span>;
+        <span class="c-var">$total</span> = <span class="c-fn">array_sum</span>(<span class="c-fn">array_map</span>(<span class="c-fn">fn</span>(<span class="c-var">$m</span>) => <span class="c-var">$m</span>-><span class="c-var">ipk</span>, <span class="c-var">$this</span>-><span class="c-var">items</span>));
+        <span class="c-kw">return</span> <span class="c-var">$total</span> / <span class="c-fn">count</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>);
+    }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SPL Interfaces (Countable & IteratorAggregate) -->
+    <div class="slide" id="slide-5">
+      <div class="slide-tag">🔌 STANDARD PHP LIBRARY (SPL)</div>
+      <h1 class="slide-title">Mengintegrasikan Antarmuka SPL Bawaan</h1>
+      <h2 class="slide-subtitle">Membuat objek Collection dapat dihitung dengan <code class="c-fn">count()</code> dan di-loop dengan <code class="c-kw">foreach</code>.</h2>
+      
+      <div class="grid-3">
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <h3>1. \Countable</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Mengizinkan objek dipanggil langsung oleh fungsi global <code class="c-fn">count()</code>.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">count</span>(): <span class="c-kw">int</span>
+{
+    <span class="c-kw">return</span> <span class="c-fn">count</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>);
+}</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <h3>2. \IteratorAggregate</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Menyediakan generator iterator agar objek dapat di-iterasi langsung via <code class="c-kw">foreach</code>.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">getIterator</span>(): <span class="c-cls">\Traversable</span>
+{
+    <span class="c-kw">return new</span> <span class="c-cls">\ArrayIterator</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>);
+}</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-amber);">
+          <h3>3. \JsonSerializable</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Menentukan data yang diekspor saat dipanggil oleh <code class="c-fn">json_encode()</code>.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">jsonSerialize</span>(): <span class="c-kw">array</span>
+{
+    <span class="c-kw">return</span> <span class="c-var">$this</span>-><span class="c-var">items</span>;
+}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner banner-green" style="margin-top: 14px;">
+        <div><strong>Hasilnya:</strong> Objek <code>$collection</code> Anda berperilaku alami seperti array bawaan: <code>count($koleksi)</code>, <code>foreach($koleksi as $item)</code>, dan <code>json_encode($koleksi)</code> bekerja secara transparan!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Implementasi Lengkap Collection SPL -->
+    <div class="slide" id="slide-6">
+      <div class="slide-tag">🛠️ KODE IMPLEMENTASI SPL</div>
+      <h1 class="slide-title">Anatomi Lengkap First-Class Collection Modern</h1>
+      <h2 class="slide-subtitle">Menggabungkan 3 antarmuka SPL dalam satu class koleksi yang tangguh dan elegan.</h2>
+      
+      <div class="code-container" style="font-size: 0.78rem;">
+        <div class="code-header">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          <span class="code-title">Domain/Collection/MahasiswaCollection.php</span>
+        </div>
+        <div class="code-body"><span class="c-kw">&lt;?php</span>
+<span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Collection</span>;
+
+<span class="c-kw">use</span> <span class="c-cls">App\Domain\Model\Mahasiswa</span>;
+<span class="c-kw">use</span> <span class="c-cls">Countable</span>, <span class="c-cls">IteratorAggregate</span>, <span class="c-cls">JsonSerializable</span>, <span class="c-cls">ArrayIterator</span>, <span class="c-cls">Traversable</span>;
+
+<span class="c-kw">class</span> <span class="c-cls">MahasiswaCollection</span> <span class="c-kw">implements</span> <span class="c-cls">Countable</span>, <span class="c-cls">IteratorAggregate</span>, <span class="c-cls">JsonSerializable</span>
+{
+    <span class="c-kw">private array</span> <span class="c-var">$items</span> = [];
+
+    <span class="c-kw">public function</span> <span class="c-fn">add</span>(<span class="c-cls">Mahasiswa</span> <span class="c-var">$mhs</span>): <span class="c-kw">self</span> {
+        <span class="c-var">$this</span>-><span class="c-var">items</span>[] = <span class="c-var">$mhs</span>;
+        <span class="c-kw">return</span> <span class="c-var">$this</span>;
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">count</span>(): <span class="c-kw">int</span> { <span class="c-kw">return</span> <span class="c-fn">count</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>); }
+    <span class="c-kw">public function</span> <span class="c-fn">getIterator</span>(): <span class="c-cls">Traversable</span> { <span class="c-kw">return new</span> <span class="c-cls">ArrayIterator</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>); }
+    <span class="c-kw">public function</span> <span class="c-fn">jsonSerialize</span>(): <span class="c-kw">array</span> { <span class="c-kw">return</span> <span class="c-var">$this</span>-><span class="c-var">items</span>; }
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Functional Pipelines -->
+    <div class="slide" id="slide-7">
+      <div class="slide-tag">⚡ PIPELINE FUNGSIONAL</div>
+      <h1 class="slide-title">Manipulasi Array: Map, Filter, & Reduce</h1>
+      <h2 class="slide-subtitle">Meninggalkan loop imperatif yang berulang demi pipeline data fungsional yang deklaratif.</h2>
+      
+      <div class="grid-3">
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <h3>1. array_map()</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Mentransformasi setiap elemen array ke bentuk baru 1-ke-1.</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-cm">// Ambil seluruh nama</span>
+<span class="c-var">$names</span> = <span class="c-fn">array_map</span>(
+    <span class="c-fn">fn</span>(<span class="c-var">$m</span>) => <span class="c-var">$m</span>-><span class="c-var">nama</span>, 
+    <span class="c-var">$items</span>
+);</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <h3>2. array_filter()</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Menyaring elemen berdasarkan kriteria predikat boolean (true/false).</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-cm">// Filter IPK >= 3.50</span>
+<span class="c-var">$cumlaude</span> = <span class="c-fn">array_filter</span>(
+    <span class="c-var">$items</span>,
+    <span class="c-fn">fn</span>(<span class="c-var">$m</span>) => <span class="c-var">$m</span>-><span class="c-var">ipk</span> >= <span class="c-num">3.5</span>
+);</div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-amber);">
+          <h3>3. array_reduce()</h3>
+          <p style="font-size: 0.84rem; color: #475569;">Merangkum seluruh elemen menjadi satu nilai skalar tunggal (akumulator).</p>
+          <div class="code-container" style="font-size: 0.74rem;">
+            <div class="code-body"><span class="c-cm">// Total SKS terdaftar</span>
+<span class="c-var">$totalSks</span> = <span class="c-fn">array_reduce</span>(
+    <span class="c-var">$items</span>,
+    <span class="c-fn">fn</span>(<span class="c-var">$carry</span>, <span class="c-var">$mk</span>) => <span class="c-var">$carry</span> + <span class="c-var">$mk</span>-><span class="c-var">sks</span>,
+    <span class="c-num">0</span>
+);</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Arrow Functions (PHP 7.4 / 8+) -->
+    <div class="slide" id="slide-8">
+      <div class="slide-tag">🏹 SINTAKS MODERN</div>
+      <h1 class="slide-title">Kekuatan <em>Arrow Functions</em> (<code class="c-fn">fn() =></code>)</h1>
+      <h2 class="slide-subtitle">Sintaks ringkas satu baris dengan kemampuan penangkapan variabel otomatis (*Auto-Capture by Value*).</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="background: #f8fafc;">
+          <h3>❌ Anonymous Function Tradisional</h3>
+          <div class="code-container" style="font-size: 0.75rem;">
+            <div class="code-body"><span class="c-var">$minIpk</span> = <span class="c-num">3.00</span>;
+
+<span class="c-var">$hasil</span> = <span class="c-fn">array_filter</span>(<span class="c-var">$daftarMhs</span>, <span class="c-kw">function</span> (<span class="c-var">$m</span>) <span class="c-kw">use</span> (<span class="c-var">$minIpk</span>) {
+    <span class="c-kw">return</span> <span class="c-var">$m</span>-><span class="c-var">ipk</span> >= <span class="c-var">$minIpk</span>;
+});</div>
+          </div>
+          <p style="font-size: 0.82rem; color: #64748b; margin-top: 8px;">
+            Wajib menulis klausa <code class="c-kw">use ($minIpk)</code> dan kata kunci <code class="c-kw">return</code> secara eksplisit.
+          </p>
+        </div>
+        
+        <div class="card-box" style="background: #ecfdf5; border-color: #a7f3d0;">
+          <h3 style="color: #065f46;">✅ Modern Arrow Function</h3>
+          <div class="code-container" style="font-size: 0.75rem;">
+            <div class="code-body"><span class="c-var">$minIpk</span> = <span class="c-num">3.00</span>;
+
+<span class="c-cm">// ✨ Variabel $minIpk otomatis ditangkap!</span>
+<span class="c-var">$hasil</span> = <span class="c-fn">array_filter</span>(
+    <span class="c-var">$daftarMhs</span>, 
+    <span class="c-fn">fn</span>(<span class="c-var">$m</span>) => <span class="c-var">$m</span>-><span class="c-var">ipk</span> >= <span class="c-var">$minIpk</span>
+);</div>
+          </div>
+          <p style="font-size: 0.82rem; color: #064e3b; margin-top: 8px;">
+            Sangat ringkas, bersih, dan ekspresif untuk pipeline pemrosesan data.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: array_is_list (PHP 8.1+) -->
+    <div class="slide" id="slide-9">
+      <div class="slide-tag">🆕 FITUR PHP 8.1+</div>
+      <h1 class="slide-title">Deteksi Array List dengan <code class="c-fn">array_is_list()</code></h1>
+      <h2 class="slide-subtitle">Memastikan struktur array berupa index sekuensial numerik berurutan mulai dari 0.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Kriteria Array List:</h3>
+          <ul>
+            <li>Kunci index berupa bilangan bulat (<code class="c-kw">int</code>).</li>
+            <li>Dimulai dari index <code class="c-num">0</code> hingga <code class="c-fn">count() - 1</code>.</li>
+            <li>Tidak ada index yang bolong/hilang (*no gaps*).</li>
+            <li>Array kosong <code class="c-str">[]</code> dianggap sebagai list yang valid (<code class="c-kw">true</code>).</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">demo_array_is_list.php</span>
+          </div>
+          <div class="code-body"><span class="c-cm">// 1. Array Sekuensial (List)</span>
+<span class="c-fn">array_is_list</span>([<span class="c-str">'Apel'</span>, <span class="c-str">'Jeruk'</span>, <span class="c-str">'Mangga'</span>]); <span class="c-cm">// true</span>
+
+<span class="c-cm">// 2. Array Asosiatif (Key String)</span>
+<span class="c-fn">array_is_list</span>([<span class="c-str">'a'</span> => <span class="c-num">1</span>, <span class="c-str">'b'</span> => <span class="c-num">2</span>]); <span class="c-cm">// false</span>
+
+<span class="c-cm">// 3. Index Bolong / Tidak Berurutan</span>
+<span class="c-fn">array_is_list</span>([<span class="c-num">0</span> => <span class="c-str">'A'</span>, <span class="c-num">2</span> => <span class="c-str">'B'</span>]); <span class="c-cm">// false</span>
+
+<span class="c-cm">// 4. Index Tidak Mulai dari 0</span>
+<span class="c-fn">array_is_list</span>([<span class="c-num">1</span> => <span class="c-str">'A'</span>, <span class="c-num">2</span> => <span class="c-str">'B'</span>]); <span class="c-cm">// false</span></div>
+        </div>
+      </div>
+      
+      <div class="banner banner-amber" style="margin-top: 14px;">
+        <div><strong>Manfaat Praktis:</strong> Sangat penting saat serialisasi JSON API. Array list akan dirender sebagai JSON Array <code>["A", "B"]</code>, sedangkan array asosiatif dirender sebagai JSON Object <code>{"0": "A", "2": "B"}</code>.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Immutability pada Collection -->
+    <div class="slide" id="slide-10">
+      <div class="slide-tag">🛡️ DEFENSIVE PROGRAMMING</div>
+      <h1 class="slide-title">Koleksi Abadi (*Immutable Collections*)</h1>
+      <h2 class="slide-subtitle">Menghindari efek samping (*Side Effects*) dengan mengembalikan instans baru pada setiap mutasi.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Prinsip Immutability:</h3>
+          <p style="font-size: 0.88rem; color: #475569; line-height: 1.6;">
+            Alih-alih mengubah array internal yang sama (*in-place mutation*), method seperti <code class="c-fn">filter()</code> dan <code class="c-fn">map()</code> mengembalikan objek koleksi baru (<code class="c-kw">new static(...)</code>).
+          </p>
+          <ul style="margin-top: 10px; font-size: 0.86rem;">
+            <li>Menjamin keutuhan state data di bagian kode pemanggil lain.</li>
+            <li>Memungkinkan pemanggilan berantai (*Fluent Method Chaining*): <code class="c-fn">$koleksi->filter()->sortBy()</code>.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">Method Chaining pada Immutable Collection</span>
+          </div>
+          <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">filterCumlaude</span>(): <span class="c-kw">self</span>
+{
+    <span class="c-var">$filtered</span> = <span class="c-fn">array_filter</span>(
+        <span class="c-var">$this</span>-><span class="c-var">items</span>, 
+        <span class="c-fn">fn</span>(<span class="c-var">$m</span>) => <span class="c-var">$m</span>-><span class="c-var">ipk</span> >= <span class="c-num">3.50</span>
+    );
+
+    <span class="c-cm">// ✨ Kembalikan instans baru!</span>
+    <span class="c-kw">return new self</span>(<span class="c-fn">array_values</span>(<span class="c-var">$filtered</span>));
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Studi Kasus Keranjang Belanja -->
+    <div class="slide" id="slide-11">
+      <div class="slide-tag">🛒 STUDI KASUS DOMAIN</div>
+      <h1 class="slide-title">Studi Kasus: First-Class Keranjang Belanja (*Cart*)</h1>
+      <h2 class="slide-subtitle">Mengintegrasikan item produk, diskon kupon, perhitungan subtotal, dan ekspor JSON.</h2>
+      
+      <div class="grid-2">
+        <div class="code-container">
+          <div class="code-header"><span class="code-title">Domain/KeranjangBelanja.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">KeranjangBelanja</span> <span class="c-kw">implements</span> <span class="c-cls">\Countable</span>, <span class="c-cls">\IteratorAggregate</span>
+{
+    <span class="c-kw">private array</span> <span class="c-var">$items</span> = [];
+
+    <span class="c-kw">public function</span> <span class="c-fn">tambahItem</span>(<span class="c-cls">ItemBelanja</span> <span class="c-var">$item</span>): <span class="c-kw">void</span> {
+        <span class="c-var">$this</span>-><span class="c-var">items</span>[] = <span class="c-var">$item</span>;
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">hitungGrandTotal</span>(<span class="c-kw">float</span> <span class="c-var">$diskon</span> = <span class="c-num">0.0</span>): <span class="c-kw">float</span> {
+        <span class="c-var">$subtotal</span> = <span class="c-fn">array_reduce</span>(
+            <span class="c-var">$this</span>-><span class="c-var">items</span>,
+            <span class="c-fn">fn</span>(<span class="c-var">$acc</span>, <span class="c-var">$it</span>) => <span class="c-var">$acc</span> + <span class="c-var">$it</span>-><span class="c-fn">getSubtotal</span>(),
+            <span class="c-num">0.0</span>
+        );
+        <span class="c-kw">return</span> <span class="c-var">$subtotal</span> * (<span class="c-num">1</span> - <span class="c-var">$diskon</span>);
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">count</span>(): <span class="c-kw">int</span> { <span class="c-kw">return</span> <span class="c-fn">count</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>); }
+    <span class="c-kw">public function</span> <span class="c-fn">getIterator</span>(): <span class="c-cls">\Traversable</span> { <span class="c-kw">return new</span> <span class="c-cls">\ArrayIterator</span>(<span class="c-var">$this</span>-><span class="c-var">items</span>); }
+}</div>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header"><span class="code-title">Penggunaan di Client Controller</span></div>
+          <div class="code-body"><span class="c-var">$cart</span> = <span class="c-kw">new</span> <span class="c-cls">KeranjangBelanja</span>();
+<span class="c-var">$cart</span>-><span class="c-fn">tambahItem</span>(<span class="c-kw">new</span> <span class="c-cls">ItemBelanja</span>(<span class="c-str">"Buku PHP 8+"</span>, <span class="c-num">120000</span>, <span class="c-num">2</span>));
+<span class="c-var">$cart</span>-><span class="c-fn">tambahItem</span>(<span class="c-kw">new</span> <span class="c-cls">ItemBelanja</span>(<span class="c-str">"Kaos UUI"</span>, <span class="c-num">85000</span>, <span class="c-num">1</span>));
+
+<span class="c-fn">echo</span> <span class="c-str">"Jumlah Item: "</span> . <span class="c-fn">count</span>(<span class="c-var">$cart</span>); <span class="c-cm">// 2 item</span>
+<span class="c-fn">echo</span> <span class="c-str">"Grand Total: Rp "</span> . <span class="c-var">$cart</span>-><span class="c-fn">hitungGrandTotal</span>(<span class="c-num">0.10</span>);
+
+<span class="c-cm">// Iterasi langsung seperti array native:</span>
+<span class="c-kw">foreach</span> (<span class="c-var">$cart</span> <span class="c-kw">as</span> <span class="c-var">$item</span>) {
+    <span class="c-fn">echo</span> <span class="c-str">"- "</span> . <span class="c-var">$item</span>-><span class="c-var">nama</span> . <span class="c-str">"
+"</span>;
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Rangkuman & Kuis Reflektif -->
+    <div class="slide" id="slide-12">
+      <div class="slide-tag">🎓 EVALUASI & PENUTUP</div>
+      <h1 class="slide-title">Rangkuman Pertemuan 11 & Kuis Reflektif</h1>
+      <h2 class="slide-subtitle">Sintesis konsep Collection dan pemanasan menuju materi File Handling & I/O.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>🔑 4 Inti Konsep Hari Ini:</h3>
+          <ul>
+            <li><strong>First-Class Collections:</strong> Mengenkapsulasi data jamak dan menjaga Type Safety.</li>
+            <li><strong>SPL Interfaces:</strong> Mengaktifkan <code class="c-fn">count()</code>, <code class="c-kw">foreach</code>, dan <code class="c-fn">json_encode()</code> pada objek kustom.</li>
+            <li><strong>Functional Pipeline:</strong> Memanfaatkan <code class="c-fn">map</code>, <code class="c-fn">filter</code>, dan <code class="c-fn">reduce</code> dengan Arrow Functions.</li>
+            <li><strong>array_is_list:</strong> Memvalidasi array sekuensial untuk serialisasi API JSON yang konsisten.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-purple); background: #faf5ff;">
+          <h3 style="color: #6b21a8;">❓ Kuis Pemahaman Mahasiswa:</h3>
+          <ol style="margin-left: 18px; font-size: 0.88rem; color: #581c87; line-height: 1.6;">
+            <li>Antarmuka SPL manakah yang wajib diimplementasikan agar objek class dapat di-loop langsung menggunakan pernyataan <code class="c-kw">foreach</code>?</li>
+            <li>Mengapa <code class="c-fn">array_is_list([0 => A, 2 => B])</code> mengembalikan nilai <code class="c-kw">false</code>?</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>🔜 Pertemuan 12 Minggu Depan:</strong> <em>Manajemen Berkas (File Handling & I/O Streams) di PHP 8+</em> (File Locking flock, SplFileObject, json_validate PHP 8.3+, dan File-based Repository).</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer>
+    <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">
+      Tekan <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> untuk pindah slide &bull; Tekan <kbd>F</kbd> untuk Fullscreen
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-nav btn-nav-secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <!-- Slide Engine JavaScript -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+    const slideIndicator = document.getElementById("slideIndicator");
+    const progressBar = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const timerElement = document.getElementById("slideTimer");
+
+    // Timer Implementation
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          const mins = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+          const secs = String(timerSeconds % 60).padStart(2, "0");
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${mins}:${secs}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (timerRunning) {
+          timerElement.classList.remove("paused");
+        } else {
+          timerElement.classList.add("paused");
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove("paused");
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener("click", toggleTimer);
+      timerElement.addEventListener("dblclick", resetTimer);
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove("active");
+        if (index === currentSlide) {
+          slide.classList.add("active");
+        }
+      });
+
+      // Update indicator & progress
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update button states
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? "Selesai 🏁" : "Selanjutnya ▶";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === "Home") {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === "End") {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    // Touch navigation for mobile/tablet
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // Initial render & timer start
+    updateSlide();
+    startTimer();
+  </script>
+</body>
+</html>

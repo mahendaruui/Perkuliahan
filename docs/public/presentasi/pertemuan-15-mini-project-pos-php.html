@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 15 - Capstone Mini Project POS Terpadu di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-rose: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: #4f46e5;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
+    .slide-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Presentation Main Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Content Typography */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    /* Card Box */
+    .card-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-box h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-box p {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    .card-box ul {
+      margin-left: 18px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    /* Highlight Banner */
+    .banner {
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .banner-blue {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
+    }
+
+    .banner-green {
+      background: #ecfdf5;
+      border-left: 4px solid #059669;
+      color: #065f46;
+    }
+
+    .banner-amber {
+      background: #fffbeb;
+      border-left: 4px solid #d97706;
+      color: #92400e;
+    }
+
+    .banner-rose {
+      background: #fff1f2;
+      border-left: 4px solid #e11d48;
+      color: #9f1239;
+    }
+
+    .banner-purple {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      color: #581c87;
+    }
+
+    /* Code Container */
+    .code-container {
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      font-family: "Fira Code", monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
+    }
+
+    .code-header {
+      background: #1e293b;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .code-title {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .code-body {
+      padding: 16px;
+      color: #f8fafc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Syntax Highlighting */
+    .c-kw { color: #38bdf8; font-weight: 600; }
+    .c-fn { color: #818cf8; }
+    .c-str { color: #4ade80; }
+    .c-cls { color: #fbbf24; }
+    .c-cm { color: #64748b; font-style: italic; }
+    .c-var { color: #f472b6; }
+    .c-num { color: #f87171; }
+
+    /* Footer Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 380px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #0284c7);
+      width: 8.33%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-nav-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn-nav-secondary:hover:not(:disabled) {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+    }
+
+    .hero-container {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="Logo UUI" class="brand-logo" onerror="this.src=/uuilogo.png">
+      <div>
+        <div class="brand-text">Pemrograman Berorientasi Objek <span>PHP 8+</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Program Studi Informatika</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="timer-badge" id="slideTimer" title="Klik untuk Jeda/Lanjut, Klik Ganda untuk Reset">⏱️ 00:00</span>
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 12</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Mode Layar Penuh (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Stage -->
+  <main id="slideStage">
+
+    <!-- SLIDE 1: Title & Hero -->
+    <div class="slide active" id="slide-1">
+      <div class="hero-container">
+        <div class="hero-badge">🏆 PERTEMUAN 15 — CAPSTONE INTEGRATIVE MINI PROJECT</div>
+        <h1 class="hero-title">Studi Kasus Capstone: <span>Sistem POS Terpadu</span> di PHP 8+</h1>
+        <p class="hero-subtitle" style="font-size: 1.15rem; color: #64748b; line-height: 1.6;">
+          Integrasi Menyeluruh 14 Materi Perkuliahan: Clean Architecture, First-Class Collections, Strategy Pattern, File Locking, dan Standard PSR-4.
+        </p>
+        
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-label">Mata Kuliah</div>
+            <div class="meta-value">Pemrograman Berorientasi Objek (PHP 8+)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dosen Pengampu</div>
+            <div class="meta-value">Mahendar Dwi Payana, S.ST., M.T. & Tim</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Institusi</div>
+            <div class="meta-value">Universitas Ubudiyah Indonesia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Capaian & Agenda -->
+    <div class="slide" id="slide-2">
+      <div class="slide-tag">🎯 TUJUAN & CAPSTONE GOALS</div>
+      <h1 class="slide-title">Capaian Pembelajaran Capstone (Sub-CPMK 15)</h1>
+      <h2 class="slide-subtitle">Mahasiswa mampu menyatukan seluruh kompetensi rekayasa perangkat lunak OOP modern dalam satu aplikasi kasir retail siap produksi.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>📋 Komponen yang Diintegrasikan:</h3>
+          <ul>
+            <li><strong>4 Pilar OOP:</strong> Abstraksi, Enkapsulasi, Pewarisan, Polimorfisme.</li>
+            <li><strong>Fitur PHP 8+:</strong> Backed Enum, Constructor Promotion, Match Expression.</li>
+            <li><strong>First-Class Collections:</strong> Mengimplementasikan <code class="c-cls">Countable</code> & <code class="c-cls">IteratorAggregate</code>.</li>
+            <li><strong>Prinsip SOLID:</strong> SRP, OCP (Diskon), LSP (Payment), ISP, DIP (Injeksi).</li>
+            <li><strong>File Persistence:</strong> JSON Database terkunci aman (<code class="c-cls">LOCK_EX</code>).</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <h3>💡 Nilai Portofolio Industri Mahasiswa</h3>
+          <p>Capstone POS ini membuktikan bahwa mahasiswa tidak hanya menguasai sintaks teoritis, tetapi memiliki pemikiran rekayasa tingkat arsitek sistem:</p>
+          <ul style="margin-top: 10px;">
+            <li>Struktur modular berstandar PSR-4 bersih.</li>
+            <li>Sistem kebal dari <em>Race Condition</em> transaksi kasir.</li>
+            <li>Mekanisme pembayaran dan diskon yang sangat mudah diperluas (*Extensible*).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Peta Arsitektur Sistem POS -->
+    <div class="slide" id="slide-3">
+      <div class="slide-tag">🗺️ ARSITEKTUR SISTEM</div>
+      <h1 class="slide-title">Peta Arsitektur Sistem POS Terpadu</h1>
+      <h2 class="slide-subtitle">Aliran data bersih dari CLI Controller menuju Application Service, Domain Core, dan Storage.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Alur Aliran Transaksi Kasir:</h3>
+          <ol style="margin-left: 18px; font-size: 0.86rem; line-height: 1.65;">
+            <li><strong>CLI UI:</strong> Kasir memilih item produk dan kuantitas via terminal.</li>
+            <li><strong>KasirService:</strong> Memvalidasi ketersediaan stok produk pada Repository.</li>
+            <li><strong>KeranjangCollection:</strong> Menghitung subtotal belanjaan secara fungsional.</li>
+            <li><strong>DiskonStrategy:</strong> Menerapkan potongan harga sesuai strategi (Member/Flash Sale).</li>
+            <li><strong>PaymentProcessor:</strong> Memproses pembayaran (Tunai/QRIS).</li>
+            <li><strong>TransaksiRepository:</strong> Menyimpan struk transaksi ke JSON dengan <code class="c-cls">LOCK_EX</code>.</li>
+          </ol>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-purple); background: #faf5ff;">
+          <h3 style="color: #6b21a8;">🔒 Penegakan The Dependency Rule:</h3>
+          <p style="font-size: 0.86rem; color: #581c87; line-height: 1.6;">
+            Seluruh lapisan Domain Core (<code class="c-cls">ItemProduk</code>, <code class="c-cls">KeranjangCollection</code>, <code class="c-cls">DiskonStrategyInterface</code>) murni terisolasi dari filesystem atau CLI!
+          </p>
+          <div class="banner banner-green" style="margin-top: 10px; padding: 8px 12px;">
+            <div>Domain POS dapat dipindahkan ke Web API RESTful dalam hitungan menit tanpa ubah logic!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Domain Core - Entitas & Backed Enum -->
+    <div class="slide" id="slide-4">
+      <div class="slide-tag">1️⃣ DOMAIN MODEL & ENUM</div>
+      <h1 class="slide-title">Entitas <code class="c-cls">ItemProduk</code> & <code class="c-cls">KategoriProduk</code></h1>
+      <h2 class="slide-subtitle">Menjamin konsistensi stok dan validasi kuantitas sejak level invariant domain.</h2>
+      
+      <div class="grid-2">
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Domain/Model/KategoriProduk.php</span></div>
+          <div class="code-body"><span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Model</span>;
+
+<span class="c-kw">enum</span> <span class="c-cls">KategoriProduk</span>: <span class="c-kw">string</span>
+{
+    <span class="c-kw">case</span> <span class="c-cls">Makanan</span>    = <span class="c-str">makanan</span>;
+    <span class="c-kw">case</span> <span class="c-cls">Minuman</span>    = <span class="c-str">minuman</span>;
+    <span class="c-kw">case</span> <span class="c-cls">Elektronik</span> = <span class="c-str">elektronik</span>;
+}</div>
+        </div>
+        
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Domain/Model/ItemProduk.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">ItemProduk</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">__construct</span>(
+        <span class="c-kw">public readonly string</span> <span class="c-var">$sku</span>,
+        <span class="c-kw">public readonly string</span> <span class="c-var">$nama</span>,
+        <span class="c-kw">public readonly float</span> <span class="c-var">$harga</span>,
+        <span class="c-kw">private int</span> <span class="c-var">$stok</span>,
+        <span class="c-kw">public readonly</span> <span class="c-cls">KategoriProduk</span> <span class="c-var">$kategori</span>
+    ) {}
+
+    <span class="c-kw">public function</span> <span class="c-fn">kurangiStok</span>(<span class="c-kw">int</span> <span class="c-var">$qty</span>): <span class="c-kw">void</span> {
+        <span class="c-kw">if</span> (<span class="c-var">$qty</span> > <span class="c-var">$this</span>-><span class="c-var">$stok</span>) {
+            <span class="c-kw">throw new</span> <span class="c-cls">StokHabisException</span>(<span class="c-str">"Stok {$this->nama} tersisa {$this->stok}"</span>);
+        }
+        <span class="c-var">$this</span>-><span class="c-var">$stok</span> -= <span class="c-var">$qty</span>;
+    }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: First-Class KeranjangCollection -->
+    <div class="slide" id="slide-5">
+      <div class="slide-tag">2️⃣ FIRST-CLASS COLLECTION</div>
+      <h1 class="slide-title">Koleksi Keranjang Belanja Berbasis SPL</h1>
+      <h2 class="slide-subtitle">Mengimplementasikan <code class="c-cls">Countable</code> & <code class="c-cls">IteratorAggregate</code> dengan pipeline fungsional modern.</h2>
+      
+      <div class="code-container" style="font-size: 0.75rem;">
+        <div class="code-header">
+          <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+          <span class="code-title">Domain/Model/KeranjangCollection.php</span>
+        </div>
+        <div class="code-body"><span class="c-kw">&lt;?php</span>
+<span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Model</span>;
+
+<span class="c-kw">class</span> <span class="c-cls">KeranjangCollection</span> <span class="c-kw">implements</span> <span class="c-cls">\Countable</span>, <span class="c-cls">\IteratorAggregate</span>
+{
+    <span class="c-kw">private array</span> <span class="c-var">$items</span> = [];
+
+    <span class="c-kw">public function</span> <span class="c-fn">tambah</span>(<span class="c-cls">ItemKeranjang</span> <span class="c-var">$item</span>): <span class="c-kw">void</span> {
+        <span class="c-var">$this</span>-><span class="c-var">$items</span>[<span class="c-var">$item</span>-><span class="c-var">produk</span>-><span class="c-var">sku</span>] = <span class="c-var">$item</span>;
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">hitungSubtotal</span>(): <span class="c-kw">float</span> {
+        <span class="c-kw">return</span> <span class="c-fn">array_reduce</span>(
+            <span class="c-var">$this</span>-><span class="c-var">$items</span>,
+            <span class="c-fn">fn</span>(<span class="c-var">$carry</span>, <span class="c-var">$it</span>) => <span class="c-var">$carry</span> + <span class="c-var">$it</span>-><span class="c-fn">getSubtotal</span>(),
+            <span class="c-num">0.0</span>
+        );
+    }
+
+    <span class="c-kw">public function</span> <span class="c-fn">count</span>(): <span class="c-kw">int</span> { <span class="c-kw">return</span> <span class="c-fn">count</span>(<span class="c-var">$this</span>-><span class="c-var">$items</span>); }
+    <span class="c-kw">public function</span> <span class="c-fn">getIterator</span>(): <span class="c-cls">\Traversable</span> { <span class="c-kw">return new</span> <span class="c-cls">\ArrayIterator</span>(<span class="c-var">$this</span>-><span class="c-var">$items</span>); }
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Strategy Pattern Diskon -->
+    <div class="slide" id="slide-6">
+      <div class="slide-tag">3️⃣ STRATEGY PATTERN (OCP)</div>
+      <h1 class="slide-title">Kalkulasi Multi-Diskon dengan Strategy Pattern</h1>
+      <h2 class="slide-subtitle">Menambah promo baru tanpa mengubah 1 baris pun kode kasir yang sudah berjalan.</h2>
+      
+      <div class="grid-2">
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Domain/Diskon/DiskonStrategyInterface.php</span></div>
+          <div class="code-body"><span class="c-kw">interface</span> <span class="c-cls">DiskonStrategyInterface</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">hitungPotongan</span>(<span class="c-kw">float</span> <span class="c-var">$subtotal</span>): <span class="c-kw">float</span>;
+    <span class="c-kw">public function</span> <span class="c-fn">getLabel</span>(): <span class="c-kw">string</span>;
+}</div>
+        </div>
+        
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Domain/Diskon/DiskonMember.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">DiskonMember</span> <span class="c-kw">implements</span> <span class="c-cls">DiskonStrategyInterface</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">__construct</span>(<span class="c-kw">private float</span> <span class="c-var">$persen</span> = <span class="c-num">0.10</span>) {}
+
+    <span class="c-kw">public function</span> <span class="c-fn">hitungPotongan</span>(<span class="c-kw">float</span> <span class="c-var">$subtotal</span>): <span class="c-kw">float</span> {
+        <span class="c-kw">return</span> <span class="c-var">$subtotal</span> * <span class="c-var">$this</span>-><span class="c-var">persen</span>;
+    }
+    <span class="c-kw">public function</span> <span class="c-fn">getLabel</span>(): <span class="c-kw">string</span> { <span class="c-kw">return</span> <span class="c-str">"Member UUI (10%)"</span>; }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Polimorfisme Pembayaran -->
+    <div class="slide" id="slide-7">
+      <div class="slide-tag">4️⃣ POLIMORFISME PEMBAYARAN (LSP)</div>
+      <h1 class="slide-title">Multi-Channel Payment Processor</h1>
+      <h2 class="slide-subtitle">Mendukung pembayaran Tunai (dengan kalkulasi kembalian) dan QRIS Digital secara polimorfis.</h2>
+      
+      <div class="grid-2">
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Infrastructure/Payment/TunaiPaymentProcessor.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">TunaiPaymentProcessor</span> <span class="c-kw">implements</span> <span class="c-cls">PaymentProcessorInterface</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">proses</span>(<span class="c-kw">float</span> <span class="c-var">$total</span>, <span class="c-kw">float</span> <span class="c-var">$diterima</span>): <span class="c-cls">HasilPembayaran</span> {
+        <span class="c-kw">if</span> (<span class="c-var">$diterima</span> < <span class="c-var">$total</span>) {
+            <span class="c-kw">throw new</span> <span class="c-cls">UangKurangException</span>(<span class="c-str">"Uang kurang Rp "</span> . (<span class="c-var">$total</span> - <span class="c-var">$diterima</span>));
+        }
+        <span class="c-kw">return new</span> <span class="c-cls">HasilPembayaran</span>(<span class="c-kw">true</span>, <span class="c-var">$diterima</span> - <span class="c-var">$total</span>, <span class="c-str">"TUNAI"</span>);
+    }
+}</div>
+        </div>
+        
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Infrastructure/Payment/QrisPaymentProcessor.php</span></div>
+          <div class="code-body"><span class="c-kw">class</span> <span class="c-cls">QrisPaymentProcessor</span> <span class="c-kw">implements</span> <span class="c-cls">PaymentProcessorInterface</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">proses</span>(<span class="c-kw">float</span> <span class="c-var">$total</span>, <span class="c-kw">float</span> <span class="c-var">$diterima</span>): <span class="c-cls">HasilPembayaran</span> {
+        <span class="c-cm">// Simulasi verifikasi gateway QRIS</span>
+        <span class="c-kw">return new</span> <span class="c-cls">HasilPembayaran</span>(<span class="c-kw">true</span>, <span class="c-num">0.0</span>, <span class="c-str">"QRIS-UUI-"</span> . <span class="c-fn">time</span>());
+    }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Persistensi JSON Concurrency-Safe -->
+    <div class="slide" id="slide-8">
+      <div class="slide-tag">5️⃣ PERSISTENSI FILE LOCK</div>
+      <h1 class="slide-title">Persistensi Transaksi Aman (<code class="c-cls">LOCK_EX</code>)</h1>
+      <h2 class="slide-subtitle">Menyimpan riwayat invoice ke berkas JSON dengan garansi integritas mutlak dari Race Condition.</h2>
+      
+      <div class="code-container" style="font-size: 0.75rem;">
+        <div class="code-header"><span class="code-title">Infrastructure/Persistence/JsonTransaksiRepository.php</span></div>
+        <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">simpan</span>(<span class="c-cls">Transaksi</span> <span class="c-var">$trx</span>): <span class="c-kw">void</span>
+{
+    <span class="c-var">$fp</span> = <span class="c-fn">fopen</span>(<span class="c-var">$this</span>-><span class="c-var">filePath</span>, <span class="c-str">c+</span>);
+    <span class="c-kw">if</span> (!<span class="c-fn">flock</span>(<span class="c-var">$fp</span>, <span class="c-cls">LOCK_EX</span>)) {
+        <span class="c-kw">throw new</span> <span class="c-cls">\RuntimeException</span>(<span class="c-str">"Gagal mengunci transaksi database!"</span>);
+    }
+    <span class="c-kw">try</span> {
+        <span class="c-var">$isi</span> = <span class="c-fn">stream_get_contents</span>(<span class="c-var">$fp</span>);
+        <span class="c-var">$data</span> = <span class="c-var">$isi</span> ? <span class="c-fn">json_decode</span>(<span class="c-var">$isi</span>, <span class="c-kw">true</span>, flags: <span class="c-cls">JSON_THROW_ON_ERROR</span>) : [];
+        <span class="c-var">$data</span>[] = <span class="c-var">$trx</span>-><span class="c-fn">toArray</span>();
+
+        <span class="c-fn">ftruncate</span>(<span class="c-var">$fp</span>, <span class="c-num">0</span>);
+        <span class="c-fn">rewind</span>(<span class="c-var">$fp</span>);
+        <span class="c-fn">fwrite</span>(<span class="c-var">$fp</span>, <span class="c-fn">json_encode</span>(<span class="c-var">$data</span>, <span class="c-cls">JSON_PRETTY_PRINT</span> | <span class="c-cls">JSON_THROW_ON_ERROR</span>));
+    } <span class="c-kw">finally</span> {
+        <span class="c-fn">flock</span>(<span class="c-var">$fp</span>, <span class="c-cls">LOCK_UN</span>); <span class="c-cm">// ✨ Garansi lepas kunci</span>
+        <span class="c-fn">fclose</span>(<span class="c-var">$fp</span>);
+    }
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Application KasirService -->
+    <div class="slide" id="slide-9">
+      <div class="slide-tag">6️⃣ ORKESTRASI KASIR SERVICE</div>
+      <h1 class="slide-title">Orkestrator Bisnis: <code class="c-cls">KasirService</code></h1>
+      <h2 class="slide-subtitle">Mengorkestrasi validasi stok, diskon, pembayaran, dan pencatatan dalam 1 transaksi atomik.</h2>
+      
+      <div class="code-container" style="font-size: 0.74rem;">
+        <div class="code-header"><span class="code-title">Application/Service/KasirService.php</span></div>
+        <div class="code-body"><span class="c-kw">public function</span> <span class="c-fn">checkout</span>(
+    <span class="c-cls">KeranjangCollection</span> <span class="c-var">$cart</span>,
+    <span class="c-cls">DiskonStrategyInterface</span> <span class="c-var">$diskon</span>,
+    <span class="c-cls">PaymentProcessorInterface</span> <span class="c-var">$payment</span>,
+    <span class="c-kw">float</span> <span class="c-var">$uangDiterima</span>
+): <span class="c-cls">Transaksi</span> {
+    <span class="c-var">$subtotal</span> = <span class="c-var">$cart</span>-><span class="c-fn">hitungSubtotal</span>();
+    <span class="c-var">$potongan</span> = <span class="c-var">$diskon</span>-><span class="c-fn">hitungPotongan</span>(<span class="c-var">$subtotal</span>);
+    <span class="c-var">$totalBayar</span> = <span class="c-var">$subtotal</span> - <span class="c-var">$potongan</span>;
+
+    <span class="c-var">$hasilBayar</span> = <span class="c-var">$payment</span>-><span class="c-fn">proses</span>(<span class="c-var">$totalBayar</span>, <span class="c-var">$uangDiterima</span>);
+
+    <span class="c-cm">// Potong stok seluruh item produk</span>
+    <span class="c-kw">foreach</span> (<span class="c-var">$cart</span> <span class="c-kw">as</span> <span class="c-var">$item</span>) {
+        <span class="c-var">$item</span>-><span class="c-var">produk</span>-><span class="c-fn">kurangiStok</span>(<span class="c-var">$item</span>-><span class="c-var">qty</span>);
+        <span class="c-var">$this</span>-><span class="c-var">produkRepo</span>-><span class="c-fn">simpan</span>(<span class="c-var">$item</span>-><span class="c-var">produk</span>);
+    }
+
+    <span class="c-var">$trx</span> = <span class="c-kw">new</span> <span class="c-cls">Transaksi</span>(<span class="c-str">TRX-</span> . <span class="c-fn">time</span>(), <span class="c-var">$cart</span>, <span class="c-var">$subtotal</span>, <span class="c-var">$potongan</span>, <span class="c-var">$totalBayar</span>, <span class="c-var">$hasilBayar</span>);
+    <span class="c-var">$this</span>-><span class="c-var">trxRepo</span>-><span class="c-fn">simpan</span>(<span class="c-var">$trx</span>);
+    <span class="c-kw">return</span> <span class="c-var">$trx</span>;
+}</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Antarmuka Interaktif CLI -->
+    <div class="slide" id="slide-10">
+      <div class="slide-tag">🖥️ CLI PRESENTATION</div>
+      <h1 class="slide-title">Antarmuka Interaktif POS Kasir (<code class="c-str">bin/pos.php</code>)</h1>
+      <h2 class="slide-subtitle">Pengalaman interaksi terminal modern dengan menu ANSI berwarna dan validasi ekspresif.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Fitur Console Kasir:</h3>
+          <ul>
+            <li>Tampilan tabel katalog produk dengan indikator stok dinamis.</li>
+            <li>Keranjang belanja multi-item yang bisa di-update secara interaktif.</li>
+            <li>Pilihan metode diskon dinamis (Member, Flash Sale, Tanpa Diskon).</li>
+            <li>Pilihan pembayaran (Tunai dengan kembalian atau scan QRIS).</li>
+          </ul>
+        </div>
+        
+        <div class="code-container" style="font-size: 0.72rem;">
+          <div class="code-header"><span class="code-title">Terminal Menu</span></div>
+          <div class="code-body">=========================================
+      SISTEM KASIR POS UUI RETAIL
+=========================================
+[1] Lihat Katalog Produk
+[2] Tambah Item ke Keranjang
+[3] Lihat Isi Keranjang Belanja
+[4] Proses Checkout & Pembayaran
+[5] Keluar Aplikasi
+-----------------------------------------
+Pilih Menu [1-5]: 4</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Demo Struk Transaksi POS -->
+    <div class="slide" id="slide-11">
+      <div class="slide-tag">🧾 CETAK STRUK TRANSAKSI</div>
+      <h1 class="slide-title">Output Struk Transaksi Kasir Retail</h1>
+      <h2 class="slide-subtitle">Format struk profesional yang siap dicetak ke thermal printer atau diekspor ke format digital.</h2>
+      
+      <div class="code-container" style="font-size: 0.73rem; max-width: 600px; margin: 0 auto;">
+        <div class="code-header"><span class="code-title">STRUK BELANJA RESMI UUI</span></div>
+        <div class="code-body">===================================================
+             UNIVERSITAS UBUDIYAH INDONESIA
+                 MINI MARKET KAMPUS
+===================================================
+No. Transaksi : TRX-1724590200
+Waktu         : 2026-08-25 18:00:00
+Kasir         : Mahasiswa Informatika
+---------------------------------------------------
+1. Kopi Aceh Gayo Premium (x2)       Rp  70.000
+2. Buku Pemrograman PHP 8+ (x1)      Rp 120.000
+---------------------------------------------------
+Subtotal                            : Rp 190.000
+Diskon (Member UUI 10%)             : (Rp 19.000)
+Total Tagihan                       : Rp 171.000
+Bayar (TUNAI)                       : Rp 200.000
+Kembalian                           : Rp  29.000
+===================================================
+      Terima Kasih Atas Kunjungan Anda!
+===================================================</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Rangkuman Akhir Semester & Persiapan UAS -->
+    <div class="slide" id="slide-12">
+      <div class="slide-tag">🎓 PENUTUP PERKULIAHAN & UAS</div>
+      <h1 class="slide-title">Sintesis Akhir Semester & Persiapan Evaluasi UAS</h1>
+      <h2 class="slide-subtitle">Selamat! Anda telah menguasai seluruh spektrum Pemrograman Berorientasi Objek modern PHP 8+.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>🏆 Peta Kompetensi yang Telah Dikuasai:</h3>
+          <ul style="font-size: 0.86rem; line-height: 1.6;">
+            <li>Class, Object, Constructor Promotion, Readonly & Visibility.</li>
+            <li>4 Pilar OOP: Inheritance, Polymorphism, Abstract Class & Interface.</li>
+            <li>Namespace, Standar PSR-4, dan Ekosistem Composer.</li>
+            <li>Exception Handling Fail-Fast & Custom Exceptions.</li>
+            <li>First-Class Collections & Pipeline Manipulasi Array.</li>
+            <li>Stream I/O Berkas dengan File Locking Concurrency-Safe.</li>
+            <li>5 Prinsip Desain SOLID & Clean Architecture.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-green); background: #ecfdf5;">
+          <h3 style="color: #065f46;">📋 Rubrik Evaluasi Akhir (Minggu 16):</h3>
+          <ol style="margin-left: 18px; font-size: 0.86rem; color: #064e3b; line-height: 1.6;">
+            <li><strong>Kerapian Arsitektur (30%):</strong> Kepatuhan Model-Service-Repository & SOLID.</li>
+            <li><strong>Fungsionalitas Transaksi (30%):</strong> Alur checkout, kalkulasi diskon, & file locking.</li>
+            <li><strong>Standar Kode PSR (20%):</strong> PSR-4 Autoloading dan PSR-12 Clean Code.</li>
+            <li><strong>Presentasi & Demo Proyek (20%):</strong> Kejelasan pemaparan arsitektur sistem.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>🎉 Selamat Berjuang di Minggu 16:</strong> <em>Evaluasi Akhir Semester & Presentasi Proyek Capstone OOP PHP 8+!</em> Tunjukkan karya terbaik Anda untuk almamater Universitas Ubudiyah Indonesia!</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer>
+    <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">
+      Tekan <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> untuk pindah slide &bull; Tekan <kbd>F</kbd> untuk Fullscreen
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-nav btn-nav-secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <!-- Slide Engine JavaScript -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+    const slideIndicator = document.getElementById("slideIndicator");
+    const progressBar = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const timerElement = document.getElementById("slideTimer");
+
+    // Timer Implementation
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          const mins = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+          const secs = String(timerSeconds % 60).padStart(2, "0");
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${mins}:${secs}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (timerRunning) {
+          timerElement.classList.remove("paused");
+        } else {
+          timerElement.classList.add("paused");
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove("paused");
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener("click", toggleTimer);
+      timerElement.addEventListener("dblclick", resetTimer);
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove("active");
+        if (index === currentSlide) {
+          slide.classList.add("active");
+        }
+      });
+
+      // Update indicator & progress
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update button states
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? "Selesai 🏁" : "Selanjutnya ▶";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === "Home") {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === "End") {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    // Touch navigation for mobile/tablet
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // Initial render & timer start
+    updateSlide();
+    startTimer();
+  </script>
+</body>
+</html>

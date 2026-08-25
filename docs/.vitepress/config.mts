@@ -66,7 +66,12 @@ export default withMermaid(
                 { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
                 { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' },
                 { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' },
-                { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' }
+                { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' },
+                { text: 'Pertemuan 11: Collections & Array', link: '/presentasi/pertemuan-11-php' },
+                { text: 'Pertemuan 12: File Handling & Streams', link: '/presentasi/pertemuan-12-php' },
+                { text: 'Pertemuan 13: Prinsip SOLID', link: '/presentasi/pertemuan-13-php' },
+                { text: 'Pertemuan 14: Model-Service-Repo', link: '/presentasi/pertemuan-14-php' },
+                { text: 'Pertemuan 15: Capstone Mini Project', link: '/presentasi/pertemuan-15-php' }
               ]
             },
             {
@@ -100,7 +105,12 @@ export default withMermaid(
               { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
               { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' },
               { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' },
-              { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' }
+              { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' },
+              { text: 'Pertemuan 11: Collections & Array', link: '/presentasi/pertemuan-11-php' },
+              { text: 'Pertemuan 12: File Handling & Streams', link: '/presentasi/pertemuan-12-php' },
+              { text: 'Pertemuan 13: Prinsip SOLID', link: '/presentasi/pertemuan-13-php' },
+              { text: 'Pertemuan 14: Model-Service-Repo', link: '/presentasi/pertemuan-14-php' },
+              { text: 'Pertemuan 15: Capstone Mini Project', link: '/presentasi/pertemuan-15-php' }
             ]
           },
           {

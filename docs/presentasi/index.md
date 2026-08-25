@@ -25,6 +25,11 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **07** | Abstraction, Abstract Classes & Interfaces | [Lihat di Web](/presentasi/pertemuan-7-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-interface-abstract-php.html){target="_blank"} |
 | **09** | Manajemen Namespace, Standar PSR-4 & Composer | [Lihat di Web](/presentasi/pertemuan-9-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-9-namespace-psr4-composer-php.html){target="_blank"} |
 | **10** | Exception Handling & Robust Error Flow | [Lihat di Web](/presentasi/pertemuan-10-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-10-exception-handling-php.html){target="_blank"} |
+| **11** | Object Collections & Modern Array | [Lihat di Web](/presentasi/pertemuan-11-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-11-collections-array-php.html){target="_blank"} |
+| **12** | Manajemen Berkas (File Handling & Streams) | [Lihat di Web](/presentasi/pertemuan-12-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-12-file-handling-php.html){target="_blank"} |
+| **13** | Prinsip Desain Perangkat Lunak SOLID | [Lihat di Web](/presentasi/pertemuan-13-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-13-solid-principle-php.html){target="_blank"} |
+| **14** | Arsitektur Aplikasi (Model-Service-Repo) | [Lihat di Web](/presentasi/pertemuan-14-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-14-arsitektur-aplikasi-oop.html){target="_blank"} |
+| **15** | Capstone Mini Project (Sistem POS) | [Lihat di Web](/presentasi/pertemuan-15-php) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-15-mini-project-pos-php.html){target="_blank"} |
 
 ---
 
