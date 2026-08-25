@@ -282,15 +282,42 @@ class AcademicBookBuilder:
             r_head.font.italic = True
             r_head.font.color.rgb = RGBColor(0x94, 0xA3, 0xB8)
             
-            # Footer
+            # Footer with 2-Column Table (Left: Institution info, Right: Dynamic Page Number)
             footer = section.footer
             p_foot = footer.paragraphs[0]
-            p_foot.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            p_foot.paragraph_format.space_after = Pt(0)
-            r_foot = p_foot.add_run("Program Studi Informatika — Universitas Ubudiyah Indonesia")
-            r_foot.font.name = "Calibri"
-            r_foot.font.size = Pt(8.5)
-            r_foot.font.color.rgb = RGBColor(0x94, 0xA3, 0xB8)
+            p_foot.text = ""
+            
+            tbl_foot = footer.add_table(rows=1, cols=2, width=Cm(14.0))
+            tbl_foot.alignment = WD_TABLE_ALIGNMENT.CENTER
+            tbl_foot.autofit = False
+            
+            c0 = tbl_foot.cell(0, 0)
+            c1 = tbl_foot.cell(0, 1)
+            c0.width = Cm(10.5)
+            c1.width = Cm(3.5)
+            set_cell_margins(c0, top=0, bottom=0, left=0, right=0)
+            set_cell_margins(c1, top=0, bottom=0, left=0, right=0)
+            set_cell_border(c0, top={'val': 'none'}, bottom={'val': 'none'}, left={'val': 'none'}, right={'val': 'none'})
+            set_cell_border(c1, top={'val': 'none'}, bottom={'val': 'none'}, left={'val': 'none'}, right={'val': 'none'})
+            
+            p0 = c0.paragraphs[0]
+            p0.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            p0.paragraph_format.space_after = Pt(0)
+            r0 = p0.add_run("Program Studi Informatika — Universitas Ubudiyah Indonesia")
+            r0.font.name = "Calibri"
+            r0.font.size = Pt(8.5)
+            r0.font.color.rgb = RGBColor(0x94, 0xA3, 0xB8)
+            
+            p1 = c1.paragraphs[0]
+            p1.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            p1.paragraph_format.space_after = Pt(0)
+            r1 = p1.add_run("Hlm. ")
+            r1.font.name = "Calibri"
+            r1.font.size = Pt(8.5)
+            r1.font.color.rgb = RGBColor(0x94, 0xA3, 0xB8)
+            
+            fld = parse_xml(r'<w:fldSimple %s w:instr="PAGE"/>' % nsdecls('w'))
+            r1._r.append(fld)
 
     def _setup_styles(self):
         """Setup default typography and paragraph formatting."""
@@ -302,9 +329,28 @@ class AcademicBookBuilder:
         style_normal.paragraph_format.space_after = Pt(4.0)
         style_normal.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
-    def add_title_page(self, main_title, subtitle, author="Mahendar Dwi Payana, S.ST., M.T.", year="2025"):
+    def add_front_cover_image(self, image_path):
+        """Adds a full-page front cover image if the image file exists."""
+        if image_path and os.path.exists(image_path):
+            p = self.doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.paragraph_format.space_before = Pt(0)
+            p.paragraph_format.space_after = Pt(0)
+            run = p.add_run()
+            run.add_picture(image_path, width=Cm(14.0))
+            self.doc.add_page_break()
+
+    def add_title_page(self, main_title, subtitle, author=None, authors=None, year="2025"):
+        if authors is None:
+            if isinstance(author, list):
+                authors = author
+            elif isinstance(author, str):
+                authors = [author]
+            else:
+                authors = ["Mahendar Dwi Payana, S.ST., M.T."]
+        
         p_space = self.doc.add_paragraph()
-        p_space.paragraph_format.space_before = Pt(30)
+        p_space.paragraph_format.space_before = Pt(14 if len(authors) > 2 else 30)
         
         p_badge = self.doc.add_paragraph()
         p_badge.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -316,52 +362,55 @@ class AcademicBookBuilder:
         
         p_title = self.doc.add_paragraph()
         p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_title.paragraph_format.space_before = Pt(10)
-        p_title.paragraph_format.space_after = Pt(8)
+        p_title.paragraph_format.space_before = Pt(8)
+        p_title.paragraph_format.space_after = Pt(6)
         r_title = p_title.add_run(main_title.upper())
         r_title.bold = True
         r_title.font.name = 'Calibri'
-        r_title.font.size = Pt(22.0)
+        r_title.font.size = Pt(20.0 if len(authors) > 2 else 22.0)
         r_title.font.color.rgb = RGBColor(0x1E, 0x3A, 0x8A)
         
         p_sub = self.doc.add_paragraph()
         p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_sub.paragraph_format.space_after = Pt(40)
+        p_sub.paragraph_format.space_after = Pt(16 if len(authors) > 2 else 35)
         r_sub = p_sub.add_run(subtitle)
         r_sub.font.name = 'Calibri'
-        r_sub.font.size = Pt(12.0)
+        r_sub.font.size = Pt(11.0)
         r_sub.font.italic = True
         r_sub.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
         
         p_line = self.doc.add_paragraph()
         p_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_line.paragraph_format.space_after = Pt(40)
+        p_line.paragraph_format.space_after = Pt(16 if len(authors) > 2 else 35)
         r_line = p_line.add_run("____________________________________________________")
         r_line.font.color.rgb = RGBColor(0x93, 0xC5, 0xFD)
         
         p_author_label = self.doc.add_paragraph()
         p_author_label.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        r_author_label = p_author_label.add_run("Penulis:")
+        p_author_label.paragraph_format.space_after = Pt(4)
+        r_author_label = p_author_label.add_run("Penulis:" if len(authors) == 1 else "Tim Penulis:")
         r_author_label.font.name = 'Calibri'
-        r_author_label.font.size = Pt(11.0)
+        r_author_label.font.size = Pt(10.5)
         r_author_label.font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
         
-        p_author = self.doc.add_paragraph()
-        p_author.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p_author.paragraph_format.space_after = Pt(70)
-        r_author = p_author.add_run(author)
-        r_author.bold = True
-        r_author.font.name = 'Calibri'
-        r_author.font.size = Pt(14.0)
-        r_author.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
+        for auth in authors:
+            p_author = self.doc.add_paragraph()
+            p_author.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p_author.paragraph_format.space_after = Pt(2)
+            r_author = p_author.add_run(auth)
+            r_author.bold = True
+            r_author.font.name = 'Calibri'
+            r_author.font.size = Pt(12.0 if len(authors) > 3 else 13.0)
+            r_author.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
         
         p_inst = self.doc.add_paragraph()
         p_inst.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_inst.paragraph_format.space_before = Pt(25 if len(authors) > 2 else 50)
         p_inst.paragraph_format.space_after = Pt(2)
         r_inst = p_inst.add_run(f"PROGRAM STUDI INFORMATIKA\nFAKULTAS SAINS DAN TEKNOLOGI\nUNIVERSITAS UBUDIYAH INDONESIA\nBANDA ACEH\n{year}")
         r_inst.bold = True
         r_inst.font.name = 'Calibri'
-        r_inst.font.size = Pt(11.0)
+        r_inst.font.size = Pt(10.5)
         r_inst.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
         
         self.doc.add_page_break()

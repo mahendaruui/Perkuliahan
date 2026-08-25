@@ -521,8 +521,8 @@ try {
 1. **Studi Kasus Penilaian Akademik:**
    - Buat class `NilaiAkademik` dengan properti private: `$nilaiTugas` (float), `$nilaiUTS` (float), `$nilaiUAS` (float).
    - Buat Setter dan Getter untuk masing-masing nilai dengan validasi ketat: Nilai wajib berada dalam rentang `0.0` sampai `100.0`.
-   - Buat method `hitungNilaiAkhir()` dengan formula: $\text{Nilai Akhir} = (0.30 \times \text{Tugas}) + (0.30 \times \text{UTS}) + (0.40 \times \text{UAS})$.
-   - Buat method `getGrade()` yang mengembalikan huruf mutu: A ($\ge 85$), B ($\ge 70$), C ($\ge 55$), D ($\ge 40$), E ($< 40$).
+   - Buat method `hitungNilaiAkhir()` dengan formula: `Nilai Akhir = (0.30 × Tugas) + (0.30 × UTS) + (0.40 × UAS)`.
+   - Buat method `getGrade()` yang mengembalikan huruf mutu: A (≥ 85), B (≥ 70), C (≥ 55), D (≥ 40), E (< 40).
 
 2. **Analisis Reflektif:**
    - Mengapa enkapsulasi dengan prinsip *"Tell, Don't Ask"* jauh lebih unggul dibandingkan membuat Getter dan Setter untuk seluruh data secara membabi buta (*Anemic Domain Model*)?

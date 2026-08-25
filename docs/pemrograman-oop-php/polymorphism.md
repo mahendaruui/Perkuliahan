@@ -35,8 +35,8 @@ flowchart TD
 Secara etimologi bahasa Yunani, **Polimorfisme** berasal dari kata *poly* (banyak) dan *morph* (bentuk atau rupa). Dalam ilmu rekayasa perangkat lunak berorientasi objek, polimorfisme adalah prinsip kemampuan objek-objek dari berbagai class turunan yang berbeda untuk merespons pemanggilan pesan atau method yang sama dengan cara/implementasi unik mereka masing-masing.
 
 Kekuatan utama polimorfisme terletak pada pemisahan antara:
-- **"Apa yang harus dilakukan" (*What to do*)** $\rightarrow$ Didefinisikan pada antarmuka umum / superclass.
-- **"Bagaimana cara melakukannya" (*How to do it*)** $\rightarrow$ Didefinisikan secara spesifik oleh masing-masing subclass.
+- **"Apa yang harus dilakukan" (*What to do*)** → Didefinisikan pada antarmuka umum / superclass.
+- **"Bagaimana cara melakukannya" (*How to do it*)** → Didefinisikan secara spesifik oleh masing-masing subclass.
 
 ### B. Taksonomi Teori Polimorfisme (Cardelli & Wegner, 1985)
 Dalam literatur ilmu komputer klasik, Luca Cardelli dan Peter Wegner membagi polimorfisme ke dalam empat klasifikasi utama:

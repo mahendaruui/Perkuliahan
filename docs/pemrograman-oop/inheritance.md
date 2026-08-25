@@ -127,7 +127,7 @@ graph TD
 ```
 
 1. **Single Inheritance:** Satu subclass hanya mewarisi satu superclass (e.g. `Mobil extends Kendaraan`).
-2. **Multilevel Inheritance:** Pewarisan berantai (e.g. `Pegawai` $\rightarrow$ `Manager` $\rightarrow$ `DirekturUtama`).
+2. **Multilevel Inheritance:** Pewarisan berantai (e.g. `Pegawai` → `Manager` → `DirekturUtama`).
 3. **Hierarchical Inheritance:** Satu superclass diwarisi oleh banyak subclass sekaligus (e.g. `Kendaraan` diwarisi oleh `Mobil`, `Motor`, dan `Truk`).
 
 ---

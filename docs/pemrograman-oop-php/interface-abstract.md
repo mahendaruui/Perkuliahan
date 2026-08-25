@@ -32,8 +32,8 @@ Dalam rekayasa perangkat lunak, **Abstraksi (Abstraction)** adalah proses menyed
 Sebagai analogi dunia nyata, ketika seseorang mengemudikan mobil, ia hanya perlu memahami cara menginjak pedal gas, pedal rem, dan memutar roda kemudi. Pengemudi tidak perlu mengetahui secara mikroskopis rasio kompresi bahan bakar di dalam ruang silinder atau perpindahan fluida transmisi hidrolik. Antarmuka pedal menyederhanakan kompleksitas mesin tersebut.
 
 Dalam bahasa PHP modern, pilar abstraksi diwujudkan melalui dua konstruksi utama:
-1. **Abstract Class** $\rightarrow$ Kerangka dasar setengah jadi untuk hierarki keluarga erat (*IS-A*).
-2. **Interface** $\rightarrow$ Kontrak perilaku murni untuk kemampuan lintas modul (*CAN-DO*).
+1. **Abstract Class** → Kerangka dasar setengah jadi untuk hierarki keluarga erat (*IS-A*).
+2. **Interface** → Kontrak perilaku murni untuk kemampuan lintas modul (*CAN-DO*).
 
 ---
 

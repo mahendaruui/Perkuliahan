@@ -65,12 +65,26 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         course_code="IFR 214"
     )
 
-    # 1. Halaman Sampul
-    print("-> 1/6 Membangun Halaman Judul...")
+    # 0. Halaman Sampul Depan (Cover Image)
+    cover_image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cover.png")
+    if os.path.exists(cover_image_path):
+        print("-> 0/6 Memasang Halaman Sampul Depan (Cover Image)...")
+        builder.add_front_cover_image(cover_image_path)
+
+    authors_list = [
+        "Mahendar Dwi Payana, S.ST., M.T.",
+        "Desita Ria Yusian TB, S.ST., M.T",
+        "M.Bayu Wibawa, S.Kom., MMSI",
+        "Nurul Hamdi, S.T., M.Kom",
+        "Zuhar Musliyana, S.ST., M.T"
+    ]
+
+    # 1. Halaman Sampul Formal
+    print("-> 1/6 Membangun Halaman Judul Formal...")
     builder.add_title_page(
         main_title="PEMROGRAMAN BERORIENTASI OBJEK\nMENGGUNAKAN PHP 8+",
         subtitle="Pendekatan Teoretis, Praktik Rekayasa Perangkat Lunak Modern,\ndan Implementasi Arsitektur Bersih",
-        author="Mahendar Dwi Payana, S.ST., M.T.",
+        authors=authors_list,
         year="2025"
     )
 
@@ -78,19 +92,20 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
     print("-> 2/6 Membangun Halaman Penerbitan & Hak Cipta (KDT)...")
     meta_info = [
         ["Judul Buku", "Buku Ajar Pemrograman Berorientasi Objek menggunakan PHP 8+"],
-        ["Penulis", "Mahendar Dwi Payana, S.ST., M.T."],
+        ["Penulis", "1. Mahendar Dwi Payana, S.ST., M.T.\n2. Desita Ria Yusian TB, S.ST., M.T\n3. M.Bayu Wibawa, S.Kom., MMSI\n4. Nurul Hamdi, S.T., M.Kom\n5. Zuhar Musliyana, S.ST., M.T"],
         ["Editor Ahli", "Tim Pengembang Kurikulum Program Studi Informatika UUI"],
         ["Desain & Tata Letak", "Laboratorium Rekayasa Perangkat Lunak & Sistem Informasi UUI"],
-        ["Penerbit", "UUI Press / Program Studi Informatika\nFakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia"],
+        ["Penerbit", "Universitas Ubudiyah Indonesia\nFakultas Sains dan Teknologi, Program Studi Informatika"],
         ["Alamat Redaksi", "Jl. Alue Naga, Desa Tibang, Kec. Syiah Kuala, Kota Banda Aceh, Aceh 23114\nLaman: https://uui.ac.id | Pos-el: info@uui.ac.id"],
         ["Edisi & Cetakan", f"Cetakan Pertama, 2025 (Versi Rilis: {clean_version})"],
         ["Nomor ISBN", "978-623-XXXX-XX-X (e-Book Digital Reference)"]
     ]
     kdt_text = (
-        "PAYANA, Mahendar Dwi\n"
+        "PAYANA, Mahendar Dwi, dkk.\n"
         "    Buku Ajar Pemrograman Berorientasi Objek menggunakan PHP 8+ /\n"
-        "    Mahendar Dwi Payana ; editor, Tim Reviewer Informatika UUI.\n"
-        "    -- Cet. 1 -- Banda Aceh : UUI Press, 2025.\n"
+        "    Mahendar Dwi Payana, Desita Ria Yusian TB, M.Bayu Wibawa,\n"
+        "    Nurul Hamdi, Zuhar Musliyana ; editor, Tim Reviewer Informatika UUI.\n"
+        "    -- Cet. 1 -- Banda Aceh : Universitas Ubudiyah Indonesia, 2025.\n"
         "    xvi, 175 hlm. : ilus. ; 29,7 cm. (Format A4)\n\n"
         "    Bibliografi : hlm. 162-164\n"
         "    Glosarium   : hlm. 158-161\n"
@@ -110,7 +125,7 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
         "Penulis menyadari bahwa buku ini masih memiliki ruang untuk perbaikan dan penyempurnaan di masa mendatang. Oleh karena itu, saran, masukan konstruktif, dan kritik yang membangun dari para sejawat akademisi, praktisi industri, serta mahasiswa senantiasa penulis nantikan.",
         "Akhir kata, penulis menyampaikan apresiasi yang mendalam kepada pimpinan Universitas Ubudiyah Indonesia, rekan-rekan dosen di lingkungan Fakultas Sains dan Teknologi, serta para mahasiswa yang senantiasa memberikan inspirasi selama proses belajar mengajar. Semoga buku ajar ini dapat memberikan manfaat nyata, menginspirasi, dan menjadi bekal kompetensi yang kokoh bagi kemajuan keilmuan teknologi informasi di tanah air."
     ]
-    builder.add_preface(preface_paras, author="Mahendar Dwi Payana, S.ST., M.T.", location="Banda Aceh, 2025")
+    builder.add_preface(preface_paras, author="Tim Penulis\nUniversitas Ubudiyah Indonesia", location="Banda Aceh, 2025")
 
     # 4. Capaian Pembelajaran
     print("-> 4/6 Membangun Matriks Capaian Pembelajaran (CPL & CPMK)...")
@@ -2433,23 +2448,42 @@ def build_oop_php_book(version="v1.0.0", output_dir=None):
     builder.doc.add_page_break()
     p_bio = builder.doc.add_paragraph()
     p_bio.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p_bio.add_run("TENTANG PENULIS")
+    r = p_bio.add_run("PROFIL TIM PENULIS")
     r.bold = True
     r.font.size = Pt(15)
     r.font.color.rgb = RGBColor(0x1E, 0x3A, 0x8A)
     
-    bio_text = (
-        "Mahendar Dwi Payana, S.ST., M.T. adalah dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, "
-        "Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau aktif mengampu mata kuliah dalam rumpun Rekayasa Perangkat Lunak, "
-        "Pemrograman Berorientasi Objek, Pemrograman Web, Pemrograman Mobile, serta Algoritma dan Struktur Data.\n\n"
-        "Penulis memiliki komitmen mendalam dalam pengembangan bahan ajar modern, kurikulum berbasis Outcome-Based Education (OBE), "
-        "serta integrasi standar industri ke dalam perkuliahan akademik. Buku ajar ini merupakan wujud dedikasi penulis dalam "
-        "membekali generasi mahasiswa dan calon rekayasawan perangkat lunak dengan fondasi keilmuan yang kokoh dan relevan dengan "
-        "kemajuan teknologi dunia."
-    )
-    p_b = builder.doc.add_paragraph(bio_text)
-    p_b.paragraph_format.first_line_indent = Cm(0.75)
-    p_b.paragraph_format.line_spacing = 1.2
+    penulis_profiles = [
+        ("Mahendar Dwi Payana, S.ST., M.T.", 
+         "Dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau aktif mengampu dan meneliti dalam rumpun keilmuan Rekayasa Perangkat Lunak, Pemrograman Berorientasi Objek, Pemrograman Web, Pemrograman Mobile, serta Algoritma dan Struktur Data. Berkomitmen kuat pada pengembangan kurikulum OBE dan integrasi standar industri software engineering."),
+        
+        ("Desita Ria Yusian TB, S.ST., M.T",
+         "Dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau memiliki kepakaran dalam bidang Rekayasa Perangkat Lunak, Manajemen Basis Data, dan Analisis Perancangan Sistem Informasi."),
+        
+        ("M.Bayu Wibawa, S.Kom., MMSI",
+         "Dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau aktif dalam pengajaran dan penelitian di bidang Sistem Informasi Enterprise, Tata Kelola Teknologi Informasi, serta Rekayasa Perangkat Lunak Modern."),
+        
+        ("Nurul Hamdi, S.T., M.Kom",
+         "Dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau berfokus pada bidang Arsitektur Jaringan Komputer, Keamanan Sistem, dan Pengembangan Aplikasi Terdistribusi Berorientasi Objek."),
+        
+        ("Zuhar Musliyana, S.ST., M.T",
+         "Dosen tetap pada Program Studi Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI), Banda Aceh. Beliau memiliki fokus keahlian pada bidang Kecerdasan Buatan (Artificial Intelligence), Data Science, dan Implementasi Perangkat Lunak Terapan.")
+    ]
+    
+    for nama_penulis, deskripsi in penulis_profiles:
+        p_np = builder.doc.add_paragraph()
+        p_np.paragraph_format.space_before = Pt(8)
+        p_np.paragraph_format.space_after = Pt(2)
+        r_np = p_np.add_run(f"• {nama_penulis}")
+        r_np.bold = True
+        r_np.font.name = 'Calibri'
+        r_np.font.size = Pt(11.5)
+        r_np.font.color.rgb = RGBColor(0x1E, 0x3A, 0x8A)
+        
+        p_dp = builder.doc.add_paragraph(deskripsi)
+        p_dp.paragraph_format.left_indent = Cm(0.5)
+        p_dp.paragraph_format.space_after = Pt(6)
+        p_dp.paragraph_format.line_spacing = 1.15
 
     # Save
     builder.save()

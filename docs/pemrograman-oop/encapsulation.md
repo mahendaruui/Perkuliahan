@@ -197,8 +197,8 @@ public class MainDompet {
    - UTS: 30%
    - UAS: 40%
 4. Tambahkan method `getGrade()` yang mengembalikan huruf mutu:
-   - Nilai $\ge 85$: 'A'
-   - Nilai $\ge 70$: 'B'
-   - Nilai $\ge 55$: 'C'
-   - Nilai $\ge 40$: 'D'
-   - Nilai $< 40$: 'E'
+   - Nilai ≥ 85: 'A'
+   - Nilai ≥ 70: 'B'
+   - Nilai ≥ 55: 'C'
+   - Nilai ≥ 40: 'D'
+   - Nilai < 40: 'E'

@@ -62,7 +62,7 @@ Setiap mata kuliah telah disusun secara komprehensif mengikuti standar **Rencana
 
 - **[⚡ Algoritma & Pemrograman](/algoritma-pemrograman/)**: Fondasi dasar logika dan algoritma pemrograman — Variabel, Tipe Data, Operator, Percabangan, Perulangan, Array, String, Fungsi & Prosedur, Rekursi, hingga Algoritma Searching dan Sorting.
 
-- **[📊 Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis efisiensi algoritma secara mendalam — Notasi Asimtotik Big O, Big $\Omega$, Big $\Theta$, Time Complexity, Space Complexity, Best/Average/Worst Case Analysis, serta teknik optimasi kode.
+- **[📊 Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis efisiensi algoritma secara mendalam — Notasi Asimtotik Big-O, Big-Ω (Omega), Big-Θ (Theta), Time Complexity, Space Complexity, Best/Average/Worst Case Analysis, serta teknik optimasi kode.
 
 ---
 

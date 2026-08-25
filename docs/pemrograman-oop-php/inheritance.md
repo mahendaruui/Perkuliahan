@@ -61,7 +61,7 @@ Hubungan ini mencerminkan relasi taksonomi **"Is-A"** (Adalah Seorang / Adalah S
 Dengan pewarisan, atribut dan perilaku umum yang berlaku untuk seluruh entitas (seperti nama, nomor identitas, dan email kampus) cukup didefinisikan satu kali pada superclass. Hal ini mewujudkan prinsip **DRY (Don't Repeat Yourself)** secara maksimal.
 
 ### B. Bahaya Arsitektur: *Fragile Base Class Problem*
-Meskipun pewarisan sangat berguna, penggunaan pewarisan yang serampangan dapat menimbulkan kerapuhan arsitektur yang dikenal sebagai **Fragile Base Class Problem**. Ketika hierarki class dibuat terlalu dalam (misal lebih dari 3 tingkat: $A \rightarrow B \rightarrow C \rightarrow D \rightarrow E$), perubahan kecil pada implementasi internal superclass $A$ dapat merusak atau mengubah perilaku ratusan subclass di bawahnya secara tidak terduga.
+Meskipun pewarisan sangat berguna, penggunaan pewarisan yang serampangan dapat menimbulkan kerapuhan arsitektur yang dikenal sebagai **Fragile Base Class Problem**. Ketika hierarki class dibuat terlalu dalam (misal lebih dari 3 tingkat: `A → B → C → D → E`), perubahan kecil pada implementasi internal superclass `A` dapat merusak atau mengubah perilaku ratusan subclass di bawahnya secara tidak terduga.
 
 Prinsip desain Gang of Four (GoF) merekomendasikan:
 > *"Favor Composition over Inheritance"* (Utamakan Komposisi dan Trait dibandingkan Pewarisan Kelas yang Terlalu Dalam).

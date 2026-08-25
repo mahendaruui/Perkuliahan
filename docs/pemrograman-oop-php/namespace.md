@@ -151,8 +151,8 @@ PHP menyediakan fungsi `spl_autoload_register()` yang mendaftarkan fungsi penang
 
 ### C. Standar PSR-4 (PHP-FIG)
 Standar **PSR-4** mendefinisikan aturan pemetaan matematis antara Namespace terstruktur dengan direktori fisik di server:
-- Namespace Prefix: `App\` $\rightarrow$ Folder Dasar: `src/`
-- Sub-namespace `App\Domain\Model\Mahasiswa` $\rightarrow$ File Fisik: `src/Domain/Model/Mahasiswa.php`
+- Namespace Prefix: `App\` → Folder Dasar: `src/`
+- Sub-namespace `App\Domain\Model\Mahasiswa` → File Fisik: `src/Domain/Model/Mahasiswa.php`
 - Nama class harus persis sama (*case-sensitive*) dengan nama file (`.php`).
 
 ---
