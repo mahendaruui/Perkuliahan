@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 9 - Namespace, PSR-4 & Composer di PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --secondary: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-pink: #db2777;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: #4f46e5;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .timer-badge {
+      background: #f1f5f9;
+      border: 1px solid var(--border-dark);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .timer-badge:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+    .timer-badge.paused {
+      color: #e11d48;
+      border-color: #fda4af;
+      background: #fff1f2;
+    }
+
+    .slide-badge {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Presentation Main Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Slide Content Typography */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    h1.slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    h2.slide-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    /* Card Box */
+    .card-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card-box:hover {
+      border-color: #818cf8;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card-box h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-box p {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    .card-box ul {
+      margin-left: 18px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    /* Highlight Banner */
+    .banner {
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .banner-blue {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
+    }
+
+    .banner-green {
+      background: #ecfdf5;
+      border-left: 4px solid #059669;
+      color: #065f46;
+    }
+
+    .banner-amber {
+      background: #fffbeb;
+      border-left: 4px solid #d97706;
+      color: #92400e;
+    }
+
+    .banner-purple {
+      background: #faf5ff;
+      border-left: 4px solid #9333ea;
+      color: #581c87;
+    }
+
+    /* Code Container */
+    .code-container {
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      font-family: "Fira Code", monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
+    }
+
+    .code-header {
+      background: #1e293b;
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .code-title {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .code-body {
+      padding: 16px;
+      color: #f8fafc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Syntax Highlighting */
+    .c-kw { color: #38bdf8; font-weight: 600; }
+    .c-fn { color: #818cf8; }
+    .c-str { color: #4ade80; }
+    .c-cls { color: #fbbf24; }
+    .c-cm { color: #64748b; font-style: italic; }
+    .c-var { color: #f472b6; }
+    .c-num { color: #f87171; }
+
+    /* Footer Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 380px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4f46e5, #0284c7);
+      width: 8.33%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-nav-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn-nav-secondary:hover:not(:disabled) {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    kbd {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+    }
+
+    .hero-container {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: #4338ca;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuilogo.png" alt="Logo UUI" class="brand-logo" onerror="this.src='/uuilogo.png'">
+      <div>
+        <div class="brand-text">Pemrograman Berorientasi Objek <span>PHP 8+</span></div>
+        <div class="brand-sub">Universitas Ubudiyah Indonesia — Program Studi Informatika</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="timer-badge" id="slideTimer" title="Klik untuk Jeda/Lanjut, Klik Ganda untuk Reset">⏱️ 00:00</span>
+      <span class="slide-badge" id="slideIndicator">SLIDE 1 / 12</span>
+      <button class="btn-icon" onclick="toggleFullscreen()" title="Mode Layar Penuh (F)">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Stage -->
+  <main id="slideStage">
+
+    <!-- SLIDE 1: Title & Hero -->
+    <div class="slide active" id="slide-1">
+      <div class="hero-container">
+        <div class="hero-badge">🐘 PERTEMUAN 09 — MODUL ARSITEKTUR & EKOSISTEM</div>
+        <h1 class="hero-title">Manajemen <span>Namespace</span>, Standar <span>PSR-4</span>, & Ekosistem <span>Composer</span></h1>
+        <p class="hero-subtitle" style="font-size: 1.15rem; color: #64748b; line-height: 1.6;">
+          Mengorganisasi Struktur Kode Kelas Industri di PHP 8+, Mengisolasi Konflik Nama, Mengimplementasikan Standar Autoloading Modern, dan Mengoptimasi Kinerja Produksi.
+        </p>
+        
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-label">Mata Kuliah</div>
+            <div class="meta-value">Pemrograman Berorientasi Objek (PHP 8+)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Dosen Pengampu</div>
+            <div class="meta-value">Mahendar Dwi Payana, S.ST., M.T. & Tim</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Institusi</div>
+            <div class="meta-value">Universitas Ubudiyah Indonesia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Capaian & Agenda -->
+    <div class="slide" id="slide-2">
+      <div class="slide-tag">🎯 TUJUAN & SILABUS</div>
+      <h1 class="slide-title">Capaian Pembelajaran (Sub-CPMK 09)</h1>
+      <h2 class="slide-subtitle">Mahasiswa mampu mengisolasi ruang nama class, merancang autoloader berstandar PSR-4, serta mengelola dependensi aplikasi berbasis Composer.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>📋 Agenda Pembahasan Perkuliahan</h3>
+          <ul>
+            <li><strong>1. Masalah Name Collision:</strong> Bahaya benturan nama class pada proyek skala besar.</li>
+            <li><strong>2. Deklarasi & Resolusi Namespace:</strong> FQN, Unqualified, Qualified, dan Aliasing (<code class="c-kw">use / as</code>).</li>
+            <li><strong>3. Evolusi Autoloading:</strong> Dari <em>Include Hell</em> manual menuju <code class="c-fn">spl_autoload_register()</code>.</li>
+            <li><strong>4. Standar Industri PSR-4:</strong> Standar pemetaan direktori fisik oleh PHP-FIG.</li>
+            <li><strong>5. Manajemen Composer:</strong> Konfigurasi <code class="c-str">composer.json</code> dan integrasi paket eksternal.</li>
+            <li><strong>6. Optimasi Produksi:</strong> Classmap dump autoloader dengan kompleksitas <code class="c-fn">O(1)</code>.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-green);">
+          <h3>💡 Kompetensi yang Diharapkan</h3>
+          <p>Setelah menyelesaikan pertemuan ini, mahasiswa diharapkan:</p>
+          <ul style="margin-top: 10px;">
+            <li>Mampu menyusun arsitektur berkas OOP modular tanpa bergantung pada puluhan <code class="c-kw">require_once</code>.</li>
+            <li>Mampu mengintegrasikan pustaka pihak ketiga (third-party libraries) dengan aman tanpa konflik class.</li>
+            <li>Siap membangun struktur aplikasi standar framework modern (Laravel, Symfony) berbasis PSR-4.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Problem Statement (Name Collision) -->
+    <div class="slide" id="slide-3">
+      <div class="slide-tag">⚠️ MASALAH PERANGKAT LUNAK</div>
+      <h1 class="slide-title">Tantangan: <em>Name Collision</em> pada Proyek Skala Besar</h1>
+      <h2 class="slide-subtitle">Apa yang terjadi ketika dua pustaka berbeda mendefinisikan nama class yang sama persis?</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="background: #fff1f2; border-color: #fecdd3;">
+          <h3 style="color: #9f1239;">❌ Tanpa Namespace (Global Scope)</h3>
+          <p style="font-size: 0.88rem; color: #881337; margin-bottom: 8px;">
+            Semua class berada dalam satu ruang global. Jika Anda mengimpor library pembayaran dan akuntansi:
+          </p>
+          <div class="code-container" style="margin-top: 6px;">
+            <div class="code-header"><span class="code-title">error_fatal.php</span></div>
+            <div class="code-body"><span class="c-cm">// Pustaka Gateway Pembayaran</span>
+<span class="c-kw">class</span> <span class="c-cls">Transaction</span> { ... }
+
+<span class="c-cm">// Pustaka Laporan Akuntansi</span>
+<span class="c-kw">class</span> <span class="c-cls">Transaction</span> { ... }
+
+<span class="c-cm">// 💥 Fatal error: Cannot declare class Transaction, 
+// because the name is already in use!</span></div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="background: #ecfdf5; border-color: #a7f3d0;">
+          <h3 style="color: #065f46;">✅ Solusi: Namespace Isolation</h3>
+          <p style="font-size: 0.88rem; color: #064e3b; margin-bottom: 8px;">
+            Mengelompokkan kode ke dalam ruang nama virtual (seperti folder virtual di dalam memori):
+          </p>
+          <div class="code-container" style="margin-top: 6px;">
+            <div class="code-header"><span class="code-title">solusi_terisolasi.php</span></div>
+            <div class="code-body"><span class="c-kw">namespace</span> Payment\Gateway;
+<span class="c-kw">class</span> <span class="c-cls">Transaction</span> { ... }
+
+<span class="c-kw">namespace</span> Accounting\Report;
+<span class="c-kw">class</span> <span class="c-cls">Transaction</span> { ... }
+
+<span class="c-cm">// ✨ Keduanya hidup berdampingan secara damai!</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>Analogi Dunia Nyata:</strong> Dua mahasiswa bernama "Budi". Tanpa identitas jurusan (namespace), kampus akan bingung. Namun dengan <code>Informatika\Budi</code> dan <code>Kedokteran\Budi</code>, identitas objek menjadi sangat presisi!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Sintaks & Deklarasi Namespace -->
+    <div class="slide" id="slide-4">
+      <div class="slide-tag">🛠️ IMPLEMENTASI SINTAKS</div>
+      <h1 class="slide-title">Deklarasi Namespace di PHP 8+</h1>
+      <h2 class="slide-subtitle">Aturan resmi penulisan ruang nama dan hierarki bertingkat.</h2>
+      
+      <div class="grid-2">
+        <div>
+          <div class="card-box">
+            <h3>📌 Aturan Penting Namespace:</h3>
+            <ul>
+              <li><strong>Baris Pertama:</strong> Deklarasi <code class="c-kw">namespace</code> <strong>wajib</strong> ditulis di baris pertama file PHP (tepat setelah tag <code class="c-kw">&lt;?php</code>).</li>
+              <li><strong>Simbol Backslash (<code class="c-kw">\</code>):</strong> Digunakan sebagai pemisah tingkatan sub-namespace (bukan garis miring atau titik).</li>
+              <li><strong>Konvensi Penamaan:</strong> Menggunakan <em>PascalCase</em> untuk setiap segmen: <code class="c-str">VendorName\PackageName\SubNamespace</code>.</li>
+            </ul>
+          </div>
+          <div class="banner banner-green" style="margin-top: 12px;">
+            <div><strong>Struktur Hierarkis Standar:</strong><br><code>App\Domain\Model</code> (Entitas Data)<br><code>App\Service\Payment</code> (Logika Bisnis)<br><code>App\Infrastructure\Database</code> (Akses Penyimpanan)</div>
+          </div>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+            <span class="code-title">src/Domain/Model/Mahasiswa.php</span>
+          </div>
+          <div class="code-body"><span class="c-kw">&lt;?php</span>
+<span class="c-kw">declare</span>(strict_types=<span class="c-num">1</span>);
+
+<span class="c-kw">namespace</span> <span class="c-cls">App\Domain\Model</span>;
+
+<span class="c-kw">class</span> <span class="c-cls">Mahasiswa</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">__construct</span>(
+        <span class="c-kw">public readonly string</span> <span class="c-var">$npm</span>,
+        <span class="c-kw">public readonly string</span> <span class="c-var">$nama</span>,
+        <span class="c-kw">public float</span> <span class="c-var">$ipk</span> = <span class="c-num">0.0</span>
+    ) {}
+
+    <span class="c-kw">public function</span> <span class="c-fn">getRingkasan</span>(): <span class="c-kw">string</span>
+    {
+        <span class="c-kw">return</span> <span class="c-str">"[{$this->npm}] {$this->nama} (IPK: {$this->ipk})"</span>;
+    }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Model Resolusi Nama -->
+    <div class="slide" id="slide-5">
+      <div class="slide-tag">🔍 TEORI RESOLUSI NAMA</div>
+      <h1 class="slide-title">Tiga Model Resolusi Nama di PHP</h1>
+      <h2 class="slide-subtitle">Bagaimana PHP Compiler / Zend Engine mencari dan memetakan class yang dipanggil?</h2>
+      
+      <div class="grid-3">
+        <div class="card-box" style="border-top: 4px solid var(--secondary);">
+          <h3>1. Unqualified Name</h3>
+          <p>Pemanggilan nama class tunggal tanpa ada backslash pemisah.</p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-var">$mhs</span> = <span class="c-kw">new</span> <span class="c-cls">Mahasiswa</span>();
+<span class="c-cm">// Dicari di namespace lokal saat ini.</span></div>
+          </div>
+          <p style="font-size: 0.8rem; margin-top: 8px; color: var(--text-muted);">
+            Analogi file: <code class="c-str">file.txt</code> (direktori saat ini).
+          </p>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-amber);">
+          <h3>2. Qualified Name</h3>
+          <p>Pemanggilan bersegmen dengan backslash di tengah, tanpa backslash awal.</p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-var">$mhs</span> = <span class="c-kw">new</span> <span class="c-cls">Model\Mahasiswa</span>();
+<span class="c-cm">// Relatif terhadap namespace aktif.</span></div>
+          </div>
+          <p style="font-size: 0.8rem; margin-top: 8px; color: var(--text-muted);">
+            Analogi file: <code class="c-str">subfolder/file.txt</code>.
+          </p>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--primary);">
+          <h3>3. Fully Qualified (FQN)</h3>
+          <p>Pemanggilan absolut diawali backslash <code>\</code> dari akar root namespace.</p>
+          <div class="code-container" style="font-size: 0.76rem;">
+            <div class="code-body"><span class="c-var">$mhs</span> = <span class="c-kw">new</span> <span class="c-cls">\App\Domain\Model\Mahasiswa</span>();
+<span class="c-cm">// Pasti tepat & tidak ambigu.</span></div>
+          </div>
+          <p style="font-size: 0.8rem; margin-top: 8px; color: var(--text-muted);">
+            Analogi file: <code class="c-str">/var/www/file.txt</code>.
+          </p>
+        </div>
+      </div>
+      
+      <div class="banner banner-amber" style="margin-top: 14px;">
+        <div><strong>⚠️ Perhatian untuk Built-in Global Classes:</strong> Saat berada di dalam namespace, class global PHP (seperti <code>DateTime</code>, <code>Exception</code>, <code>PDO</code>) wajib diawali backslash (e.g., <code>new \DateTime()</code>) atau di-import menggunakan <code>use DateTime;</code>.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Import & Aliasing -->
+    <div class="slide" id="slide-6">
+      <div class="slide-tag">✨ SINTAKS MODERN</div>
+      <h1 class="slide-title">Import & Aliasing Menggunakan <code class="c-kw">use</code> & <code class="c-kw">as</code></h1>
+      <h2 class="slide-subtitle">Menulis kode ringkas, elegan, dan bebas benturan antar pustaka.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Fitur Pernyataan <code class="c-kw">use</code></h3>
+          <ul>
+            <li><strong>Class Import:</strong> Mengimpor FQN sekali di atas berkas sehingga kode pemanggilan menjadi singkat (<code class="c-kw">new</code> <code class="c-cls">Mahasiswa</code> alih-alih FQN panjang).</li>
+            <li><strong>Aliasing dengan <code class="c-kw">as</code>:</strong> Mengganti nama alias ketika dua library memiliki nama class yang identik.</li>
+            <li><strong>Group Use Syntax:</strong> Mengimpor beberapa class dari sub-namespace yang sama dalam satu baris (PHP 7+ / 8+).</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">app/Controller/KrsController.php</span>
+          </div>
+          <div class="code-body"><span class="c-kw">&lt;?php</span>
+<span class="c-kw">namespace</span> <span class="c-cls">App\Controller</span>;
+
+<span class="c-cm">// 1. Import class tunggal</span>
+<span class="c-kw">use</span> <span class="c-cls">App\Domain\Model\Mahasiswa</span>;
+
+<span class="c-cm">// 2. Aliasing untuk mengatasi nama kembar</span>
+<span class="c-kw">use</span> <span class="c-cls">Payment\Invoice</span> <span class="c-kw">as</span> <span class="c-cls">PaymentInvoice</span>;
+<span class="c-kw">use</span> <span class="c-cls">Accounting\Invoice</span> <span class="c-kw">as</span> <span class="c-cls">ReportInvoice</span>;
+
+<span class="c-cm">// 3. Group use syntax</span>
+<span class="c-kw">use</span> <span class="c-cls">App\Service</span>\{<span class="c-cls">KrsService</span>, <span class="c-cls">PaymentService</span>, <span class="c-cls">NotificationService</span>};
+
+<span class="c-kw">class</span> <span class="c-cls">KrsController</span>
+{
+    <span class="c-kw">public function</span> <span class="c-fn">proses</span>(): <span class="c-kw">void</span>
+    {
+        <span class="c-var">$inv</span> = <span class="c-kw">new</span> <span class="c-cls">PaymentInvoice</span>(); <span class="c-cm">// Jelas & aman</span>
+    }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Evolusi Autoloading -->
+    <div class="slide" id="slide-7">
+      <div class="slide-tag">⚡ EVOLUSI SISTEM</div>
+      <h1 class="slide-title">Evolusi Autoloading: Selamat Tinggal "Include Hell"</h1>
+      <h2 class="slide-subtitle">Bagaimana PHP bertransformasi dari pemuatan manual yang rapuh menuju Lazy Loading otomatis.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="background: #fef2f2; border-color: #fecaca;">
+          <h3 style="color: #991b1b;">❌ Era Tradisional (Include Hell)</h3>
+          <div class="code-container" style="font-size: 0.75rem;">
+            <div class="code-body"><span class="c-kw">require_once</span> <span class="c-str">'Domain/Mahasiswa.php'</span>;
+<span class="c-kw">require_once</span> <span class="c-str">'Domain/MataKuliah.php'</span>;
+<span class="c-kw">require_once</span> <span class="c-str">'Domain/Dosen.php'</span>;
+<span class="c-kw">require_once</span> <span class="c-str">'Service/KrsService.php'</span>;
+<span class="c-kw">require_once</span> <span class="c-str">'Repository/KrsRepository.php'</span>;
+<span class="c-cm">// ❌ Lambat, membebani RAM, rawan lupa!</span></div>
+          </div>
+          <p style="font-size: 0.82rem; color: #7f1d1d; margin-top: 8px;">
+            Setiap penambahan class baru memerlukan puluhan baris import manual di setiap file script.
+          </p>
+        </div>
+        
+        <div class="card-box" style="background: #f0fdf4; border-color: #bbf7d0;">
+          <h3 style="color: #166534;">✅ Era Modern: <code class="c-fn">spl_autoload_register()</code></h3>
+          <div class="code-container" style="font-size: 0.75rem;">
+            <div class="code-body"><span class="c-fn">spl_autoload_register</span>(<span class="c-kw">function</span> (<span class="c-kw">string</span> <span class="c-var">$class</span>) {
+    <span class="c-var">$file</span> = __DIR__ . <span class="c-str">'/src/'</span> . <span class="c-fn">str_replace</span>(<span class="c-str">'\\'</span>, <span class="c-str">'/'</span>, <span class="c-var">$class</span>) . <span class="c-str">'.php'</span>;
+    <span class="c-kw">if</span> (<span class="c-fn">file_exists</span>(<span class="c-var">$file</span>)) {
+        <span class="c-kw">require_once</span> <span class="c-var">$file</span>;
+    }
+});</div>
+          </div>
+          <p style="font-size: 0.82rem; color: #14532d; margin-top: 8px;">
+            <strong>Lazy Loading:</strong> Berkas PHP hanya dimuat ke memori saat class tersebut pertama kali dibuat objeknya dengan <code class="c-kw">new</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Standar Industri PSR-4 -->
+    <div class="slide" id="slide-8">
+      <div class="slide-tag">📐 STANDAR INDUSTRI (PHP-FIG)</div>
+      <h1 class="slide-title">Standar Autoloading PSR-4</h1>
+      <h2 class="slide-subtitle">Aturan pemetaan matematis antara Namespace terstruktur dengan direktori berkas fisik di server.</h2>
+      
+      <div class="card-box" style="margin-bottom: 14px;">
+        <h3 style="color: var(--primary);">Formula Pemetaan PSR-4:</h3>
+        <p style="font-family: 'Fira Code', monospace; font-size: 0.92rem; background: #e0e7ff; padding: 10px 16px; border-radius: 8px; color: #1e1b4b; margin: 8px 0;">
+          \&lt;NamespacePrefix&gt;\&lt;SubNamespace&gt;\&lt;ClassName&gt; → &lt;base_directory&gt;/&lt;SubNamespace&gt;/&lt;ClassName&gt;.php
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📌 Contoh Pemetaan Konkrit:</h3>
+          <ul style="font-size: 0.85rem;">
+            <li><strong>Namespace Prefix:</strong> <code class="c-str">App\</code></li>
+            <li><strong>Base Directory:</strong> <code class="c-str">src/</code></li>
+            <li><strong>Nama Class FQN:</strong> <code class="c-cls">App\Domain\Model\Mahasiswa</code></li>
+            <li><strong>Lokasi File Fisik:</strong> <code class="c-str">src/Domain/Model/Mahasiswa.php</code></li>
+          </ul>
+        </div>
+        
+        <div class="card-box">
+          <h3>⚠️ Ketentuan Wajib PSR-4:</h3>
+          <ul style="font-size: 0.85rem;">
+            <li>Nama class dan file <strong>wajib persis sama</strong> termasuk huruf besar-kecilnya (<em>Case-Sensitive</em>).</li>
+            <li>Ekstensi berkas <strong>harus <code class="c-str">.php</code></strong>.</li>
+            <li>Setiap sub-namespace mencerminkan sub-folder direktori secara presisi 1-ke-1.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Ekosistem Composer -->
+    <div class="slide" id="slide-9">
+      <div class="slide-tag">📦 PACKAGE & DEPENDENCY MANAGER</div>
+      <h1 class="slide-title">Composer: Jantung Ekosistem PHP Modern</h1>
+      <h2 class="slide-subtitle">Manajemen dependensi resmi untuk mengunduh pustaka dan mengotomasi PSR-4.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>🚀 Perintah Dasar Composer:</h3>
+          <ul>
+            <li><code class="c-kw">composer init</code> : Menginisialisasi proyek baru dan menghasilkan file konfigurasi.</li>
+            <li><code class="c-kw">composer require &lt;vendor/paket&gt;</code> : Mengunduh dan menginstal pustaka eksternal (e.g. Monolog, PHPUnit).</li>
+            <li><code class="c-kw">composer install</code> : Menginstal dependensi berdasarkan <code class="c-str">composer.lock</code>.</li>
+            <li><code class="c-kw">composer dump-autoload</code> : Menyusun ulang peta autoloader kelas.</li>
+          </ul>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">composer.json</span>
+          </div>
+          <div class="code-body">{
+  <span class="c-str">"name"</span>: <span class="c-str">"uui/sistem-krs"</span>,
+  <span class="c-str">"description"</span>: <span class="c-str">"Aplikasi Manajemen KRS Berbasis OOP PHP 8+"</span>,
+  <span class="c-str">"type"</span>: <span class="c-str">"project"</span>,
+  <span class="c-str">"require"</span>: {
+    <span class="c-str">"php"</span>: <span class="c-str">"^8.1"</span>
+  },
+  <span class="c-str">"autoload"</span>: {
+    <span class="c-str">"psr-4"</span>: {
+      <span class="c-str">"App\\"</span>: <span class="c-str">"src/"</span>
+    }
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Optimasi Autoloader Produksi -->
+    <div class="slide" id="slide-10">
+      <div class="slide-tag">⚡ HIGH PERFORMANCE</div>
+      <h1 class="slide-title">Optimasi Autoloader untuk Lingkungan Produksi</h1>
+      <h2 class="slide-subtitle">Meningkatkan kecepatan respon aplikasi hingga 40% dengan Classmap Caching.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-top: 4px solid var(--secondary);">
+          <h3>🛠️ Mode Development (Bawaan)</h3>
+          <p style="font-size: 0.88rem; color: #475569; margin-bottom: 8px;">
+            Setiap ada pemanggilan class baru, Composer memeriksa keberadaan file di harddisk secara dinamis melalui stat filesystem call.
+          </p>
+          <div class="code-container" style="font-size: 0.78rem;">
+            <div class="code-body"><span class="c-cm">$ composer dump-autoload</span>
+<span class="c-cm">// Fleksibel untuk edit kode harian, namun</span>
+<span class="c-cm">// menghasilkan latensi disk I/O di server.</span></div>
+          </div>
+        </div>
+        
+        <div class="card-box" style="border-top: 4px solid var(--accent-green);">
+          <h3>🚀 Mode Production (Optimized Classmap)</h3>
+          <p style="font-size: 0.88rem; color: #475569; margin-bottom: 8px;">
+            Composer memindai seluruh folder proyek sekali dan membuat kamus Array statis (Hash Map) di memori RAM.
+          </p>
+          <div class="code-container" style="font-size: 0.78rem;">
+            <div class="code-body"><span class="c-cm">$ composer dump-autoload -o</span>
+<span class="c-cm"># atau saat deploy:</span>
+<span class="c-cm">$ composer install --no-dev --optimize-autoloader</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner banner-green" style="margin-top: 14px;">
+        <div><strong>Hasil Optimasi:</strong> Kompleksitas pencarian file class berubah dari <code>O(N)</code> disk scan menjadi <code>O(1)</code> in-memory hash table lookup. Sangat krusial untuk server web dengan trafik tinggi!</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Studi Kasus Arsitektur Lengkap -->
+    <div class="slide" id="slide-11">
+      <div class="slide-tag">💻 STUDI KASUS ARSITEKTUR</div>
+      <h1 class="slide-title">Implementasi Proyek Terstruktur PSR-4</h1>
+      <h2 class="slide-subtitle">Menghubungkan Namespace, PSR-4, dan Composer dalam aplikasi nyata.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>📁 Struktur Direktori Standar:</h3>
+          <pre style="font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #1e293b; background: #f1f5f9; padding: 12px; border-radius: 8px;">
+sistem-krs/
+├── src/
+│   ├── Domain/
+│   │   └── Model/
+│   │       ├── Mahasiswa.php
+│   │       └── MataKuliah.php
+│   └── Service/
+│       └── KrsService.php
+├── vendor/
+│   └── autoload.php
+├── composer.json
+└── index.php</pre>
+        </div>
+        
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-title">index.php (Single Entry Point)</span>
+          </div>
+          <div class="code-body"><span class="c-kw">&lt;?php</span>
+<span class="c-kw">declare</span>(strict_types=<span class="c-num">1</span>);
+
+<span class="c-cm">// 1. Cukup SATU baris autoload untuk seluruh aplikasi!</span>
+<span class="c-kw">require_once</span> __DIR__ . <span class="c-str">'/vendor/autoload.php'</span>;
+
+<span class="c-kw">use</span> <span class="c-cls">App\Domain\Model\Mahasiswa</span>;
+<span class="c-kw">use</span> <span class="c-cls">App\Service\KrsService</span>;
+
+<span class="c-var">$mhs</span> = <span class="c-kw">new</span> <span class="c-cls">Mahasiswa</span>(<span class="c-str">"230101001"</span>, <span class="c-str">"Cut Meutia"</span>, <span class="c-num">3.90</span>);
+<span class="c-var">$service</span> = <span class="c-kw">new</span> <span class="c-cls">KrsService</span>();
+<span class="c-var">$service</span>-><span class="c-fn">daftarkanKrs</span>(<span class="c-var">$mhs</span>, <span class="c-str">"IFR214"</span>);
+
+<span class="c-fn">echo</span> <span class="c-str">"Sukses mendaftarkan KRS untuk: "</span> . <span class="c-var">$mhs</span>-><span class="c-fn">getRingkasan</span>();</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Rangkuman & Kuis Reflektif -->
+    <div class="slide" id="slide-12">
+      <div class="slide-tag">🎓 EVALUASI & PENUTUP</div>
+      <h1 class="slide-title">Rangkuman Pertemuan 9 & Kuis Reflektif</h1>
+      <h2 class="slide-subtitle">Sintesis materi dan pemanasan untuk pertemuan berikutnya.</h2>
+      
+      <div class="grid-2">
+        <div class="card-box" style="border-left: 4px solid var(--primary);">
+          <h3>🔑 4 Inti Konsep Hari Ini:</h3>
+          <ul>
+            <li><strong>Namespace:</strong> Membagi ruang nama global untuk mencegah <em>Name Collision</em> antar pustaka.</li>
+            <li><strong>Aliasing (<code class="c-kw">use/as</code>):</strong> Menyederhanakan penulisan FQN yang panjang dan menyelesaikan nama kelas kembar.</li>
+            <li><strong>PSR-4:</strong> Standar pemetaan presisi antara hierarki namespace dengan susunan folder di disk.</li>
+            <li><strong>Composer:</strong> Mengelola siklus hidup paket dependensi dan mengoptimasi autoloader untuk performa tinggi.</li>
+          </ul>
+        </div>
+        
+        <div class="card-box" style="border-left: 4px solid var(--accent-purple); background: #faf5ff;">
+          <h3 style="color: #6b21a8;">❓ Kuis Pemahaman Mahasiswa:</h3>
+          <ol style="margin-left: 18px; font-size: 0.88rem; color: #581c87; line-height: 1.6;">
+            <li>Jika kita mendefinisikan class <code class="c-cls">App\Core\Database\Connection</code> dengan base path <code class="c-str">"App\\": "app/"</code>, di mana letak file fisiknya di server?</li>
+            <li>Mengapa perintah <code class="c-kw">composer dump-autoload -o</code> sangat dianjurkan saat proses rilis/deployment aplikasi ke server live?</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="banner banner-blue" style="margin-top: 14px;">
+        <div><strong>🔜 Pertemuan 10 Minggu Depan:</strong> <em>Exception Handling & Robust Error Flow di PHP 8+</em> (Throwable Hierarchy, Custom Domain Exceptions, dan Throw Expression).</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer>
+    <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">
+      Tekan <kbd>◀</kbd> <kbd>▶</kbd> atau <kbd>Spasi</kbd> untuk pindah slide &bull; Tekan <kbd>F</kbd> untuk Fullscreen
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="btn-nav btn-nav-secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+      <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+    </div>
+  </footer>
+
+  <!-- Slide Engine JavaScript -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+    const slideIndicator = document.getElementById("slideIndicator");
+    const progressBar = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const timerElement = document.getElementById("slideTimer");
+
+    // Timer Implementation
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let timerRunning = true;
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning) {
+          timerSeconds++;
+          const mins = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+          const secs = String(timerSeconds % 60).padStart(2, "0");
+          if (timerElement) {
+            timerElement.textContent = `⏱️ ${mins}:${secs}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      if (timerElement) {
+        if (timerRunning) {
+          timerElement.classList.remove("paused");
+        } else {
+          timerElement.classList.add("paused");
+        }
+      }
+    }
+
+    function resetTimer() {
+      timerSeconds = 0;
+      timerRunning = true;
+      if (timerElement) {
+        timerElement.classList.remove("paused");
+        timerElement.textContent = `⏱️ 00:00`;
+      }
+    }
+
+    if (timerElement) {
+      timerElement.addEventListener("click", toggleTimer);
+      timerElement.addEventListener("dblclick", resetTimer);
+    }
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove("active");
+        if (index === currentSlide) {
+          slide.classList.add("active");
+        }
+      });
+
+      // Update indicator & progress
+      slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update button states
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+      nextBtn.textContent = (currentSlide === totalSlides - 1) ? "Selesai 🏁" : "Selanjutnya ▶";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`Error fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === "Home") {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === "End") {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    // Touch navigation for mobile/tablet
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      }
+      if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // Initial render & timer start
+    updateSlide();
+    startTimer();
+  </script>
+</body>
+</html>
