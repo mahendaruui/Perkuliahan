@@ -1,4 +1,4 @@
-# Minggu 12: Prinsip Desain Perangkat Lunak SOLID di PHP 8+
+# Minggu 13: Prinsip Desain Perangkat Lunak SOLID di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 5)
 Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:

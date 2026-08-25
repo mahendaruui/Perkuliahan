@@ -1,4 +1,4 @@
-# Minggu 8: Namespace, Standar PSR-4 & Composer Autoloading di PHP 8+
+# Minggu 9: Namespace, Standar PSR-4 & Composer Autoloading di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 4)
 Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:

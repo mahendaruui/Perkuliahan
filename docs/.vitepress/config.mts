@@ -65,7 +65,8 @@ export default withMermaid(
                 { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' },
                 { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
                 { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' },
-                { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' }
+                { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' },
+                { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' }
               ]
             },
             {
@@ -98,7 +99,8 @@ export default withMermaid(
               { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' },
               { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
               { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' },
-              { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' }
+              { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' },
+              { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' }
             ]
           },
           {

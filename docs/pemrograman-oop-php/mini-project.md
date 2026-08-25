@@ -1,4 +1,4 @@
-# Minggu 14-15: Studi Kasus Capstone Mini Project — Sistem Point of Sale (POS) Terpadu
+# Minggu 15: Studi Kasus Capstone Mini Project — Sistem Point of Sale (POS) Terpadu
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 6)
 Setelah menyelesaikan proyek terpadu pada bab ini, mahasiswa diharapkan mampu:

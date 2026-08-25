@@ -1,4 +1,4 @@
-# Minggu 9: Penanganan Kesalahan (Exception Handling) & Robust Error Flow di PHP 8+
+# Minggu 10: Penanganan Kesalahan (Exception Handling) & Robust Error Flow di PHP 8+
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 4)
 Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:
