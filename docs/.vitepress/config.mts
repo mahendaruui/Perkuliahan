@@ -55,31 +55,8 @@ export default withMermaid(
           text: '📽️ Slide Presentasi',
           items: [
             { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
-            {
-              text: '🐘 Pemrograman OOP (PHP)',
-              items: [
-                { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-php' },
-                { text: 'Pertemuan 2: Class & Object', link: '/presentasi/pertemuan-2-php' },
-                { text: 'Pertemuan 3: Constructor & Method', link: '/presentasi/pertemuan-3-php' },
-                { text: 'Pertemuan 4: Encapsulation & Readonly', link: '/presentasi/pertemuan-4-php' },
-                { text: 'Pertemuan 5: Inheritance & Trait', link: '/presentasi/pertemuan-5-php' },
-                { text: 'Pertemuan 6: Polymorphism', link: '/presentasi/pertemuan-6-php' },
-                { text: 'Pertemuan 7: Abstraction & Interface', link: '/presentasi/pertemuan-7-php' },
-                { text: 'Pertemuan 9: Namespace & PSR-4', link: '/presentasi/pertemuan-9-php' },
-                { text: 'Pertemuan 10: Exception Handling', link: '/presentasi/pertemuan-10-php' },
-                { text: 'Pertemuan 11: Collections & Array', link: '/presentasi/pertemuan-11-php' },
-                { text: 'Pertemuan 12: File Handling & Streams', link: '/presentasi/pertemuan-12-php' },
-                { text: 'Pertemuan 13: Prinsip SOLID', link: '/presentasi/pertemuan-13-php' },
-                { text: 'Pertemuan 14: Model-Service-Repo', link: '/presentasi/pertemuan-14-php' },
-                { text: 'Pertemuan 15: Capstone Mini Project', link: '/presentasi/pertemuan-15-php' }
-              ]
-            },
-            {
-              text: '☕ Pemrograman OOP (Java)',
-              items: [
-                { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-java' }
-              ]
-            }
+            { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
+            { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' }
           ]
         }
       ],
