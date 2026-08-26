@@ -10,8 +10,7 @@
 </div>
 
 <div style="position: relative; width: 100%; height: 75vh; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.06);">
-  <iframe 
-    src="/Perkuliahan/presentasi/pertemuan-10-exception-handling-php.html" 
+  <iframe src="/Perkuliahan/presentasi/pertemuan-10-exception-handling-php.html" 
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
     allowfullscreen="true">
   </iframe>

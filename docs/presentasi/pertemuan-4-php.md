@@ -10,8 +10,7 @@
 </div>
 
 <div style="position: relative; width: 100%; height: 75vh; border-radius: 12px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-  <iframe 
-    src="/Perkuliahan/presentasi/pertemuan-4-encapsulation-php.html" 
+  <iframe src="/Perkuliahan/presentasi/pertemuan-4-encapsulation-php.html" 
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
     allowfullscreen="true">
   </iframe>
