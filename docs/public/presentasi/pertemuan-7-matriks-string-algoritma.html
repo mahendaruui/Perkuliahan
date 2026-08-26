@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 7 - Array Multidimensi & Manipulasi String | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(120% 120% at 50% 10%, #0f172a 0%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
+    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #f8fafc; }
+    .brand-text span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+
+    .header-controls { display: flex; align-items: center; gap: 12px; }
+    .btn-icon {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+    .btn-icon:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 28px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1140px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.98);
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .slide-body::-webkit-scrollbar { width: 4px; }
+    .slide-body::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+
+    footer {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 440px;
+      height: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
+    .btn-nav {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: var(--font-code);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-cyan { border-left: 4px solid var(--primary); background: rgba(56, 189, 248, 0.04); }
+    .card-emerald { border-left: 4px solid var(--accent-emerald); background: rgba(52, 211, 153, 0.04); }
+    .card-amber { border-left: 4px solid var(--accent-amber); background: rgba(251, 191, 36, 0.04); }
+    .card-purple { border-left: 4px solid var(--accent-purple); background: rgba(192, 132, 252, 0.04); }
+    .card-rose { border-left: 4px solid var(--accent-rose); background: rgba(251, 113, 133, 0.04); }
+
+    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; display: flex; align-items: center; gap: 6px; }
+    .card p, .card li { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .quote-text { font-size: 0.82rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+    .quote-author { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 600; }
+
+    pre {
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    table.slide-table th {
+      background: rgba(30, 41, 59, 0.8);
+      font-weight: 700;
+      color: var(--primary);
+    }
+    table.slide-table td { color: #cbd5e1; }
+
+    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .hero-title { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; color: #ffffff; margin-bottom: 12px; line-height: 1.2; }
+    .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .hero-pill { background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 07 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
+    </div>
+  </header>
+
+  <main id="slide-viewport">
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Array Multidimensi & <span>Manipulasi String</span></h1>
+        <p style="font-size: 1.05rem; color: #94a3b8; max-width: 740px; line-height: 1.6;">
+          Pemodelan Ruang Matriks 2D, Aljabar Linier Komputasi, Row-Major Memory Mapping & Rekayasa Pemrosesan Teks Berbasis Vektor Karakter
+        </p>
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 FILOSOFI RUANG & TEKS</div>
+        <h2 class="slide-title">Dari Garis Linier Menuju Dimensi Grid & Bahasa</h2>
+        <p class="slide-subtitle">Bagaimana komputer memodelkan realitas visual spasial dan komunikasi tekstual manusia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>🌌 Matriks: Jantung Komputasi Visual & AI</h4>
+            <p>
+              Dunia nyata tidak berbentuk garis 1D. Citra digital (gambar HD) adalah grid 2D piksel warna; papan catur/game adalah koordinat kisi; dan model Deep Learning/AI modern memproses data dalam bentuk <strong>Tensor (Array Multi-Dimensi)</strong>.
+            </p>
+          </div>
+          <div class="card card-purple">
+            <h4>📜 String: Rangkaian Simbol Berurutan</h4>
+            <p>
+              Di level arsitektur silikon, komputer tidak mengenal konsep "kata" atau "kalimat". Teks adalah <strong>Larik Karakter (Array of `char`)</strong> yang disusun berurutan dan diakhiri penanda khusus penutup memori <em>Null-Terminator</em> (<code>'\0'</code>).
+            </p>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="quote-title">💡 Refleksi Filosofis</div>
+          <div class="quote-text">"Matriks adalah jembatan yang mengubah geometri visual alam semesta menjadi persamaan aritmatika yang dapat dihitung oleh silikon komputer."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 4)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Memahami konsep pemetaan alamat Row-Major Order pada matriks 2D.</li>
+              <li><strong>CPMK0101:</strong> Mampu merekayasa operasi matriks (penjumlahan & perkalian) serta manipulasi string sekuensial.</li>
+              <li><strong>CPL04 (Solusi Komputasi):</strong> Mampu memecahkan kasus algoritma teks seperti verifikasi Palindrom dan tokenisasi.</li>
+            </ul>
+          </div>
+          <div class="card card-cyan">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu memanipulasi koordinat indeks `[baris][kolom]`.</li>
+              <li>Mampu mengalikan dua matriks dengan validasi ordo `O(m × k × n)`.</li>
+              <li>Memahami peran Null-Terminator ` ` pada C-String vs `std::string`.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 MODEL MEMORI FISIK</div>
+        <h2 class="slide-title">Pemetaan Matriks 2D ke RAM Linear (Row-Major)</h2>
+        <p class="slide-subtitle">RAM berbentuk linier 1D: Bagaimana koordinat 2D diratakan (*flattened*) oleh hardware?</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-cyan" style="margin-bottom: 8px;">
+              <h4>Rumus Alamat Row-Major Order:</h4>
+              <p style="font-family: var(--font-code); color: #38bdf8; font-size: 0.85rem; margin-top: 4px;">
+                Address(M[i][j]) = Base + ((i × COLS) + j) × Size
+              </p>
+              <p style="margin-top: 6px; font-size: 0.78rem;">
+                Baris ke-0 disimpan seluruhnya terlebih dahulu, lalu disambung oleh Baris ke-1, Baris ke-2, dst secara kontigu.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="card card-purple">
+              <h4>Visualisasi Matriks 2×3 di RAM:</h4>
+              <div style="font-family: var(--font-code); font-size: 0.75rem; background: #090d16; color: #38bdf8; padding: 10px; border-radius: 8px; line-height: 1.5;">
+                [0x1000] : M[0][0] = 1 (Base)<br>
+                [0x1004] : M[0][1] = 2<br>
+                [0x1008] : M[0][2] = 3<br>
+                [0x100C] : M[1][0] = 4 (Mulai Baris Baru)<br>
+                [0x1010] : M[1][1] = 5<br>
+                [0x1014] : M[1][2] = 6
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">✍️ SINTAKSIS & DEKLARASI</div>
+        <h2 class="slide-title">Deklarasi & Inisialisasi Matriks 2D</h2>
+        <p class="slide-subtitle">Sintaksis matriks statis pada C++ dan struktur Nested List pada Python</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">⚡ C++ (Statis Fixed-Order)</div>
+            <pre><code>// Matriks 2 Baris, 3 Kolom
+const int BARIS = 2, KOLOM = 3;
+int A[BARIS][KOLOM] = {
+    {1, 3, 5},
+    {2, 4, 6}
+};
+
+// Mengakses elemen baris 1, kolom 2:
+cout << A[1][2]; // Output: 6</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">🐍 Python 3 (Nested List Dynamic)</div>
+            <pre><code># Matriks 2 Baris, 3 Kolom
+A = [
+    [1, 3, 5],
+    [2, 4, 6]
+]
+
+# Mengakses elemen baris 1, kolom 2:
+print(A[1][2]) # Output: 6</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">➕ ALDIJABAR MATRIKS</div>
+        <h2 class="slide-title">Operasi Penjumlahan & Perkalian Matriks</h2>
+        <p class="slide-subtitle">Transformasi aljabar linier dalam algoritma komputasi bertingkat</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>1. Penjumlahan Matriks `C[i][j] = A[i][j] + B[i][j]`</h4>
+            <p style="margin-top: 4px;">Syarat: Ordo harus sama persis ($m 	imes n$). Kompleksitas: <code>O(m × n)</code>.</p>
+            <pre style="margin-top: 8px;"><code>for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+        C[i][j] = A[i][j] + B[i][j];
+    }
+}</code></pre>
+          </div>
+          <div class="card card-purple">
+            <h4>2. Perkalian Matriks (Dot Product 3 Loop)</h4>
+            <p style="margin-top: 4px;">Syarat: Kolom A = Baris B. Kompleksitas: <code>O(m × k × n)</code>.</p>
+            <pre style="margin-top: 8px;"><code>for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+        C[i][j] = 0;
+        for (int k = 0; k < K; k++) {
+            C[i][j] += A[i][k] * B[k][j];
+        }
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🔤 REKAYASA TEKS</div>
+        <h2 class="slide-title">Anatomi String: Array of `char` & Null Terminator</h2>
+        <p class="slide-subtitle">Bagaimana komputer mengetahui kapan sebuah kata berakhir di dalam memori</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>1. C-Style String (`char[]`)</h4>
+            <p>Rangkaian karakter yang <strong>wajib diakhiri karakter ` ` (ASCII 0)</strong>.</p>
+            <div style="font-family: var(--font-code); font-size: 0.78rem; background: #090d16; color: #38bdf8; padding: 8px; border-radius: 6px; margin-top: 6px;">
+              char prodi[] = "UUI";<br>
+              ['U', 'U', 'I', ' '] (Ukuran RAM: 4 Bytes!)
+            </div>
+          </div>
+          <div class="card card-emerald">
+            <h4>2. Modern String (`std::string` / Python)</h4>
+            <p>Objek abstraksi tingkat tinggi dinamis yang otomatis mengelola alokasi memori, penyambungan (*concatenation*), dan panjang (*length*).</p>
+            <pre style="margin-top: 6px;"><code>string kampus = "Universitas Ubudiyah";
+cout << kampus.length(); // 20
+cout << kampus.substr(0, 11); // Universitas</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
+        <h2 class="slide-title">Studi Kasus: Algoritma Pengujian Palindrom</h2>
+        <p class="slide-subtitle">Menggunakan *Two-Pointer Technique* berkecepatan O(n) tanpa alokasi memori tambahan O(1)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3 (Two Pointer & Slicing)</div>
+            <pre><code>def is_palindrom(teks):
+    teks = teks.lower().replace(" ", "")
+    # Cara 1: Slicing Python
+    return teks == teks[::-1]
+
+kata = input("Masukkan kata: ")
+print("Palindrom!" if is_palindrom(kata) else "Bukan!")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++ (Two-Pointer In-Place)</div>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+bool cekPalindrom(string s) {
+    int kiri = 0, kanan = s.length() - 1;
+    while (kiri < kanan) {
+        if (s[kiri] != s[kanan]) return false;
+        kiri++; kanan--;
+    }
+    return true;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚠️ ANOMALI & PERFORMA HARDWARE</div>
+        <h2 class="slide-title">Jebakan Klasik Matriks: Penalti Cache Miss</h2>
+        <p class="slide-subtitle">Mengapa urutan loop `[i][j]` vs `[j][i]` bisa membuat program 10x lebih lambat?</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>✅ Akses Row-Major (Cache-Friendly - Cepat):</h4>
+            <pre><code>// Loop Luar: i (Baris), Loop Dalam: j (Kolom)
+for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+        sum += M[i][j]; // Cache Hit 99%!
+    }
+}</code></pre>
+            <p style="margin-top: 4px; font-size: 0.78rem;">Data bersebelahan sudah tersimpan di L1/L2 Cache CPU (Sangat Cepat!).</p>
+          </div>
+          <div class="card card-rose">
+            <h4>❌ Akses Column-Major (Cache Thrashing - Lambat):</h4>
+            <pre><code>// Loop Luar: j (Kolom), Loop Dalam: i (Baris)
+for (int j = 0; j < N; j++) {
+    for (int i = 0; i < N; i++) {
+        sum += M[i][j]; // Cache Miss Parah!
+    }
+}</code></pre>
+            <p style="margin-top: 4px; font-size: 0.78rem;">CPU dipaksa melompat-lompat ribuan byte di RAM fisik (Sangat Lambat!).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 4</div>
+        <h2 class="slide-title">Rangkuman Materi & Persiapan UTS Minggu 8</h2>
+        <p class="slide-subtitle">Konsolidasi seluruh kompetensi pemrograman prosedural menjelang Ujian Tengah Semester</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>📌 Rangkuman Inti</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Matriks 2D diratakan menjadi linier di RAM menggunakan rumus <em>Row-Major Order</em>.</li>
+              <li>String sejatinya adalah array karakter yang diakhiri karakter pembatas <code>' '</code>.</li>
+              <li>Pahami relasi antara arsitektur L1/L2 CPU Cache dengan pola traversal data.</li>
+            </ul>
+          </div>
+          <div class="card card-amber">
+            <h4>🎯 Agenda Evaluasi Tengah Semester (UTS)</h4>
+            <p style="margin-top: 6px;">
+              <strong>Minggu Depan (Pertemuan 8):</strong>
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Ujian Live Coding Mandiri & Teori Algoritma.</li>
+              <li>Cakupan: Pengantar, Tipe Data, Operator, Percabangan, Perulangan, Array 1D & 2D, String.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Navigasi: <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">◀</kbd> <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">▶</kbd> atau <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">Spasi</kbd>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
+      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
+      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
+    });
+
+    updateSlide();
+</script>
+</body>
+</html>

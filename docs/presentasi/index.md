@@ -15,6 +15,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **04** | Struktur Kontrol Percabangan (Branching) | [Lihat di Web](/presentasi/pertemuan-4-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-4-percabangan-algoritma.html){target="_blank"} |
 | **05** | Struktur Kontrol Perulangan (Looping) | [Lihat di Web](/presentasi/pertemuan-5-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-5-perulangan-algoritma.html){target="_blank"} |
 | **06** | Struktur Data Larik (Array 1 Dimensi) | [Lihat di Web](/presentasi/pertemuan-6-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-6-array-algoritma.html){target="_blank"} |
+| **07** | Array Multidimensi & Manipulasi String | [Lihat di Web](/presentasi/pertemuan-7-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-7-matriks-string-algoritma.html){target="_blank"} |
 
 ---
 ## ☕ Pemrograman Berorientasi Objek (Java)

@@ -80,7 +80,8 @@ export default withMermaid(
               { text: 'Pertemuan 3: Operator & Ekspresi', link: '/presentasi/pertemuan-3-algoritma' },
               { text: 'Pertemuan 4: Struktur Percabangan', link: '/presentasi/pertemuan-4-algoritma' },
               { text: 'Pertemuan 5: Struktur Perulangan', link: '/presentasi/pertemuan-5-algoritma' },
-              { text: 'Pertemuan 6: Larik (Array 1D)', link: '/presentasi/pertemuan-6-algoritma' }
+              { text: 'Pertemuan 6: Larik (Array 1D)', link: '/presentasi/pertemuan-6-algoritma' },
+              { text: 'Pertemuan 7: Matriks 2D & String', link: '/presentasi/pertemuan-7-algoritma' }
             ]
           },
           {
