@@ -48,6 +48,12 @@ export default withMermaid(
                 { text: '⚡ Algoritma & Pemrograman', link: '/algoritma-pemrograman/' },
                 { text: '📊 Kompleksitas Algoritma', link: '/kompleksitas-algoritma/' }
               ]
+            },
+            {
+              text: 'Sains Data & Visualisasi',
+              items: [
+                { text: '📊 Visualisasi Data (Python)', link: '/visualisasi-data/' }
+              ]
             }
           ]
         },
@@ -425,6 +431,68 @@ export default withMermaid(
               { text: 'Minggu 12 - Pengenalan Graph', link: '/struktur-data/graph' },
               { text: 'Minggu 13 - Rute Terpendek Dijkstra', link: '/struktur-data/dijkstra-graph' },
               { text: 'Minggu 14,15,16 - Proyek Akhir (UAS)', link: '/struktur-data/proyek-akhir' }
+            ]
+          }
+        ],
+        '/visualisasi-data/': [
+          {
+            text: 'Informasi Mata Kuliah',
+            collapsed: false,
+            items: [
+              { text: '📊 Silabus & RPS OBE', link: '/visualisasi-data/' },
+              { text: '📋 Dokumen RPS Resmi', link: '/visualisasi-data/RPS' }
+            ]
+          },
+          {
+            text: 'Bagian 1: Fondasi Teori & Persepsi',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 1: Hakikat & Sejarah Visualisasi', link: '/visualisasi-data/01-pengantar-visualisasi-data' },
+              { text: 'Minggu 2: Persepsi Visual & Teori Gestalt', link: '/visualisasi-data/02-persepsi-visual-gestalt' },
+              { text: 'Minggu 3: Prinsip Desain Tufte & Munzner', link: '/visualisasi-data/03-prinsip-tufte-munzner' }
+            ]
+          },
+          {
+            text: 'Bagian 2: Data Wrangling & Visualisasi Statis',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 4: Data Wrangling & EDA Pandas', link: '/visualisasi-data/04-data-wrangling-eda-pandas' },
+              { text: 'Minggu 5: Matplotlib Fundamental OO', link: '/visualisasi-data/05-matplotlib-fundamental' },
+              { text: 'Minggu 6: Seaborn Statistik & Distribusi', link: '/visualisasi-data/06-seaborn-statistik-distribusi' },
+              { text: 'Minggu 7: Visualisasi Relasi & Multivariat', link: '/visualisasi-data/07-visualisasi-relasi-multivariat' }
+            ]
+          },
+          {
+            text: 'Evaluasi Tengah Semester',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 8: Evaluasi Tengah Semester (UTS)', link: '/visualisasi-data/08-evaluasi-tengah-semester' }
+            ]
+          },
+          {
+            text: 'Bagian 3: Visualisasi Interaktif & Geospasial',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 9: Visualisasi Interaktif Plotly', link: '/visualisasi-data/09-visualisasi-interaktif-plotly' },
+              { text: 'Minggu 10: Pemetaan Geospasial Folium', link: '/visualisasi-data/10-visualisasi-geospasial-folium' },
+              { text: 'Minggu 11: Visualisasi Data Time Series', link: '/visualisasi-data/11-visualisasi-time-series' }
+            ]
+          },
+          {
+            text: 'Bagian 4: AI Viz, Dashboarding & Storytelling',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 12: Visualisasi AI & Machine Learning', link: '/visualisasi-data/12-visualisasi-ai-machine-learning' },
+              { text: 'Minggu 13: Dashboard Interaktif Streamlit', link: '/visualisasi-data/13-dashboard-streamlit' },
+              { text: 'Minggu 14: Seni Data Storytelling', link: '/visualisasi-data/14-data-storytelling' },
+              { text: 'Minggu 15: Capstone Project Terpadu', link: '/visualisasi-data/15-capstone-project' }
+            ]
+          },
+          {
+            text: 'Evaluasi Akhir Semester',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 16: Evaluasi Akhir Semester (UAS)', link: '/visualisasi-data/16-evaluasi-akhir-semester' }
             ]
           }
         ]
