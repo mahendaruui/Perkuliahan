@@ -19,14 +19,31 @@ Evaluasi Akhir Semester (UAS) merupakan puncak penilaian berbasis OBE yang mengu
 
 ```mermaid
 flowchart TD
-    A["🏆 Capstone Project UAS: 100 Poin"] --> B["1. Fungsionalitas & Interaktivitas Dashboard Web (30 Poin)"]
-    A --> C["2. Ketajaman Insight & Data Storytelling (25 Poin)"]
-    A --> D["3. Kualitas Desain Visual & Integritas Tufte (25 Poin)"]
-    A --> E["4. Struktur Kode Bersih & Dokumentasi Repositori (20 Poin)"]
+    Root["🏆 <b>EVALUASI AKHIR SEMESTER (UAS): PROYEK CAPSTONE</b><br>Total Bobot Penilaian: 100 Poin (20% Nilai Akhir Perkuliahan)"]
+    
+    subgraph Grid[" "]
+        direction TB
+        subgraph Row1[" "]
+            direction LR
+            B["🌐 <b>1. Fungsionalitas Dashboard (30 Poin)</b><br>• Kecepatan & responsivitas widget filter<br>• Multi-page web layout Streamlit<br>• Bebas galat/crash saat demonstrasi live"]
+            C["💡 <b>2. Insight & Storytelling (25 Poin)</b><br>• Ketajaman wawasan analitis bisnis<br>• Alur narasi runtut (Awal-Konflik-Solusi)<br>• Eliminasi beban kognitif audiens"]
+        end
+        subgraph Row2[" "]
+            direction LR
+            D["📊 <b>3. Desain Visual & Tufte (25 Poin)</b><br>• Rasio Data-Ink tinggi & bebas chartjunk<br>• Kesesuaian tipe chart dengan tipe data<br>• Palet warna ramah buta warna"]
+            E["💻 <b>4. Kerapian Kode & Repositori (20 Poin)</b><br>• Kepatuhan kaidah Clean Code & modular<br>• Kelengkapan dokumentasi README.md<br>• Struktur repositori Git & requirements"]
+        end
+    end
 
-    style A fill:#fef08a,stroke:#ca8a04,stroke-width:2px
-    style B fill:#eff6ff,stroke:#3b82f6
-    style C fill:#fdf4ff,stroke:#c084fc
-    style D fill:#ecfdf5,stroke:#10b981
-    style E fill:#f1f5f9,stroke:#64748b
+    Root --> Row1
+    Row1 --> Row2
+
+    style Root fill:#fef08a,stroke:#ca8a04,stroke-width:2px
+    style Grid fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+    style Row1 fill:none,stroke:none
+    style Row2 fill:none,stroke:none
+    style B fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style C fill:#faf5ff,stroke:#9333ea,stroke-width:2px
+    style D fill:#ecfdf5,stroke:#059669,stroke-width:2px
+    style E fill:#f1f5f9,stroke:#475569,stroke-width:2px
 ```

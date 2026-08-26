@@ -15,16 +15,28 @@ Matplotlib memiliki dua antarmuka: antarmuka prosedural mirip MATLAB (`pyplot.pl
 
 ```mermaid
 flowchart TD
-    Figure["🖼️ Figure (Kanvas Gambar Utama)"] --> Axes1["📊 Axes 1 (Subplot Pertama)"]
-    Figure --> Axes2["📊 Axes 2 (Subplot Kedua)"]
-    Axes1 --> Title["Title & Legend"]
-    Axes1 --> XAxis["X-Axis (Ticks, Labels, Spines)"]
-    Axes1 --> YAxis["Y-Axis (Ticks, Labels, Spines)"]
-    Axes1 --> Elements["Visual Elements (Lines, Bars, Markers)"]
+    Figure["🖼️ <b>Figure</b> (Kanvas Gambar Utama / Objek Terluar)"]
+    
+    Figure --> Axes1["📊 <b>Axes 1</b> (Subplot / Bidang Gambar Pertama)"]
+    Figure --> Axes2["📊 <b>Axes 2</b> (Subplot / Bidang Gambar Kedua)"]
 
-    style Figure fill:#f8fafc,stroke:#475569,stroke-width:2px
+    subgraph AnatomiAxes["🔍 Anatomi Internal di dalam Objek Axes"]
+        direction TB
+        Title["🏷️ <b>Title & Legend</b><br>Judul grafik, label seri, dan keterangan warna"]
+        Axis["📏 <b>X-Axis & Y-Axis</b><br>Label sumbu, skala angka (ticks), dan garis pembatas (spines)"]
+        Elements["🎨 <b>Visual Elements</b><br>Garis (lines), batang (bars), titik data (markers), dan anotasi"]
+    end
+
+    Axes1 --> AnatomiAxes
+    Title --> Axis --> Elements
+
+    style Figure fill:#f8fafc,stroke:#334155,stroke-width:2px
     style Axes1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
-    style Axes2 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style Axes2 fill:#f1f5f9,stroke:#64748b,stroke-width:1px
+    style AnatomiAxes fill:#faf5ff,stroke:#9333ea,stroke-width:1px
+    style Title fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style Axis fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style Elements fill:#ffffff,stroke:#3b82f6,stroke-width:2px
 ```
 
 ---

@@ -38,23 +38,32 @@ Prinsip Gestalt (berasal dari bahasa Jerman yang berarti *"bentuk utuh"*) menjel
 
 ```mermaid
 flowchart TD
-    subgraph G["🏛️ 6 Hukum Gestalt Kunci dalam Visualisasi Data"]
+    subgraph G["🏛️ 6 Prinsip Psikologi Gestalt dalam Visualisasi Data"]
         direction TB
-        G1["1. Proximity (Kedekatan Jarak Antar Elemen)"]
-        G2["2. Similarity (Kesamaan Bentuk & Warna)"]
-        G3["3. Enclosure (Pengurungan Area / Highlight Box)"]
-        G4["4. Continuity (Kontinuitas Garis Alur)"]
-        G5["5. Connection (Keterhubungan Garis Penghubung)"]
-        G6["6. Closure (Penutupan Bentuk Secara Spontan)"]
+        subgraph ColA["Kelompok 1: Pengelompokan Rupa & Wilayah"]
+            G1["🔍 <b>1. Proximity (Kedekatan Spasial)</b><br>Elemen yang berdekatan otomatis dipersepsikan sebagai satu kelompok."]
+            G2["🎨 <b>2. Similarity (Kesamaan Visual)</b><br>Elemen dengan warna/bentuk serupa menandakan kategori yang sama."]
+            G3["📦 <b>3. Enclosure (Pengurungan Area)</b><br>Kotak batas atau highlight memisahkan konteks data penting dari lainnya."]
+        end
+        subgraph ColB["Kelompok 2: Alur & Keterhubungan"]
+            G4["〰️ <b>4. Continuity (Kontinuitas Garis)</b><br>Mata manusia mengikuti alur garis yang kontinu dan mulus."]
+            G5["🔗 <b>5. Connection (Keterhubungan Fisik)</b><br>Garis penghubung antar titik menegaskan adanya relasi langsung."]
+            G6["⭕ <b>6. Closure (Penutupan Bentuk)</b><br>Otak secara spontan melengkapi bentuk visual yang tidak utuh."]
+        end
     end
 
-    style G fill:#f8fafc,stroke:#3b82f6,stroke-width:2px
-    style G1 fill:#ffffff,stroke:#94a3b8
-    style G2 fill:#ffffff,stroke:#94a3b8
-    style G3 fill:#ffffff,stroke:#94a3b8
-    style G4 fill:#ffffff,stroke:#94a3b8
-    style G5 fill:#ffffff,stroke:#94a3b8
-    style G6 fill:#ffffff,stroke:#94a3b8
+    G1 --> G2 --> G3
+    G4 --> G5 --> G6
+
+    style G fill:#f8fafc,stroke:#1e40af,stroke-width:2px
+    style ColA fill:#eff6ff,stroke:#3b82f6,stroke-width:1px
+    style ColB fill:#faf5ff,stroke:#a855f7,stroke-width:1px
+    style G1 fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style G2 fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style G3 fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style G4 fill:#ffffff,stroke:#9333ea,stroke-width:2px
+    style G5 fill:#ffffff,stroke:#9333ea,stroke-width:2px
+    style G6 fill:#ffffff,stroke:#9333ea,stroke-width:2px
 ```
 
 ### Penjelasan & Penerapan dalam Grafik:
