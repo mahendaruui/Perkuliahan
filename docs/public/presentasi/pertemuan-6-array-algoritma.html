@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 6 - Struktur Data Larik (Array 1 Dimensi) | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(120% 120% at 50% 10%, #0f172a 0%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
+    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #f8fafc; }
+    .brand-text span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+
+    .header-controls { display: flex; align-items: center; gap: 12px; }
+    .btn-icon {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+    .btn-icon:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 28px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1140px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.98);
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .slide-body::-webkit-scrollbar { width: 4px; }
+    .slide-body::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+
+    footer {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 440px;
+      height: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
+    .btn-nav {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: var(--font-code);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-cyan { border-left: 4px solid var(--primary); background: rgba(56, 189, 248, 0.04); }
+    .card-emerald { border-left: 4px solid var(--accent-emerald); background: rgba(52, 211, 153, 0.04); }
+    .card-amber { border-left: 4px solid var(--accent-amber); background: rgba(251, 191, 36, 0.04); }
+    .card-purple { border-left: 4px solid var(--accent-purple); background: rgba(192, 132, 252, 0.04); }
+    .card-rose { border-left: 4px solid var(--accent-rose); background: rgba(251, 113, 133, 0.04); }
+
+    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; display: flex; align-items: center; gap: 6px; }
+    .card p, .card li { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .quote-text { font-size: 0.82rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+    .quote-author { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 600; }
+
+    pre {
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    table.slide-table th {
+      background: rgba(30, 41, 59, 0.8);
+      font-weight: 700;
+      color: var(--primary);
+    }
+    table.slide-table td { color: #cbd5e1; }
+
+    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .hero-title { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; color: #ffffff; margin-bottom: 12px; line-height: 1.2; }
+    .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .hero-pill { background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 06 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
+    </div>
+  </header>
+
+  <main id="slide-viewport">
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Struktur Data Larik <span>(Array 1D)</span></h1>
+        <p style="font-size: 1.05rem; color: #94a3b8; max-width: 740px; line-height: 1.6;">
+          Fondasi Penyimpanan Sekuensial: Alokasi Memori Kontigu, Akses Acak O(1), Aritmatika Pointer, Traversal & Kalkulasi Statistik
+        </p>
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 FILOSOFI STRUKTUR DATA</div>
+        <h2 class="slide-title">Mengapa Kita Membutuhkan Array?</h2>
+        <p class="slide-subtitle">Dari variabel skalar terisolasi menuju keteraturan spasial di dalam RAM</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>💡 Dilema Variabel Skalar</h4>
+            <p>
+              Jika kita harus mengolah nilai ujian 1.000 mahasiswa, menciptakan 1.000 variabel (<code>nilai1</code>, <code>nilai2</code>, ..., <code>nilai1000</code>) adalah kekacauan arsitektur: tidak dapat di-looping, boros kode, dan mustahil di-skalakan.
+            </p>
+            <p style="margin-top: 8px;">
+              <strong>Array (Larik)</strong> mengumpulkan data dengan tipe seragam (*homogeneous*) ke dalam satu nama wadah bersama dengan pengalamatan indeks numerik yang elegan.
+            </p>
+          </div>
+          <div class="card card-purple">
+            <h4>🏛️ Mukjizat Alokasi Kontigu (Contiguous Memory)</h4>
+            <p>
+              Elemen array disimpan secara <strong>bersebelahan tanpa celah</strong> di RAM. Ini memungkinkan prosesor menghitung alamat memori elemen ke-<code>i</code> hanya dengan matematika offset instan berkecepatan <strong>O(1)</strong>!
+            </p>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="quote-title">💡 Refleksi Filosofis Niklaus Wirth</div>
+          <div class="quote-text">"Pilihan representasi data yang tepat sering kali menjadi kunci utama yang membuat algoritma rumit menjadi sangat sederhana dan berkinerja tinggi."</div>
+          <div class="quote-author">— Niklaus Wirth (Pencipta Bahasa Pascal)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 4)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Memahami konsep alokasi memori bersebelahan dan prinsip indexing.</li>
+              <li><strong>CPMK0101:</strong> Mampu mendeklarasikan, menginisialisasi, dan memanipulasi data sekumpulan elemen homogen.</li>
+              <li><strong>CPL04 (Solusi Rekayasa):</strong> Mampu mengolah data statistik (akumulasi, rata-rata, min/max) menggunakan array.</li>
+            </ul>
+          </div>
+          <div class="card card-cyan">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu menghitung kebutuhan total byte array di RAM.</li>
+              <li>Memahami mengapa indeks array dimulai dari angka 0 (*Zero-Based Indexing*).</li>
+              <li>Mampu mencegah bug *Buffer Overflow / Index Out of Bounds*.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 MODEL MEMORI FISIK</div>
+        <h2 class="slide-title">Anatomi Alokasi Kontigu & Rumus Alamat</h2>
+        <p class="slide-subtitle">Rahasia kecepatan akses O(1) di balik representasi fisik bus data RAM</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-cyan" style="margin-bottom: 8px;">
+              <h4>Rumus Offset Alamat Memori:</h4>
+              <p style="font-family: var(--font-code); color: #38bdf8; font-size: 0.85rem; margin-top: 4px;">
+                Address(A[i]) = Base_Address + (i × Element_Size)
+              </p>
+              <p style="margin-top: 6px; font-size: 0.78rem;">
+                Mengapa indeks dimulai dari <strong>0</strong>? Karena elemen pertama berada persis di alamat dasar (*Offset = 0*).
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="card card-purple">
+              <h4>Visualisasi Array `int A[5]` (4 Bytes per elemen):</h4>
+              <div style="font-family: var(--font-code); font-size: 0.76rem; background: #090d16; color: #38bdf8; padding: 10px; border-radius: 8px; line-height: 1.5;">
+                [0x1000] : A[0] = 85  (Base Address)<br>
+                [0x1004] : A[1] = 90  (0x1000 + 1×4)<br>
+                [0x1008] : A[2] = 78  (0x1000 + 2×4)<br>
+                [0x100C] : A[3] = 92  (0x1000 + 3×4)<br>
+                [0x1010] : A[4] = 88  (0x1000 + 4×4)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">✍️ SINTAKSIS & DEKLARASI</div>
+        <h2 class="slide-title">Deklarasi, Inisialisasi & Kapasitas Tetap</h2>
+        <p class="slide-subtitle">Array tradisional bersifat statis (*Fixed-Size*) yang dialokasikan di Stack</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-cyan" style="margin-bottom: 8px;">
+              <h4>Aturan Baku Array Statis:</h4>
+              <ul style="padding-left: 18px; margin-top: 4px;">
+                <li>Ukuran kapasitas wajib bertipe konstanta integer positif.</li>
+                <li>Elemen yang tidak diinisialisasi otomatis bernilai 0 (jika statis/global) atau bernilai sampah (*garbage* jika lokal di C++).</li>
+                <li>Total Memori = <code>N × sizeof(Tipe_Data)</code>.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <pre><code>// 1. Deklarasi tanpa inisialisasi awal (ukuran 5)
+int nilai[5];
+
+// 2. Deklarasi langsung dengan inisialisasi
+double ipk[4] = {3.5, 3.8, 3.2, 4.0};
+
+// 3. Menentukan ukuran otomatis dari elemen
+char huruf[] = {'U', 'U', 'I'}; // Otomatis size 3
+
+// 4. Mengakses & Mengubah elemen:
+nilai[0] = 90; // Mengisi indeks 0
+cout << nilai[0]; // Membaca indeks 0</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚙️ OPERASI FUNDAMENTAL</div>
+        <h2 class="slide-title">Operasi Baku pada Struktur Data Larik</h2>
+        <p class="slide-subtitle">Analisis kompleksitas waktu dari berbagai manipulasi elemen array</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Operasi</th>
+              <th>Mekanisme Kerja</th>
+              <th>Kompleksitas Waktu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Akses Acak (*Random Access*)</strong></td>
+              <td>Membaca atau menulis elemen <code>A[i]</code> secara langsung via rumus offset memori</td>
+              <td><code style="color: #34d399;">O(1) - Instan</code></td>
+            </tr>
+            <tr>
+              <td><strong>Traversal (Penjelajahan)</strong></td>
+              <td>Mengunjungi seluruh elemen satu per satu dari indeks <code>0</code> s.d. <code>N-1</code> dengan loop</td>
+              <td><code>O(n) - Linear</code></td>
+            </tr>
+            <tr>
+              <td><strong>Pencarian Linear (*Search*)</strong></td>
+              <td>Memindai larik untuk menemukan elemen target atau mencari min/max</td>
+              <td><code>O(n) - Linear</code></td>
+            </tr>
+            <tr>
+              <td><strong>Penyisipan / Penghapusan</strong></td>
+              <td>Memerlukan pergeseran (*shifting*) seluruh elemen di sebelah kanannya</td>
+              <td><code style="color: #fb7185;">O(n) - Mahal</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
+        <h2 class="slide-title">Studi Kasus: Pengolahan Statistik Mahasiswa</h2>
+        <p class="slide-subtitle">Menghitung Total, Rata-rata, Nilai Minimum, dan Nilai Maksimum</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3</div>
+            <pre><code># Statistik Array di Python
+nilai = [82.5, 90.0, 68.5, 95.0, 77.5]
+
+total = sum(nilai)
+rata_rata = total / len(nilai)
+nilai_min = min(nilai)
+nilai_max = max(nilai)
+
+print(f"Rata-rata : {rata_rata:.2f}")
+print(f"Tertinggi : {nilai_max}")
+print(f"Terendah  : {nilai_min}")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++ (Manual Traversal)</div>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double data[5] = {82.5, 90.0, 68.5, 95.0, 77.5};
+    double total = 0, nMin = data[0], nMax = data[0];
+
+    for (int i = 0; i < 5; i++) {
+        total += data[i];
+        if (data[i] > nMax) nMax = data[i];
+        if (data[i] < nMin) nMin = data[i];
+    }
+    cout << "Rata = " << total/5 << "\n";
+    cout << "Max  = " << nMax << " | Min = " << nMin;
+    return 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚠️ ANOMALI & KERUSAKAN MEMORI</div>
+        <h2 class="slide-title">Jebakan Klasik Array: *Out of Bounds Error*</h2>
+        <p class="slide-subtitle">Ketika program mencoba mengakses alamat di luar batas blok kontigu</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-rose">
+            <h4>1. Segmentation Fault</h4>
+            <p>Membaca atau menulis <code>A[5]</code> pada array berukuran 5 (indeks sah hanya <code>0..4</code>). Di C++, ini mengakses memori ilegal!</p>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Buffer Overflow Vulnerability</h4>
+            <p>Eksploitasi keamanan siber paling terkenal: data yang meluap menimpa memori proses lain atau register kembalian (*return address*).</p>
+          </div>
+          <div class="card card-purple">
+            <h4>3. Ukuran Statis Kaku</h4>
+            <p>Ukuran array tidak dapat diperbesar atau diperkecil saat runtime. Terlalu besar boros RAM, terlalu kecil memicu luapan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🛡️ REKAYASA KODE BERSIH</div>
+        <h2 class="slide-title">Modern Traversal: *Range-Based For Loop*</h2>
+        <p class="slide-subtitle">Sintaksis modern C++11 & Python untuk mencegah *Off-by-One Index Error*</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-rose); margin-bottom: 4px;">⚠️ Gaya Lama Berbahaya (Manual Indexing):</div>
+            <pre><code>// Rawan salah batas: i <= 5 (Crash!)
+int skor[5] = {10, 20, 30, 40, 50};
+
+for (int i = 0; i <= 5; i++) {
+    cout << skor[i] << " ";
+}</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-emerald); margin-bottom: 4px;">✅ Gaya Modern Aman (Range-Based Loop):</div>
+            <pre><code>// Kompilator otomatis menjamin batas aman:
+int skor[5] = {10, 20, 30, 40, 50};
+
+for (int x : skor) {
+    cout << x << " "; // 10 20 30 40 50
+}
+
+// Di Python:
+for x in skor:
+    print(x)</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 4</div>
+        <h2 class="slide-title">Rangkuman Materi & Tantangan Kasus Nyata</h2>
+        <p class="slide-subtitle">Uji kompetensi struktur data larik sebagai fondasi pencarian dan pengurutan</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>📌 Rangkuman Inti</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Array adalah sekumpulan elemen bertipe seragam di memori kontigu bersebelahan.</li>
+              <li>Akses acak elemen berkecepatan <code>O(1)</code> berkat kalkulasi alamat offset.</li>
+              <li>Selalu jaga batasan indeks antara <code>0</code> hingga <code>N-1</code>.</li>
+            </ul>
+          </div>
+          <div class="card card-emerald">
+            <h4>📝 Tugas Mandiri Minggu 6</h4>
+            <p style="margin-top: 6px;">
+              Buatlah program <strong>Pencari Nilai di Atas Rata-rata Kelas</strong>:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Input nilai ujian 10 mahasiswa ke dalam array 1D.</li>
+              <li>Hitung nilai rata-rata seluruh kelas.</li>
+              <li>Tampilkan daftar nilai dan indeks mahasiswa yang nilainya melampaui rata-rata kelas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Navigasi: <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">◀</kbd> <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">▶</kbd> atau <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">Spasi</kbd>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
+      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
+      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
+    });
+
+    updateSlide();
+</script>
+</body>
+</html>
