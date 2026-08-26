@@ -1,128 +1,218 @@
-# Minggu 3 — Stack & Operasi Dasar
+# Minggu 3: Struktur Data Linear: Stack (LIFO) & Analisis Penerapan
 
-Stack (Tumpukan) adalah struktur data linear yang mengikuti prinsip **LIFO (Last In, First Out)**. Konsepnya sesederhana tumpukan buku: buku yang terakhir diletakkan di atas tumpukan akan menjadi buku pertama yang diambil ketika kita ingin mengambil buku dari tumpukan tersebut.
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 3)
+- **CPMK Terkait:** CPMK0101 (Struktur Data Linear), CPMK0106 (Analisis Kompleksitas)
+- **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving), CPL04 (Solusi Rekayasa)
+- **Indikator:** Mahasiswa mampu mengimplementasikan ADT Stack berbasis *Generic Slice* dan *Pointer Node*, menganalisis seluruh operasi dasar dalam waktu $O(1)$, serta menyelesaikan kasus rekayasa nyata (*Balanced Parentheses*, Evaluasi Postfix RPN, dan Undo/Redo Engine).
+:::
 
-## 1. Karakteristik Stack
-Stack hanya mengizinkan manipulasi data pada satu ujung, yang biasanya disebut sebagai **Top**.
+---
 
-Ada 3 operasi utama dalam Stack:
-- **Push**: Menambahkan elemen ke puncak (Top) dari stack.
-- **Pop**: Menghapus dan mengembalikan elemen yang ada di puncak stack.
-- **Peek / Top**: Melihat elemen yang ada di puncak tanpa menghapusnya.
-- **IsEmpty**: Mengecek apakah stack dalam keadaan kosong.
+## 1. Prinsip Operasi LIFO (Last-In First-Out)
 
-## 2. Penggunaan Stack di Dunia Nyata
-Algoritma ini sangat berguna dalam pemrosesan fungsional dan aplikasi praktis:
-1. **Mekanisme Undo/Redo** pada editor teks seperti Ms. Word atau Visual Studio Code.
-2. **Riwayat Browser (Back Button)**: Menavigasi kembali ke halaman sebelumnya.
-3. **Penyusunan Memory Sistem (Call Stack)**: Sistem operasi mengatur pemanggilan fungsi-(rekursif) menggunakan stack memori.
-4. **Pengecekan Kurung Seimbang (*Balanced Parentheses*)** pada compiler dan linter bahasa pemrograman.
+**Stack (Tumpukan)** adalah struktur data linear dengan batasan operasional khusus: penambahan elemen baru (*Push*) dan penghapusan elemen (*Pop*) hanya dapat dilakukan pada satu pintu ujung yang sama, yaitu **Top (Puncak)**.
 
-## 3. Implementasi Stack menggunakan *Slice* di Golang
+```mermaid
+graph TD
+    subgraph Operasi Stack LIFO
+        Top["[ Puncak / TOP ] -> Elemen D (Terakhir Masuk / Pertama Keluar)"]
+        Mid1["Elemen C"]
+        Mid2["Elemen B"]
+        Bottom["[ Dasar / BOTTOM ] -> Elemen A (Pertama Masuk / Terakhir Keluar)"]
+    end
+    PushIn[Operasi PUSH] --> Top
+    Top --> PopOut[Operasi POP]
+    Top --- Mid1
+    Mid1 --- Mid2
+    Mid2 --- Bottom
+    style Top fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    style PushIn fill:#e0f2fe,stroke:#0284c7;
+    style PopOut fill:#fee2e2,stroke:#dc2626;
+```
 
-Di bahasa pemrograman tingkat tinggi seperti Golang, kita dapat membangun Stack secara efisien menggunakan tipe data dinamis bawaan yaitu **Slice**.
+### Operasi-Operasi Fundamental Stack
 
-Mari kita definisikan tipe bentukan (ADT) Stack menggunakan `struct` dan menjadikannya OOP-Friendly dengan `Receiver Method`.
+| Nama Operasi | Deskripsi Aksi | Time Complexity | Space Complexity |
+| :--- | :--- | :---: | :---: |
+| **`Push(item)`** | Menambahkan elemen baru ke atas puncak (Top). | $O(1)$ amortized | $O(1)$ |
+| **`Pop()`** | Mengambil dan menghapus elemen dari puncak (Top). | $O(1)$ | $O(1)$ |
+| **`Peek() / Top()`** | Melihat nilai elemen di puncak tanpa menghapusnya. | $O(1)$ | $O(1)$ |
+| **`IsEmpty()`** | Memeriksa apakah stack tidak memiliki elemen. | $O(1)$ | $O(1)$ |
+| **`Size()`** | Mengembalikan jumlah total elemen dalam stack. | $O(1)$ | $O(1)$ |
 
-### a. Membuat Struct `Stack`
+---
 
-```go
+## 2. Implementasi Generic Stack di Golang
+
+Berikut implementasi lengkap yang aman, konkuren, dan mendukung tipe data generik (`[T any]`):
+
+::: code-group
+```go [stack.go]
+package main
+
+import (
+    "errors"
+    "fmt"
+    "sync"
+)
+
+// Generic Thread-Safe Stack
+type Stack[T any] struct {
+    items []T
+    mu    sync.RWMutex
+}
+
+// Inisialisasi Stack baru
+func NewStack[T any]() *Stack[T] {
+    return &Stack[T]{
+        items: make([]T, 0),
+    }
+}
+
+// Push: Menambahkan elemen ke Top
+func (s *Stack[T]) Push(item T) {
+    s.mu.Lock()
+    defer s.mu.Unlock()
+    s.items = append(s.items, item)
+}
+
+// Pop: Mengeluarkan elemen dari Top
+func (s *Stack[T]) Pop() (T, error) {
+    s.mu.Lock()
+    defer s.mu.Unlock()
+
+    if len(s.items) == 0 {
+        var zero T
+        return zero, errors.New("stack underflow: tumpukan kosong")
+    }
+
+    lastIdx := len(s.items) - 1
+    item := s.items[lastIdx]
+    s.items = s.items[:lastIdx] // Pemotongan slice O(1)
+    return item, nil
+}
+
+// Peek: Melihat elemen teratas tanpa menghapus
+func (s *Stack[T]) Peek() (T, error) {
+    s.mu.RLock()
+    defer s.mu.RUnlock()
+
+    if len(s.items) == 0 {
+        var zero T
+        return zero, errors.New("stack kosong")
+    }
+    return s.items[len(s.items)-1], nil
+}
+
+// IsEmpty: Mengecek kekosongan stack
+func (s *Stack[T]) IsEmpty() bool {
+    s.mu.RLock()
+    defer s.mu.RUnlock()
+    return len(s.items) == 0
+}
+
+// Size: Mengembalikan jumlah elemen
+func (s *Stack[T]) Size() int {
+    s.mu.RLock()
+    defer s.mu.RUnlock()
+    return len(s.items)
+}
+```
+:::
+
+---
+
+## 3. Studi Kasus Industri 1: Pengecekan Kurung Seimbang (*Balanced Parentheses*)
+
+Kompilator pemrograman (seperti parser Golang atau browser linter) menggunakan Stack untuk memvalidasi apakah pasangan tanda kurung `()`, `{}`, dan `[]` tertutup dengan benar dan seimbang:
+
+```mermaid
+flowchart TD
+    Char[Baca Karakter Teks] --> Check{Jenis Karakter?}
+    Check -- Kurung Buka '(', '{', '[' --> PushS[Push ke Stack]
+    Check -- Kurung Tutup ')', '}', ']' --> PopS{Pop Stack: Apakah Cocok?}
+    PopS -- Ya Cocok --> Next[Lanjut Karakter Berikutnya]
+    PopS -- Tidak / Stack Kosong --> Invalid[Status: TIDAK VALID]
+    PushS --> Next
+    Next --> EndCheck{Teks Habis?}
+    EndCheck -- Belum --> Char
+    EndCheck -- Selesai --> Final{Apakah Stack Kosong?}
+    Final -- Ya --> Valid[Status: VALID / SEIMBANG]
+    Final -- Tidak --> Invalid
+    style Valid fill:#dcfce7,stroke:#16a34a
+    style Invalid fill:#fee2e2,stroke:#dc2626
+```
+
+::: code-group
+```go [balanced_parentheses.go]
 package main
 
 import "fmt"
 
-// Mendefinisikan Abstract Data Type (ADT) untuk Stack
-type Stack struct {
-	items []string
-}
-```
+func IsBalanced(expr string) bool {
+    stack := NewStack[rune]()
+    matching := map[rune]rune{
+        ')': '(',
+        '}': '{',
+        ']': '[',
+    }
 
-### b. Menambahkan Metode `Push`
-
-Ingat materi minggu lalu! Karena kita memanipulasi atau mengubah bentuk array internalnya, kita harus menggunakan metode dengan *Pointer Receiver* (`*Stack`).
-
-```go
-// Menambahkan elemen ke atas Stack
-func (s *Stack) Push(data string) {
-	s.items = append(s.items, data)
-	fmt.Printf("Pushed: %s\n", data)
-}
-```
-
-### c. Menambahkan Metode `Pop` dan `Peek`
-
-Pada `Pop`, elemen terakhir pada Slice akan dipisahkan, dikembalikan ke pemanggil, dan panjang slice akan dikurangi 1.
-
-```go
-// Mengambil dan menghapus elemen teratas dari Stack
-func (s *Stack) Pop() (string, bool) {
-	if len(s.items) == 0 {
-		return "", false // Mengembalikan false jika stack kosong
-	}
-	
-	lastIndex := len(s.items) - 1
-	topElement := s.items[lastIndex]
-	// Potong array hingga elemen ke-n dikurangi 1
-	s.items = s.items[:lastIndex]
-	
-	return topElement, true
+    for _, char := range expr {
+        switch char {
+        case '(', '{', '[':
+            stack.Push(char)
+        case ')', '}', ']':
+            top, err := stack.Pop()
+            if err != nil || top != matching[char] {
+                return false
+            }
+        }
+    }
+    return stack.IsEmpty()
 }
 
-// Melihat elemen teratas tanpa menghapusnya
-func (s *Stack) Peek() (string, bool) {
-	if len(s.items) == 0 {
-		return "", false
-	}
-	lastIndex := len(s.items) - 1
-	return s.items[lastIndex], true
-}
-
-// Cek status Stack
-func (s *Stack) IsEmpty() bool {
-	return len(s.items) == 0
-}
-```
-
-### d. Fungsi `main()` untuk Pengujian (Kasus Riwayat Browser)
-
-```go
 func main() {
-	var riwayatBrowser Stack
+    uji1 := "{ [ ( a + b ) * c ] - d }"
+    uji2 := "{ [ ( a + b ] ) }"
 
-	// Simulasi Navigasi Pengguna
-	riwayatBrowser.Push("google.com")
-	riwayatBrowser.Push("github.com/mahendar")
-	riwayatBrowser.Push("golang.org/doc")
-
-	// Melihat situs saat ini tanpa keluar
-	currentSite, _ := riwayatBrowser.Peek()
-	fmt.Println("Situs Tertinggi (Saat Ini):", currentSite) // Golang doc
-
-	// Pengguna menekan tombol 'Back'
-	kembali, adaSitus := riwayatBrowser.Pop()
-	if !adaSitus {
-		fmt.Println("Riwayat Kosong!")
-	} else {
-		fmt.Println("Meninggalkan:", kembali)
-	}
-
-	// Cek Situs Sekarang
-	fmt.Println("Kembali dan Sedang Berjalan Di:", riwayatBrowser.items[len(riwayatBrowser.items)-1]) 
-    // Hasil: github.com
+    fmt.Printf("Ekspresi 1 : %s -> Valid: %t\n", uji1, IsBalanced(uji1))
+    fmt.Printf("Ekspresi 2 : %s -> Valid: %t\n", uji2, IsBalanced(uji2))
 }
 ```
-
-## 4. Analisis Kompleksitas Stack (Big-O)
-
-Bagi operasi menggunakan Slice dinamis seperti di atas (dan array normal), Kompleksitas Waktu untuk Push, Pop, dan Peek adalah mutlak konstanta yang sangat cepat:
-- **Push**: `O(1)` - (Secara amartisasi, bila *capacity* internal slice membesar mungkin `O(N)` sesaat, bergantung dari alokasi OS).
-- **Pop**: `O(1)`
-- **Peek**: `O(1)`
-- **Search**: `O(N)` - Pencarian isi stack tanpa Popping mengharuskan pemeriksaan linear penuh.
+:::
 
 ---
-### **Praktikum Kelas**
-Gunakan waktu kelas untuk menyusun kode stack yang mampu:
-1. Membaca untaian string yang berisi kurung, contoh: `"(([]{}))"`
-2. Lakukan iterasi (*looping*) tiap karakter; jika ketemu buka kurung `( { [`, lemparkan ke stack menggunakan cara `Push()`.
-3. Jika bertemu kurung tutup, lihat stack yang *peek*, jika pasangan sesuai, keluarkan pakai `Pop()`. Cek apakah kode *error* jika tak seimbang!
+
+## 4. Studi Kasus Industri 2: Arsitektur Undo / Redo Engine
+
+Aplikasi seperti Text Editor (VS Code), Photoshop, atau Microsoft Word mengelola dua stack terpisah: **Undo Stack** dan **Redo Stack**:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant Editor as Text Editor
+    participant Undo as Undo Stack
+    participant Redo as Redo Stack
+
+    User->>Editor: Ketik Kata "Halo"
+    Editor->>Undo: Push("Ketik Halo")
+    Editor->>Redo: Clear()
+    
+    User->>Editor: Tekan Ctrl+Z (Undo)
+    Editor->>Undo: Pop() -> "Ketik Halo"
+    Editor->>Redo: Push("Ketik Halo")
+    Editor-->>User: Teks Dibatalkan
+    
+    User->>Editor: Tekan Ctrl+Y (Redo)
+    Editor->>Redo: Pop() -> "Ketik Halo"
+    Editor->>Undo: Push("Ketik Halo")
+    Editor-->>User: Teks Dipulihkan
+```
+
+---
+
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 3)
+
+1. **Evaluasi Postfix (Reverse Polish Notation):** Buatlah program Golang menggunakan Stack untuk menghitung hasil ekspresi postfix: `"5 3 + 2 * 7 -"` ($((5+3) \times 2) - 7 = 9$).
+2. **Reverse String:** Tuliskan fungsi pembalik teks (*string reversal*) menggunakan struktur data Stack generik!

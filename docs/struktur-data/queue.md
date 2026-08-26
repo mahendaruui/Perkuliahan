@@ -1,87 +1,199 @@
-# Minggu 4 — Queue FIFO & Implementasinya
+# Minggu 4: Struktur Data Linear: Queue (FIFO) & Sistem Antrean
 
-Antrean (Queue) adalah struktur data linear yang bekerja dengan prinsip keterbalikan dari Stack, yaitu berkonsep **FIFO (First In, First Out)**. 
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 3)
+- **CPMK Terkait:** CPMK0101 (Struktur Data Linear), CPMK0106 (Analisis Kompleksitas)
+- **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving), CPL04 (Solusi Rekayasa)
+- **Indikator:** Mahasiswa mampu mengimplementasikan ADT Linear Queue, Circular Queue, dan Double-Ended Queue (Deque) di Golang, menganalisis solusi mengatasi *False Overflow*, serta merekayasa sistem antrean komputasi riil (*Job Dispatcher & Rate Limiting*).
+:::
 
-Bagaikan pelanggan yang sedang mengantre di kasir swalayan: orang pertama yang mengantri (bergabung ke barisan antrean), pasti akan menjadi orang pertama pula yang dilayani dan meninggalkan barisan.
+---
 
-## 1. Karakteristik Queue
-Queue umumnya memelihara dua poin alamat/indeks referensi yang terus bertransisi: depan (*Front* atau *Head*) dan belakang (*Rear* atau *Tail*).
+## 1. Prinsip Operasi FIFO (First-In First-Out)
 
-### Konsep Transaksi Operasi Dasar:
-- **Enqueue (Add)**: Menyisipkan atau menambahkan elemen data ke bagian *belakang (Tail/Rear)* queue.
-- **Dequeue (Remove)**: Mengambil dan menghapus elemen dari bagian *depan (Head/Front)* queue.
-- **Front (Peek)**: Meninjau elemen yang paling awal dari queue, namun tidak membuangnya.
-- **Rear**: Meninjau elemen yang berada di paling akhir tanpa pemrosesan pembuangan.
+**Queue (Antrean)** adalah struktur data linear yang bekerja dengan prinsip **FIFO (First-In, First-Out)**: elemen yang pertama kali dimasukkan akan menjadi elemen yang pertama kali dikeluarkan.
 
-## 2. Implementasi Algoritma Linear Queue
+Queue mengelola dua penanda posisi:
+- **`Front / Head`:** Ujung depan tempat elemen dikeluarkan (*Dequeue*).
+- **`Rear / Tail`:** Ujung belakang tempat elemen baru disisipkan (*Enqueue*).
 
-Secara pemrograman Go, Queue dapat dibuat mudah mengandalkan Slice bawaannya.
+```mermaid
+graph LR
+    In[Data Baru Masuk] --> Enqueue["ENQUEUE di REAR (Belakang)"]
+    subgraph Antrean Data FIFO
+        R["[ REAR ] Elemen 4"] --> M2["Elemen 3"] --> M1["Elemen 2"] --> F["[ FRONT ] Elemen 1"]
+    end
+    Enqueue --> R
+    F --> Dequeue["DEQUEUE dari FRONT (Depan)"]
+    Dequeue --> Out[Data Dilayani & Keluar]
+    style F fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    style R fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+    style In fill:#fef3c7,stroke:#d97706;
+    style Out fill:#fee2e2,stroke:#dc2626;
+```
+
+---
+
+## 2. Masalah *False Overflow* pada Linear Queue & Solusi Circular Queue
+
+Pada implementasi array/slice statis linear: saat elemen di-dequeue dari depan, ruang di depan menjadi kosong namun pointer `Rear` terus bergerak ke ujung belakang. Hal ini memicu kondisi **False Overflow** (antrean terlihat penuh padahal slot depan kosong).
+
+Solusinya adalah **Circular Queue (Antrean Melingkar)** menggunakan operasi matematika modulo ($\%$):
+$$\text{Next Rear} = (\text{Rear} + 1) \% \text{Kapasitas}$$
+$$\text{Next Front} = (\text{Front} + 1) \% \text{Kapasitas}$$
+
+```mermaid
+graph TD
+    subgraph Circular Buffer Array (Kapasitas = 6)
+        C0["Indeks [0]: Elemen A"] --- C1["Indeks [1]: Elemen B (FRONT)"]
+        C1 --- C2["Indeks [2]: Elemen C"]
+        C2 --- C3["Indeks [3]: Elemen D (REAR)"]
+        C3 --- C4["Indeks [4]: Kosong"]
+        C4 --- C5["Indeks [5]: Kosong"]
+        C5 --- C0
+    end
+    style C1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    style C3 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+```
+
+---
+
+## 3. Implementasi Generic Circular Queue di Golang
+
+::: code-group
+```go [circular_queue.go]
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+type CircularQueue[T any] struct {
+    data     []T
+    front    int
+    rear     int
+    size     int
+    capacity int
+}
+
+func NewCircularQueue[T any](capacity int) *CircularQueue[T] {
+    return &CircularQueue[T]{
+        data:     make([]T, capacity),
+        front:    0,
+        rear:     -1,
+        size:     0,
+        capacity: capacity,
+    }
+}
+
+func (q *CircularQueue[T]) Enqueue(item T) error {
+    if q.IsFull() {
+        return errors.New("queue overflow: antrean penuh")
+    }
+    q.rear = (q.rear + 1) % q.capacity
+    q.data[q.rear] = item
+    q.size++
+    return nil
+}
+
+func (q *CircularQueue[T]) Dequeue() (T, error) {
+    if q.IsEmpty() {
+        var zero T
+        return zero, errors.New("queue underflow: antrean kosong")
+    }
+    item := q.data[q.front]
+    q.front = (q.front + 1) % q.capacity
+    q.size--
+    return item, nil
+}
+
+func (q *CircularQueue[T]) FrontItem() (T, error) {
+    if q.IsEmpty() {
+        var zero T
+        return zero, errors.New("antrean kosong")
+    }
+    return q.data[q.front], nil
+}
+
+func (q *CircularQueue[T]) IsFull() bool {
+    return q.size == q.capacity
+}
+
+func (q *CircularQueue[T]) IsEmpty() bool {
+    return q.size == 0
+}
+
+func (q *CircularQueue[T]) Size() int {
+    return q.size
+}
+
+func main() {
+    q := NewCircularQueue[string](3)
+
+    q.Enqueue("Nasabah 1 (Budi)")
+    q.Enqueue("Nasabah 2 (Siti)")
+    q.Enqueue("Nasabah 3 (Andi)")
+
+    fmt.Println("Apakah antrean penuh?", q.IsFull()) // true
+
+    dilayani, _ := q.Dequeue()
+    fmt.Printf("Melayani: %s\n", dilayani)
+
+    // Sekarang slot indeks 0 dapat digunakan kembali berkat Circular Buffer
+    q.Enqueue("Nasabah 4 (Rudi)")
+    fmt.Printf("Jumlah antrean saat ini: %d\n", q.Size())
+}
+```
+:::
+
+---
+
+## 4. Studi Kasus Industri: Concurrency Channel Queue & Worker Pool
+
+Di dunia industri *backend*, Golang memiliki struktur queue tingkat kernel yang sangat kuat: **Buffered Channel (`chan T`)**:
 
 ```go
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "time"
+)
 
-type LayananAntrean struct {
-    Items []int
-}
-
-// Enqueue - Masukkan ke Belakang
-func (q *LayananAntrean) Enqueue(pelangganID int) {
-    q.Items = append(q.Items, pelangganID)
-    fmt.Printf("Pelanggan %d bergabung ke dalam antrean.\n", pelangganID)
-}
-
-// Dequeue - Layani dan Hapus dari Depan
-func (q *LayananAntrean) Dequeue() (int, bool) {
-    if len(q.Items) == 0 {
-        return -1, false // Jika kosong, tolak
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for j := range jobs {
+        fmt.Printf("[Worker %d] Memproses Tiket #%d...\n", id, j)
+        time.Sleep(500 * time.Millisecond) // Simulasi kerja I/O
+        results <- j * 2
     }
-
-    orangPertama := q.Items[0]    // Tangkap data antrean pertama
-    q.Items = q.Items[1:]        // Iris slice agar membuang isi indeks ke-0 (Hati-hati, ada konsekuensi memory leak di slice!)
-    return orangPertama, true
 }
 
 func main() {
-    bankAntrean := LayananAntrean{}
-    bankAntrean.Enqueue(1001) // Datang jam 08.00
-    bankAntrean.Enqueue(1002) // Datang jam 08.05
-    bankAntrean.Enqueue(1005) // Datang jam 08.10
+    const numJobs = 5
+    jobs := make(chan int, numJobs)       // Channel berfungsi sebagai FIFO Queue
+    results := make(chan int, numJobs)
 
-    orang, ok := bankAntrean.Dequeue()
-    if ok {
-        fmt.Println("Melayani pelanggan ID:", orang) // Bakal melayani 1001
+    // Membuka 3 Worker Goroutine yang mengonsumsi antrean secara paralel
+    for w := 1; w <= 3; w++ {
+        go worker(w, jobs, results)
     }
 
-    fmt.Println("Sisa antrean:", bankAntrean.Items) // Menyisakan [1002, 1005]
+    // Mengirimkan tiket ke Queue
+    for j := 1; j <= numJobs; j++ {
+        jobs <- j
+    }
+    close(jobs)
+
+    for a := 1; a <= numJobs; a++ {
+        <-results
+    }
+    fmt.Println("Seluruh antrean tiket berhasil diproses!")
 }
 ```
 
-## 3. Jenis-Jenis Queue
-Pada Queue model dasar (Sederhana), jika kita memanfaatkan array yang ukurannya terpatok mati *(Fixed Size Array)*, apabila elemen `Rear` menyentuh batas ujung `Capacity`, maka tak ada data baru yang bisa ditambah walaupun di depan kita (*Front*) sudah banyak yang dilayani. Oleh karena itu kita butuh teknik lainnya:
-
-### A. Circular Queue (Antrean Melingkar)
-Circular Queue memanipulasi alamat *pointer* Front dan Rear menggunakan modulus aritmatika (Sisa Bagi). Sehingga apabila antrean bagian blakang sudah mentok, *Rear* bisa memutar indeksnya ulang ke depan mengisi slot awal yang sudah dialokasikan kosong sebelum antrean ditolak oleh sistem `Queue Is Full()`.
-
-*Rumus Enqueue Circular*: `Rear = (Rear + 1) % Kapasitas`
-*Rumus Dequeue Circular*: `Front = (Front + 1) % Kapasitas`
-
-### B. Double-Ended Queue (Deque)
-Adalah tipe struktur hibrid antara *Stack* dan *Queue*. 
-Elemen bisa di-masukkan (*Insert*) secara dua arah (Bisa di depan *maupun* di belakang), begitu juga dihapus (*Remove*) di depan atau belakang.
-Contoh penerapannya ada pada **Aplikasi Penjadwalan Multi-Level (*OS Schedulers*)**.
-
-## 4. Keunggulan dan Kompleksitas Algoritma
-
-**Asymptotic Analysis (Notasi Big-O)**
-- Operasi Enqueue (tambah baru): `O(1)` Konstanta konstan.
-- Operasi Dequeue (ambil bagian depan): Tergantung implementasi. Jika memakai Singly Linked List bersimbolkan `head`, ini `O(1)`. Namun pada implementasi irisan `Slice` dasar bawaan golang seperti kode di atas (`q.Items[1:]`), setiap elemen dalam *background* di-*copy* satu slot ke depan oleh compiler, maka kompleksitasnya secara tersembunyi dapat menjadi **O(N)**.
-  
-Ini adalah alasan kuat kenapa Queue skala besar *(Production Level)* disarankan dibangun menggunakan kombinasi node pointer (Singly Linked List) ketimbang Slice/Array biasa.
-
 ---
-### **Tugas Kajian Mandiri (Case Method)**
-Pada tugas kuliah asinkron minggu ini:
-1. Golang memiliki keunikan **Concurrency** yang menggunakan `Channel`. Channel pada sejatinya berperilaku layaknya **Queue Multi-akses Sinkronisasi**. Pelajari bagaimana syntax dasar channel pada `goroutines` bekerja secara FIFO.
-2. Buatlah struktur *Queue* antrian pelanggan (mis. pembelian tiket bioskop) di mana hanya melayani pembeli tiket jika batas maksimal gedung bioskop tak terpenuhi. Jika terpenuhi kirim "Full/Batal".
+
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 3)
+
+1. Rancanglah struktur **Double-Ended Queue (Deque)** di Golang yang mendukung operasi `PushFront`, `PushBack`, `PopFront`, dan `PopBack` dalam waktu $O(1)$.
+2. Jelaskan perbedaan mendasar antara *Simple FIFO Queue* dan *Priority Queue* dalam konteks penjadwalan proses pada Sistem Operasi!

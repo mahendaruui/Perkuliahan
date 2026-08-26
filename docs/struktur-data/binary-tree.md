@@ -1,94 +1,117 @@
-# Minggu 9 — Pengenalan Tree & Binary Tree
+# Minggu 9: Struktur Data Non-Linear: Pohon Biner (Binary Tree)
 
-Setelah membahas tuntas struktur linear di mana elemen disusun satu demi satu ke belakang. Sekarang kita akan mengubah paradigma pemrograman ke **Arah Hierarkis**: Struktur Data *Tree* (Pohon).
-
-## 1. Konsep Data Tree
-
-Bayangkan seperti susunan silsilah keluarga, struktur folder pada OS Anda (`/var/www/html/...`), atau organisasi sebuah perusahaan (Dari CEO -> Manager -> Staff). 
-Itu semua adalah entitas berbentuk **Tree**, di mana satu puncak (*Root*) memilki banyak turunan cabang *(Child nodes)*, dan setiap cabang memiliki cabang lain.
-
-**Karakteristik & Terminologi:**
-1. **Root (Akar)**: Node tertinggi / pucuk paling atas (level 0). Jika root kosong, tak ada hierarki memori.
-2. **Node (Simpul)**: Entitas penyimpan data / folder.
-3. **Edge / Link**: Garis rujukan pointer yang mengarah ke Child node.
-4. **Child**: Turunan dari satu simpul bapaknya.
-5. **Parent**: Simpul tunggal yang memegang Child.
-6. **Leaf (Daun)**: Node yang mandul / letaknya paling ujung bawah dan tak punya Child sama sekali (Node yang bernilai `nil` di ujung pointer cabangnya).
-
-## 2. Definisi Binary Tree
-
-Dari sekian banyak varian Tree (misal N-ary tree yang anaknya bebas tidak ada batas), ada bentuk terpopuler dan terlaris untuk komputasional cepat: **Binary Tree (Pohon Biner)**.
-   
-Di dalam Golang (atau bahasa lain):
-**Satu Binary Node, MAKSIMAL hanya boleh memiliki DUA anak (`Left` dan `Right`)**. Titik! Tidak boleh ada anak tengah.
-
-Jika node hanya punya anak `Left` atau `Right` saja (1 anak) tidak menyalahi aturan.
-Bahkan tidak punya anak (Leaf) tetap sah dinamakan Binary Tree.
-
-## 3. Implementasi Struct Node Biner Golang
-
-Pada dasarnya, ini mirip merakit *Linked List*. Hanya bedanya: *Linked List* punya 1 Pointer `Next`... sedangkan *Binary Tree* menyewa Pointernya ganda untuk Bercabang/Terbelah jadi dua (Satu menunjuk ke `*Node` Kiri, satu lagi `*Node` Kanan).
-
-```go
-package main
-
-import "fmt"
-
-// 1. ADT Node Pohon Ganda
-type TreeNode struct {
-	Nilai  int
-	Kiri   *TreeNode // Pointer menuju Anak cabang Kiri
-	Kanan  *TreeNode // Pointer menuju Anak cabang Kanan
-}
-
-// Opsional: Untuk Manajemen Akar (Root) seperti LinkedList.Head
-type BinaryTree struct {
-	Root   *TreeNode
-}
-
-// 2. Fungsi inisialisasi / Buat Simpul Baru
-func PembangunanNodeBaru(data int) *TreeNode {
-	return &TreeNode{
-		Nilai:  data,
-		Kiri:   nil, // Secara standar dia adalah daun yang belum beranak
-		Kanan:  nil, 
-	}
-}
-```
-
-## 4. Membangun Silsilah secara Manual
-
-Kita hubungkan pointer Golang kita membentuk piramid (Pohon yang membesar di bawah):
-
-```go
-func main() {
-	// A. Akarnya
-	akarUtama := PembangunanNodeBaru(10)
-	
-	// B. Anaknya: Angka 5 diletakkan di Sayap Kiri, Angka 15 di Sayap Kanan
-	akarUtama.Kiri = PembangunanNodeBaru(5)
-	akarUtama.Kanan = PembangunanNodeBaru(15)
-
-	// C. Anak-cucu: Angka 5 beranak Kiri (Angka 2), Angka 15 beranak Kanan (Angka 20)
-	akarUtama.Kiri.Kiri = PembangunanNodeBaru(2)
-	akarUtama.Kanan.Kanan = PembangunanNodeBaru(20)
-
-	// D. Menjelajah Nilainya:
-	fmt.Printf("Saya berdiri di akar: %d\n", akarUtama.Nilai)
-	fmt.Printf("Saya berdiri di cucu sayap kiri terdalam: %d\n", akarUtama.Kiri.Kiri.Nilai)
-	fmt.Printf("Saya berdiri di cabang kanan: %d\n", akarUtama.Kanan.Nilai)
-	
-    // Apabila saya paksakan Panggil Cucu dari Cabang Kanan yang kosong (akarUtama.Kanan.Kiri):
-    // Akan terjadi 'Nil Pointer Dereference' Alias Error System Panic! Karena dia Daun berjarum hampa (NIL)
-    // fmt.Printf("Error: %d\n", akarUtama.Kanan.Kiri.Nilai) <--- Segfault
-}
-```
-*Sistem memori sekarang sudah berbentuk hurf "A" atau Piramida V terbalik, tidak tegak lurus sebaris panjang seperti List.*
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 5)
+- **CPMK Terkait:** CPMK0101 (Struktur Data Non-Linear), CPMK0106 (Analisis Kompleksitas)
+- **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL04 (Solusi Rekayasa Komputasi)
+- **Indikator:** Mahasiswa mampu menguraikan terminologi pohon hierarkis (*Root, Parent, Child, Leaf, Height, Depth*), mengklasifikasikan jenis-jenis Binary Tree (Full, Complete, Perfect, Balanced), serta merancang representasi struct `TreeNode` generik di Golang.
+:::
 
 ---
-### **Praktikum Pendalaman Logika**
-Secara teori, bayangkan Tree ini memiliki Level dan Kedalaman (Height). 
-1. Susunlah Tree di atas sehingga Anda tak perlu lagi capek memanggil `node.kiri.kiri.kanan.kiri`, melainkan terotomatisasi secara Rekursif!
-2. Jika semua angka kecil dialokasikan ke Kiri, dan Angka Lebih Besar di sebelah Kanan, **Apakah Anda menyadari ini akan mempermudah program dalam MENCARI sebuah nilai dengan sangat cepat?**
 
-*(Inilah yang akan kita kupas di Pertemuan 10: Binary Search Tree).*
+## 1. Hakikat Struktur Data Pohon (Tree)
+
+**Pohon (Tree)** adalah struktur data non-linear berhirarki yang terdiri atas simpul-simpul (**Nodes**) yang saling terhubung melalui cabang (**Edges**), tanpa membentuk siklus (*acyclic*).
+
+```mermaid
+graph TD
+    Root["[ ROOT ] Simpul Utama: 50"] --> L1["Anak Kiri: 30"]
+    Root --> R1["Anak Kanan: 70"]
+    L1 --> L2["Daun (Leaf): 20"]
+    L1 --> R2["Daun (Leaf): 40"]
+    R1 --> L3["Daun (Leaf): 60"]
+    R1 --> R3["Daun (Leaf): 80"]
+    style Root fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+    style L1 fill:#e0f2fe,stroke:#0284c7;
+    style R1 fill:#e0f2fe,stroke:#0284c7;
+    style L2 fill:#dcfce7,stroke:#16a34a;
+    style R2 fill:#dcfce7,stroke:#16a34a;
+    style L3 fill:#dcfce7,stroke:#16a34a;
+    style R3 fill:#dcfce7,stroke:#16a34a;
+```
+
+### Terminologi Standar Pohon:
+- **Root (Akar):** Simpul paling atas yang tidak memiliki orang tua (*parent*).
+- **Parent / Child:** Hubungan simpul atas terhadap simpul di bawahnya.
+- **Leaf (Daun / Simpul Eksternal):** Simpul yang tidak memiliki anak sama sekali (`Left == nil && Right == nil`).
+- **Depth (Kedalaman):** Jumlah sisi dari Root menuju simpul tertentu.
+- **Height (Tinggi):** Jumlah sisi maksimum dari simpul tertentu menuju daun terjauh.
+
+---
+
+## 2. Klasifikasi Pohon Biner (Binary Tree)
+
+**Pohon Biner (*Binary Tree*)** adalah pohon di mana setiap simpul memiliki **maksimal 2 anak** (*Left Child* dan *Right Child*).
+
+| Jenis Binary Tree | Karakteristik Formal |
+| :--- | :--- |
+| **Full Binary Tree** | Setiap simpul memiliki tepat **0 atau 2 anak** (tidak ada simpul beranak 1). |
+| **Complete Binary Tree** | Semua level terisi penuh kecuali level terakhir, dan daun pada level terakhir merapat ke kiri. |
+| **Perfect Binary Tree** | Semua simpul internal memiliki 2 anak dan semua daun berada pada level kedalaman yang sama ($N = 2^{h+1} - 1$). |
+| **Balanced Binary Tree** | Selisih tinggi subtree kiri dan kanan pada setiap simpul tidak lebih dari 1 (misal: AVL Tree). |
+| **Degenerate / Skewed Tree** | Setiap simpul hanya memiliki 1 anak (menyerupai Linked List dengan performa memburuk ke $O(n)$). |
+
+---
+
+## 3. Implementasi Generic TreeNode di Golang
+
+::: code-group
+```go [binary_tree.go]
+package main
+
+import (
+    "fmt"
+)
+
+// Generic TreeNode
+type TreeNode[T any] struct {
+    Val   T
+    Left  *TreeNode[T]
+    Right *TreeNode[T]
+}
+
+func NewTreeNode[T any](val T) *TreeNode[T] {
+    return &TreeNode[T]{Val: val}
+}
+
+// Menghitung Tinggi Pohon (Height) secara Rekursif
+func MaxDepth[T any](root *TreeNode[T]) int {
+    if root == nil {
+        return 0
+    }
+    leftDepth := MaxDepth(root.Left)
+    rightDepth := MaxDepth(root.Right)
+
+    if leftDepth > rightDepth {
+        return leftDepth + 1
+    }
+    return rightDepth + 1
+}
+
+// Menghitung Total Jumlah Simpul
+func CountNodes[T any](root *TreeNode[T]) int {
+    if root == nil {
+        return 0
+    }
+    return 1 + CountNodes(root.Left) + CountNodes(root.Right)
+}
+
+func main() {
+    // Membangun Pohon Biner Manual
+    root := NewTreeNode("A (CEO)")
+    root.Left = NewTreeNode("B (VP Tech)")
+    root.Right = NewTreeNode("C (VP Finance)")
+    root.Left.Left = NewTreeNode("D (Lead Dev)")
+    root.Left.Right = NewTreeNode("E (QA Manager)")
+
+    fmt.Println("Total Simpul dalam Pohon:", CountNodes(root)) // 5
+    fmt.Println("Tinggi Pohon (Max Depth) :", MaxDepth(root))   // 3
+}
+```
+:::
+
+---
+
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 5)
+
+1. Buktikan secara matematis bahwa pada sebuah *Perfect Binary Tree* dengan tinggi $h$, jumlah total daun adalah $2^h$!
+2. Buatlah fungsi Golang `IsLeaf(node *TreeNode[T]) bool` untuk memeriksa apakah sebuah simpul adalah simpul daun!

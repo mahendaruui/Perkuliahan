@@ -1,128 +1,179 @@
-# Minggu 2 — Array, Slice, Struct & Pointer
+# Minggu 2: Memory Layout, Pointer, Struct & Slice Internals di Golang
 
-Di pertemuan kedua ini, Anda akan mempelajari fondasi Golang yang esensial dalam membuat tipe data bentukan sendiri (ADT). Kemampuan Anda membuat "wadah" untuk tipe data ini adalah bekal mutlak sebelum merakit struktur logik seperti Stack maupun Linked List.
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 2)
+- **CPMK Terkait:** CPMK0101 (Konsep Dasar Struktur Data)
+- **CPL Terkait:** CPL01 (Pengetahuan Teori), CPL04 (Solusi Rekayasa Komputasi)
+- **Indikator:** Mahasiswa mampu menguasai semantik pointer (`*` dan `&`), memahami tata letak memori struct (*memory alignment & padding*), membedakan *value receiver* vs *pointer receiver*, menguraikan struktur internal *Slice Header*, serta menerapkan fitur *Generics* Go 1.18+.
+:::
 
-## 1. Array vs Slice
-Bahasa Go sangat tegas dalam mengatur kapasitas memori sejak awal.
+---
 
-### **Array**
-- Bersifat **statis** (ukurannya harus ditentukan saat deklarasi dan tidak bisa diubah).
-- Dikompilasi dan ditetapkan secara pasti ke dalam *Memory Stack*.
+## 1. Semantik Pointer di Golang: `*` dan `&`
 
-```go
-func main() {
-    var numbers [5]int // Hanya bisa menampung 5 elemen (indeks 0 - 4)
-    numbers[0] = 10    // Assign nilai
-    fmt.Println(numbers) // [10 0 0 0 0] default value tipe int adalah 0
-}
+Berbeda dengan bahasa C/C++ yang mengizinkan *pointer arithmetic* bebas (yang rawan menyebabkan *memory corruption*), Golang menyediakan **Safe Pointer**. Pointer di Go murni menyimpan **alamat memori (*memory address*)** dari suatu variabel.
+
+```mermaid
+graph LR
+    subgraph RAM Komputer
+        AddrA["Alamat: 0xc000014080<br>Variabel: skor = 95 (int)"]
+        AddrP["Alamat: 0xc000014090<br>Variabel: ptr = 0xc000014080 (*int)"]
+    end
+    AddrP -- Mereferensikan Alamat --> AddrA
+    style AddrA fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    style AddrP fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
 ```
 
-### **Slice**
-- Bersifat **dinamis** seolah Array tak berujung layaknya list biasa di bahasa tingkat tinggi (PHP/JS).
-- Memanfaatkan fungsi bawaan `append` yang bekerja secara otomatis. 
-- Struktur internal slice secara abstrak memiliki tiga aspek: `Pointer ke underlying array`, `length` (jumlah saat ini), dan `capacity` (maksimal). Jika batas array tersentuh, Go otomatis menggandakan batasnya.
+### Dua Operator Utama Pointer:
+1. **Operator `&` (*Address-of*):** Mengambil alamat heksadesimal tempat variabel disimpan di RAM.
+2. **Operator `*` (*Dereference / Value-at-Address*):** Mengakses atau mengubah nilai aktual yang tersimpan di alamat yang ditunjuk oleh pointer.
 
-```go
+::: code-group
+```go [pointer_demo.go]
+package main
+
+import "fmt"
+
 func main() {
-    // Membuat sebuah slice menggunakan make
-    var antrian = make([]string, 0, 5) // panjang = 0, tetapi memori yang direservasi = 5
-    
-    antrian = append(antrian, "Andi")
-    antrian = append(antrian, "Budi")
-    fmt.Printf("Len: %d, Cap: %d, Value: %v\n", len(antrian), cap(antrian), antrian)
+    var skor int = 95
+    var ptr *int = &skor // ptr menyimpan alamat dari variabel skor
+
+    fmt.Printf("Nilai skor         : %d\n", skor)
+    fmt.Printf("Alamat memori skor : %p\n", &skor)
+    fmt.Printf("Isi variabel ptr   : %p\n", ptr)
+    fmt.Printf("Nilai via deref *ptr: %d\n", *ptr)
+
+    // Mengubah nilai langsung melalui dereferensi pointer
+    *ptr = 100
+    fmt.Printf("Nilai skor baru    : %d (Berubah melalui pointer!)\n", skor)
 }
 ```
+:::
 
-## 2. Pointers (Referensi Memori)
-Golang secara fundamental bersifat **Pass-By-Value** dalam fungsi. 
-Artinya, ketika Anda mengirimkan lemparan variabel ke sebuah fungsi (misal data berkapasitas 2 Megabyte), maka Go *menduplikasi/meng-copy* data tersebut. 
+---
 
-Apa yang terjadi kalau Anda ingin mengubah langsung nilai aslinya, atau mengurangi komputasi memori? Muncullah **Pointer**.
-- Pointer merupakan operator untuk mendapatkan *alamat ruang memori hexadesimal* dari variabel.
-- Gunakan ampersand `&` untuk menjadikan nilainya menjadi memori *Address*.
-- Gunakan asterisk `*` untuk mengurai kembali memori ke *Value*.
+## 2. Struct Memory Layout, Padding & Alignment
 
-**Contoh Kasus Pass by Reference:**
+Kompilator mengalokasikan memori struct mengikuti aturan **Memory Alignment (Word Boundary)** CPU arsitektur 64-bit (8 bytes). Urutan penulisan field dalam `struct` memengaruhi total ukuran byte:
+
+```mermaid
+graph LR
+    subgraph Struct Tidak Efisien: 24 Bytes
+        U1["bool a (1B)"] --> U2["Padding (7B)"] --> U3["int64 b (8B)"] --> U4["bool c (1B)"] --> U5["Padding (7B)"]
+    end
+    subgraph Struct Optimal: 16 Bytes
+        O1["int64 b (8B)"] --> O2["bool a (1B)"] --> O3["bool c (1B)"] --> O4["Padding (6B)"]
+    end
+    style U1 fill:#fee2e2,stroke:#dc2626
+    style O1 fill:#dcfce7,stroke:#16a34a
+```
+
+::: code-group
+```go [struct_alignment.go]
+package main
+
+import (
+    "fmt"
+    "unsafe"
+)
+
+type InefficientStruct struct {
+    Flag1 bool   // 1 byte  (+ 7 bytes padding)
+    Data  int64  // 8 bytes
+    Flag2 bool   // 1 byte  (+ 7 bytes padding)
+} // Total = 24 bytes!
+
+type OptimizedStruct struct {
+    Data  int64  // 8 bytes
+    Flag1 bool   // 1 byte
+    Flag2 bool   // 1 byte  (+ 6 bytes padding)
+} // Total = 16 bytes! (Hemat 33% memori RAM)
+
+func main() {
+    fmt.Printf("Ukuran InefficientStruct : %d bytes\n", unsafe.Sizeof(InefficientStruct{}))
+    fmt.Printf("Ukuran OptimizedStruct   : %d bytes\n", unsafe.Sizeof(OptimizedStruct{}))
+}
+```
+:::
+
+---
+
+## 3. Value Receiver vs Pointer Receiver
+
+Dalam implementasi Method pada `struct` di Golang:
+
+| Karakteristik | Value Receiver `func (u User)` | Pointer Receiver `func (u *User)` |
+| :--- | :--- | :--- |
+| **Salinan Memori** | Menggandakan seluruh isi struct (*shallow copy*). | Hanya mengirim pointer alamat memori (8 bytes). |
+| **Mutasi Data** | Perubahan nilai **tidak memengaruhi** objek asli pemanggil. | Perubahan nilai **langsung mengubah** objek asli. |
+| **Kinerja Memori** | Lebih lambat jika ukuran struct besar. | **Sangat Cepat & Efisien**. |
+| **Rekomendasi Struktur Data**| Gunakan hanya untuk objek *read-only* kecil. | **Wajib digunakan untuk seluruh Struktur Data** (Stack, Queue, List, Tree). |
+
+---
+
+## 4. Anatomi Internal Slice Header di Golang
+
+Di Golang, `slice` bukan array primitif, melainkan sebuah **Slice Header Struct** berukuran 24 bytes (pada arsitektur 64-bit) yang membungkus *underlying array*:
+
+```mermaid
+graph TD
+    subgraph Slice Header (24 Bytes di Stack)
+        Ptr["Data Pointer (*T): 8 Bytes"]
+        Len["Length (len): 8 Bytes = 3"]
+        Cap["Capacity (cap): 8 Bytes = 5"]
+    end
+    subgraph Underlying Array di Heap RAM
+        A0["[0] 10"]
+        A1["[1] 20"]
+        A2["[2] 30"]
+        A3["[3] Kosong (Kapasitas Tersedia)"]
+        A4["[4] Kosong (Kapasitas Tersedia)"]
+    end
+    Ptr --> A0
+    style Slice Header fill:#e0f2fe,stroke:#0284c7;
+    style Underlying Array fill:#dcfce7,stroke:#16a34a;
+```
+
+### Algoritma Pertumbuhan Kapasitas Slice (*Slice Growth Algorithm*)
+Ketika `append()` dipanggil dan melebihi `cap`:
+- Jika `cap < 256`: Kapasitas baru berlipat ganda ($2 \times \text{cap}$).
+- Jika `cap \ge 256`: Kapasitas bertumbuh secara bertahap dengan rumus $\text{cap}_{\text{baru}} = \text{cap} + (\text{cap} + 3 \times 256) / 4$.
+
+---
+
+## 5. Implementasi Generics (`[T any]`) Modern di Go
+
+Sejak Go 1.18+, kita dapat membangun struktur data yang memiliki ketahanan tipe (*type-safe*) tanpa menggunakan `interface{}`:
+
 ```go
 package main
 
 import "fmt"
 
-func updateNilaiStatis(val int) {
-    val = 100 // Ini tidak akan berguna untuk program utama
+// Generic Box dapat menampung tipe data apa pun
+type Box[T any] struct {
+    Content T
 }
 
-func updateDenganAksebilitasPointer(val *int) {
-    *val = 100 // Akses ke rumah aslinya dan ganti isinya dengan 100
+func (b *Box[T]) SetContent(val T) {
+    b.Content = val
 }
 
-func main() {
-    var angka int = 10
-    
-    updateNilaiStatis(angka)
-    fmt.Println("Gagal diganti:", angka) // Akan tetap mencetak 10
-
-    // Kini lempar alamat memorinya saja
-    updateDenganAksebilitasPointer(&angka)
-    fmt.Println("Sukses diganti:", angka) // Akan mencirikan 100
-}
-```
-
-## 3. Abstract Data Type dengan `Struct`
-Karena program kita tidak hanya mengorganisir sederet angka saja, tetapi data riil seperti *User*, *Siswa*, *Kendaraan*, *Edge*, *Node*. Go menggunakan `struct` untuk membuat object-oriented design yang fleksibel karena *class* tidak ada pada bahasa Go.
-
-### **Pembuatan User Data Type**
-Grup data dari beberapa var.
-```go
-// Definisi Struct User
-type Mahasiswa struct {
-    NIM  string
-    Nama string
-    IPK  float64
+func (b Box[T]) GetContent() T {
+    return b.Content
 }
 
 func main() {
-    // Instalasi Konstruktor
-    mhs1 := Mahasiswa{
-        NIM:  "12345",
-        Nama: "Siti Rahma",
-        IPK:  3.89,
-    }
-    fmt.Println("Data Nama Mhs:", mhs1.Nama)
+    intBox := Box[int]{Content: 100}
+    strBox := Box[string]{Content: "Struktur Data UUI"}
+
+    fmt.Println("Isi intBox:", intBox.GetContent())
+    fmt.Println("Isi strBox:", strBox.GetContent())
 }
 ```
-
-## 4. Method (Fungsi Receiver)
-Go menyediakan Receiver untuk menempelkan perilaku *(behavior)* ke *Struct*. Inilah yang dinamakan Getter dan Setter. Perhatikan bahwa Anda HARUS menempelkan tipe Pointer pada Struct jika ingin mengubah isinya *(Setter)*.
-
-```go
-// ... dari struct Mahasiswa yang dibuat di atas
-
-// Getter: Ambil data (Terdapat receiver (m Mahasiswa))
-func (m Mahasiswa) GetGelar() string {
-    return m.Nama + ", S.Kom."
-}
-
-// Setter: Update data (Terdapat receiver (m *Mahasiswa) <--- Tambah Bintang/*)
-func (m *Mahasiswa) UpdateIPK(ipkBaru float64) {
-    m.IPK = ipkBaru // Mutator
-}
-
-func main() {
-    m1 := Mahasiswa{Nama: "Budi", IPK: 3.0}
-    
-    // Pemanggilan Method seperti Class pada OOP Standard
-    m1.UpdateIPK(3.99)
-    fmt.Println(m1.GetGelar())
-    fmt.Println("IPK Update:", m1.IPK)
-}
-```
-
-Inilah bekal dasar yang akan banyak dipakai untuk membuat Stack, Linked List dan Tree ke depannya.
 
 ---
-### **Praktikum Kelas**
-Gunakan waktu di sesi Laboratorium komputer untuk:
-1. Membuat `struct` bertipe **Buku** dengan atribut Title, Stock, Author.
-2. Definisikan receiver setter bernama `function Meminjam()` yang akan mengurangi *Stock* sebanyak `1`.
-3. Demonstrasikan *Print Line* sebelum dan sesudah metode `Meminjam()` dijalankan. Cek dengan teliti apabila stok gagal berkurang (masalah Pointer vs Nilai).
+
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 2)
+
+1. Tuliskan kode program Go untuk mendemonstrasikan pertukaran nilai (*swap*) dua variabel menggunakan fungsi berparameter pointer!
+2. Rancanglah sebuah struct `Mahasiswa` dan atur urutan field-nya agar menghasilkan ukuran memori paling optimal!

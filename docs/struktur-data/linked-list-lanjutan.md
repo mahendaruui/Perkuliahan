@@ -1,129 +1,176 @@
-# Minggu 6 — Operasi Insert/Delete pada Linked List
+# Minggu 6: Linked List Lanjutan: Doubly, Circular & LRU Cache
 
-Melanjutkan materi sebelumnya di Singular Linked List, kita sudah bisa meng-*insert* atau menyisipkan elemen pada *"Head"* list kita (Paling Depan).
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 4)
+- **CPMK Terkait:** CPMK0101 (Struktur Data Linear), CPMK0106 (Analisis Kompleksitas)
+- **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving), CPL04 (Solusi Rekayasa)
+- **Indikator:** Mahasiswa mampu mengimplementasikan Doubly Linked List (*Prev & Next pointer*), Circular Linked List, algoritma deteksi siklus (*Floyd's Cycle Finding*), serta merekayasa sistem *Least Recently Used (LRU) Cache* tingkat industri.
+:::
 
-Tapi bagaimana jika data yang kita sisipkan perlu diletakkan di tengah-tengah rentetan alamat pointer? Bagaimana cara mencabut *(Delete)* sebuah simpul (Node) tanpa memutuskan dan menghancurkan seluruh memori yang ada setelahnya?
+---
 
-## 1. Menyisipkan Data ke Ujung Belakang (Append/Tail)
+## 1. Arsitektur Doubly Linked List (Navigasi Dua Arah)
 
-Penyisipan *(Insertion)* di akhir Node bisa dibilang mudah tetapi menuntut kita menelusuri Linked List dari akar Kepala *(Head)* satu per satu sampai ketemu Pucuknya bernilai `nil`.
+Pada **Doubly Linked List**, setiap Node memiliki dua pointer:
+1. **`Next`:** Merujuk ke Node berikutnya.
+2. **`Prev`:** Merujuk ke Node sebelumnya.
 
-Perhatikan Implementasi dari Method Receiver `InsertAtEnd`:
+Keunggulan mutlak Doubly Linked List adalah kita dapat melakukan operasi navigasi maju dan mundur, serta menghapus sembarang node yang referensinya diketahui dalam waktu **$O(1)$ murni** tanpa perlu mencari node pendahulunya (*predecessor*).
+
+```mermaid
+graph LR
+    Head["HEAD"] --> N1
+    N3 --> Tail["TAIL"]
+    subgraph Doubly Linked List
+        N1["Node A<br>Prev: nil | Next: &B"] <--> N2["Node B<br>Prev: &A | Next: &C"]
+        N2 <--> N3["Node C<br>Prev: &B | Next: nil"]
+    end
+    style Head fill:#fef3c7,stroke:#d97706;
+    style Tail fill:#fef3c7,stroke:#d97706;
+    style N1 fill:#e0f2fe,stroke:#0284c7;
+    style N2 fill:#e0f2fe,stroke:#0284c7;
+    style N3 fill:#dcfce7,stroke:#16a34a;
+```
+
+---
+
+## 2. Circular Linked List & Deteksi Siklus (*Floyd's Algorithm*)
+
+Pada **Circular Linked List**, pointer `Next` pada Node terakhir (**Tail**) tidak bernilai `nil`, melainkan menyambung kembali ke Node pertama (**Head**).
+
+```mermaid
+graph LR
+    N1["Node A (HEAD)"] --> N2["Node B"]
+    N2 --> N3["Node C (TAIL)"]
+    N3 -- "Next Menyambung ke Head" --> N1
+    style N1 fill:#dcfce7,stroke:#16a34a;
+    style N2 fill:#e0f2fe,stroke:#0284c7;
+    style N3 fill:#fef3c7,stroke:#d97706;
+```
+
+### Algoritma Kura-kura & Kelinci (Floyd's Tortoise and Hare)
+Untuk mendeteksi apakah suatu linked list mengalami siklus/looping tanpa batas:
+- Pointer **Slow (Kura-kura)** bergerak 1 langkah.
+- Pointer **Fast (Kelinci)** bergerak 2 langkah.
+- Jika ada siklus, `Fast` dan `Slow` **pasti akan bertemu** pada satu titik dalam waktu $O(n)$.
 
 ```go
+func HasCycle[T comparable](head *Node[T]) bool {
+    slow, fast := head, head
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        if slow == fast {
+            return true // Siklus terdeteksi!
+        }
+    }
+    return false
+}
+```
+
+---
+
+## 3. Studi Kasus Industri: Implementasi LRU (Least Recently Used) Cache
+
+**LRU Cache** adalah komponen arsitektur vital pada sistem basis data (seperti Redis dan buffer pool MySQL) untuk menyimpan data paling sering diakses di RAM:
+- Menggunakan **Hash Map** (`map[K]*Node`) untuk pencarian instan $O(1)$.
+- Menggunakan **Doubly Linked List** untuk memelihara urutan frekuensi akses: node yang baru diakses dipindahkan ke paling depan (Head), sedangkan node yang paling jarang diakses di ujung ekor (Tail) akan dibuang (*evicted*) saat kapasitas penuh.
+
+```mermaid
+graph LR
+    subgraph Hash Map (O(1) Lookup)
+        M1["Key 'user:1' -> *Node A"]
+        M2["Key 'user:2' -> *Node B"]
+    end
+    subgraph Doubly Linked List (Urutan Akses)
+        Head["[ HEAD: Most Recent ]"] <--> NA["Node A ('user:1')"] <--> NB["Node B ('user:2')"] <--> Tail["[ TAIL: Least Recent ]"]
+    end
+    M1 -.-> NA
+    M2 -.-> NB
+    style Head fill:#dcfce7,stroke:#16a34a
+    style Tail fill:#fee2e2,stroke:#dc2626
+```
+
+::: code-group
+```go [lru_cache.go]
 package main
 
 import "fmt"
 
-func (ll *LinkedList) InsertAtEnd(newData int) {
-	newNode := &Node{
-        Data: newData,
-        Next: nil,
+type DNode struct {
+    key, val   int
+    prev, next *DNode
+}
+
+type LRUCache struct {
+    capacity   int
+    cache      map[int]*DNode
+    head, tail *DNode // Dummy Sentinel Nodes
+}
+
+func Constructor(capacity int) LRUCache {
+    l := LRUCache{
+        capacity: capacity,
+        cache:    make(map[int]*DNode),
+        head:     &DNode{},
+        tail:     &DNode{},
     }
+    l.head.next = l.tail
+    l.tail.prev = l.head
+    return l
+}
 
-	// Kasus ekstrim: Jika List awal kita kosongan
-	if ll.Head == nil {
-		ll.Head = newNode
-		return
-	}
+func (this *LRUCache) remove(node *DNode) {
+    node.prev.next = node.next
+    node.next.prev = node.prev
+}
 
-	// 1. Bergerak dari ujung Kepala (Iterasi menelusuri) mencari ekor (Tail)
-	currentNode := ll.Head
-	for currentNode.Next != nil {
-		// Looping tak ada henti selama masih ada surat yang menunjuk alamat selanjutnya
-		currentNode = currentNode.Next 
-	}
+func (this *LRUCache) insertHead(node *DNode) {
+    node.next = this.head.next
+    node.prev = this.head
+    this.head.next.prev = node
+    this.head.next = node
+}
 
-	// 2. Sekarang kita sudah di pucuk (Tail). Tembakkan alamat Pucuk (Next yang tadinya nil) ke Surat yang baru.
-	currentNode.Next = newNode
+func (this *LRUCache) Get(key int) int {
+    if node, ok := this.cache[key]; ok {
+        this.remove(node)
+        this.insertHead(node) // Promosikan ke paling depan
+        return node.val
+    }
+    return -1
+}
+
+func (this *LRUCache) Put(key int, value int) {
+    if node, ok := this.cache[key]; ok {
+        this.remove(node)
+        delete(this.cache, key)
+    }
+    if len(this.cache) == this.capacity {
+        lru := this.tail.prev
+        this.remove(lru)
+        delete(this.cache, lru.key) // Evict node paling usang
+    }
+    newNode := &DNode{key: key, val: value}
+    this.insertHead(newNode)
+    this.cache[key] = newNode
+}
+
+func main() {
+    lru := Constructor(2)
+    lru.Put(1, 100)
+    lru.Put(2, 200)
+    fmt.Println("Get(1):", lru.Get(1)) // 100 (Node 1 menjadi Most Recent)
+
+    lru.Put(3, 300)                    // Kapasitas penuh! Node 2 di-evict
+    fmt.Println("Get(2):", lru.Get(2)) // -1 (Tidak ditemukan / Evicted)
+    fmt.Println("Get(3):", lru.Get(3)) // 300
 }
 ```
+:::
 
-Kompleksitas Asimtotik dari Pencarian Node terakhir adalah **O(N)**. Walaupun menyisipkannya tetap **O(1)**. Hal ini bisa diperbaiki jika Anda menambahkan property baru ke Object `LinkedList` yakni mendata pointer *Tail*-nya (contoh: `type LinkedList struct { Head *Node; Tail *Node }`. Anda bisa memikirkan trik hemat memori ini!
-
-## 2. Kesaktian Linked List: Insert Di Tengah Seketika
-
-Inilah kelebihan Linked List dari *Array* standard. 
-Jika kita ingin *Insert* (Tambah node) misal sesudah data Kertas bernilai [20]. Kita cukup mengambil Pointer Kertas [20] tersebut dan mengarahkan Pointernya ke **Surat Baru**.
-
-Satu hal yang terancam **PENTING**: Alamat Kertas berikutnya *(Next lama)* dari Kertas [20] harus Anda rekat dulu pada **Surat Baru**. Jika keliru, memori di depannya akan bocor / terputus!
-
-Langkah:
-- Ciptakan Objek Node Baru `NewNode`
-- *NewNode.Next* mengarah ke simpul berikutnya setelah Simpul Acuan (Posisi insert). `NewNode.Next = Target.Next`
-- Barulah Simpul Acuan memutus alamatnya, ia sekarang mengarah ke Objek Baru tadi. `Target.Next = NewNode`
-
-```go
-func (ll *LinkedList) InsertAfter(targetNode *Node, newData int) {
-	// Cegat jika targetNode-nya kosong
-	if targetNode == nil {
-		fmt.Println("Error: Target memori tak ada!")
-		return
-	}
-
-	// Kertas Simpul Baru
-	newNode := &Node{
-		Data: newData,
-		Next: targetNode.Next, // PENTING: selamatkan referensi anak-anak di depan
-	}
-
-	// Berbelok: Target merujuk jalannya ke arah Simpul Baru.
-	targetNode.Next = newNode
-}
-```
-
-## 3. Mencabut Node Penuh Resiko (Deletion)
-
-Proses Delete di Single Linked List merupakan operasi yang memotong jalur pointer simpul agar tidak lagi terekam dalam sirkuit `Head` ke `Tail`, sehingga **Go Garbage Collector** kelak akan menyapu memori yang tidak memiliki pointer penunjuk kepadanya (membebaskan RAM OS Anda otomatis!).
-
-Sama mekanismenya jika Anda mendatangi jalinan kertas:
-`[11] -> [22] -> [33] -> nil`
-
-Jika Anda ingin membuang angka `22`, Anda harus berdiri di simpul `11`, merubah penunjuk '*Next*' dari si `11` melompati `22` dan menunjuk langsung ke `33`.
-Sehingga struktur logik akan menjadi: 
-`[11] -> [33] -> nil`.  `(Angka 22 lenyap dan akan disapu Go)`
-
-```go
-func (ll *LinkedList) DeleteByNilai(dataYangDibuang int) {
-	if ll.Head == nil {
-		return
-	}
-
-	// Kasus ekstrim: Kalau yang dicabut itu Kepalanya sendiri
-	if ll.Head.Data == dataYangDibuang {
-		ll.Head = ll.Head.Next // Kepala baru dimundurkan ke orang kedua
-		return
-	}
-
-	// Iterasi untuk mencari siapa Kertas 'Sebelum' orang yang dicabut!
-	currentNode := ll.Head
-	for currentNode.Next != nil && currentNode.Next.Data != dataYangDibuang {
-		// Melangkah Maju
-		currentNode = currentNode.Next
-	}
-
-	// Setelah Loop Tembus: Apakah orang tersebut ketebak / ketemu?
-	if currentNode.Next == nil {
-		fmt.Println("Angka gaet-cabut tidak ditemukan dalam Linked List.")
-		return
-	}
-
-	// Ditemukan! currentNode sekarang di KERTAS SEBELUM angka incaran.
-	// Hancurkan Jembatannya, lompat dua kali!
-	currentNode.Next = currentNode.Next.Next
-}
-```
-
-## 4. Circular Linked List
-
-Jika Single Linked List mempatok `Pucuk Node` bernilai `nil`. Maka pada List ini, Pucuk Node menembakkan alamat pointernya ke **Head Node**! Ia berputar secara terus menerus bagaikan cincin, tanpa ujung (Circular).
-Sering dipakai untuk *Round-Robin CPU Scheduler* agar men-distribusi CPU secara gantian dari atas s/d bawah tak henti-henti.
-  
 ---
 
-### **Praktikum / Mini PBL (Problem-Based Learning)**
-Pada Go, struktur List ini tidak secara bawaan (*Built-in*) sekomplit ini, melainkan harus anda susun sendiri. Cobalah ketik kode `LinkedList` lengkap pada IDE Anda:
-1. Panggil *InsertAtFront(40)* dan *InsertAtFront(99)*
-2. Panggil *InsertAtEnd(15)*
-3. Lalu implementasikan fungsi *PrintList()* di akhir untuk memastikan outputnya di layarsudah serasi!
-4. Mainkan fungsi *DeleteByValue(40)*, Print kembali daftar Linked List Anda, dan saksikan perbedaannya.
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 4)
+
+1. Rancanglah sistem simulasi pemutar lagu (*Music Playlist*) dengan tombol **Next**, **Prev**, dan opsi **Repeat All (Circular Doubly Linked List)**!
+2. Jelaskan mengapa *Dummy Sentinel Nodes* (Head & Tail buatan) sangat dianjurkan saat mengimplementasikan Doubly Linked List!
