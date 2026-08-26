@@ -1,385 +1,131 @@
-# Minggu 2: Variabel dan Tipe Data
+# Minggu 2: Variabel, Tipe Data & Alokasi Memori
 
-## Apa itu Variabel?
+::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 2)
+- **CPMK Terkait:** CPMK0101 (Konsep Dasar Pemrograman)
+- **CPL Terkait:** CPL01 (Pengetahuan Teori Dasar Informatika), CPL04 (Implementasi Solusi Komputasi)
+- **Indikator:** Mahasiswa mampu mengidentifikasi dan memilih tipe data primitif secara tepat, memahami alokasi byte pada RAM, mendeklarasikan variabel dan konstanta, serta melakukan konversi tipe data (*type casting*) dengan aman.
+:::
 
-**Variabel** adalah wadah atau tempat untuk menyimpan data di dalam memori komputer yang nilainya dapat berubah selama program berjalan.
+---
 
-### Analogi Variabel
+## 1. Konsep Variabel & Alokasi Memori Komputer
 
-Bayangkan variabel seperti kotak penyimpanan:
+**Variabel** adalah lokasi bernama di dalam memori utama (*Random Access Memory / RAM*) yang digunakan untuk menyimpan nilai sementara selama eksekusi program. Setiap variabel memiliki 4 atribut utama:
 
-- **Nama variabel** = label pada kotak
-- **Nilai variabel** = isi kotak
-- **Tipe data** = jenis barang yang bisa disimpan
+1. **Nama / Identifier:** Identitas unik untuk mereferensikan lokasi memori.
+2. **Tipe Data:** Menentukan ukuran byte dan jenis nilai yang diizinkan.
+3. **Alamat Memori (*Memory Address*):** Lokasi heksadesimal fisik di RAM (misal: `0x7ffee4b6a8`).
+4. **Nilai (*Value*):** Data aktual yang tersimpan dalam format bit biner.
 
-## Aturan Penamaan Variabel
-
-### Yang Boleh ✅
-
-- Dimulai dengan huruf atau underscore (`_`)
-- Dapat berisi huruf, angka, dan underscore
-- Case-sensitive (huruf besar dan kecil berbeda)
-
-```python
-# Contoh nama variabel yang valid
-nama
-nama_mahasiswa
-NamaMahasiswa
-_nilai
-nilai1
+```mermaid
+graph LR
+    subgraph RAM Memory
+        A["0x7ffee4b6a8 : [ 23 ] (int, 4 Bytes) -> umur"]
+        B["0x7ffee4b6ac : [ 3.85 ] (float, 8 Bytes) -> ipk"]
+        C["0x7ffee4b6b4 : [ 'A' ] (char, 1 Byte) -> grade"]
+    end
+    style A fill:#e0f2fe,stroke:#0284c7
+    style B fill:#fef3c7,stroke:#d97706
+    style C fill:#dcfce7,stroke:#16a34a
 ```
 
-### Yang Tidak Boleh ❌
+---
 
-- Dimulai dengan angka
-- Menggunakan spasi
-- Menggunakan karakter khusus (kecuali underscore)
-- Menggunakan kata kunci bahasa pemrograman
+## 2. Klasifikasi Tipe Data Standar
 
-```python
-# Contoh nama variabel yang TIDAK valid
-1nilai        # Dimulai dengan angka
-nama mahasiswa # Ada spasi
-nilai-ujian   # Ada karakter khusus
-for           # Kata kunci bahasa
+```mermaid
+graph TD
+    Root[Sistem Tipe Data] --> Primitive[Tipe Data Primitif / Sederhana]
+    Root --> Composite[Tipe Data Komposit / Terstruktur]
+    Primitive --> Numeric[Numerik]
+    Primitive --> Char[Karakter / Boolean]
+    Numeric --> Int[Integer / Bilangan Bulat]
+    Numeric --> Float[Floating Point / Desimal]
+    Char --> C1[char]
+    Char --> B1[bool / boolean]
+    Composite --> Arr[Array / Larik]
+    Composite --> Str[String / Teks]
+    Composite --> Struct[Struct / Record / Class]
+    style Root fill:#f1f5f9,stroke:#475569
+    style Primitive fill:#e0f2fe,stroke:#0284c7
+    style Composite fill:#fef3c7,stroke:#d97706
 ```
 
-## Tipe Data Dasar
+| Tipe Data | Ukuran Memori | Rentang Nilai Standar | Contoh Nilai |
+| :--- | :---: | :--- | :--- |
+| **`bool` / `boolean`** | 1 Byte | `true` (1) atau `false` (0) | `true`, `false` |
+| **`char`** | 1 Byte | Karakter tunggal ASCII (0 s.d. 255) | `'A'`, `'7'`, `'#'` |
+| **`int` (Integer)** | 4 Bytes (32-bit) | $-2.147.483.648$ s.d. $+2.147.483.647$ | `100`, `-45`, `0` |
+| **`float` (Single Precision)** | 4 Bytes | Presisi $\approx 7$ digit desimal | `3.14159f`, `-0.005f` |
+| **`double` (Double Precision)**| 8 Bytes (64-bit) | Presisi $\approx 15-17$ digit desimal | `3.141592653589793` |
+| **`string`** | Dinamis | Kumpulan karakter teks | `"Universitas Ubudiyah"` |
 
-### 1. Integer (Bilangan Bulat)
+---
 
-Bilangan bulat tanpa desimal: ..., -2, -1, 0, 1, 2, ...
+## 3. Deklarasi, Inisialisasi & Konstanta
 
-```python
-# Python
-umur = 20
-jumlah_mahasiswa = 150
-suhu = -5
-```
-
-```cpp
-// C++
-int umur = 20;
-int jumlah_mahasiswa = 150;
-int suhu = -5;
-```
-
-### 2. Float/Double (Bilangan Desimal)
-
-Bilangan dengan titik desimal
-
-```python
-# Python
-tinggi = 175.5
-berat = 65.3
-pi = 3.14159
-```
-
-```cpp
-// C++
-float tinggi = 175.5;
-double berat = 65.3;
-double pi = 3.14159;
-```
-
-### 3. String (Teks)
-
-Kumpulan karakter atau teks
-
-```python
-# Python
-nama = "Budi Santoso"
-alamat = 'Jakarta'
-pesan = """Ini adalah
-teks multi-baris"""
-```
-
-```cpp
-// C++
-string nama = "Budi Santoso";
-string alamat = "Jakarta";
-```
-
-### 4. Boolean (Logika)
-
-Nilai logika: True (benar) atau False (salah)
-
-```python
-# Python
-sudah_menikah = False
-lulus = True
-aktif = True
-```
-
-```cpp
-// C++
-bool sudah_menikah = false;
-bool lulus = true;
-bool aktif = true;
-```
-
-### 5. Character (Karakter Tunggal)
-
-Satu karakter (biasanya dalam C/C++)
-
-```cpp
-// C++
-char grade = 'A';
-char jawaban = 'Y';
-char simbol = '#';
-```
-
-## Deklarasi dan Inisialisasi
-
-### Deklarasi
-
-Membuat variabel tanpa memberikan nilai awal
-
-```cpp
-// C++
-int umur;
-float nilai;
-string nama;
-```
-
-### Inisialisasi
-
-Memberikan nilai awal saat membuat variabel
-
-```cpp
-// C++
-int umur = 20;
-float nilai = 85.5;
-string nama = "Budi";
-```
-
-### Python (Dynamic Typing)
-
-Python tidak perlu deklarasi tipe data secara eksplisit
-
-```python
-# Otomatis menentukan tipe data
-umur = 20           # integer
-nilai = 85.5        # float
-nama = "Budi"       # string
-lulus = True        # boolean
-```
-
-## Konversi Tipe Data (Type Casting)
-
-### Python
-
-```python
-# String ke Integer
-angka_str = "123"
-angka_int = int(angka_str)
-
-# Integer ke Float
-nilai = 80
-nilai_float = float(nilai)  # 80.0
-
-# Float ke Integer (dibulatkan ke bawah)
-nilai_float = 85.7
-nilai_int = int(nilai_float)  # 85
-
-# Integer/Float ke String
-umur = 20
-umur_str = str(umur)  # "20"
-
-# String ke Boolean
-nilai_str = "True"
-nilai_bool = bool(nilai_str)
-```
-
-### C++
-
-```cpp
-// String ke Integer
-string angka_str = "123";
-int angka_int = stoi(angka_str);
-
-// Integer ke Float
-int nilai = 80;
-float nilai_float = (float)nilai;
-
-// Float ke Integer
-float nilai_float = 85.7;
-int nilai_int = (int)nilai_float;  // 85
-
-// Integer ke String
-int umur = 20;
-string umur_str = to_string(umur);
-
-// Char ke Integer (ASCII)
-char huruf = 'A';
-int kode_ascii = (int)huruf;  // 65
-```
-
-## Contoh Program Lengkap
-
-### Program Biodata (Python)
-
-```python
-# Program Biodata Mahasiswa
-
-# Input data
-print("=== BIODATA MAHASISWA ===")
-nama = input("Nama: ")
-nim = input("NIM: ")
-umur = int(input("Umur: "))
-tinggi = float(input("Tinggi badan (cm): "))
-sudah_menikah = False
-
-# Hitung tahun lahir (asumsi tahun sekarang 2024)
-tahun_sekarang = 2024
-tahun_lahir = tahun_sekarang - umur
-
-# Output
-print("\n=== DATA ANDA ===")
-print(f"Nama: {nama}")
-print(f"NIM: {nim}")
-print(f"Umur: {umur} tahun")
-print(f"Tahun Lahir: {tahun_lahir}")
-print(f"Tinggi: {tinggi} cm")
-print(f"Status: {'Menikah' if sudah_menikah else 'Belum Menikah'}")
-```
-
-### Program Menghitung Nilai Akhir (C++)
-
-```cpp
+::: code-group
+```cpp [C++]
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main() {
-    // Deklarasi variabel
-    string nama;
-    float nilai_tugas, nilai_uts, nilai_uas;
-    float nilai_akhir;
-    char grade;
+    // 1. Deklarasi dan Inisialisasi Variabel
+    string namaMahasiswa = "Ahmad Dani";
+    int umur = 20;
+    double ipk = 3.87;
+    bool isActive = true;
 
-    // Input data
-    cout << "=== HITUNG NILAI AKHIR ===" << endl;
-    cout << "Nama: ";
-    getline(cin, nama);
+    // 2. Konstanta (Nilai tidak dapat diubah setelah didefinisikan)
+    const double NILAI_PI = 3.1415926535;
+    const int SKS_MAX = 24;
 
-    cout << "Nilai Tugas (0-100): ";
-    cin >> nilai_tugas;
-
-    cout << "Nilai UTS (0-100): ";
-    cin >> nilai_uts;
-
-    cout << "Nilai UAS (0-100): ";
-    cin >> nilai_uas;
-
-    // Hitung nilai akhir
-    // Bobot: Tugas 30%, UTS 30%, UAS 40%
-    nilai_akhir = (nilai_tugas * 0.3) + (nilai_uts * 0.3) + (nilai_uas * 0.4);
-
-    // Tentukan grade
-    if (nilai_akhir >= 85) {
-        grade = 'A';
-    } else if (nilai_akhir >= 70) {
-        grade = 'B';
-    } else if (nilai_akhir >= 60) {
-        grade = 'C';
-    } else if (nilai_akhir >= 50) {
-        grade = 'D';
-    } else {
-        grade = 'E';
-    }
-
-    // Output
-    cout << "\n=== HASIL ===" << endl;
-    cout << "Nama: " << nama << endl;
-    cout << "Nilai Akhir: " << nilai_akhir << endl;
-    cout << "Grade: " << grade << endl;
+    cout << "Mahasiswa: " << namaMahasiswa << " (Umur: " << umur << ")" << endl;
+    cout << "IPK: " << ipk << " | Status Aktif: " << (isActive ? "Ya" : "Tidak") << endl;
 
     return 0;
 }
 ```
 
-## Scope Variabel
+```python [Python 3]
+# Python menggunakan Dynamic Typing (tipe data ditentukan otomatis saat runtime)
+nama_mahasiswa: str = "Ahmad Dani"
+umur: int = 20
+ipk: float = 3.87
+is_active: bool = True
 
-### Variabel Lokal
+# Konstanta secara konvensi ditulis dalam UPPERCASE
+NILAI_PI = 3.1415926535
+SKS_MAX = 24
 
-Variabel yang dideklarasikan di dalam fungsi dan hanya bisa diakses di dalam fungsi tersebut
-
-```python
-def hitung_luas():
-    panjang = 10  # Variabel lokal
-    lebar = 5     # Variabel lokal
-    luas = panjang * lebar
-    return luas
+print(f"Mahasiswa: {nama_mahasiswa} (Umur: {umur})")
+print(f"IPK: {ipk} | Status Aktif: {'Ya' if is_active else 'Tidak'}")
 ```
-
-### Variabel Global
-
-Variabel yang dideklarasikan di luar fungsi dan bisa diakses dari mana saja
-
-```python
-pi = 3.14159  # Variabel global
-
-def hitung_luas_lingkaran(r):
-    luas = pi * r * r  # Mengakses variabel global
-    return luas
-```
-
-## Tips Best Practice
-
-1. **Gunakan nama yang deskriptif**
-
-   ```python
-   # Buruk
-   x = 20
-
-   # Baik
-   umur_mahasiswa = 20
-   ```
-
-2. **Konsisten dengan konvensi penamaan**
-
-   - Python: `snake_case` (huruf kecil dengan underscore)
-   - C++/Java: `camelCase` atau `PascalCase`
-
-3. **Inisialisasi variabel sebelum digunakan**
-
-4. **Gunakan konstanta untuk nilai tetap**
-   ```python
-   PI = 3.14159
-   GRAVITASI = 9.8
-   ```
-
-## Latihan
-
-1. Buatlah program untuk menghitung luas dan keliling lingkaran!
-
-   - Input: jari-jari
-   - Output: luas dan keliling
-
-2. Buatlah program konversi suhu dari Celsius ke Fahrenheit!
-
-   - Rumus: F = (C × 9/5) + 32
-
-3. Buatlah program untuk menghitung IPK dari 5 mata kuliah!
-
-   - Input: nilai 5 mata kuliah
-   - Output: IPK (rata-rata)
-
-4. Buatlah program untuk menghitung total belanja dengan diskon!
-   - Input: harga barang, jumlah barang, persentase diskon
-   - Output: total harga setelah diskon
-
-## Rangkuman
-
-- **Variabel** adalah tempat menyimpan data yang nilainya dapat berubah
-- **Tipe data dasar**: Integer, Float, String, Boolean, Character
-- **Deklarasi**: membuat variabel
-- **Inisialisasi**: memberikan nilai awal
-- **Type Casting**: mengubah tipe data
-- **Scope**: lokal (dalam fungsi) atau global (di luar fungsi)
-- Gunakan nama variabel yang deskriptif dan ikuti konvensi penamaan
+:::
 
 ---
 
-**Sebelumnya**: [Pengenalan](./pengenalan.md) | **Selanjutnya**: [Operator](./operator.md)
+## 4. Konversi Tipe Data (*Type Casting*)
+
+### A. Konversi Implisit (*Widening / Automatic Conversion*)
+Terjadi secara otomatis oleh compiler dari tipe data dengan ukuran memori lebih kecil ke lebih besar tanpa risiko kehilangan data (*data loss*). Contoh: `int` $\rightarrow$ `double`.
+
+### B. Konversi Eksplisit (*Narrowing / Type Casting*)
+Dilakukan secara sengaja oleh programmer untuk mengubah tipe data yang lebih besar ke lebih kecil atau antar tipe yang berbeda:
+
+```cpp
+double nilaiUjian = 87.75;
+int nilaiBulat = (int)nilaiUjian; // Nilai menjadi 87 (terjadi pemotongan desimal)
+```
+
+---
+
+## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 2)
+
+1. Tentukan tipe data yang paling efisien untuk variabel-variabel berikut:
+   - Jumlah mahasiswa dalam satu kelas (maksimal 50 orang).
+   - Saldo rekening bank nasabah dalam rupiah.
+   - Status kelulusan mahasiswa (`Lulus` / `Tidak Lulus`).
+   - Huruf mutu akademik (`A`, `B`, `C`, `D`, `E`).
+2. Tuliskan program untuk menghitung keliling dan luas lingkaran menggunakan konstanta $\pi = 3.14159$ dengan input jari-jari dari pengguna!

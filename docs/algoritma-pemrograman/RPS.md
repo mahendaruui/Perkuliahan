@@ -1,458 +1,144 @@
 # RENCANA PEMBELAJARAN SEMESTER (RPS)
-# ALGORITMA DAN PEMROGRAMAN
+## MATA KULIAH: ALGORITMA DAN PEMROGRAMAN (OBE CURRICULUM)
 
-## IDENTITAS MATA KULIAH
+---
 
-| **Keterangan** | **Detail** |
-|----------------|------------|
-| **Nama Mata Kuliah** | Algoritma dan Pemrograman |
-| **Kode Mata Kuliah** | - |
-| **SKS** | 3 SKS (2 Teori, 1 Praktikum) |
+## 🏛️ IDENTITAS MATA KULIAH
+
+| **Komponen** | **Keterangan / Rincian** |
+| :--- | :--- |
+| **Perguruan Tinggi** | Universitas Ubudiyah Indonesia (UUI) |
+| **Fakultas** | Fakultas Sains dan Teknologi |
+| **Program Studi** | S-1 Informatika |
+| **Nama Mata Kuliah** | **Algoritma dan Pemrograman** |
+| **Kode Mata Kuliah** | **IFR206** |
+| **Bahan Kajian (BK)** | **BK30** (Algoritma dan Pemrograman) |
+| **Bobot SKS** | **3 SKS** (2 SKS Teori, 1 SKS Praktikum) |
 | **Semester** | 1 (Ganjil) |
-| **Prasyarat** | - |
-| **Dosen Pengampu** | - |
-| **Program Studi** | Teknik Informatika / Sistem Informasi |
+| **Mata Kuliah Prasyarat** | Tidak Ada (*Fundamental Course*) |
+| **Dosen Pengembang RPS** | Tim Dosen Rumpun Ilmu Komputasi & Rekayasa Perangkat Lunak UUI |
+| **Koordinator Rumpun MK** | Mahendar Dwi Payana, S.ST., M.T. |
+| **Ketua Program Studi** | M. Bayu Wibawa, S.Kom., MMSI |
 
 ---
 
-## DESKRIPSI MATA KULIAH
+## 📖 DESKRIPSI MATA KULIAH
 
-Mata kuliah Algoritma dan Pemrograman merupakan mata kuliah dasar yang memberikan pemahaman fundamental tentang konsep algoritma dan implementasinya dalam bahasa pemrograman. Mata kuliah ini mencakup konsep dasar pemrograman, struktur kontrol, struktur data dasar, fungsi dan prosedur, serta algoritma-algoritma dasar seperti pencarian dan pengurutan.
+Mata kuliah **Algoritma dan Pemrograman (IFR206)** merupakan mata kuliah wajib fundamental pada Program Studi Informatika yang dirancang untuk membekali mahasiswa baru dengan landasan berpikir komputasional (*computational thinking*), logika pemecahan masalah sistematis, dan kemampuan implementasi algoritma ke dalam bahasa pemrograman tingkat tinggi.
 
-Mahasiswa akan belajar cara berpikir algoritmik untuk memecahkan masalah, merancang solusi dalam bentuk algoritma, dan mengimplementasikannya dalam bahasa pemrograman. Mata kuliah ini menekankan pada pemahaman konsep dan praktik langsung melalui latihan pemrograman.
+Mata kuliah ini menggunakan pendekatan **Outcome-Based Education (OBE)** yang menggabungkan pendalaman konseptual matematis algoritma dengan sesi laboratorium praktikum intensif. Pembahasan mencakup: paradigma logika algoritma, notasi representasi (flowchart dan pseudocode), sistem tipe data primitif & komposit, alokasi memori, operator dan ekspresi logika, struktur kontrol alur percabangan dan perulangan, struktur data dasar (array 1D/multidimensi dan string), rekayasa modular fungsi/prosedur, rekursi dan call stack, hingga algoritma fundamental pencarian (*searching*) dan pengurutan (*sorting*) beserta analisis efisiensi waktu komputasi dasar (*Big-O Notation*).
 
 ---
 
-## CAPAIAN PEMBELAJARAN
+## 🎯 CAPAIAN PEMBELAJARAN
 
-### A. Capaian Pembelajaran Lulusan (CPL)
+### A. Capaian Pembelajaran Lulusan (CPL) Prodi yang Dibebankan
 
-1. **CPL-1**: Mampu menerapkan pemikiran logis, kritis, sistematis, dan inovatif dalam konteks pengembangan atau implementasi ilmu pengetahuan dan teknologi
-2. **CPL-2**: Mampu menganalisis permasalahan komputasi dan merancang solusi algoritmik
-3. **CPL-3**: Mampu mengimplementasikan konsep pemrograman untuk menyelesaikan permasalahan nyata
+| **Kode CPL** | **Deskripsi Capaian Pembelajaran Lulusan (CPL)** |
+| :--- | :--- |
+| **CPL01** | **Pengetahuan Dasar:** Memiliki pengetahuan komprehensif tentang teori, prinsip, dan konsep dasar informatika. |
+| **CPL08** | **Sikap & Nilai:** Memiliki komitmen terhadap prinsip dan nilai islami, etika akademik, kejujuran kode program, dan tanggung jawab profesional. |
+| **CPL03** | **Keterampilan Kerja Umum:** Mampu beradaptasi terhadap penggunaan metode baru pada konteks permasalahan yang dinamis. |
+| **CPL04** | **Keterampilan Khusus:** Mampu menyajikan solusi atas permasalahan pada dunia industri dan masyarakat berdasarkan pengetahuan bidang informatika. |
+
+---
 
 ### B. Capaian Pembelajaran Mata Kuliah (CPMK)
 
-Setelah menyelesaikan mata kuliah ini, mahasiswa diharapkan mampu:
-
-1. **CPMK-1**: Memahami dan menjelaskan konsep dasar algoritma dan pemrograman
-2. **CPMK-2**: Merancang algoritma untuk menyelesaikan permasalahan sederhana hingga menengah
-3. **CPMK-3**: Mengimplementasikan algoritma menggunakan bahasa pemrograman
-4. **CPMK-4**: Menerapkan struktur kontrol (percabangan dan perulangan) dalam pemrograman
-5. **CPMK-5**: Menggunakan struktur data dasar (array dan string) untuk menyimpan dan memanipulasi data
-6. **CPMK-6**: Membuat dan menggunakan fungsi dan prosedur untuk modularisasi program
-7. **CPMK-7**: Mengimplementasikan algoritma pencarian dan pengurutan
-8. **CPMK-8**: Memahami dan menerapkan konsep rekursi dalam pemrograman
+| **Kode CPMK** | **Deskripsi Capaian Pembelajaran Mata Kuliah** | Terkait CPL |
+| :--- | :--- | :--- |
+| **CPMK0101** | **Mampu menjelaskan dan menerapkan konsep dasar pemrograman** (sintaksis, deklarasi variabel, sistem tipe data, operator logika/aritmatika, struktur percabangan, perulangan, array, dan modularitas fungsi/prosedur). | CPL01, CPL04 |
+| **CPMK0106** | **Mampu menjelaskan dan menerapkan konsep matematika dasar informatika serta perancangan algoritma** (analisis pemecahan masalah, flowchart/pseudocode, analisis kompleksitas dasar, teknik rekursif, serta algoritma searching dan sorting). | CPL01, CPL03, CPL08 |
 
 ---
 
-## BAHAN KAJIAN
+### C. Kemampuan Akhir Tiap Tahapan Belajar (Sub-CPMK)
 
-1. Pengenalan Algoritma dan Pemrograman
-2. Variabel, Tipe Data, dan Operator
-3. Struktur Kontrol: Percabangan (If-Else, Switch-Case)
-4. Struktur Kontrol: Perulangan (For, While, Do-While)
-5. Array dan Manipulasi Array
-6. String dan Operasi String
-7. Fungsi dan Prosedur
-8. Rekursi
-9. Algoritma Pencarian (Linear Search, Binary Search)
-10. Algoritma Pengurutan (Bubble Sort, Selection Sort, Insertion Sort)
-
----
-
-## METODE PEMBELAJARAN
-
-1. **Ceramah dan Diskusi**: Penjelasan konsep dan teori
-2. **Demonstrasi**: Demonstrasi pemrograman dan debugging
-3. **Praktikum**: Latihan pemrograman mandiri dan terbimbing
-4. **Problem-Based Learning**: Penyelesaian kasus nyata
-5. **Peer Learning**: Diskusi dan review kode antar mahasiswa
-6. **Self-Learning**: Pembelajaran mandiri melalui dokumentasi dan referensi
+| **Sub-CPMK** | **Deskripsi Kemampuan Akhir Mahasiswa** | Terkait CPMK |
+| :--- | :--- | :--- |
+| **Sub-CPMK 1** | Mampu menguraikan konsep logika komputasi, karakteristik algoritma standar, serta merancang representasi flowchart dan pseudocode yang presisi. | CPMK0106 |
+| **Sub-CPMK 2** | Mampu mengimplementasikan tipe data primitif, alokasi memori variabel, konstanta, operator aritmatika/relasional/logika, dan konversi tipe data (*type casting*). | CPMK0101 |
+| **Sub-CPMK 3** | Mampu merancang dan menganalisis struktur kontrol alur percabangan (`if-else`, `switch-case`) dan perulangan (`for`, `while`, `do-while`, *nested loop*) untuk menyelesaikan kasus logika kompleks. | CPMK0101, CPMK0106 |
+| **Sub-CPMK 4** | Mampu merekayasa struktur data larik (Array 1 Dimensi & Multidimensi) dan manipulasi teks (String) untuk pengelolaan data sekuensial. | CPMK0101 |
+| **Sub-CPMK 5** | Mampu menyusun kode program modular menggunakan Fungsi dan Prosedur (*parameter passing by value/reference*, *scope variable*), serta menerapkan teknik pemecahan masalah rekursif. | CPMK0101, CPMK0106 |
+| **Sub-CPMK 6** | Mampu menganalisis, merancang, dan membandingkan efisiensi algoritma pencarian (*Linear & Binary Search*) serta algoritma pengurutan (*Bubble, Selection, Insertion Sort*). | CPMK0106 |
+| **Sub-CPMK 7** | Mampu merancang dan membangun proyek mini aplikasi berbasis algoritma terstruktur dengan mematuhi kaidah *Clean Code*, etika komputasi, dan dokumentasi akademik. | CPMK0101, CPMK0106, CPL08 |
 
 ---
 
-## MEDIA PEMBELAJARAN
+## 📊 MATRIKS KORELASI CPL - CPMK - SUB-CPMK
 
-1. Laptop/Komputer dengan IDE/Text Editor (VS Code, Code::Blocks, PyCharm, dll)
-2. Compiler/Interpreter bahasa pemrograman (Python, C++, Java, dll)
-3. Papan tulis/Whiteboard untuk penjelasan konsep
-4. Proyektor untuk presentasi materi
-5. Platform LMS untuk distribusi materi dan tugas
-6. Online Judge/Coding Platform untuk latihan (HackerRank, LeetCode, dll)
-
----
-
-## PENILAIAN
-
-| **Komponen** | **Bobot** | **Keterangan** |
-|--------------|-----------|----------------|
-| **Kehadiran & Partisipasi** | 10% | Kehadiran minimal 75%, partisipasi aktif di kelas |
-| **Tugas & Praktikum** | 30% | Tugas mingguan dan laporan praktikum |
-| **UTS (Ujian Tengah Semester)** | 30% | Teori + Praktik Pemrograman |
-| **UAS (Ujian Akhir Semester)** | 30% | Teori + Praktik Pemrograman + Project |
-
-### Kriteria Penilaian
-
-| **Nilai** | **Rentang** | **Keterangan** |
-|-----------|-------------|----------------|
-| A | 85 - 100 | Sangat Baik |
-| AB | 80 - 84 | Baik Sekali |
-| B | 75 - 79 | Baik |
-| BC | 70 - 74 | Cukup Baik |
-| C | 65 - 69 | Cukup |
-| D | 55 - 64 | Kurang |
-| E | < 55 | Sangat Kurang |
+| CPMK / Sub-CPMK | CPL01 | CPL03 | CPL04 | CPL08 |
+| :--- | :---: | :---: | :---: | :---: |
+| **CPMK0101** | ✅ | ➖ | ✅ | ➖ |
+| **CPMK0106** | ✅ | ✅ | ➖ | ✅ |
+| **Sub-CPMK 1 (Minggu 1)** | ✅ | ✅ | ➖ | ➖ |
+| **Sub-CPMK 2 (Minggu 2-3)** | ✅ | ➖ | ✅ | ➖ |
+| **Sub-CPMK 3 (Minggu 4-6)** | ✅ | ✅ | ✅ | ➖ |
+| **Sub-CPMK 4 (Minggu 7, 9)** | ✅ | ➖ | ✅ | ➖ |
+| **Sub-CPMK 5 (Minggu 10-11)** | ✅ | ✅ | ✅ | ➖ |
+| **Sub-CPMK 6 (Minggu 12-14)** | ✅ | ✅ | ➖ | ➖ |
+| **Sub-CPMK 7 (Minggu 15-16)** | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
-## RENCANA PEMBELAJARAN MINGGUAN
+## 🗓️ RANCANGAN PEMBELAJARAN MINGGUAN (16 MINGGU)
 
-### **Minggu 1: Pengenalan Algoritma dan Pemrograman**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-1 |
-| **Materi** | • Konsep algoritma dan karakteristiknya<br>• Pengenalan pemrograman<br>• Tahapan pemrograman<br>• Pseudocode dan Flowchart |
-| **Metode** | Ceramah, Diskusi, Demonstrasi |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Quiz, Latihan Pseudocode |
-| **Referensi** | [Pengenalan](./pengenalan.md) |
-
----
-
-### **Minggu 2: Variabel dan Tipe Data**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-1, CPMK-3 |
-| **Materi** | • Konsep variabel<br>• Tipe data primitif (integer, float, char, boolean)<br>• Deklarasi dan inisialisasi variabel<br>• Konversi tipe data |
-| **Metode** | Ceramah, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 1 |
-| **Referensi** | [Variabel dan Tipe Data](./variabel-tipe-data.md) |
+| **Mg** | **Sub-CPMK** | **Bahan Kajian (Materi Pokok)** | **Bentuk & Metode Pembelajaran** | **Estimasi Waktu** | **Pengalaman Belajar Mahasiswa** | **Kriteria & Bentuk Penilaian** | **Bobot (%)** |
+| :---: | :--- | :--- | :--- | :---: | :--- | :--- | :---: |
+| **1** | Sub-CPMK 1 | **Kontrak Kuliah & Pengenalan Algoritma**: Karakteristik algoritma, flowchart symbol standar ISO, pseudocode grammar, perbandingan algoritma vs program. | Kuliah Interaktif, Demonstrasi IDE, Diskusi Studi Kasus | TM: 2x50' <br>BT: 2x60' <br>BM: 2x60' <br>P: 1x170' | Merancang diagram flowchart dan menulis pseudocode untuk persoalan aritmatika dan logika sekuensial. | Ketepatan notasi flowchart & logika pseudocode (Tugas 1) | 3% |
+| **2** | Sub-CPMK 2 | **Variabel, Tipe Data & Alokasi Memori**: Tipe primitif (int, float, char, bool), ukuran memori, deklarasi, inisialisasi, konstanta, type casting implisit/eksplisit. | Kuliah Teori, Praktikum Terbimbing di Lab | TM: 2x50' <br>P: 1x170' | Eksplorasi tipe data dan menguji batasan overflow/underflow pada variabel. | Tes Praktik Lab 1 & Kuis Singkat | 4% |
+| **3** | Sub-CPMK 2 | **Operator dan Ekspresi Logika**: Aritmatika, relasional, logika boolean, assignment, bitwise operator, tabel kebenaran, precedence & associativity. | Problem-Based Learning, Praktikum Mandiri | TM: 2x50' <br>P: 1x170' | Menyusun ekspresi matematika dan kondisi logika kompleks untuk validasi input. | Ketepatan evaluasi ekspresi logika (Tugas 2) | 4% |
+| **4** | Sub-CPMK 3 | **Struktur Kontrol Percabangan**: Kondisional tunggal (`if`), ganda (`if-else`), majemuk (`if-else-if`), nested-if, operator ternary. | Case Study, Live Coding, Diskusi | TM: 2x50' <br>P: 1x170' | Merancang logika pengambilan keputusan pada aplikasi kasir, sistem grade nilai, dan validasi form. | Ketepatan alur branching & efisiensi kondisi (Tugas 3) | 5% |
+| **5** | Sub-CPMK 3 | **Percabangan Lanjut & Struktur Pemilihan**: `switch-case`, fall-through behavior, perbandingan `switch` vs `if-else`, studi kasus menu navigasi CLI. | Praktikum Terbimbing, Peer Review Coding | TM: 2x50' <br>P: 1x170' | Membangun sistem menu console interaktif menggunakan `switch-case`. | Kerapian kode & penanganan kasus default | 4% |
+| **6** | Sub-CPMK 3 | **Struktur Kontrol Perulangan (Looping)**: Counted loop (`for`), uncounted loop (`while`, `do-while`), loop counter, akumulator, `break`, `continue`. | Collaborative Coding, Praktikum Lab | TM: 2x50' <br>P: 1x170' | Menyelesaikan masalah deret angka, faktorial, validasi input berulang, dan nested loop (pola bintang/matriks). | Logika loop termination & kebenaran hasil (Tugas 4) | 5% |
+| **7** | Sub-CPMK 4 | **Struktur Data Larik (Array 1 Dimensi)**: Konsep indeks elemen, alokasi memori bersebelahan (*contiguous*), inisialisasi, input/output array, pencarian nilai min/max/rata-rata. | Praktikum Intensif, Problem Solving | TM: 2x50' <br>P: 1x170' | Mengolah data statistik mahasiswa menggunakan larik 1 dimensi. | Ketepatan indeks array & operasi komputasi (Tugas 5) | 5% |
+| **8** | **EVALUASI TENGAH SEMESTER (UTS)** | **Ujian Tengah Semester (Teori & Praktik Coding Mandiri)** | Ujian Tertulis & Live Coding Session | 120 Menit | Menyelesaikan problem set algoritma dari Minggu 1 s.d. 7 secara mandiri. | Ujian Mandiri Bebas Plagiarisme (Rubrik UTS) | **30%** |
+| **9** | Sub-CPMK 4 | **Array Multidimensi & Manipulasi String**: Matriks 2D (baris & kolom), operasi penjumlahan/perkalian matriks, array of characters, fungsi bawaan string. | Kuliah Interaktif, Praktikum Laboratorium | TM: 2x50' <br>P: 1x170' | Memanipulasi data tabel matriks dan algoritma pemrosesan teks (palindrom, enkripsi caesar cipher sederhana). | Kinerja program & manipulasi memori matriks (Tugas 6) | 5% |
+| **10** | Sub-CPMK 5 | **Modularisasi Kode: Fungsi dan Prosedur**: Deklarasi header fungsi, parameter formal vs aktual, pass-by-value vs pass-by-reference, return type, scope variabel lokal/global. | Project-Based Learning, Live Coding | TM: 2x50' <br>P: 1x170' | Memecah program monolitik menjadi fungsi-fungsi modular yang dapat digunakan kembali (*reusable*). | Tingkat modularitas kode & prinsip Single Responsibility (Tugas 7) | 5% |
+| **11** | Sub-CPMK 5 | **Teknik Rekursi & Call Stack Memory**: Konsep *self-calling*, base case, recursive case, visualisasi call stack, bahaya stack overflow, rekursi vs iterasi (Fibonacci, Tower of Hanoi). | Diskusi Konseptual, Simulasi Trace Table | TM: 2x50' <br>P: 1x170' | Menganalisis alur eksekusi fungsi rekursif dan menyusun trace table eksekusi. | Kejelasan base case & kebenaran trace table | 5% |
+| **12** | Sub-CPMK 6 | **Algoritma Pencarian (Searching Algorithm)**: Linear Search (pada array acak), Binary Search (pada array terurut), analisis langkah komputasi (O(n) vs O(log n)). | Eksperimen Algoritma, Praktikum Lab | TM: 2x50' <br>P: 1x170' | Mengimplementasikan Linear dan Binary Search, mengukur perbandingan jumlah iterasi pada dataset besar. | Ketepatan implementasi & analisis efisiensi (Tugas 8) | 5% |
+| **13** | Sub-CPMK 6 | **Algoritma Pengurutan Sederhana (Sorting I)**: Bubble Sort dan Selection Sort, mekanisme swap (*tukar*), pass perulangan luar & dalam, visualisasi pergeseran data. | Demonstrasi Visual, Live Coding Praktikum | TM: 2x50' <br>P: 1x170' | Membuat trace table langkah demi langkah pengurutan data acak menjadi terurut naik/turun (*ascending/descending*). | Kebenaran algoritma & trace pergeseran data (Tugas 9) | 5% |
+| **14** | Sub-CPMK 6 | **Algoritma Pengurutan Lanjut (Sorting II)**: Insertion Sort, komparasi kinerja 3 metode sorting, pengantar dasar notasi Big-O (Time & Space Complexity). | Analisis Komparasi, Praktikum Mandiri | TM: 2x50' <br>P: 1x170' | Membandingkan performa Bubble, Selection, dan Insertion Sort berdasarkan jumlah operasi swap dan perbandingan. | Laporan analisis komparasi sorting | 5% |
+| **15** | Sub-CPMK 7 | **Integrasi Proyek Mini & Penerapan Clean Code**: Perancangan aplikasi konsol mini (Sistem Manajemen Nilai / Inventaris Sederhana) yang memadukan array, fungsi modular, searching, dan sorting. | Workshop Mini Project, Konsultasi & Asistensi | TM: 2x50' <br>P: 1x170' | Mengintegrasikan seluruh konsep pemrograman ke dalam satu aplikasi terpadu berstandar industri. | Struktur arsitektur modular & dokumentasi kode | 5% |
+| **16** | **EVALUASI AKHIR SEMESTER (UAS)** | **Ujian Akhir Semester & Presentasi Proyek Mini Algoritma** | Ujian Tertulis, Coding Test, & Demo Mini Project | 150 Menit | Mempresentasikan solusi algoritma, mendemonstrasikan keandalan program, dan menjawab pengujian kode. | Rubrik Capstone Mini Project & Tes Teori Komprehensif | **30%** |
 
 ---
 
-### **Minggu 3: Operator**
+## 📈 SISTEM EVALUASI & PENILAIAN OBE
 
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-1, CPMK-3 |
-| **Materi** | • Operator aritmatika<br>• Operator relasional<br>• Operator logika<br>• Operator assignment<br>• Prioritas operator |
-| **Metode** | Ceramah, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 2 |
-| **Referensi** | [Operator](./operator.md) |
+Penilaian mengacu pada standar kurikulum OBE Universitas Ubudiyah Indonesia yang mengukur ketercapaian **CPMK0101** dan **CPMK0106**:
 
----
+| **Komponen Evaluasi** | **Metode Asesmen** | **Bobot (%)** | **Pemetaan CPMK** |
+| :--- | :--- | :---: | :--- |
+| **Aktivitas Partisipatif & Praktikum Lab** | Tugas Coding Mingguan, Lembar Kerja Praktikum Lab | **20%** | CPMK0101, CPMK0106 |
+| **Kuis & Latihan Mandiri** | Kuis Logika Algoritma & Trace Table | **10%** | CPMK0101, CPMK0106 |
+| **Tugas Besar / Mini Project Terpadu** | Proyek Aplikasi Konsol Terstruktur & Dokumentasi | **10%** | CPMK0101, CPMK0106, CPL08 |
+| **Ujian Tengah Semester (UTS)** | Ujian Teori & Praktikum Live Coding (Sesi 1-7) | **30%** | CPMK0101, CPMK0106 |
+| **Ujian Akhir Semester (UAS)** | Ujian Komprehensif Teori & Demo Capstone (Sesi 9-15) | **30%** | CPMK0101, CPMK0106, CPL08 |
+| **TOTAL** | | **100%** | |
 
-### **Minggu 4: Percabangan (If-Else, Switch)**
+### Konversi Nilai Huruf Standar Akademik UUI
 
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-4 |
-| **Materi** | • Struktur percabangan if<br>• If-else dan nested if<br>• Switch-case statement<br>• Operator ternary |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 3 |
-| **Referensi** | [Percabangan](./percabangan.md) |
-
----
-
-### **Minggu 5: Perulangan (For, While, Do-While)**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-4 |
-| **Materi** | • Konsep perulangan<br>• For loop<br>• While loop<br>• Do-while loop<br>• Nested loop<br>• Break dan continue |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 4 |
-| **Referensi** | [Perulangan](./perulangan.md) |
+| **Nilai Angka** | **Nilai Huruf** | **Bobot Mutu** | **Kualifikasi Kompetensi** |
+| :---: | :---: | :---: | :--- |
+| **85.00 – 100.00** | **A** | **4.00** | Istimewa / Sangat Kompeten |
+| **80.00 – 84.99** | **A-** | **3.75** | Sangat Baik |
+| **75.00 – 79.99** | **B+** | **3.50** | Baik Sekali |
+| **70.00 – 74.99** | **B** | **3.00** | Baik / Kompeten |
+| **65.00 – 69.99** | **B-** | **2.75** | Cukup Baik |
+| **60.00 – 64.99** | **C+** | **2.50** | Cukup |
+| **55.00 – 59.99** | **C** | **2.00** | Lulus Standar Minimum |
+| **45.00 – 54.99** | **D** | **1.00** | Kurang (Wajib Mengulang) |
+| **0.00 – 44.99** | **E** | **0.00** | Gagal / Tidak Lulus |
 
 ---
 
-### **Minggu 6: Latihan dan Review Materi 1-5**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-1, CPMK-2, CPMK-3, CPMK-4 |
-| **Materi** | • Review konsep dasar hingga perulangan<br>• Latihan soal-soal pemrograman<br>• Problem solving session |
-| **Metode** | Diskusi, Problem-Based Learning |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Latihan Soal |
-| **Referensi** | Semua materi minggu 1-5 |
-
----
-
-### **Minggu 7: Array**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-3, CPMK-5 |
-| **Materi** | • Konsep array<br>• Deklarasi dan inisialisasi array<br>• Akses elemen array<br>• Array multidimensi<br>• Operasi pada array |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 5 |
-| **Referensi** | [Array](./array.md) |
-
----
-
-### **Minggu 8: UJIAN TENGAH SEMESTER (UTS)**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-1, CPMK-2, CPMK-3, CPMK-4, CPMK-5 |
-| **Materi** | • Ujian teori (pilihan ganda dan essay)<br>• Ujian praktik pemrograman |
-| **Metode** | Ujian tertulis dan praktik |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | UTS (30%) |
-| **Referensi** | Semua materi minggu 1-7 |
-
----
-
-### **Minggu 9: String**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-3, CPMK-5 |
-| **Materi** | • Konsep string<br>• Deklarasi dan inisialisasi string<br>• Operasi string (concatenation, comparison, dll)<br>• Fungsi-fungsi string<br>• Manipulasi string |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 6 |
-| **Referensi** | [String](./string.md) |
-
----
-
-### **Minggu 10: Fungsi dan Prosedur**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-3, CPMK-6 |
-| **Materi** | • Konsep modularisasi<br>• Fungsi dan prosedur<br>• Parameter dan return value<br>• Pass by value vs pass by reference<br>• Scope variabel |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 7 |
-| **Referensi** | [Fungsi dan Prosedur](./fungsi-prosedur.md) |
-
----
-
-### **Minggu 11: Rekursi**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-8 |
-| **Materi** | • Konsep rekursi<br>• Base case dan recursive case<br>• Rekursi vs iterasi<br>• Contoh kasus: faktorial, fibonacci, dll |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 8 |
-| **Referensi** | [Rekursi](./rekursi.md) |
-
----
-
-### **Minggu 12: Algoritma Pencarian (Linear Search, Binary Search)**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-7 |
-| **Materi** | • Konsep pencarian<br>• Linear search (sequential search)<br>• Binary search<br>• Analisis kompleksitas algoritma |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 9 |
-| **Referensi** | [Algoritma Pencarian](./algoritma-pencarian.md) |
-
----
-
-### **Minggu 13: Algoritma Pengurutan - Bagian 1**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-7 |
-| **Materi** | • Konsep pengurutan<br>• Bubble sort<br>• Selection sort<br>• Analisis kompleksitas |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 10 |
-| **Referensi** | [Algoritma Pengurutan](./algoritma-pengurutan.md) |
-
----
-
-### **Minggu 14: Algoritma Pengurutan - Bagian 2**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | CPMK-2, CPMK-3, CPMK-7 |
-| **Materi** | • Insertion sort<br>• Merge sort<br>• Quick sort<br>• Perbandingan algoritma pengurutan |
-| **Metode** | Ceramah, Demonstrasi, Praktikum |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Tugas Praktikum 11 |
-| **Referensi** | [Algoritma Pengurutan](./algoritma-pengurutan.md) |
-
----
-
-### **Minggu 15: Project dan Studi Kasus**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | Semua CPMK |
-| **Materi** | • Implementasi project akhir<br>• Integrasi semua konsep yang telah dipelajari<br>• Best practices dalam pemrograman |
-| **Metode** | Project-Based Learning, Konsultasi |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | Project Akhir |
-| **Referensi** | Semua materi |
-
----
-
-### **Minggu 16: UJIAN AKHIR SEMESTER (UAS)**
-
-| **Aspek** | **Detail** |
-|-----------|------------|
-| **CPMK** | Semua CPMK |
-| **Materi** | • Ujian teori komprehensif<br>• Ujian praktik pemrograman<br>• Presentasi project akhir |
-| **Metode** | Ujian tertulis, praktik, dan presentasi |
-| **Waktu** | 3 × 50 menit |
-| **Penilaian** | UAS (30%) |
-| **Referensi** | Semua materi minggu 1-15 |
-
----
-
-## REFERENSI
-
-### Buku Utama
-
-1. Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.
-2. Sedgewick, R., & Wayne, K. (2011). *Algorithms* (4th ed.). Addison-Wesley.
-3. Munir, R. (2016). *Algoritma dan Pemrograman dalam Bahasa Pascal, C, dan C++*. Informatika Bandung.
-
-### Buku Pendukung
-
-4. Karumanchi, N. (2016). *Data Structures and Algorithms Made Easy*. CareerMonk Publications.
-5. Zelle, J. M. (2016). *Python Programming: An Introduction to Computer Science* (3rd ed.). Franklin, Beedle & Associates.
-6. Stroustrup, B. (2013). *The C++ Programming Language* (4th ed.). Addison-Wesley.
-
-### Referensi Online
-
-7. GeeksforGeeks - [https://www.geeksforgeeks.org/](https://www.geeksforgeeks.org/)
-8. HackerRank - [https://www.hackerrank.com/](https://www.hackerrank.com/)
-9. LeetCode - [https://leetcode.com/](https://leetcode.com/)
-10. W3Schools - [https://www.w3schools.com/](https://www.w3schools.com/)
-
-### Dokumentasi Lokal
-
-- [Dokumentasi Materi Lengkap](./index.md)
-
----
-
-## TUGAS DAN PROJECT
-
-### Tugas Mingguan (30%)
-
-Setiap minggu mahasiswa akan diberikan tugas praktikum yang harus dikumpulkan sebelum pertemuan berikutnya. Tugas meliputi:
-
-1. **Tugas Praktikum 1-11**: Implementasi konsep yang telah dipelajari
-2. **Format Pengumpulan**: Source code + screenshot output + penjelasan
-3. **Deadline**: Sebelum pertemuan minggu berikutnya
-4. **Platform**: LMS / GitHub Classroom
-
-### Project Akhir (Bagian dari UAS)
-
-**Tema**: Aplikasi Console/Desktop sederhana yang mengintegrasikan minimal 5 konsep berikut:
-- Struktur kontrol (percabangan dan perulangan)
-- Array atau String
-- Fungsi dan Prosedur
-- Algoritma pencarian atau pengurutan
-- File I/O (opsional)
-
-**Contoh Project**:
-1. Sistem Manajemen Data Mahasiswa
-2. Aplikasi Kasir Sederhana
-3. Game Sederhana (Tic-Tac-Toe, Snake, dll)
-4. Kalkulator Scientific
-5. Aplikasi To-Do List
-
-**Deliverables**:
-- Source code lengkap dengan komentar
-- Dokumentasi (cara instalasi, cara penggunaan, penjelasan algoritma)
-- Video demo aplikasi (3-5 menit)
-- Presentasi (10 menit)
-
----
-
-## ATURAN PERKULIAHAN
-
-### Kehadiran
-
-1. Mahasiswa wajib hadir minimal **75%** dari total pertemuan
-2. Keterlambatan lebih dari 15 menit dianggap tidak hadir
-3. Mahasiswa yang tidak memenuhi syarat kehadiran tidak diperkenankan mengikuti UAS
-
-### Tugas
-
-1. Tugas dikumpulkan sesuai deadline yang ditentukan
-2. Keterlambatan pengumpulan: pengurangan nilai 10% per hari
-3. Plagiarisme akan mendapat nilai 0 dan sanksi akademik
-
-### Ujian
-
-1. Mahasiswa wajib hadir pada saat UTS dan UAS
-2. Tidak ada ujian susulan kecuali ada alasan yang dapat dipertanggungjawabkan (sakit dengan surat dokter, dll)
-3. Kecurangan dalam ujian akan mendapat sanksi sesuai aturan akademik
-
-### Etika
-
-1. Berpakaian rapi dan sopan
-2. Tidak menggunakan HP selama perkuliahan kecuali untuk keperluan pembelajaran
-3. Menghormati dosen dan sesama mahasiswa
-4. Aktif bertanya dan berdiskusi
-
----
-
-## CATATAN TAMBAHAN
-
-### Tips Sukses
-
-1. **Praktik, Praktik, Praktik**: Pemrograman adalah skill yang harus dilatih terus-menerus
-2. **Jangan Menunda**: Kerjakan tugas segera setelah materi diajarkan
-3. **Aktif Bertanya**: Jangan ragu bertanya jika ada yang tidak dipahami
-4. **Kolaborasi**: Diskusi dengan teman, tapi jangan plagiat
-5. **Manfaatkan Sumber Belajar**: Gunakan buku, dokumentasi online, dan video tutorial
-6. **Debug dengan Sabar**: Debugging adalah bagian penting dari pembelajaran pemrograman
-
-### Sumber Belajar Tambahan
-
-1. **YouTube Channels**:
-   - CS Dojo
-   - freeCodeCamp
-   - The Coding Train
-   - Programmer Zaman Now (Indonesia)
-
-2. **Platform Belajar**:
-   - Codecademy
-   - Coursera
-   - edX
-   - Dicoding (Indonesia)
-
-3. **Forum dan Komunitas**:
-   - Stack Overflow
-   - Reddit r/learnprogramming
-   - Discord programming communities
-
----
-
-## KONTAK
-
-| **Keterangan** | **Detail** |
-|----------------|------------|
-| **Dosen Pengampu** | [Nama Dosen] |
-| **Email** | [email@domain.ac.id] |
-| **Office Hours** | [Hari, Jam] |
-| **Ruang Dosen** | [Lokasi] |
-
----
-
-**Catatan**: RPS ini dapat berubah sesuai dengan kebutuhan dan perkembangan pembelajaran. Setiap perubahan akan dikomunikasikan kepada mahasiswa.
-
----
-
-*Dokumen ini dibuat pada: Januari 2026*  
-*Versi: 1.0*
+## 📚 DAFTAR PUSTAKA ACUAN UTAMA
+
+1. **Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C.** (2022). *Introduction to Algorithms* (4th ed.). Cambridge, MA: MIT Press.
+2. **Deitel, P., & Deitel, H.** (2020). *C++ How to Program* (10th ed.). Boston: Pearson Education.
+3. **Gaddis, T.** (2021). *Starting Out with Python* (5th ed.). Boston: Pearson Education.
+4. **Munir, R., & Lidya, L.** (2016). *Algoritma dan Pemrograman dalam Bahasa Pascal, C, dan C++*. Bandung: Penerbit Informatika.
+5. **Sedgewick, R., & Wayne, K.** (2014). *Algorithms* (4th ed.). Upper Saddle River: Addison-Wesley.
+6. **Tim Dosen Informatika UUI.** (2026). *Modul Praktikum Laboratorium Algoritma & Pemrograman*. Banda Aceh: Universitas Ubudiyah Indonesia.

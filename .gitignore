@@ -14,3 +14,6 @@ docs/.vitepress/cache
 __pycache__/
 *.pyc
 /isbn
+/isbn-web
+Curriculum Informatika Universitas Ubudiya.docx
+/books
