@@ -11,47 +11,12 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 
 ## 1. Anatomi Plot Distribusi Kunci
 
-<div style="margin: 20px 0;">
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-    
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #3b82f6; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #2563eb; font-weight: bold; font-size: 1.05rem;">
-        📈 1. Histogram & KDE Plot
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Menilai bentuk sebaran frekuensi, kemiringan data (<em>skewness</em>), modus, dan menguji kurva normalitas data kontinu.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #a855f7; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #9333ea; font-weight: bold; font-size: 1.05rem;">
-        📦 2. Box Plot (Box & Whisker)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Menampilkan ringkasan 5 angka statistik (Median, Kuartil Q1 & Q3, rentang IQR) serta mendeteksi titik pencilan (<em>outlier</em>).
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #10b981; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #059669; font-weight: bold; font-size: 1.05rem;">
-        🎻 3. Violin Plot
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Menggabungkan ketajaman kuartil box plot dengan estimasi kontur kepadatan probabilitas (<em>Kernel Density Estimation</em>).
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #f59e0b; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #d97706; font-weight: bold; font-size: 1.05rem;">
-        📉 4. ECDF Plot (Empirical CDF)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Menyajikan fungsi distribusi kumulatif empiris nyata dari 0% ke 100% tanpa bias pemilihan jumlah/lebar <em>bin</em>.
-      </p>
-    </div>
-
-  </div>
-</div>
+| Jenis Plot Distribusi | Tujuan & Kegunaan Analitis | Keunggulan Utama |
+| :--- | :--- | :--- |
+| 📈 **1. Histogram & KDE Plot** | Menilai bentuk sebaran frekuensi, kemiringan data (*skewness*), modus, dan menguji kurva normalitas data kontinu. | Memberikan estimasi visual kurva kepadatan probabilitas yang halus. |
+| 📦 **2. Box Plot (Box & Whisker)** | Menampilkan ringkasan 5 angka statistik (Median, Kuartil Q1 & Q3, rentang IQR) serta mendeteksi pencilan (*outlier*). | Sangat efisien untuk membandingkan sebaran distribusi antar banyak kategori sekaligus. |
+| 🎻 **3. Violin Plot** | Menggabungkan ringkasan kuartil box plot dengan estimasi kontur kepadatan probabilitas (*KDE*). | Memperlihatkan secara jelas jika data bersifat bimodal (dua puncak). |
+| 📉 **4. ECDF Plot (Empirical CDF)** | Menyajikan kurva fungsi distribusi kumulatif empiris dari 0% hingga 100%. | Bebas dari bias penentuan jumlah atau lebar *bin* (*no binning bias*). |
 
 ---
 

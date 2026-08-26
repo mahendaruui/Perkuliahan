@@ -36,65 +36,14 @@ Jika visualisasi memanfaatkan atribut pra-atentif dengan tepat, audiens tidak pe
 
 Prinsip Gestalt (berasal dari bahasa Jerman yang berarti *"bentuk utuh"*) menjelaskan bagaimana pikiran manusia secara otomatis mengelompokkan elemen-elemen terpisah menjadi satu kesatuan yang bermakna.
 
-<div style="margin: 20px 0;">
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-    
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #3b82f6; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #2563eb; font-weight: bold; font-size: 1.05rem;">
-        🔍 1. Proximity (Kedekatan Spasial)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Elemen-elemen yang diletakkan saling berdekatan secara otomatis dipersepsikan oleh otak sebagai satu kelompok data yang sama.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #3b82f6; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #2563eb; font-weight: bold; font-size: 1.05rem;">
-        🎨 2. Similarity (Kesamaan Rupa)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Elemen yang memiliki kesamaan warna, bentuk, atau ukuran dianggap memiliki atribut data yang sejenis atau berkategori sama.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #3b82f6; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #2563eb; font-weight: bold; font-size: 1.05rem;">
-        📦 3. Enclosure (Pengurungan Area)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Elemen yang dilingkupi oleh kotak batas atau latar belakang pembeda akan langsung diisolasi sebagai fokus analisis khusus.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #a855f7; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #9333ea; font-weight: bold; font-size: 1.05rem;">
-        〰️ 4. Continuity (Kontinuitas Garis)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Mata manusia secara alami mengikuti garis kontinu yang mulus untuk membaca tren data daripada garis yang patah-patah.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #a855f7; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #9333ea; font-weight: bold; font-size: 1.05rem;">
-        🔗 5. Connection (Keterhubungan Fisik)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Elemen yang dihubungkan oleh garis fisik memiliki ikatan asosiasi visual yang lebih kuat dibanding yang hanya berdekatan posisi.
-      </p>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #a855f7; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-      <h4 style="margin: 0 0 6px 0; color: #9333ea; font-weight: bold; font-size: 1.05rem;">
-        ⭕ 6. Closure (Penutupan Bentuk)
-      </h4>
-      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
-        Kognisi otak manusia secara spontan mengisi kekosongan informasi untuk melihat satu pola visual yang utuh dan bermakna.
-      </p>
-    </div>
-
-  </div>
-</div>
+| Prinsip Gestalt | Karakteristik Kunci | Penerapan dalam Visualisasi Data |
+| :--- | :--- | :--- |
+| 🔍 **1. Proximity** *(Kedekatan Spasial)* | Elemen yang berdekatan otomatis dipersepsikan sebagai satu kelompok data yang sama. | Memberikan jarak spasi antar grup batang pada *grouped bar chart*. |
+| 🎨 **2. Similarity** *(Kesamaan Visual)* | Elemen dengan warna, bentuk, atau ukuran serupa dianggap memiliki atribut sejenis. | Mewarnai titik data (*scatter plot*) berdasarkan kategori kelas. |
+| 📦 **3. Enclosure** *(Pengurungan Area)* | Kotak pembatas atau latar belakang pembeda mengisolasi fokus analisis khusus. | Memberi kotak latar abu-abu pada area resesi di grafik *time series*. |
+| 〰️ **4. Continuity** *(Kontinuitas Garis)* | Mata manusia secara alami mengikuti garis kontinu yang mulus untuk membaca tren data. | Menarik garis tren (*trendline*) yang menghubungkan titik-titik data. |
+| 🔗 **5. Connection** *(Keterhubungan Fisik)* | Garis penghubung fisik memiliki asosiasi lebih kuat dibanding elemen yang hanya berdekatan. | Menggunakan garis penghubung antar simpul pada diagram jaringan (*node-link*). |
+| ⭕ **6. Closure** *(Penutupan Bentuk)* | Otak secara spontan mengisi kekosongan informasi untuk melihat satu pola visual yang utuh. | Penggunaan grafik donat atau kontur parsial tanpa garis tepi penutup tebal. |
 
 ### Penjelasan & Penerapan dalam Grafik:
 1. **Law of Proximity (Kedekatan):** Elemen-elemen yang diletakkan saling berdekatan akan dipersepsikan sebagai satu kelompok yang sama. *Penerapan:* Spasi antar grup bar pada grouped bar chart.

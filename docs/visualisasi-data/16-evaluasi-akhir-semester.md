@@ -17,60 +17,13 @@ Evaluasi Akhir Semester (UAS) merupakan puncak penilaian berbasis OBE yang mengu
 
 ## 🏆 Rubrik Standar Penilaian UAS Capstone UUI
 
-<div style="margin: 20px 0;">
-  <div style="background: linear-gradient(135deg, #fef08a 0%, #fef9c3 100%); border: 2px solid #ca8a04; border-radius: 12px; padding: 14px 20px; text-align: center; margin-bottom: 18px; color: #854d0e; font-weight: bold; font-size: 1.05rem;">
-    🏆 EVALUASI AKHIR SEMESTER (UAS): PROYEK CAPSTONE TERPADU (100 POIN / BOBOT 20%)
-  </div>
+::: tip 🏆 EVALUASI AKHIR SEMESTER (UAS): PROYEK CAPSTONE TERPADU
+**Total Bobot Penilaian: 100 Poin (Bobot 20% dari Nilai Akhir Perkuliahan)**
+:::
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-    
-    <div style="background: var(--vp-c-bg-soft); border: 2px solid #3b82f6; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-        <span style="font-size: 1.05rem; font-weight: bold; color: #2563eb;">🌐 1. Fungsionalitas Web</span>
-        <span style="font-size: 0.8rem; font-weight: bold; background: #dbeafe; color: #1e40af; padding: 3px 8px; border-radius: 20px;">30 Poin</span>
-      </div>
-      <ul style="margin: 0; padding-left: 18px; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.6;">
-        <li>Kecepatan & responsivitas widget filter interaktif</li>
-        <li>Tata letak multi-halaman Streamlit yang rapi & intuitif</li>
-        <li>Bebas dari *runtime error* / *crash* saat demonstrasi live</li>
-      </ul>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border: 2px solid #a855f7; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-        <span style="font-size: 1.05rem; font-weight: bold; color: #9333ea;">💡 2. Insight & Storytelling</span>
-        <span style="font-size: 0.8rem; font-weight: bold; background: #f3e8ff; color: #6b21a8; padding: 3px 8px; border-radius: 20px;">25 Poin</span>
-      </div>
-      <ul style="margin: 0; padding-left: 18px; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.6;">
-        <li>Ketajaman wawasan analitis dalam menjawab persoalan data</li>
-        <li>Alur narasi terstruktur (Konteks → Masalah → Solusi)</li>
-        <li>Eliminasi beban kognitif & fokus pada pesan utama</li>
-      </ul>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border: 2px solid #10b981; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-        <span style="font-size: 1.05rem; font-weight: bold; color: #059669;">📊 3. Desain Visual & Tufte</span>
-        <span style="font-size: 0.8rem; font-weight: bold; background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 20px;">25 Poin</span>
-      </div>
-      <ul style="margin: 0; padding-left: 18px; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.6;">
-        <li>Penerapan rasio data-ink tinggi & bebas *chartjunk*</li>
-        <li>Ketepatan pemilihan jenis grafik terhadap tipe variabel</li>
-        <li>Penggunaan palet warna ramah buta warna (*Colorblind Safe*)</li>
-      </ul>
-    </div>
-
-    <div style="background: var(--vp-c-bg-soft); border: 2px solid #64748b; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-        <span style="font-size: 1.05rem; font-weight: bold; color: #475569;">💻 4. Kerapian Kode & Git</span>
-        <span style="font-size: 0.8rem; font-weight: bold; background: #f1f5f9; color: #334155; padding: 3px 8px; border-radius: 20px;">20 Poin</span>
-      </div>
-      <ul style="margin: 0; padding-left: 18px; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.6;">
-        <li>Kepatuhan kaidah *Clean Code* & modularitas fungsi Python</li>
-        <li>Kelengkapan berkas `README.md` & panduan instalasi</li>
-        <li>Struktur repositori GitHub rapi & berkas `requirements.txt`</li>
-      </ul>
-    </div>
-
-  </div>
-</div>
+| No | Pilar Kriteria Penilaian | Bobot | Indikator Kompetensi Teknis |
+| :---: | :--- | :---: | :--- |
+| **1** | 🌐 **Fungsionalitas & Interaktivitas Web** | **30 Poin** | • Kecepatan & responsivitas widget filter interaktif<br>• Tata letak multi-halaman Streamlit yang rapi & intuitif<br>• Bebas dari *runtime error* / *crash* saat demonstrasi live |
+| **2** | 💡 **Ketajaman Insight & Data Storytelling** | **25 Poin** | • Ketajaman wawasan analitis dalam menjawab persoalan data<br>• Alur narasi terstruktur (*Konteks → Masalah → Solusi*)<br>• Eliminasi beban kognitif & fokus pada pesan utama |
+| **3** | 📊 **Kualitas Desain Visual & Etika Tufte** | **25 Poin** | • Penerapan rasio data-ink tinggi & bebas *chartjunk*<br>• Ketepatan pemilihan jenis grafik terhadap tipe data<br>• Penggunaan palet warna ramah buta warna (*Colorblind Safe*) |
+| **4** | 💻 **Kerapian Kode & Repositori Git** | **20 Poin** | • Kepatuhan kaidah *Clean Code* & modularitas fungsi Python<br>• Kelengkapan berkas `README.md` & panduan instalasi<br>• Struktur repositori GitHub rapi & berkas `requirements.txt` |
