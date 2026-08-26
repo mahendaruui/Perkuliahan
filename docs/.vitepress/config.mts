@@ -55,6 +55,7 @@ export default withMermaid(
           text: '📽️ Slide Presentasi',
           items: [
             { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
+            { text: '⚡ Algoritma & Pemrograman', link: '/presentasi/pertemuan-1-algoritma' },
             { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
             { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' }
           ]
@@ -68,6 +69,13 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' }
+            ]
+          },
+          {
+            text: '⚡ Algoritma & Pemrograman',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-algoritma' }
             ]
           },
           {

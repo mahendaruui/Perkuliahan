@@ -4,6 +4,14 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 
 ---
 
+
+## ⚡ Algoritma dan Pemrograman (IFR206)
+
+| Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
+| :---: | :--- | :---: | :---: |
+| **01** | Kontrak Kuliah, Pengenalan Algoritma & Notasi Standar | [Lihat di Web](/presentasi/pertemuan-1-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-algoritma.html){target="_blank"} |
+
+---
 ## ☕ Pemrograman Berorientasi Objek (Java)
 
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
