@@ -3,38 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pertemuan 1 - Kontrak Kuliah, Pengenalan Algoritma & Notasi Standar | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <title>Pertemuan 1 - Epistemologi Algoritma & Computational Thinking | Mahendar Dwi Payana, S.ST., M.T.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --primary-light: #e0f2fe;
-      --secondary: #4f46e5;
-      --bg-page: #f8fafc;
-      --card-bg: #ffffff;
-      --card-subtle: #f8fafc;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --border-dark: #cbd5e1;
-      --accent-green: #059669;
-      --accent-amber: #d97706;
-      --accent-purple: #9333ea;
-      --accent-pink: #db2777;
+      --bg-gradient: radial-gradient(120% 120% at 50% 10%, #0f172a 0%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-page);
+      background: var(--bg-gradient);
       color: var(--text-main);
       overflow: hidden;
       height: 100vh;
@@ -44,77 +38,46 @@
       user-select: none;
     }
 
-    /* Top Navigation Bar */
     header {
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
+    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #f8fafc; }
+    .brand-text span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
 
-    .brand-logo {
-      height: 32px;
-      width: auto;
-      border-radius: 4px;
-    }
-
-    .brand-text {
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #0f172a;
-    }
-
-    .brand-text span {
-      color: var(--primary);
-    }
-
-    .brand-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .header-controls { display: flex; align-items: center; gap: 12px; }
     .btn-icon {
-      background: #ffffff;
-      border: 1px solid var(--border-dark);
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       font-family: inherit;
     }
-
     .btn-icon:hover {
-      background: var(--primary-light);
+      background: rgba(56, 189, 248, 0.15);
       border-color: var(--primary);
       color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
     }
 
-    /* Main Stage */
     #slide-viewport {
       flex: 1;
       position: relative;
@@ -122,68 +85,67 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px 32px;
-      background: radial-gradient(circle at 50% 10%, #f0f9ff 0%, #f8fafc 100%);
+      padding: 20px 28px;
     }
 
     .slide {
       position: absolute;
-      width: min(1120px, 94vw);
+      width: min(1140px, 94vw);
       height: min(640px, 84vh);
       background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid rgba(226, 232, 240, 0.8);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.02);
-      padding: 40px 48px;
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+      padding: 36px 44px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       opacity: 0;
-      transform: translateX(40px) scale(0.98);
+      transform: translateY(20px) scale(0.98);
       pointer-events: none;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .slide.active {
       opacity: 1;
-      transform: translateX(0) scale(1);
+      transform: translateY(0) scale(1);
       pointer-events: auto;
       z-index: 10;
     }
 
     .slide.prev {
       opacity: 0;
-      transform: translateX(-40px) scale(0.98);
+      transform: translateY(-20px) scale(0.98);
     }
 
-    /* Slide Header */
     .slide-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.72rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: var(--primary-light);
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       color: var(--primary);
-      width: fit-content;
       margin-bottom: 8px;
     }
 
     .slide-title {
-      font-size: 1.75rem;
+      font-size: 1.8rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      color: var(--text-main);
+      color: #ffffff;
       line-height: 1.25;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .slide-subtitle {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
       font-weight: 400;
       margin-bottom: 16px;
@@ -192,14 +154,15 @@
     .slide-body {
       flex: 1;
       overflow-y: auto;
-      padding-right: 8px;
+      padding-right: 6px;
     }
+    .slide-body::-webkit-scrollbar { width: 4px; }
+    .slide-body::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
 
-    /* Footer & Controls */
     footer {
-      padding: 12px 24px;
-      background: #ffffff;
-      border-top: 1px solid var(--border);
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -208,9 +171,9 @@
 
     .progress-track {
       flex: 1;
-      max-width: 400px;
+      max-width: 440px;
       height: 6px;
-      background: var(--border);
+      background: rgba(51, 65, 85, 0.5);
       border-radius: 99px;
       overflow: hidden;
       margin: 0 20px;
@@ -218,21 +181,17 @@
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%);
       width: 0%;
       border-radius: 99px;
-      transition: width 0.3s ease;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px var(--primary-glow);
     }
 
-    .nav-btn-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
     .btn-nav {
-      background: var(--card-bg);
-      border: 1px solid var(--border-dark);
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
       color: var(--text-main);
       width: 36px;
       height: 36px;
@@ -244,17 +203,13 @@
       font-weight: 700;
       transition: all 0.2s;
     }
-
     .btn-nav:hover:not(:disabled) {
       background: var(--primary);
-      color: white;
+      color: #0f172a;
       border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
     }
-
-    .btn-nav:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
 
     .slide-counter {
       font-size: 0.85rem;
@@ -262,167 +217,101 @@
       color: var(--text-muted);
       min-width: 70px;
       text-align: center;
-      font-family: 'Fira Code', monospace;
+      font-family: var(--font-code);
     }
 
-    /* Grid & Cards */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
     .card {
-      background: var(--card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       padding: 16px;
+      position: relative;
+      overflow: hidden;
     }
+    .card-cyan { border-left: 4px solid var(--primary); background: rgba(56, 189, 248, 0.04); }
+    .card-emerald { border-left: 4px solid var(--accent-emerald); background: rgba(52, 211, 153, 0.04); }
+    .card-amber { border-left: 4px solid var(--accent-amber); background: rgba(251, 191, 36, 0.04); }
+    .card-purple { border-left: 4px solid var(--accent-purple); background: rgba(192, 132, 252, 0.04); }
+    .card-rose { border-left: 4px solid var(--accent-rose); background: rgba(251, 113, 133, 0.04); }
 
-    .card-primary {
-      border-left: 4px solid var(--primary);
-      background: #f0f9ff;
+    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; display: flex; align-items: center; gap: 6px; }
+    .card p, .card li { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-top: 10px;
     }
+    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .quote-text { font-size: 0.82rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+    .quote-author { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 600; }
 
-    .card-green {
-      border-left: 4px solid var(--accent-green);
-      background: #ecfdf5;
-    }
-
-    .card-amber {
-      border-left: 4px solid var(--accent-amber);
-      background: #fffbeb;
-    }
-
-    .card-purple {
-      border-left: 4px solid var(--accent-purple);
-      background: #faf5ff;
-    }
-
-    .card h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .card p, .card li {
-      font-size: 0.82rem;
-      color: #334155;
-      line-height: 1.5;
-    }
-
-    /* Code Box */
     pre {
-      background: #0f172a;
-      color: #f8fafc;
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
       padding: 14px;
-      border-radius: 10px;
-      font-family: 'Fira Code', monospace;
+      border-radius: 12px;
+      font-family: var(--font-code);
       font-size: 0.8rem;
       line-height: 1.5;
       overflow-x: auto;
     }
 
-    /* Badge & Tag */
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.72rem;
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    table.slide-table th {
+      background: rgba(30, 41, 59, 0.8);
       font-weight: 700;
+      color: var(--primary);
     }
-    .badge-blue { background: #e0f2fe; color: #0369a1; }
-    .badge-green { background: #dcfce7; color: #15803d; }
-    .badge-amber { background: #fef3c7; color: #b45309; }
+    table.slide-table td { color: #cbd5e1; }
 
-    /* Title Slide Hero */
-    .hero-slide {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-
-    .hero-title {
-      font-size: 2.3rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #0f172a;
-      margin-bottom: 12px;
-      line-height: 1.2;
-    }
-
-    .hero-title span {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 16px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .hero-pill {
-      background: white;
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: 99px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-    }
-  </style>
+    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .hero-title { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; color: #ffffff; margin-bottom: 12px; line-height: 1.2; }
+    .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .hero-pill { background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; }
+</style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
     <div class="brand">
-      <img src="/Perkuliahan/uuilogo.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
       <div>
         <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
         <div class="brand-sub">IFR206 • Pertemuan 01 • Universitas Ubudiyah Indonesia</div>
       </div>
     </div>
     <div class="header-controls">
-      <button class="btn-icon" onclick="toggleFullScreen()" title="Tekan F untuk Layar Penuh">
-        ⛶ Layar Penuh (F)
-      </button>
+      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
     </div>
   </header>
 
-  <!-- Viewport -->
   <main id="slide-viewport">
-
-    <!-- SLIDE 1: JUDUL -->
+    <!-- SLIDE 1 -->
     <div class="slide active">
       <div class="hero-slide">
         <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
-        <h1 class="hero-title">Kontrak Kuliah, <span>Pengenalan Algoritma</span> & Notasi Standar</h1>
-        <p style="font-size: 1.05rem; color: #64748b; max-width: 700px; line-height: 1.6;">
-          Fondasi Computational Thinking, Karakteristik Logika Komputasi, Notasi Flowchart ISO 5807 & Pseudocode Terstruktur
+        <h1 class="hero-title">Hakikat & <span>Epistemologi Algoritma</span></h1>
+        <p style="font-size: 1.05rem; color: #94a3b8; max-width: 740px; line-height: 1.6;">
+          Fondasi Berpikir Komputasional (Computational Thinking), Deterministik Prosedural, Standar Notasi ISO 5807 & Pseudocode Terstruktur
         </p>
-        
         <div class="hero-meta">
           <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
           <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
@@ -431,276 +320,246 @@
       </div>
     </div>
 
-    <!-- SLIDE 2: CAPAIAN PEMBELAJARAN OBE -->
+    <!-- SLIDE 2 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
-        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 1)</h2>
-        <p class="slide-subtitle">Kurikulum Outcome-Based Education (OBE) Universitas Ubudiyah Indonesia</p>
+        <div class="slide-tag">🧠 FILOSOFI KOMPUTASI</div>
+        <h2 class="slide-title">Mengapa Manusia Membutuhkan Algoritma?</h2>
+        <p class="slide-subtitle">Dari keterbatasan nalar biologis manusia menuju presisi deterministik mesin silikon</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
-          <div class="card card-primary">
+          <div class="card card-cyan">
+            <h4>🌌 Paradigma Masalah & Solusi</h4>
+            <p>
+              Otak manusia berpikir menggunakan intuisi dan analogi yang sering kali ambigu. Namun, untuk menyelesaikan masalah yang berulang (reproducible), berskala raksasa, dan bebas bias, kita membutuhkan <strong>metode formal</strong>.
+            </p>
+            <p style="margin-top: 8px;">
+              Algoritma adalah jembatan antara <em>gagasan konseptual manusia</em> dengan <em>eksekusi deterministik silikon komputer</em>.
+            </p>
+          </div>
+          <div class="card card-purple">
+            <h4>🏛️ Jejak Sejarah Baitul Hikmah</h4>
+            <p>
+              Istilah <em>Algorithm</em> berakar dari <strong>Abu Ja'far Muhammad bin Musa Al-Khwarizmi</strong> (Baghdad, abad ke-9). Beliau merumuskan metode matematis langkah-demi-langkah (al-Jabr) untuk memecahkan persoalan waris dan astronomi secara universal tanpa kerancuan.
+            </p>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="quote-title">💡 Refleksi Filosofis Dijkstra</div>
+          <div class="quote-text">"Ilmu komputer bukan sekadar tentang komputer, sebagaimana ilmu astronomi bukan sekadar tentang teleskop. Inti sains ini adalah studi tentang komputabilitas dan metode penalaran mekanis."</div>
+          <div class="quote-author">— Edsger W. Dijkstra (Turing Award Laureate)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN OBE</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 1)</h2>
+        <p class="slide-subtitle">Pemetaan Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
             <h4>🎯 Capaian Pembelajaran Lulusan (CPL)</h4>
             <ul style="padding-left: 18px; margin-top: 8px;">
-              <li><strong>CPL01 (Pengetahuan):</strong> Menguasai konsep dan teori dasar algoritma dan komputasi informatika.</li>
-              <li><strong>CPL03 (Problem Solving):</strong> Mampu beradaptasi terhadap penggunaan metode baru pada permasalahan dinamis.</li>
-              <li><strong>CPL08 (Etika & Sikap):</strong> Memiliki integritas akademik, kejujuran kode program, dan bebas plagiarisme.</li>
+              <li><strong>CPL01 (Knowledge):</strong> Menguasai konsep dasar algoritma dan struktur berpikir informatika.</li>
+              <li><strong>CPL03 (Problem Solving):</strong> Mampu memodelkan masalah nyata ke dalam langkah terstruktur.</li>
+              <li><strong>CPL08 (Etika & Sikap):</strong> Berintegritas akademik, orisinalitas kode, dan bebas plagiarisme.</li>
             </ul>
           </div>
-          <div class="card card-green">
+          <div class="card card-cyan">
             <h4>💡 Sub-CPMK 1 (Minggu 1)</h4>
             <p style="margin-top: 8px;">
-              Mahasiswa mampu <strong>menguraikan definisi dan 5 karakteristik algoritma standar</strong>, membedakan algoritma dengan program komputer, serta <strong>merancang representasi flowchart ISO dan pseudocode</strong> secara presisi untuk menyelesaikan masalah sekuensial.
+              Mahasiswa mampu <strong>menguraikan 5 karakteristik fundamental algoritma</strong>, membedakan algoritma dengan program komputer, serta <strong>merancang representasi flowchart ISO dan pseudocode</strong> secara presisi untuk menyelesaikan masalah sekuensial.
             </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 3: KONTRAK KULIAH & EVALUASI -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">📋 KONTRAK KULIAH</div>
-        <h2 class="slide-title">Sistem Evaluasi & Penilaian OBE</h2>
-        <p class="slide-subtitle">Komposisi penilaian transparan dan berbasis ketercapaian kompetensi</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-4" style="margin-bottom: 16px;">
-          <div class="card card-primary" style="text-align: center;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">20%</div>
-            <h4>Tugas Praktikum</h4>
-            <p>Latihan coding lab & problem sets</p>
-          </div>
-          <div class="card card-amber" style="text-align: center;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-amber);">10%</div>
-            <h4>Kuis Mandiri</h4>
-            <p>Logika algoritma & trace table</p>
-          </div>
-          <div class="card card-purple" style="text-align: center;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-purple);">10%</div>
-            <h4>Tugas Besar</h4>
-            <p>Proyek mini terpadu</p>
-          </div>
-          <div class="card card-green" style="text-align: center;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-green);">60%</div>
-            <h4>UTS (30%) & UAS (30%)</h4>
-            <p>Teori komprehensif & live coding</p>
-          </div>
-        </div>
-        <div class="card" style="background: #f1f5f9;">
-          <p><strong>⚠️ Aturan Akademik:</strong> Kehadiran minimal 75% untuk syarat mengikuti UAS. Plagiarisme kode program akan langsung diganjar nilai E (0).</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 4: SEJARAH & ASAL KATA ALGORITMA -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">📜 ASAL-USUL & HISTORI</div>
-        <h2 class="slide-title">Siapakah Penemu Algoritma?</h2>
-        <p class="slide-subtitle">Warisan peradaban emas ilmuwan Islam dalam komputasi modern</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-primary">
-            <h4>🏛️ Abu Ja'far Muhammad bin Musa Al-Khwarizmi</h4>
-            <p style="margin-top: 6px;">
-              Lahir di Khwarizm (sekarang Uzbekistan, $\approx$ 780–850 M). Beliau adalah ilmuwan terkemuka di *Baitul Hikmah (House of Wisdom)* Baghdad.
-            </p>
-            <p style="margin-top: 8px;">
-              Karya agungnya <em>Al-Jabr wa-al-Muqabala</em> melahirkan istilah <strong>Aljabar</strong>, dan pelafalan nama beliau di dunia barat melahirkan kata <strong>Algoritma (*Algorithm*)</strong>.
-            </p>
-          </div>
-          <div class="card card-green">
-            <h4>💡 Definisi Formal Algoritma</h4>
-            <p style="margin-top: 6px; font-size: 0.9rem; line-height: 1.6;">
-              <em>"Algoritma adalah urutan langkah-langkah logis, teratur, dan terbatas yang disusun secara sistematis untuk memproses masukan (input) menjadi keluaran (output) yang menyelesaikan suatu permasalahan komputasi."</em>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 5: 5 KARAKTERISTIK KNUTH -->
+    <!-- SLIDE 4 -->
     <div class="slide">
       <div>
         <div class="slide-tag">🔍 KARAKTERISTIK FORMAL</div>
         <h2 class="slide-title">5 Karakteristik Algoritma (Donald Knuth)</h2>
-        <p class="slide-subtitle">Syarat mutlak agar suatu prosedur sah disebut algoritma</p>
+        <p class="slide-subtitle">Batas ontologis: Mengapa prosedur memasak mie instan berbeda dengan algoritma komputasi?</p>
       </div>
       <div class="slide-body">
         <div class="grid-3" style="margin-bottom: 12px;">
-          <div class="card card-primary">
+          <div class="card card-cyan">
             <h4>1. Input (Masukan)</h4>
-            <p>Memiliki nol atau lebih nilai yang diberikan sebelum algoritma dieksekusi.</p>
+            <p>Memiliki nol atau lebih kuantitas eksternal yang terdefinisi dengan jelas sebelum proses berjalan.</p>
           </div>
-          <div class="card card-green">
+          <div class="card card-emerald">
             <h4>2. Output (Keluaran)</h4>
-            <p>Wajib menghasilkan minimal satu solusi keluaran yang bermanfaat.</p>
+            <p>Wajib menghasilkan minimal satu kuantitas solusi yang memiliki relasi sebab-akibat dengan input.</p>
           </div>
           <div class="card card-amber">
             <h4>3. Definiteness (Kepastian)</h4>
-            <p>Setiap instruksi harus jelas, eksplisit, dan tidak memiliki makna ganda (*non-ambiguous*).</p>
+            <p>Setiap instruksi harus tegas, tunggal maknanya, dan tidak ambigu bagi kompilator mesin.</p>
           </div>
         </div>
         <div class="grid-2">
-          <div class="card card-purple">
-            <h4>4. Finiteness (Keterbatasan)</h4>
-            <p>Algoritma <strong>wajib berhenti</strong> setelah mengeksekusi sejumlah langkah terhingga (tidak boleh <em>infinite loop</em>).</p>
+          <div class="card card-rose">
+            <h4>4. Finiteness (Keterbatasan Langkah)</h4>
+            <p>Algoritma <strong>wajib berhenti</strong> setelah mengeksekusi sejumlah langkah terhingga (berkaitan erat dengan <em>Halting Problem Alan Turing</em>).</p>
           </div>
-          <div class="card" style="border-left: 4px solid #0f172a;">
-            <h4>5. Effectiveness (Efektivitas)</h4>
-            <p>Setiap langkah instruksi harus sederhana dan dapat dikerjakan oleh mesin dalam waktu yang wajar.</p>
+          <div class="card card-purple">
+            <h4>5. Effectiveness (Keberfungsian)</h4>
+            <p>Setiap operasi harus cukup mendasar (basic) sehingga dapat dieksekusi oleh mesin secara tepat dalam waktu wajar.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 6: ALGORITMA VS PROGRAM -->
+    <!-- SLIDE 5 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">⚙️ RELASI & PERBEDAAN</div>
+        <div class="slide-tag">⚙️ RELASI KONSEPTUAL</div>
         <h2 class="slide-title">Algoritma vs Program Komputer</h2>
         <p class="slide-subtitle">Rumus Klasik Niklaus Wirth: Algorithms + Data Structures = Programs</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
-          <div class="card card-primary">
-            <h4>📐 Algoritma</h4>
-            <ul style="padding-left: 18px; margin-top: 8px;">
-              <li>Cetak biru (*blueprint*) rancangan logika solusi.</li>
-              <li>Independen dari bahasa pemrograman apa pun.</li>
-              <li>Dianalisis melalui nalar manusia dan *trace table*.</li>
-              <li>Fokus pada efisiensi logika dan kebenaran alur.</li>
+          <div class="card card-cyan">
+            <h4>📐 Algoritma (Konsep Abstrak)</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Ide logika murni yang independen dari bahasa apa pun.</li>
+              <li>Dianalisis secara matematis melalui Time & Space Complexity.</li>
+              <li>Divalidasi kebenarannya menggunakan Trace Table dan pembuktian formal.</li>
+              <li>Abadi melintasi generasi arsitektur hardware.</li>
             </ul>
           </div>
-          <div class="card card-green">
-            <h4>💻 Program Komputer</h4>
-            <ul style="padding-left: 18px; margin-top: 8px;">
-              <li>Implementasi konkret dalam kode sumber (*source code*).</li>
-              <li>Terikat aturan sintaksis bahasa (Python, C++, Java, Go).</li>
-              <li>Diterjemahkan oleh Compiler/Interpreter & dieksekusi CPU.</li>
-              <li>Fokus pada manajemen memori dan interaksi sistem.</li>
+          <div class="card card-emerald">
+            <h4>💻 Program Komputer (Artefak Fisik)</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Manifestasi konkret algoritma dalam kode sumber (source code).</li>
+              <li>Terikat aturan sintaksis gramatikal bahasa (Python, C++, Java, Go).</li>
+              <li>Diterjemahkan oleh kompilator menjadi biner mesin (0 dan 1).</li>
+              <li>Berinteraksi langsung dengan register CPU, bus RAM, dan I/O sistem.</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 7: NOTASI FLOWCHART ISO -->
+    <!-- SLIDE 6 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">📊 NOTASI VISUAL</div>
-        <h2 class="slide-title">Diagram Alir (Flowchart Standar ISO 5807)</h2>
-        <p class="slide-subtitle">Simbol-simbol grafis internasional untuk memetakan alur instruksi</p>
+        <div class="slide-tag">📊 NOTASI VISUAL ISO 5807</div>
+        <h2 class="slide-title">Diagram Alir (Flowchart Standar Internasional)</h2>
+        <p class="slide-subtitle">Bahasa visual universal untuk memetakan alur kontrol instruksi logika</p>
       </div>
       <div class="slide-body">
         <div class="grid-3">
-          <div class="card card-primary">
+          <div class="card card-cyan">
             <h4>🔴 Terminator (Kapsul)</h4>
-            <p>Menandai titik awal (<strong>Start / Mulai</strong>) dan titik akhir (<strong>End / Selesai</strong>) algoritma.</p>
+            <p>Menandai inisiasi awal (<strong>Start</strong>) dan terminasi akhir (<strong>End</strong>) eksekusi sistem.</p>
           </div>
-          <div class="card card-green">
+          <div class="card card-emerald">
             <h4>🔷 Input / Output (Jajar Genjang)</h4>
-            <p>Operasi membaca data masukan dari user (`read`) atau menampilkan hasil ke layar (`print/write`).</p>
+            <p>Operasi pertukaran data antara memori program dengan peranti eksternal (read, print).</p>
           </div>
           <div class="card card-amber">
             <h4>⏹️ Process (Persegi Panjang)</h4>
-            <p>Instruksi pemrosesan aritmatika, kalkulasi, manipulasi nilai variabel (`luas = p * l`).</p>
+            <p>Operasi komputasi aritmatika, alokasi memori, atau transformasi nilai variabel (luas = p * l).</p>
+          </div>
+          <div class="card card-rose">
+            <h4>🔶 Decision (Belah Ketupat)</h4>
+            <p>Titik percabangan logika kondisional: evaluasi biner <strong>True / Ya</strong> atau <strong>False / Tidak</strong>.</p>
           </div>
           <div class="card card-purple">
-            <h4>🔶 Decision (Belah Ketupat)</h4>
-            <p>Percabangan kondisional dengan dua jalur keluaran: <strong>Ya (True)</strong> atau <strong>Tidak (False)</strong>.</p>
-          </div>
-          <div class="card">
             <h4>➡️ Flowline (Garis Alir)</h4>
-            <p>Menunjukkan arah urutan eksekusi langkah selanjutnya.</p>
+            <p>Vektor arah urutan sekuensial perpindahan kendali instruksi prosesor.</p>
           </div>
           <div class="card">
             <h4>⭕ Connector (Lingkaran)</h4>
-            <p>Penyambung alur diagram pada satu halaman agar tidak rumit berpotongan.</p>
+            <p>Penyambung diagram alir pada halaman yang sama untuk menghindari garis kusut.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 8: NOTASI PSEUDOCODE -->
+    <!-- SLIDE 7 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">📝 NOTASI TEKSTUAL</div>
-        <h2 class="slide-title">Notasi Pseudocode Terstruktur</h2>
-        <p class="slide-subtitle">Struktur baku penyusunan algoritma dalam teks formal</p>
+        <div class="slide-tag">📝 NOTASI TEKSTUAL FORMAL</div>
+        <h2 class="slide-title">Struktur Baku Pseudocode</h2>
+        <p class="slide-subtitle">Menghubungkan rancangan pemikiran manusia dengan arsitektur program</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
           <div>
-            <div class="card card-primary" style="margin-bottom: 10px;">
+            <div class="card card-cyan" style="margin-bottom: 8px;">
               <h4>1. Bagian Judul (Header)</h4>
-              <p>Nama algoritma beserta penjelasan ringkas tujuannya.</p>
+              <p>Mendefinisikan nama algoritma dan spesifikasi ringkas tujuannya.</p>
             </div>
-            <div class="card card-amber" style="margin-bottom: 10px;">
+            <div class="card card-amber" style="margin-bottom: 8px;">
               <h4>2. Bagian Deklarasi</h4>
-              <p>Mendefinisikan seluruh variabel dan tipe data yang digunakan.</p>
+              <p>Alokasi identitas seluruh variabel, konstanta, dan tipe data.</p>
             </div>
-            <div class="card card-green">
+            <div class="card card-emerald">
               <h4>3. Bagian Deskripsi / Badan</h4>
-              <p>Langkah-langkah instruksi komputasi utama.</p>
+              <p>Rangkaian instruksi komputasi sekuensial yang presisi.</p>
             </div>
           </div>
           <div>
-            <pre><code>ALGORITMA HitungLuas
-{ Menghitung luas persegi panjang }
+            <pre><code>ALGORITMA KonversiSuhu
+{ Mengonversi Celcius ke Fahrenheit & Reamur }
 
 DEKLARASI:
-    panjang : real
-    lebar   : real
-    luas    : real
+    celcius    : real
+    fahrenheit : real
+    reamur     : real
 
 DESKRIPSI:
-    read(panjang)
-    read(lebar)
-    luas <- panjang * lebar
-    write("Luas = ", luas)
+    read(celcius)
+    fahrenheit <- (9.0 / 5.0 * celcius) + 32
+    reamur     <- 4.0 / 5.0 * celcius
+    write("Fahrenheit: ", fahrenheit)
+    write("Reamur: ", reamur)
 SELESAI</code></pre>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 9: STUDI KASUS MULTI-BAHASA -->
+    <!-- SLIDE 8 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">💻 STUDI KASUS IMPLEMENTASI</div>
-        <h2 class="slide-title">Studi Kasus: Cek Bilangan Genap / Ganjil</h2>
-        <p class="slide-subtitle">Perbandingan implementasi algoritma pada Python dan C++</p>
+        <div class="slide-tag">💻 STUDI KASUS MULTI-BAHASA</div>
+        <h2 class="slide-title">Studi Kasus: Logika Cek Paritas Bilangan</h2>
+        <p class="slide-subtitle">Satu konsep algoritma, diimplementasikan dalam berbagai dialek bahasa pemrograman</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
           <div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3</div>
-            <pre><code># Program Cek Genap Ganjil
-bilangan = int(input("Masukkan angka: "))
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3 (Ekspresif & Dinamis)</div>
+            <pre><code># Algoritma Cek Genap / Ganjil
+bilangan = int(input("Masukkan angka bulat: "))
 
 if bilangan % 2 == 0:
-    print(f"{bilangan} adalah GENAP")
+    print(f"Angka {bilangan} adalah GENAP")
 else:
-    print(f"{bilangan} adalah GANJIL")</code></pre>
+    print(f"Angka {bilangan} adalah GANJIL")</code></pre>
           </div>
           <div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++ (Statis, Cepat & Dekat Hardware)</div>
             <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 int main() {
     int bilangan;
-    cout << "Masukkan angka: ";
-    cin >> bilangan;
+    cout &lt;&lt; "Masukkan angka bulat: ";
+    cin &gt;&gt; bilangan;
 
     if (bilangan % 2 == 0) {
-        cout << bilangan << " adalah GENAP\n";
+        cout &lt;&lt; bilangan &lt;&lt; " adalah GENAP\n";
     } else {
-        cout << bilangan << " adalah GANJIL\n";
+        cout &lt;&lt; bilangan &lt;&lt; " adalah GANJIL\n";
     }
     return 0;
 }</code></pre>
@@ -709,53 +568,83 @@ int main() {
       </div>
     </div>
 
-    <!-- SLIDE 10: KESIMPULAN & TUGAS -->
+    <!-- SLIDE 9 -->
     <div class="slide">
       <div>
-        <div class="slide-tag">🎯 RANGKUMAN & TUGAS</div>
-        <h2 class="slide-title">Rangkuman Materi & Latihan Mandiri</h2>
-        <p class="slide-subtitle">Evaluasi Sub-CPMK 1 untuk persiapan pertemuan praktikum lab</p>
+        <div class="slide-tag">📋 KONTRAK KULIAH & PENILAIAN</div>
+        <h2 class="slide-title">Sistem Evaluasi Berbasis Kinerja (OBE)</h2>
+        <p class="slide-subtitle">Penilaian transparan dan terukur demi pencapaian kompetensi industri</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4" style="margin-bottom: 14px;">
+          <div class="card card-cyan" style="text-align: center;">
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);">20%</div>
+            <h4>Tugas Lab</h4>
+            <p>Coding mingguan & problem sets</p>
+          </div>
+          <div class="card card-amber" style="text-align: center;">
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-amber);">10%</div>
+            <h4>Kuis Mandiri</h4>
+            <p>Trace table & logika</p>
+          </div>
+          <div class="card card-purple" style="text-align: center;">
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-purple);">10%</div>
+            <h4>Tugas Besar</h4>
+            <p>PjBL mini-project</p>
+          </div>
+          <div class="card card-emerald" style="text-align: center;">
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-emerald);">60%</div>
+            <h4>UTS & UAS</h4>
+            <p>Ujian teori & live coding</p>
+          </div>
+        </div>
+        <div class="card card-rose">
+          <p><strong>⚠️ Pakta Integritas Akademik:</strong> Kehadiran minimal 75% syarat mengikuti UAS. Segala bentuk kecurangan atau plagiarisme kode berakibat langsung nilai E (Gagal).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 1</div>
+        <h2 class="slide-title">Rangkuman Materi & Tantangan Logika</h2>
+        <p class="slide-subtitle">Penguatan fondasi penalaran algoritma sebelum memasuki sesi praktikum lab</p>
       </div>
       <div class="slide-body">
         <div class="grid-2">
-          <div class="card card-primary">
-            <h4>📌 Rangkuman Penting</h4>
+          <div class="card card-cyan">
+            <h4>📌 Rangkuman Kunci</h4>
             <ul style="padding-left: 18px; margin-top: 6px;">
-              <li>Algoritma adalah urutan langkah logis, pasti, dan berhingga (*finite*).</li>
-              <li>Flowchart digunakan untuk memetakan alur visual; Pseudocode untuk rancangan logika tekstual.</li>
-              <li>Kuasai logika penyelesaian sebelum mulai menulis kode program.</li>
+              <li>Algoritma adalah rancangan logika deterministik, finite, dan bebas ambiguitas.</li>
+              <li>Pemisahan antara algoritma dan program melatih abstraksi problem solving tingkat tinggi.</li>
+              <li>Kuasai visualisasi Flowchart dan presisi Pseudocode sebelum menyentuh kode.</li>
             </ul>
           </div>
-          <div class="card card-green">
-            <h4>📝 Tugas Mandiri Pertemuan 1</h4>
+          <div class="card card-emerald">
+            <h4>📝 Latihan Mandiri Minggu 1</h4>
             <p style="margin-top: 6px;">
-              Rancanglah <strong>Flowchart dan Pseudocode</strong> untuk:
+              Rancanglah <strong>Flowchart ISO & Pseudocode</strong> untuk:
             </p>
             <ol style="padding-left: 18px; margin-top: 4px;">
-              <li>Mengonversi suhu dari Celcius ke Fahrenheit ($F = \frac{9}{5}C + 32$) dan Reamur ($R = \frac{4}{5}C$).</li>
-              <li>Menghitung total tagihan belanja dengan diskon 10% jika total belanja $\ge \text{Rp } 100.000$.</li>
+              <li>Menghitung total tagihan kasir dengan diskon 10% jika belanja ≥ Rp 100.000.</li>
+              <li>Menukar isi dua buah variabel (Swap Variable A dan B) menggunakan variabel ketiga / perantara.</li>
             </ol>
           </div>
         </div>
       </div>
     </div>
-
   </main>
 
-  <!-- Footer Controls -->
   <footer>
     <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
-      Tekan <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">◀</kbd> <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">▶</kbd> atau <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">Spasi</kbd>
+      Navigasi: <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">◀</kbd> <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">▶</kbd> atau <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">Spasi</kbd>
     </div>
-
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-bar"></div>
-    </div>
-
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
     <div class="nav-btn-group">
-      <button class="btn-nav" id="btn-prev" onclick="prevSlide()" title="Slide Sebelumnya">◀</button>
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
       <div class="slide-counter" id="slide-num">1 / 10</div>
-      <button class="btn-nav" id="btn-next" onclick="nextSlide()" title="Slide Selanjutnya">▶</button>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
     </div>
   </footer>
 
@@ -778,56 +667,32 @@ int main() {
         }
       });
 
-      slideNum.textContent = `${currentSlide + 1} / ${totalSlides}`;
-      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
       btnPrev.disabled = currentSlide === 0;
       btnNext.disabled = currentSlide === totalSlides - 1;
     }
 
-    function nextSlide() {
-      if (currentSlide < totalSlides - 1) {
-        currentSlide++;
-        updateSlide();
-      }
-    }
-
-    function prevSlide() {
-      if (currentSlide > 0) {
-        currentSlide--;
-        updateSlide();
-      }
-    }
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
 
     function toggleFullScreen() {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-          console.error(err);
-        });
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
       } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
+        if (document.exitFullscreen) document.exitFullscreen();
       }
     }
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
-        nextSlide();
-      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-        prevSlide();
-      } else if (e.key === 'f' || e.key === 'F') {
-        toggleFullScreen();
-      } else if (e.key === 'Home') {
-        currentSlide = 0;
-        updateSlide();
-      } else if (e.key === 'End') {
-        currentSlide = totalSlides - 1;
-        updateSlide();
-      }
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
+      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
+      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
     });
 
     updateSlide();
-  </script>
+</script>
 </body>
 </html>
