@@ -11,31 +11,47 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 
 ## 1. Anatomi Plot Distribusi Kunci
 
-```mermaid
-flowchart TD
-    subgraph GroupA["📈 Kelompok 1: Estimasi Bentuk & Kepadatan Kontinu"]
-        direction TB
-        A["📈 <b>1. Histogram & KDE Plot</b><br>Menilai sebaran frekuensi, kemiringan data (skewness), dan kurva normalitas."]
-        C["🎻 <b>3. Violin Plot</b><br>Menggabungkan ringkasan kuartil box plot dengan estimasi densitas kontur (KDE)."]
-        A --> C
-    end
+<div style="margin: 20px 0;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+    
+    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #3b82f6; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+      <h4 style="margin: 0 0 6px 0; color: #2563eb; font-weight: bold; font-size: 1.05rem;">
+        📈 1. Histogram & KDE Plot
+      </h4>
+      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
+        Menilai bentuk sebaran frekuensi, kemiringan data (<em>skewness</em>), modus, dan menguji kurva normalitas data kontinu.
+      </p>
+    </div>
 
-    subgraph GroupB["📦 Kelompok 2: Ringkasan Kuartil & Kumulatif"]
-        direction TB
-        B["📦 <b>2. Box Plot (Box & Whisker)</b><br>Menampilkan 5 angka statistik (Median, Q1/Q3, IQR) dan mendeteksi outlier."]
-        D["📉 <b>4. ECDF Plot (Empirical Cumulative)</b><br>Menyajikan kurva persentil kumulatif aktual tanpa bias penentuan lebar bin."]
-        B --> D
-    end
+    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #a855f7; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+      <h4 style="margin: 0 0 6px 0; color: #9333ea; font-weight: bold; font-size: 1.05rem;">
+        📦 2. Box Plot (Box & Whisker)
+      </h4>
+      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
+        Menampilkan ringkasan 5 angka statistik (Median, Kuartil Q1 & Q3, rentang IQR) serta mendeteksi titik pencilan (<em>outlier</em>).
+      </p>
+    </div>
 
-    GroupA ==> GroupB
+    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #10b981; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+      <h4 style="margin: 0 0 6px 0; color: #059669; font-weight: bold; font-size: 1.05rem;">
+        🎻 3. Violin Plot
+      </h4>
+      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
+        Menggabungkan ketajaman kuartil box plot dengan estimasi kontur kepadatan probabilitas (<em>Kernel Density Estimation</em>).
+      </p>
+    </div>
 
-    style GroupA fill:#eff6ff,stroke:#2563eb,stroke-width:2px
-    style GroupB fill:#faf5ff,stroke:#9333ea,stroke-width:2px
-    style A fill:#ffffff,stroke:#3b82f6,stroke-width:2px
-    style C fill:#ffffff,stroke:#3b82f6,stroke-width:2px
-    style B fill:#ffffff,stroke:#a855f7,stroke-width:2px
-    style D fill:#ffffff,stroke:#a855f7,stroke-width:2px
-```
+    <div style="background: var(--vp-c-bg-soft); border-left: 5px solid #f59e0b; border-radius: 10px; padding: 16px 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+      <h4 style="margin: 0 0 6px 0; color: #d97706; font-weight: bold; font-size: 1.05rem;">
+        📉 4. ECDF Plot (Empirical CDF)
+      </h4>
+      <p style="margin: 0; font-size: 0.92rem; color: var(--vp-c-text-2); line-height: 1.5;">
+        Menyajikan fungsi distribusi kumulatif empiris nyata dari 0% ke 100% tanpa bias pemilihan jumlah/lebar <em>bin</em>.
+      </p>
+    </div>
+
+  </div>
+</div>
 
 ---
 
