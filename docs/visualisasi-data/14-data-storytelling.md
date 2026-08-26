@@ -12,12 +12,19 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 ## 1. 6 Langkah Storytelling with Data (Cole Knaflic)
 
 ```mermaid
-graph LR
-    S1[1. Pahami Konteks] --> S2[2. Pilih Visual Tepat]
-    S2 --> S3[3. Eliminasi Clutter]
-    S3 --> S4[4. Fokuskan Perhatian]
-    S4 --> S5[5. Berpikir Seperti Desainer]
-    S5 --> S6[6. Ceritakan Narasi / Story]
+flowchart TD
+    S1["1. Pahami Konteks & Audiens (Who & What)"] --> S2["2. Pilih Representasi Visual yang Tepat"]
+    S2 --> S3["3. Eliminasi Clutter & Kurangi Beban Kognitif"]
+    S3 --> S4["4. Fokuskan Perhatian (Atribut Pra-atentif Selektif)"]
+    S4 --> S5["5. Berpikir Seperti Desainer (Hierarki & Whitespace)"]
+    S5 --> S6["6. Ceritakan Narasi Berkelanjutan (Storytelling)"]
+
+    style S1 fill:#f1f5f9,stroke:#64748b,stroke-width:2px
+    style S2 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    style S3 fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+    style S4 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style S5 fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+    style S6 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
 ### Prinsip Utama:

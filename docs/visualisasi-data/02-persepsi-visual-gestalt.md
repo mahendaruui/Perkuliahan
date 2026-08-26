@@ -37,15 +37,24 @@ Jika visualisasi memanfaatkan atribut pra-atentif dengan tepat, audiens tidak pe
 Prinsip Gestalt (berasal dari bahasa Jerman yang berarti *"bentuk utuh"*) menjelaskan bagaimana pikiran manusia secara otomatis mengelompokkan elemen-elemen terpisah menjadi satu kesatuan yang bermakna.
 
 ```mermaid
-graph TD
-    subgraph 6 Hukum Gestalt Kunci
-        G1[1. Proximity / Kedekatan Jarak]
-        G2[2. Similarity / Kesamaan Rupa & Warna]
-        G3[3. Enclosure / Pengurungan Wilayah]
-        G4[4. Continuity / Kontinuitas Garis]
-        G5[5. Connection / Keterhubungan Garis]
-        G6[6. Closure / Penutupan Bentuk]
+flowchart TD
+    subgraph G["🏛️ 6 Hukum Gestalt Kunci dalam Visualisasi Data"]
+        direction TB
+        G1["1. Proximity (Kedekatan Jarak Antar Elemen)"]
+        G2["2. Similarity (Kesamaan Bentuk & Warna)"]
+        G3["3. Enclosure (Pengurungan Area / Highlight Box)"]
+        G4["4. Continuity (Kontinuitas Garis Alur)"]
+        G5["5. Connection (Keterhubungan Garis Penghubung)"]
+        G6["6. Closure (Penutupan Bentuk Secara Spontan)"]
     end
+
+    style G fill:#f8fafc,stroke:#3b82f6,stroke-width:2px
+    style G1 fill:#ffffff,stroke:#94a3b8
+    style G2 fill:#ffffff,stroke:#94a3b8
+    style G3 fill:#ffffff,stroke:#94a3b8
+    style G4 fill:#ffffff,stroke:#94a3b8
+    style G5 fill:#ffffff,stroke:#94a3b8
+    style G6 fill:#ffffff,stroke:#94a3b8
 ```
 
 ### Penjelasan & Penerapan dalam Grafik:

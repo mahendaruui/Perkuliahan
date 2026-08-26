@@ -41,35 +41,40 @@ Mata kuliah ini dirancang dengan pendekatan **Outcome-Based Education (OBE)** un
 ## 🗺️ Peta Materi Perkuliahan 16 Minggu
 
 ```mermaid
-graph TD
-    subgraph Fondasi Teori & Persepsi
-        M1[01. Hakikat & Sejarah Visualisasi Data] --> M2[02. Psikologi Persepsi & Teori Gestalt]
-        M2 --> M3[03. Prinsip Desain Tufte & Framework Munzner]
-    end
-    subgraph Data Wrangling & Visualisasi Statis
-        M3 --> M4[04. Data Wrangling & EDA Pandas]
-        M4 --> M5[05. Matplotlib Fundamental Object-Oriented]
-        M5 --> M6[06. Seaborn Statistik & Distribusi]
-        M6 --> M7[07. Visualisasi Relasi & Multivariat]
-    end
-    subgraph Evaluasi Tengah Semester
-        M7 --> M8{08. Evaluasi Tengah Semester / UTS}
-    end
-    subgraph Visualisasi Interaktif & Geospasial
-        M8 --> M9[09. Visualisasi Interaktif dengan Plotly]
-        M9 --> M10[10. Pemetaan Geospasial Folium & GeoPandas]
-        M10 --> M11[11. Visualisasi Data Deret Waktu / Time Series]
-    end
-    subgraph AI Viz, Dashboarding & Storytelling
-        M11 --> M12[12. Visualisasi Model AI/ML & Reduksi Dimensi]
-        M12 --> M13[13. Pembangunan Dashboard Streamlit]
-        M13 --> M14[14. Data Storytelling & Komunikasi Bisnis]
-        M14 --> M15[15. Capstone Project Terpadu]
-        M15 --> M16{16. Evaluasi Akhir Semester / UAS}
+flowchart TD
+    subgraph Part1["🏛️ Bagian 1: Fondasi Teori & Persepsi"]
+        M1["01. Hakikat & Sejarah Visualisasi Data"] --> M2["02. Psikologi Persepsi & Teori Gestalt"]
+        M2 --> M3["03. Prinsip Desain Tufte & Framework Munzner"]
     end
 
-    style M8 fill:#fef08a,stroke:#ca8a04
-    style M16 fill:#bbf7d0,stroke:#16a34a
+    subgraph Part2["📊 Bagian 2: Data Wrangling & Visualisasi Statis"]
+        M3 --> M4["04. Data Wrangling & EDA Pandas"]
+        M4 --> M5["05. Matplotlib Fundamental Object-Oriented"]
+        M5 --> M6["06. Seaborn Statistik & Distribusi"]
+        M6 --> M7["07. Visualisasi Relasi & Multivariat"]
+    end
+
+    subgraph PartUTS["📝 Evaluasi Tengah Semester"]
+        M7 --> M8{"08. Evaluasi Tengah Semester (UTS)"}
+    end
+
+    subgraph Part3["🌐 Bagian 3: Visualisasi Interaktif & Geospasial"]
+        M8 --> M9["09. Visualisasi Interaktif dengan Plotly"]
+        M9 --> M10["10. Pemetaan Geospasial Folium & GeoPandas"]
+        M10 --> M11["11. Visualisasi Data Deret Waktu (Time Series)"]
+    end
+
+    subgraph Part4["🚀 Bagian 4: AI Viz, Dashboarding & Storytelling"]
+        M11 --> M12["12. Visualisasi Model AI/ML & Reduksi Dimensi"]
+        M12 --> M13["13. Pembangunan Dashboard Streamlit"]
+        M13 --> M14["14. Data Storytelling & Komunikasi Bisnis"]
+        M14 --> M15["15. Capstone Project Terpadu"]
+        M15 --> M16{"16. Evaluasi Akhir Semester (UAS)"}
+    end
+
+    style PartUTS fill:#fef9c3,stroke:#ca8a04
+    style M8 fill:#fef08a,stroke:#ca8a04,stroke-width:2px
+    style M16 fill:#bbf7d0,stroke:#16a34a,stroke-width:2px
 ```
 
 ---

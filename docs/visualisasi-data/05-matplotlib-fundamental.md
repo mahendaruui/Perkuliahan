@@ -14,13 +14,17 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 Matplotlib memiliki dua antarmuka: antarmuka prosedural mirip MATLAB (`pyplot.plot()`) dan **Antarmuka Berorientasi Objek (OO Interface)**. Untuk visualisasi profesional berstandar industri, wajib menggunakan antarmuka OO.
 
 ```mermaid
-graph TD
-    Figure[Figure: Kanvas Gambar Keseluruhan] --> Axes1[Axes 1: Subplot Pertama]
-    Figure --> Axes2[Axes 2: Subplot Kedua]
-    Axes1 --> Title[Title & Legend]
-    Axes1 --> XAxis[X-Axis: Ticks, Labels, Spines]
-    Axes1 --> YAxis[Y-Axis: Ticks, Labels, Spines]
-    Axes1 --> Elements[Visual Elements: Lines, Bars, Markers]
+flowchart TD
+    Figure["🖼️ Figure (Kanvas Gambar Utama)"] --> Axes1["📊 Axes 1 (Subplot Pertama)"]
+    Figure --> Axes2["📊 Axes 2 (Subplot Kedua)"]
+    Axes1 --> Title["Title & Legend"]
+    Axes1 --> XAxis["X-Axis (Ticks, Labels, Spines)"]
+    Axes1 --> YAxis["Y-Axis (Ticks, Labels, Spines)"]
+    Axes1 --> Elements["Visual Elements (Lines, Bars, Markers)"]
+
+    style Figure fill:#f8fafc,stroke:#475569,stroke-width:2px
+    style Axes1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style Axes2 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
 ```
 
 ---

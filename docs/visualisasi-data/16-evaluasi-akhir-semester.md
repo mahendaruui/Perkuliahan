@@ -18,9 +18,15 @@ Evaluasi Akhir Semester (UAS) merupakan puncak penilaian berbasis OBE yang mengu
 ## 🏆 Rubrik Standar Penilaian UAS Capstone UUI
 
 ```mermaid
-graph TD
-    A[Capstone Project UAS: 100 Poin] --> B[Fungsionalitas Dashboard Web: 30 Poin]
-    A --> C[Ketajaman Insight & Storytelling: 25 Poin]
-    A --> D[Kualitas Desain Visual & Integritas Tufte: 25 Poin]
-    A --> E[Struktur Kode & Dokumentasi Repositori: 20 Poin]
+flowchart TD
+    A["🏆 Capstone Project UAS: 100 Poin"] --> B["1. Fungsionalitas & Interaktivitas Dashboard Web (30 Poin)"]
+    A --> C["2. Ketajaman Insight & Data Storytelling (25 Poin)"]
+    A --> D["3. Kualitas Desain Visual & Integritas Tufte (25 Poin)"]
+    A --> E["4. Struktur Kode Bersih & Dokumentasi Repositori (20 Poin)"]
+
+    style A fill:#fef08a,stroke:#ca8a04,stroke-width:2px
+    style B fill:#eff6ff,stroke:#3b82f6
+    style C fill:#fdf4ff,stroke:#c084fc
+    style D fill:#ecfdf5,stroke:#10b981
+    style E fill:#f1f5f9,stroke:#64748b
 ```

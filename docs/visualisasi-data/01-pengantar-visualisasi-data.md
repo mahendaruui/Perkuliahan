@@ -19,11 +19,17 @@ Visualisasi data bukan sekadar kegiatan menggambar grafik yang indah (*aesthetic
 Secara epistemologis, otak manusia memproses informasi visual melalui korteks visual dengan kecepatan hingga **60.000 kali lebih cepat** dibandingkan memproses teks atau angka biner tabular. Visualisasi data bertindak sebagai jembatan kognitif antara kapasitas penyimpanan komputer yang masif dengan keterbatasan kapasitas memori kerja (*working memory*) manusia.
 
 ```mermaid
-graph LR
-    A[Data Mentah / Raw Data] -->|Transformasi & Agregasi| B[Struktur Data Tabular]
-    B -->|Visual Encoding: Posisi, Warna, Ukuran| C[Grafik / Visualisasi]
-    C -->|Persepsi Sensorik Manusia| D[Wawasan / Actionable Insight]
-    D -->|Pengambilan Keputusan| E[Aksi Nyata & Dampak Bisnis]
+flowchart TD
+    A["📦 Data Mentah (Raw Data)"] -->|"1. Pembersihan & Agregasi"| B["📑 Struktur Data Tabular"]
+    B -->|"2. Pemetaan Visual (Posisi, Warna, Ukuran)"| C["📊 Grafik / Visualisasi Data"]
+    C -->|"3. Persepsi Sensorik Korteks Visual"| D["💡 Wawasan (Actionable Insight)"]
+    D -->|"4. Pengambilan Keputusan Strategis"| E["🚀 Dampak Nyata & Solusi Masalah"]
+
+    style A fill:#f1f5f9,stroke:#64748b,stroke-width:2px
+    style B fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
+    style C fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+    style D fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style E fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
 ---

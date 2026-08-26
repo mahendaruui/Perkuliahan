@@ -12,13 +12,20 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 ## 1. Anatomi Plot Distribusi Kunci
 
 ```mermaid
-graph LR
-    subgraph Plot Distribusi Statistik
-        A[Histogram + KDE] --> B[Memeriksa Normalitas & Skewness]
-        C[Box Plot] --> D[Median, Kuartil Q1/Q3 & Deteksi Outlier]
-        E[Violin Plot] --> F[Kombinasi Box Plot + Estimasi Densitas Bentuk]
-        G[ECDF Plot] --> H[Fungsi Distribusi Kumulatif Empiris Tanpa Binning Bias]
+flowchart TD
+    subgraph PlotDist["📊 Plot Distribusi Statistik Kunci"]
+        direction TB
+        A["1. Histogram + KDE Plot"] --> A_desc["Memeriksa Normalitas, Modus & Skewness Data"]
+        B["2. Box Plot (Box & Whisker)"] --> B_desc["Menampilkan Median, Kuartil (Q1/Q3) & Deteksi Outlier"]
+        C["3. Violin Plot"] --> C_desc["Kombinasi Box Plot + Estimasi Bentuk Kepadatan Densitas (KDE)"]
+        D["4. ECDF Plot (Empirical CDF)"] --> D_desc["Fungsi Distribusi Kumulatif Nyata Tanpa Bias Binning"]
     end
+
+    style PlotDist fill:#f8fafc,stroke:#6366f1,stroke-width:2px
+    style A fill:#e0e7ff,stroke:#4f46e5
+    style B fill:#e0e7ff,stroke:#4f46e5
+    style C fill:#e0e7ff,stroke:#4f46e5
+    style D fill:#e0e7ff,stroke:#4f46e5
 ```
 
 ---

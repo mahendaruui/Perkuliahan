@@ -16,10 +16,15 @@ Edward Tufte (Profesor Emeritus Universitas Yale) meletakkan fondasi filosofis m
 ### A. Data-Ink Ratio (Rasio Tinta Data)
 Tufte merumuskan bahwa setiap tetes tinta pada kertas (atau pixel pada layar komputer) harus digunakan untuk menampilkan informasi substantif data.
 
-$$\text{Data-Ink Ratio} = \frac{\text{Tinta / Pixel Data Kunci}}{\text{Total Tinta / Pixel Seluruh Grafik}}$$
+::: info 📐 Formula: Data-Ink Ratio (Edward Tufte)
+**Data-Ink Ratio** = **Tinta / Piksel Data Kunci** ÷ **Total Tinta / Piksel Seluruh Grafik**
+
+* **Nilai Ideal:** Mendekati **1.0** (100% elemen visual difokuskan untuk menampilkan data substantif).
+* **Rasio Rendah:** Menunjukkan visualisasi dipenuhi elemen dekoratif tidak penting (*chartjunk*).
+:::
 
 **Aturan Emas Tufte:**
-- Maksimalkan rasio data-ink ($1.0$).
+- Maksimalkan rasio data-ink (mendekati **1.0**).
 - Hapus tinta non-data (*erase non-data-ink*).
 - Hapus tinta data yang berlebihan atau redundan (*erase redundant data-ink*).
 
@@ -33,11 +38,13 @@ $$\text{Data-Ink Ratio} = \frac{\text{Tinta / Pixel Data Kunci}}{\text{Total Tin
 ### C. Lie Factor & Integritas Grafis
 Visualisasi harus merepresentasikan proporsi angka yang jujur secara geometris.
 
-$$\text{Lie Factor} = \frac{\text{Persentase Efek Ukuran pada Grafik}}{\text{Persentase Efek Riil pada Data Tabular}}$$
+::: info 📐 Formula: Lie Factor (Integritas Grafis)
+**Lie Factor** = **Persentase Efek Ukuran pada Grafik** ÷ **Persentase Efek Riil pada Data Tabular**
 
-- $\text{Lie Factor} = 1.0 \implies$ Grafik sangat objektif dan akurat.
-- $\text{Lie Factor} > 1.05 \implies$ Grafik melebih-lebihkan realitas data (*exaggeration*).
-- $\text{Lie Factor} < 0.95 \implies$ Grafik meremehkan perubahan data riil (*understatement*).
+* **Lie Factor = 1.0** → Grafik objektif, jujur, dan proporsional.
+* **Lie Factor > 1.05** → Grafik melebih-lebihkan realitas perubahan data (*exaggeration / misleading*).
+* **Lie Factor < 0.95** → Grafik meremehkan perubahan data riil (*understatement*).
+:::
 
 ---
 
@@ -46,10 +53,13 @@ $$\text{Lie Factor} = \frac{\text{Persentase Efek Ukuran pada Grafik}}{\text{Per
 Tamara Munzner (Universitas British Columbia) merumuskan kerangka kerja sistematis untuk merancang visualisasi analitik melalui 3 pertanyaan mendasar:
 
 ```mermaid
-graph TD
-    A[1. WHAT: Karakteristik Data] --> B[Tipe Data: Nominal, Ordinal, Kuantitatif <br> Struktur Data: Tabel, Jaringan Jaringan, Spasial]
-    C[2. WHY: Tugas Pengguna] --> D[Tindakan: Discover, Present, Query, Explore <br> Target: Tren, Outlier, Korelasi, Distribusi]
-    E[3. HOW: Rancangan Visual] --> F[Visual Mark: Titik, Garis, Area <br> Visual Channel: Posisi, Ukuran, Warna, Orientasi]
+flowchart TD
+    A["1. WHAT: Karakteristik Data<br>• Tipe Data: Nominal, Ordinal, Kuantitatif<br>• Struktur Data: Tabel, Jaringan, Spasial"] --> B["2. WHY: Tugas Pengguna (Task Abstraction)<br>• Tindakan: Discover, Present, Query, Explore<br>• Target: Tren, Outlier, Korelasi, Distribusi"]
+    B --> C["3. HOW: Rancangan Visual (Encoding)<br>• Visual Mark: Titik, Garis, Area<br>• Visual Channel: Posisi, Ukuran, Warna, Orientasi"]
+
+    style A fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
+    style B fill:#fdf4ff,stroke:#c084fc,stroke-width:2px
+    style C fill:#ecfdf5,stroke:#10b981,stroke-width:2px
 ```
 
 ### Hierarki Keefektifan Saluran Visual (Visual Channels) untuk Data Kuantitatif:
