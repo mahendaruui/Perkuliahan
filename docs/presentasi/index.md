@@ -13,6 +13,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **02** | Variabel, Tipe Data & Alokasi Memori | [Lihat di Web](/presentasi/pertemuan-2-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-2-variabel-tipe-data-algoritma.html){target="_blank"} |
 | **03** | Operator, Ekspresi & Precedence (Prioritas) | [Lihat di Web](/presentasi/pertemuan-3-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-3-operator-ekspresi-algoritma.html){target="_blank"} |
 | **04** | Struktur Kontrol Percabangan (Branching) | [Lihat di Web](/presentasi/pertemuan-4-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-4-percabangan-algoritma.html){target="_blank"} |
+| **05** | Struktur Kontrol Perulangan (Looping) | [Lihat di Web](/presentasi/pertemuan-5-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-5-perulangan-algoritma.html){target="_blank"} |
 
 ---
 ## ☕ Pemrograman Berorientasi Objek (Java)

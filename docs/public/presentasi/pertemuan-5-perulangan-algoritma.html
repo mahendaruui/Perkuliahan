@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 5 - Struktur Kontrol Perulangan (Looping) | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(120% 120% at 50% 10%, #0f172a 0%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
+    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #f8fafc; }
+    .brand-text span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+
+    .header-controls { display: flex; align-items: center; gap: 12px; }
+    .btn-icon {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+    .btn-icon:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 28px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1140px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.98);
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .slide-body::-webkit-scrollbar { width: 4px; }
+    .slide-body::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+
+    footer {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 440px;
+      height: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
+    .btn-nav {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: var(--font-code);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-cyan { border-left: 4px solid var(--primary); background: rgba(56, 189, 248, 0.04); }
+    .card-emerald { border-left: 4px solid var(--accent-emerald); background: rgba(52, 211, 153, 0.04); }
+    .card-amber { border-left: 4px solid var(--accent-amber); background: rgba(251, 191, 36, 0.04); }
+    .card-purple { border-left: 4px solid var(--accent-purple); background: rgba(192, 132, 252, 0.04); }
+    .card-rose { border-left: 4px solid var(--accent-rose); background: rgba(251, 113, 133, 0.04); }
+
+    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; display: flex; align-items: center; gap: 6px; }
+    .card p, .card li { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .quote-text { font-size: 0.82rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+    .quote-author { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 600; }
+
+    pre {
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    table.slide-table th {
+      background: rgba(30, 41, 59, 0.8);
+      font-weight: 700;
+      color: var(--primary);
+    }
+    table.slide-table td { color: #cbd5e1; }
+
+    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .hero-title { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; color: #ffffff; margin-bottom: 12px; line-height: 1.2; }
+    .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .hero-pill { background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 05 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
+    </div>
+  </header>
+
+  <main id="slide-viewport">
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Struktur Kontrol <span>Perulangan</span> (Looping)</h1>
+        <p style="font-size: 1.05rem; color: #94a3b8; max-width: 740px; line-height: 1.6;">
+          Daya Komputasi Skala Masif: Counted Loop (for), Uncounted Loop (while, do-while), Variabel Akumulator, Nested Loop & Kontrol Alur Iterasi
+        </p>
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 FILOSOFI OTOMASI & ITERASI</div>
+        <h2 class="slide-title">Kekuatan Sejati Komputer: Repetisi Tanpa Lelah</h2>
+        <p class="slide-subtitle">Mengapa perulangan adalah esensi paling transformatif dalam peradaban komputasi?</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>💡 Keterbatasan Nalar Biologis</h4>
+            <p>
+              Manusia adalah makhluk yang cepat bosan, lelah, dan rentan melakukan kesalahan jika diminta melakukan pekerjaan yang sama persis sebanyak 10.000 kali.
+            </p>
+            <p style="margin-top: 8px;">
+              <strong>Perulangan (Looping)</strong> adalah senjata utama komputasi. Hanya dengan 5 baris kode berukuran konstan <code>O(1)</code>, kita dapat memerintahkan prosesor untuk memproses 10 miliar data <code>O(n)</code> dengan presisi 100% pada kecepatan nanodetik.
+            </p>
+          </div>
+          <div class="card card-purple">
+            <h4>🏛️ Teorema Böhm-Jacopini: Pilar ke-3</h4>
+            <p>
+              Setelah <em>Sequence</em> dan <em>Selection</em>, <strong>Iteration</strong> adalah pilar pamungkas yang menyempurnakan kemampuan mesin Turing untuk mengeksekusi semesta algoritma komputasi secara mandiri.
+            </p>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="quote-title">💡 Refleksi Filosofis Ada Lovelace</div>
+          <div class="quote-text">"Mesin Analitikal mampu menganyam pola aljabar sebagaimana alat tenun Jacquard menganyam bunga dan daun. Perulangan adalah benang pakan yang merajut kecerdasan mekanis."</div>
+          <div class="quote-author">— Ada Lovelace (Programmer Pertama di Dunia)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 3)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Memahami konsep iterasi, mutasi counter, dan akumulasi nilai.</li>
+              <li><strong>CPL03 (Problem Solving):</strong> Mampu menyusun perulangan bersarang (*nested loop*) untuk manipulasi matriks dan pola.</li>
+              <li><strong>CPMK0106:</strong> Mampu merancang terminasi iterasi yang aman dari jebakan *infinite loop*.</li>
+            </ul>
+          </div>
+          <div class="card card-cyan">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu memilih jenis loop yang tepat (`for`, `while`, `do-while`).</li>
+              <li>Mampu mengelola variabel counter dan akumulator secara presisi.</li>
+              <li>Mampu menggunakan `break` dan `continue` untuk mengontrol alur iterasi.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚙️ ANATOMI FUNDAMENTAL</div>
+        <h2 class="slide-title">4 Komponen Wajib Struktur Loop</h2>
+        <p class="slide-subtitle">Setiap perulangan di dunia komputasi dibangun oleh 4 siklus mekanis</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4" style="margin-bottom: 14px;">
+          <div class="card card-cyan">
+            <h4>1. Initialization</h4>
+            <p>Pemberian nilai awal variabel counter sebelum loop berputar (misal: <code>i = 1</code>).</p>
+          </div>
+          <div class="card card-emerald">
+            <h4>2. Loop Guard / Condition</h4>
+            <p>Ekspresi boolean penguji apakah putaran berikutnya diizinkan (misal: <code>i <= N</code>).</p>
+          </div>
+          <div class="card card-amber">
+            <h4>3. Body Execution</h4>
+            <p>Blok instruksi utama yang dijalankan berulang pada setiap iterasi.</p>
+          </div>
+          <div class="card card-purple">
+            <h4>4. Step / Update</h4>
+            <p>Perubahan nilai counter menuju kondisi terminasi (misal: <code>i++</code>).</p>
+          </div>
+        </div>
+        <div class="card card-rose">
+          <p>⚠️ <strong>Hukum Terminasi:</strong> Jika bagian <em>Step / Update</em> lupa ditulis atau tidak pernah mengubah kondisi menjadi <code>False</code>, program akan terjebak dalam <strong>Infinite Loop</strong> (pembekuan sistem)!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">📊 TAKSONOMI PERULANGAN</div>
+        <h2 class="slide-title">Komparasi 3 Jenis Struktur Loop</h2>
+        <p class="slide-subtitle">Memilih jenis loop yang paling efisien berdasarkan kepastian iterasi</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Jenis Loop</th>
+              <th>Karakteristik Aliran</th>
+              <th>Waktu Evaluasi Kondisi</th>
+              <th>Kapan Paling Cocok Digunakan?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong><code>for</code> loop</strong></td>
+              <td><em>Counted Loop</em> (Jumlah putaran terukur)</td>
+              <td>Di awal (<em>Pre-test</em>)</td>
+              <td>Iterasi deret angka, traversal array, pencacah batas pasti</td>
+            </tr>
+            <tr>
+              <td><strong><code>while</code> loop</strong></td>
+              <td><em>Uncounted Loop</em> (Berdasarkan kondisi dinamis)</td>
+              <td>Di awal (<em>Pre-test</em>)</td>
+              <td>Validasi input pengguna, membaca antrean data stream</td>
+            </tr>
+            <tr>
+              <td><strong><code>do-while</code> loop</strong></td>
+              <td><em>Post-test Loop</em> (Minimal 1 kali jalan)</td>
+              <td>Di akhir (<em>Post-test</em>)</td>
+              <td>Menu interaktif CLI yang wajib tampil minimal satu kali</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🔀 KENDALI ALIRAN ITERASI</div>
+        <h2 class="slide-title">Interupsi Loop: `break` vs `continue`</h2>
+        <p class="slide-subtitle">Mengontrol dinamika perputaran instruksi secara fleksibel</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-rose">
+            <h4>🔴 Perintah `break` (Terminasi Paksa)</h4>
+            <p style="margin-top: 4px;">
+              Menghentikan seluruh perulangan seketika dan langsung melompat keluar dari blok loop, meskipun kondisi guard masih `True`.
+            </p>
+            <pre style="margin-top: 8px;"><code>// Menghentikan pencarian saat data ditemukan:
+for (int i = 0; i < 1000; i++) {
+    if (data[i] == target) {
+        cout << "Ditemukan pada indeks " << i;
+        break; // Berhenti mencari!
+    }
+}</code></pre>
+          </div>
+          <div class="card card-amber">
+            <h4>🟡 Perintah `continue` (Lewati Putaran)</h4>
+            <p style="margin-top: 4px;">
+              Mengabaikan sisa instruksi di bawahnya hanya untuk putaran saat ini, dan langsung melompat ke iterasi berikutnya.
+            </p>
+            <pre style="margin-top: 8px;"><code>// Hanya memproses bilangan ganjil:
+for (int i = 1; i <= 10; i++) {
+    if (i % 2 == 0) continue; // Lewati genap
+    cout << i << " "; // 1 3 5 7 9
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">📐 PERULANGAN BERSARANG</div>
+        <h2 class="slide-title">Perulangan Bersarang (*Nested Loop*)</h2>
+        <p class="slide-subtitle">Membangun dimensi ruang data 2D: Baris (Outer Loop) dan Kolom (Inner Loop)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-cyan" style="margin-bottom: 8px;">
+              <h4>Prinsip Dinamika Nested Loop:</h4>
+              <p>Untuk setiap <strong>1 kali putaran</strong> loop luar (*outer*), loop dalam (*inner*) akan berputar penuh sebanyak <strong>N kali</strong>.</p>
+              <p style="margin-top: 6px; font-size: 0.78rem;">
+                Total Operasi = <code>Outer_Steps × Inner_Steps = O(N²)</code>.
+              </p>
+            </div>
+            <div class="card card-purple">
+              <h4>Pola Segitiga Bintang:</h4>
+              <pre><code>*
+* *
+* * *
+* * * *
+* * * * *</code></pre>
+            </div>
+          </div>
+          <div>
+            <pre><code>// Implementasi Segitiga Siku di C++:
+int tinggi = 5;
+
+for (int baris = 1; baris <= tinggi; baris++) {
+    for (int kolom = 1; kolom <= baris; kolom++) {
+        cout << "* ";
+    }
+    cout << "\n"; // Ganti baris
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
+        <h2 class="slide-title">Studi Kasus: Akumulator & Rata-rata Dinamis</h2>
+        <p class="slide-subtitle">Menerapkan pola *Sentinel Value Loop* untuk memproses input tak terbatas</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3 (Sentinel Loop)</div>
+            <pre><code># Hitung Rata-rata Input (Ketik -1 untuk berhenti)
+total, count = 0, 0
+
+while True:
+    nilai = float(input("Masukkan nilai (-1 stop): "))
+    if nilai == -1:
+        break
+    total += nilai
+    count += 1
+
+if count > 0:
+    print(f"Rata-rata: {total / count:.2f}")
+else:
+    print("Tidak ada data masukan.")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++ (Accumulator Pattern)</div>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double nilai, total = 0;
+    int count = 0;
+
+    cout &lt;&lt; "Masukkan nilai (-1 stop):\n";
+    while (cin &gt;&gt; nilai &amp;&amp; nilai != -1) {
+        total += nilai;
+        count++;
+    }
+
+    if (count &gt; 0)
+        cout &lt;&lt; "Rata-rata = " &lt;&lt; total/count &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚠️ ANOMALI & JEBAKAN LOGIKA</div>
+        <h2 class="slide-title">Jebakan Klasik Perulangan (Common Pitfalls)</h2>
+        <p class="slide-subtitle">Kesalahan tipikal yang memicu degradasi memori dan hang pada sistem</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-rose">
+            <h4>1. Off-by-One Error (OBOE)</h4>
+            <p>Loop berputar kurang 1 kali atau lebih 1 kali akibat salah memilih operator relasional (<code><</code> vs <code><=</code>).</p>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Modifikasi Counter Liar</h4>
+            <p>Mengubah variabel counter `i` secara manual di dalam badan `for` loop, memicu loncatan iterasi tak terprediksi.</p>
+          </div>
+          <div class="card card-purple">
+            <h4>3. Floating Counter Drift</h4>
+            <p>Menggunakan float sebagai counter (<code>for(float f=0; f!=1.0; f+=0.1)</code>) akan menjadi <strong>Infinite Loop</strong> akibat limitasi biner IEEE 754!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 3</div>
+        <h2 class="slide-title">Rangkuman & Tantangan Kasus Nyata</h2>
+        <p class="slide-subtitle">Penguasaan perulangan untuk fondasi algoritma pencarian dan pengurutan</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>📌 Rangkuman Inti</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Perulangan memberikan daya komputasi masif berkecepatan tinggi dengan ukuran kode minimal.</li>
+              <li>Pilih `for` jika jumlah putaran diketahui pasti; pilih `while` untuk kondisi dinamis.</li>
+              <li>Pastikan selalu ada langkah mutasi counter menuju titik terminasi.</li>
+            </ul>
+          </div>
+          <div class="card card-emerald">
+            <h4>📝 Tugas Mandiri Minggu 5</h4>
+            <p style="margin-top: 6px;">
+              Buatlah program <strong>Simulasi Tabungan Bunga Majemuk</strong>:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Input: Saldo Awal, Bunga Tahunan (%), dan Target Saldo Akhir.</li>
+              <li>Gunakan loop untuk menghitung berapa tahun yang dibutuhkan hingga saldo mencapai target.</li>
+              <li>Tampilkan tabel pertumbuhan saldo per tahun.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Navigasi: <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">◀</kbd> <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">▶</kbd> atau <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">Spasi</kbd>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
+      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
+      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
+    });
+
+    updateSlide();
+</script>
+</body>
+</html>
