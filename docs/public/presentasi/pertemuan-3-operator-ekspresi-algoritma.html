@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 3 - Operator, Ekspresi & Precedence | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --secondary: #4f46e5;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-pink: #db2777;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Header */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: var(--primary);
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-icon:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Main Stage */
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 32px;
+      background: radial-gradient(circle at 50% 10%, #f0f9ff 0%, #f8fafc 100%);
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1120px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.02);
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateX(40px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-40px) scale(0.98);
+    }
+
+    /* Slide Header */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+      width: fit-content;
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    /* Footer & Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-nav {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .card-primary {
+      border-left: 4px solid var(--primary);
+      background: #f0f9ff;
+    }
+
+    .card-green {
+      border-left: 4px solid var(--accent-green);
+      background: #ecfdf5;
+    }
+
+    .card-amber {
+      border-left: 4px solid var(--accent-amber);
+      background: #fffbeb;
+    }
+
+    .card-purple {
+      border-left: 4px solid var(--accent-purple);
+      background: #faf5ff;
+    }
+
+    .card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .card p, .card li {
+      font-size: 0.82rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    /* Code Box */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    /* Hero Slide */
+    .hero-slide {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-pill {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    table.slide-table th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 03 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()" title="Tekan F untuk Layar Penuh">
+        ⛶ Layar Penuh (F)
+      </button>
+    </div>
+  </header>
+
+  <!-- Viewport -->
+  <main id="slide-viewport">
+
+    <!-- SLIDE 1: JUDUL -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Operator, <span>Ekspresi</span> & Precedence</h1>
+        <p style="font-size: 1.05rem; color: #64748b; max-width: 720px; line-height: 1.6;">
+          Manipulasi Data Komputasi: Aritmatika, Relasional, Logika Boolean, Bitwise & Hirarki Prioritas Evaluasi
+        </p>
+        
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: CAPAIAN PEMBELAJARAN -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 2)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education (OBE) Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-primary">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Memahami operasi logika komputasi dan matematika biner CPU.</li>
+              <li><strong>CPMK0101:</strong> Mampu merancang formula ekspresi logika dan aritmatika yang bebas dari kesalahan prioritas operasi.</li>
+            </ul>
+          </div>
+          <div class="card card-green">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu menggunakan operator aritmatika, relasional, dan logika.</li>
+              <li>Memahami mekanisme <em>Short-Circuit Evaluation</em> pada logika <code>&&</code> dan <code>||</code>.</li>
+              <li>Mampu memprediksi urutan evaluasi ekspresi kompleks menggunakan tabel <em>Operator Precedence</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: OPERATOR VS OPERAND -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">📐 FONDASI MATEMATIKA</div>
+        <h2 class="slide-title">Konsep Operator, Operand & Ekspresi</h2>
+        <p class="slide-subtitle">Anatomi pembentukan instruksi komputasi dalam kode program</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3" style="margin-bottom: 14px;">
+          <div class="card card-primary">
+            <h4>1. Operator</h4>
+            <p>Simbol khusus yang menginstruksikan CPU untuk melakukan operasi matematis atau logika (misal: <code>+</code>, <code>*</code>, <code>==</code>).</p>
+          </div>
+          <div class="card card-green">
+            <h4>2. Operand</h4>
+            <p>Nilai atau variabel yang menjadi target manipulasi oleh operator (misal: <code>x</code>, <code>10</code>, <code>y</code>).</p>
+          </div>
+          <div class="card card-purple">
+            <h4>3. Ekspresi</h4>
+            <p>Kombinasi terstruktur antara operator dan operand yang menghasilkan nilai tunggal: <code>z = (x + y) * 2</code>.</p>
+          </div>
+        </div>
+        <div class="card card-amber">
+          <h4>Berdasarkan Jumlah Operand:</h4>
+          <p>• <strong>Unary:</strong> 1 operand (<code>-x</code>, <code>!aktif</code>, <code>++i</code>) &nbsp;|&nbsp; • <strong>Binary:</strong> 2 operand (<code>a + b</code>, <code>x &gt; y</code>) &nbsp;|&nbsp; • <strong>Ternary:</strong> 3 operand (<code>kondisi ? true : false</code>)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: OPERATOR ARITMATIKA & ASSIGNMENT -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">➕ ARITMATIKA & ASSIGNMENT</div>
+        <h2 class="slide-title">Operator Aritmatika & Penugasan</h2>
+        <p class="slide-subtitle">Operasi kalkulasi numerik dan pengisian nilai ke memori</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <table class="slide-table">
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Makna</th>
+                  <th>Contoh (a=10, b=3)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>+</code>, <code>-</code></td><td>Tambah, Kurang</td><td><code>10 + 3 = 13</code></td></tr>
+                <tr><td><code>*</code>, <code>/</code></td><td>Kali, Bagi</td><td><code>10 / 3 = 3</code> (int)</td></tr>
+                <tr><td><code>%</code></td><td>Modulus (Sisa Bagi)</td><td><code>10 % 3 = 1</code></td></tr>
+                <tr><td><code>++</code>, <code>--</code></td><td>Increment, Decrement</td><td><code>a++ -> a = 11</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="card card-primary" style="margin-bottom: 10px;">
+              <h4>Compound Assignment (Singkatan Penugasan):</h4>
+              <p><code>x += 5;</code> ekuivalen dengan <code>x = x + 5;</code></p>
+              <p><code>x *= 2;</code> ekuivalen dengan <code>x = x * 2;</code></p>
+              <p><code>x %= 3;</code> ekuivalen dengan <code>x = x % 3;</code></p>
+            </div>
+            <div class="card card-amber">
+              <p>⚠️ <strong>Catatan:</strong> Operator Modulus (<code>%</code>) hanya berlaku untuk bilangan bulat (integer).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: OPERATOR RELASIONAL -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚖️ PERBANDINGAN</div>
+        <h2 class="slide-title">Operator Relasional (Perbandingan)</h2>
+        <p class="slide-subtitle">Membandingkan dua nilai dan selalu menghasilkan boolean (true atau false)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <table class="slide-table">
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Keterangan</th>
+                  <th>Contoh (x = 7)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>==</code></td><td>Sama dengan</td><td><code>x == 7 -> true</code></td></tr>
+                <tr><td><code>!=</code></td><td>Tidak sama dengan</td><td><code>x != 5 -> true</code></td></tr>
+                <tr><td><code>&gt;</code></td><td>Lebih besar dari</td><td><code>x &gt; 10 -> false</code></td></tr>
+                <tr><td><code>&lt;</code></td><td>Lebih kecil dari</td><td><code>x &lt; 10 -> true</code></td></tr>
+                <tr><td><code>&gt;=</code></td><td>Lebih besar sama dengan</td><td><code>x &gt;= 7 -> true</code></td></tr>
+                <tr><td><code>&lt;=</code></td><td>Lebih kecil sama dengan</td><td><code>x &lt;= 6 -> false</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="card card-purple">
+              <h4>⚠️ Jebakan Fatal: <code>=</code> vs <code>==</code></h4>
+              <p style="margin-top: 6px;">
+                • <code>a = 5</code> adalah <strong>Assignment</strong> (memasukkan nilai 5 ke dalam variabel <code>a</code>).<br>
+                • <code>a == 5</code> adalah <strong>Comparison</strong> (menguji apakah isi <code>a</code> sama dengan 5).
+              </p>
+              <pre style="margin-top: 8px;"><code>// BAHAYA BUG:
+if (status = 1) { // Selalu TRUE!
+    // Salah menggunakan '='
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: OPERATOR LOGIKA BOOLEAN -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 LOGIKA BOOLEAN</div>
+        <h2 class="slide-title">Operator Logika & Short-Circuit Evaluation</h2>
+        <p class="slide-subtitle">Menggabungkan beberapa kondisi relasional menjadi keputusan tunggal</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-primary" style="margin-bottom: 8px;">
+              <h4>1. AND (<code>&&</code>)</h4>
+              <p>Bernilai <code>true</code> HANYA JIKA <strong>semua</strong> kondisi bernilai <code>true</code>.</p>
+            </div>
+            <div class="card card-green" style="margin-bottom: 8px;">
+              <h4>2. OR (<code>||</code>)</h4>
+              <p>Bernilai <code>true</code> JIKA <strong>salah satu</strong> kondisi bernilai <code>true</code>.</p>
+            </div>
+            <div class="card card-amber">
+              <h4>3. NOT (<code>!</code>)</h4>
+              <p>Membalikkan nilai logika: <code>!true -> false</code>, <code>!false -> true</code>.</p>
+            </div>
+          </div>
+          <div>
+            <div class="card card-purple">
+              <h4>⚡ Short-Circuit Evaluation:</h4>
+              <p style="margin-top: 4px; font-size: 0.8rem;">
+                Kompilator menghentikan evaluasi jika hasil akhir sudah pasti:
+              </p>
+              <ul style="padding-left: 16px; margin-top: 6px; font-size: 0.78rem;">
+                <li><code>false && expr2</code> -> <code>expr2</code> <strong>tidak akan dieksekusi</strong> karena hasil pasti <code>false</code>.</li>
+                <li><code>true || expr2</code> -> <code>expr2</code> <strong>tidak akan dieksekusi</strong> karena hasil pasti <code>true</code>.</li>
+              </ul>
+              <pre style="margin-top: 8px;"><code>// Mencegah crash pembagian nol:
+if (pembagi != 0 && total / pembagi > 5) {
+    // Aman dieksekusi!
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: OPERATOR BITWISE -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">0️⃣1️⃣ MANIPULASI BIT</div>
+        <h2 class="slide-title">Operator Bitwise (Manipulasi Biner CPU)</h2>
+        <p class="slide-subtitle">Bekerja langsung pada level representasi bit biner di memori</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <table class="slide-table">
+              <thead>
+                <tr>
+                  <th>Simbol</th>
+                  <th>Operasi Bitwise</th>
+                  <th>Contoh (A=5, B=3)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>&</code></td><td>Bitwise AND</td><td><code>5 & 3 -> 0101 & 0011 = 0001 (1)</code></td></tr>
+                <tr><td><code>|</code></td><td>Bitwise OR</td><td><code>5 | 3 -> 0101 | 0011 = 0111 (7)</code></td></tr>
+                <tr><td><code>^</code></td><td>Bitwise XOR</td><td><code>5 ^ 3 -> 0101 ^ 0011 = 0110 (6)</code></td></tr>
+                <tr><td><code>~</code></td><td>Bitwise NOT</td><td><code>~5 -> Pembalikan bit 1s complement</code></td></tr>
+                <tr><td><code>&lt;&lt;</code></td><td>Left Shift (×2ⁿ)</td><td><code>5 &lt;&lt; 1 -> 10 (Geser kiri 1 bit)</code></td></tr>
+                <tr><td><code>&gt;&gt;</code></td><td>Right Shift (÷2ⁿ)</td><td><code>5 &gt;&gt; 1 -> 2 (Geser kanan 1 bit)</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="card card-green">
+              <h4>🚀 Pemanfaatan di Industri:</h4>
+              <ul style="padding-left: 18px; margin-top: 6px;">
+                <li><strong>Bitmasking:</strong> Menyimpan hak akses (*permission flags*).</li>
+                <li><strong>Optimasi Kecepatan:</strong> Penggandaan / pembagian daya dua super cepat di embedded system.</li>
+                <li><strong>Kriptografi & Kompresi:</strong> Manipulasi byte paket data jaringan.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: OPERATOR PRECEDENCE -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🔝 HIRARKI PRIORITAS</div>
+        <h2 class="slide-title">Operator Precedence & Associativity</h2>
+        <p class="slide-subtitle">Urutan kasta evaluasi ekspresi oleh kompilator</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <table class="slide-table">
+              <thead>
+                <tr>
+                  <th>Tingkat</th>
+                  <th>Operator</th>
+                  <th>Arah Asosiasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>1 (Tertinggi)</strong></td><td><code>()</code>, <code>[]</code>, <code>.</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>2</strong></td><td>Unary: <code>!</code>, <code>++</code>, <code>--</code>, <code>-</code></td><td>Kanan ke Kiri</td></tr>
+                <tr><td><strong>3</strong></td><td>Multiplikatif: <code>*</code>, <code>/</code>, <code>%</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>4</strong></td><td>Aditif: <code>+</code>, <code>-</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>5</strong></td><td>Relasional: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>6</strong></td><td>Kesetaraan: <code>==</code>, <code>!=</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>7</strong></td><td>Logika AND: <code>&&</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>8</strong></td><td>Logika OR: <code>||</code></td><td>Kiri ke Kanan</td></tr>
+                <tr><td><strong>9 (Terendah)</strong></td><td>Assignment: <code>=</code>, <code>+=</code>, dll</td><td>Kanan ke Kiri</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div class="card card-primary">
+              <h4>Contoh Evaluasi:</h4>
+              <pre><code>int hasil = 5 + 3 * 2;
+// 3 * 2 dihitung dulu (6)
+// 5 + 6 = 11 (Bukan 16!)
+
+int hasil2 = (5 + 3) * 2;
+// Tanda kurung memenangkan prioritas
+// 8 * 2 = 16</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: STUDI KASUS MULTI-BAHASA -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
+        <h2 class="slide-title">Studi Kasus: Sistem Uji Tahun Kabisat</h2>
+        <p class="slide-subtitle">Menerapkan gabungan operator modulus, relasional, dan logika boolean</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3</div>
+            <pre><code># Uji Kabisat di Python
+tahun = int(input("Tahun: "))
+
+# Logika: Habis dibagi 400 ATAU (Habis dibagi 4 TAPI TIDAK habis dibagi 100)
+is_kabisat = (tahun % 400 == 0) or (tahun % 4 == 0 and tahun % 100 != 0)
+
+if is_kabisat:
+    print(f"Tahun {tahun} adalah KABISAT")
+else:
+    print(f"Tahun {tahun} BUKAN Kabisat")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++</div>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int tahun;
+    cout << "Tahun: "; cin >> tahun;
+
+    bool isKabisat = (tahun % 400 == 0) || (tahun % 4 == 0 && tahun % 100 != 0);
+
+    if (isKabisat) {
+        cout << tahun << " adalah KABISAT\n";
+    } else {
+        cout << tahun << " BUKAN Kabisat\n";
+    }
+    return 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: RANGKUMAN & LATIHAN -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI & TUGAS</div>
+        <h2 class="slide-title">Rangkuman Materi & Latihan Mandiri</h2>
+        <p class="slide-subtitle">Evaluasi Sub-CPMK 2 untuk persiapan sesi laboratorium</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-primary">
+            <h4>📌 Rangkuman Penting</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Gunakan tanda kurung <code>()</code> untuk memperjelas ekspresi tanpa meragukan <em>precedence</em>.</li>
+              <li>Manfaatkan <em>short-circuit evaluation</em> untuk menjaga efisiensi dan keamanan logika.</li>
+              <li>Bedakan secara tegas antara penugasan <code>=</code> dan kesetaraan <code>==</code>.</li>
+            </ul>
+          </div>
+          <div class="card card-green">
+            <h4>📝 Tugas Mandiri Pertemuan 3</h4>
+            <p style="margin-top: 6px;">
+              Buatlah program sistem verifikasi kelayakan beasiswa mahasiswa:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Syarat: IPK ≥ 3.5 <strong>DAN</strong> Penghasilan Orang Tua $\le 	ext{Rp } 5.000.000$ <strong>ATAU</strong> Mahasiswa memiliki Prestasi Nasional.</li>
+              <li>Gunakan gabungan operator relasional dan logika boolean terstruktur.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Controls -->
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Tekan <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">◀</kbd> <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">▶</kbd> atau <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">Spasi</kbd>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()" title="Slide Sebelumnya">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()" title="Slide Selanjutnya">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = `${currentSlide + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.error(err);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>
