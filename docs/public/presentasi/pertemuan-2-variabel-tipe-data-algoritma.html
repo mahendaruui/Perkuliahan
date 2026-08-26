@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 2 - Variabel, Tipe Data & Alokasi Memori | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --secondary: #4f46e5;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --card-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-pink: #db2777;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Header */
+    header {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 32px;
+      width: auto;
+      border-radius: 4px;
+    }
+
+    .brand-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .brand-text span {
+      color: var(--primary);
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .btn-icon {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-icon:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Main Stage */
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 32px;
+      background: radial-gradient(circle at 50% 10%, #f0f9ff 0%, #f8fafc 100%);
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1120px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.02);
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateX(40px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-40px) scale(0.98);
+    }
+
+    /* Slide Header */
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+      width: fit-content;
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    /* Footer & Controls */
+    footer {
+      padding: 12px 24px;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-nav {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Grid & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .card-primary {
+      border-left: 4px solid var(--primary);
+      background: #f0f9ff;
+    }
+
+    .card-green {
+      border-left: 4px solid var(--accent-green);
+      background: #ecfdf5;
+    }
+
+    .card-amber {
+      border-left: 4px solid var(--accent-amber);
+      background: #fffbeb;
+    }
+
+    .card-purple {
+      border-left: 4px solid var(--accent-purple);
+      background: #faf5ff;
+    }
+
+    .card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .card p, .card li {
+      font-size: 0.82rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    /* Code Box */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    /* Hero Slide */
+    .hero-slide {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-pill {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #334155;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    table.slide-table th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 02 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()" title="Tekan F untuk Layar Penuh">
+        ⛶ Layar Penuh (F)
+      </button>
+    </div>
+  </header>
+
+  <!-- Viewport -->
+  <main id="slide-viewport">
+
+    <!-- SLIDE 1: JUDUL -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Variabel, <span>Tipe Data</span> & Alokasi Memori</h1>
+        <p style="font-size: 1.05rem; color: #64748b; max-width: 720px; line-height: 1.6;">
+          Konsep Memori RAM, Klasifikasi Tipe Data Primitif, Aturan Identifier, Konstanta & Konversi Tipe Data (Type Casting)
+        </p>
+        
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: CAPAIAN PEMBELAJARAN -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 2)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education (OBE) Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-primary">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Menguasai konsep representasi data dan alokasi memori komputer.</li>
+              <li><strong>CPMK0101:</strong> Mampu menjelaskan dan menerapkan konsep dasar pemrograman (variabel, tipe data, konstanta, ekspresi).</li>
+            </ul>
+          </div>
+          <div class="card card-green">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu memilih tipe data primitif yang paling efisien memori.</li>
+              <li>Mampu mendeklarasikan dan menginisialisasi variabel & konstanta.</li>
+              <li>Mampu melakukan *type casting* implisit dan eksplisit dengan aman tanpa *data loss*.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: APA ITU VARIABEL & MEMORI -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 MODEL MEMORI</div>
+        <h2 class="slide-title">Apa itu Variabel di Memori RAM?</h2>
+        <p class="slide-subtitle">Variabel adalah wadah bernama di RAM untuk menyimpan nilai sementara</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-primary" style="margin-bottom: 12px;">
+              <h4>4 Atribut Utama Variabel:</h4>
+              <ol style="padding-left: 18px; margin-top: 6px;">
+                <li><strong>Nama (Identifier):</strong> Label unik pemanggil (misal: <code>umur</code>).</li>
+                <li><strong>Tipe Data:</strong> Menentukan ukuran byte dan format bit.</li>
+                <li><strong>Alamat Memori:</strong> Lokasi fisik di RAM (misal: <code>0x7ffee4b6a8</code>).</li>
+                <li><strong>Nilai (Value):</strong> Data biner aktual yang tersimpan (misal: <code>20</code>).</li>
+              </ol>
+            </div>
+          </div>
+          <div>
+            <div class="card card-purple">
+              <h4>Ilustrasi Alokasi RAM:</h4>
+              <div style="font-family: 'Fira Code', monospace; font-size: 0.78rem; background: #0f172a; color: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 6px; line-height: 1.6;">
+                [0x1000] : [ 20 ] -> int umur (4 Bytes)<br>
+                [0x1004] : [ 3.85 ] -> float ipk (4 Bytes)<br>
+                [0x1008] : [ 'A' ] -> char grade (1 Byte)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: KLASIFIKASI TIPE DATA -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">📊 TAKSONOMI TIPE DATA</div>
+        <h2 class="slide-title">Klasifikasi Tipe Data Komputer</h2>
+        <p class="slide-subtitle">Membagi tipe data berdasarkan struktur dan sifat alokasinya</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-primary">
+            <h4>1. Tipe Data Primitif (Sederhana)</h4>
+            <p>Tipe data bawaan tunggal yang langsung didukung oleh instruksi CPU hardware:</p>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li><strong>Integer:</strong> Bilangan bulat (<code>int</code>, <code>short</code>, <code>long</code>).</li>
+              <li><strong>Floating-Point:</strong> Bilangan desimal/pecahan (<code>float</code>, <code>double</code>).</li>
+              <li><strong>Character:</strong> Karakter tunggal ASCII (<code>char</code>).</li>
+              <li><strong>Boolean:</strong> Logika biner (<code>bool</code>: <code>true</code> / <code>false</code>).</li>
+            </ul>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Tipe Data Komposit (Terstruktur)</h4>
+            <p>Tipe data bentukan yang tersusun dari kombinasi tipe data lainnya:</p>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li><strong>Array (Larik):</strong> Kumpulan elemen homogen berurutan.</li>
+              <li><strong>String:</strong> Kumpulan karakter teks sekuensial.</li>
+              <li><strong>Struct / Record / Class:</strong> Kumpulan elemen heterogen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: TABEL RENTANG & UKURAN BYTE -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">📏 UKURAN & KAPASITAS</div>
+        <h2 class="slide-title">Tabel Ukuran Memori & Rentang Nilai</h2>
+        <p class="slide-subtitle">Standar arsitektur komputasi modern 32-bit & 64-bit</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Tipe Data</th>
+              <th>Ukuran Byte</th>
+              <th>Rentang Nilai</th>
+              <th>Contoh Nilai</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong><code>bool</code></strong></td>
+              <td>1 Byte</td>
+              <td><code>true</code> (1) atau <code>false</code> (0)</td>
+              <td><code>true</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>char</code></strong></td>
+              <td>1 Byte</td>
+              <td>-128 s.d. 127 (ASCII 0 s.d. 255)</td>
+              <td><code>'A'</code>, <code>'9'</code>, <code>'#'</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>int</code></strong></td>
+              <td>4 Bytes (32-bit)</td>
+              <td>-2.147.483.648 s.d. +2.147.483.647</td>
+              <td><code>100</code>, <code>-45</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>float</code></strong></td>
+              <td>4 Bytes</td>
+              <td>Presisi ~7 digit desimal</td>
+              <td><code>3.14f</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>double</code></strong></td>
+              <td>8 Bytes (64-bit)</td>
+              <td>Presisi ~15-17 digit desimal</td>
+              <td><code>3.1415926535</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: DEKLARASI & KONSTANTA -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">✍️ SINTAKSIS DASAR</div>
+        <h2 class="slide-title">Deklarasi Variabel & Konstanta</h2>
+        <p class="slide-subtitle">Perbedaan variabel (dapat berubah) vs konstanta (nilai tetap / immutable)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-primary" style="margin-bottom: 10px;">
+              <h4>Aturan Penamaan Identifier yang Baik:</h4>
+              <ul style="padding-left: 18px; margin-top: 4px;">
+                <li>Hanya boleh huruf, angka, dan garis bawah (<code>_</code>).</li>
+                <li><strong>Tidak boleh</strong> diawali dengan angka (misal: <code>2nilai</code> ❌).</li>
+                <li>Bersifat <em>Case-Sensitive</em> (<code>total</code> ≠ <code>Total</code>).</li>
+                <li>Gunakan gaya <em>camelCase</em> atau <em>snake_case</em> deskriptif.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <pre><code>// 1. Variabel (Dapat diubah nilainya)
+int jumlahMahasiswa = 35;
+jumlahMahasiswa = 40; // Valid
+
+// 2. Konstanta (Nilai Tetap / Readonly)
+const double PI = 3.1415926535;
+const int SKS_MAX = 24;
+
+// PI = 3.14; // ERROR: assignment of read-only variable!</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: TYPE CASTING -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🔄 KONVERSI TIPE</div>
+        <h2 class="slide-title">Konversi Tipe Data (Type Casting)</h2>
+        <p class="slide-subtitle">Mengubah representasi data dari satu tipe ke tipe data lainnya</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-green">
+            <h4>1. Konversi Implisit (Widening / Auto)</h4>
+            <p style="margin-top: 6px;">
+              Terjadi otomatis oleh kompilator saat tipe data kecil dimasukkan ke tipe data lebih besar. <strong>Aman dari kehilangan data (*no data loss*)</strong>.
+            </p>
+            <pre style="margin-top: 8px;"><code>int a = 10;
+double b = a; // Otomatis menjadi 10.0</code></pre>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Konversi Eksplisit (Narrowing / Casting)</h4>
+            <p style="margin-top: 6px;">
+              Dijalankan secara manual oleh programmer saat mengubah tipe besar ke kecil. <strong>Berisiko pemotongan desimal (*truncation*)</strong>.
+            </p>
+            <pre style="margin-top: 8px;"><code>double nilaiUjian = 87.85;
+int nilaiBulat = (int)nilaiUjian; // Menjadi 87</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: STUDI KASUS MULTI-BAHASA -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
+        <h2 class="slide-title">Studi Kasus: Perhitungan Luas & Keliling Lingkaran</h2>
+        <p class="slide-subtitle">Menerapkan konstanta, tipe double, dan manipulasi formula matematika</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3</div>
+            <pre><code># Hitung Lingkaran di Python
+PI = 3.1415926535
+r = float(input("Jari-jari (r): "))
+
+luas = PI * r * r
+keliling = 2 * PI * r
+
+print(f"Luas     : {luas:.2f}")
+print(f"Keliling : {keliling:.2f}")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++</div>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+int main() {
+    const double PI = 3.1415926535;
+    double r, luas, keliling;
+    
+    cout << "Jari-jari (r): "; cin >> r;
+    luas = PI * r * r;
+    keliling = 2 * PI * r;
+
+    cout << fixed << setprecision(2);
+    cout << "Luas     : " << luas << "\n";
+    cout << "Keliling : " << keliling << "\n";
+    return 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: COMMON PITFALLS -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚠️ JEBAKAN UMUM</div>
+        <h2 class="slide-title">Jebakan Umum Pemula (Common Pitfalls)</h2>
+        <p class="slide-subtitle">Kesalahan logika yang sering memicu bug pada pemrograman awal</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-purple">
+            <h4>1. Pembagian Integer</h4>
+            <p>Dalam C++/Java, <code>5 / 2</code> menghasilkan <code>2</code> (bukan <code>2.5</code>) karena kedua operan bertipe integer.</p>
+            <p><strong>Solusi:</strong> Gunakan desimal <code>5.0 / 2</code>.</p>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Integer Overflow</h4>
+            <p>Memasukkan nilai lebih besar dari kapasitas tipe data (misal > 2.14 miliar pada <code>int</code> 32-bit) akan memutar nilai menjadi negatif.</p>
+          </div>
+          <div class="card card-primary">
+            <h4>3. Variabel Tanpa Inisialisasi</h4>
+            <p>Membaca variabel yang belum diberi nilai awal di C++ akan menghasilkan <em>garbage value</em> (nilai sampah memori acak).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: RANGKUMAN & LATIHAN -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI & TUGAS</div>
+        <h2 class="slide-title">Rangkuman Materi & Latihan Mandiri</h2>
+        <p class="slide-subtitle">Evaluasi Sub-CPMK 2 untuk persiapan sesi laboratorium</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-primary">
+            <h4>📌 Rangkuman Penting</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Pilih tipe data sesuai kebutuhan rentang nilai demi efisiensi memori RAM.</li>
+              <li>Gunakan konstanta (<code>const</code>) untuk nilai matematis yang tidak boleh berubah.</li>
+              <li>Hati-hati terhadap pemotongan nilai saat melakukan *narrowing type casting*.</li>
+            </ul>
+          </div>
+          <div class="card card-green">
+            <h4>📝 Tugas Mandiri Pertemuan 2</h4>
+            <p style="margin-top: 6px;">
+              Buatlah program untuk menghitung gaji bersih karyawan dengan spesifikasi:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Gaji Pokok (tipe <code>double</code>), Tunjangan (15%), dan Potongan Pajak (5%).</li>
+              <li>Tampilkan rincian gaji dalam format 2 digit desimal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Controls -->
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Tekan <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">◀</kbd> <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">▶</kbd> atau <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px;">Spasi</kbd>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()" title="Slide Sebelumnya">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()" title="Slide Selanjutnya">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = `${currentSlide + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.error(err);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        currentSlide = 0;
+        updateSlide();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>

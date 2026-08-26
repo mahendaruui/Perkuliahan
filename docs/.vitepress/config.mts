@@ -75,7 +75,8 @@ export default withMermaid(
             text: '⚡ Algoritma & Pemrograman',
             collapsed: false,
             items: [
-              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-algoritma' }
+              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-algoritma' },
+              { text: 'Pertemuan 2: Variabel & Tipe Data', link: '/presentasi/pertemuan-2-algoritma' }
             ]
           },
           {
