@@ -12,6 +12,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **01** | Kontrak Kuliah, Pengenalan Algoritma & Notasi Standar | [Lihat di Web](/presentasi/pertemuan-1-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-1-pengantar-algoritma.html){target="_blank"} |
 | **02** | Variabel, Tipe Data & Alokasi Memori | [Lihat di Web](/presentasi/pertemuan-2-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-2-variabel-tipe-data-algoritma.html){target="_blank"} |
 | **03** | Operator, Ekspresi & Precedence (Prioritas) | [Lihat di Web](/presentasi/pertemuan-3-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-3-operator-ekspresi-algoritma.html){target="_blank"} |
+| **04** | Struktur Kontrol Percabangan (Branching) | [Lihat di Web](/presentasi/pertemuan-4-algoritma) | [🚀 Buka Slide](/presentasi/pertemuan-4-percabangan-algoritma.html){target="_blank"} |
 
 ---
 ## ☕ Pemrograman Berorientasi Objek (Java)

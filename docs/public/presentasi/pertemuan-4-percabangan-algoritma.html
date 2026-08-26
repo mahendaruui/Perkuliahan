@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pertemuan 4 - Struktur Kontrol Percabangan (Branching) | Mahendar Dwi Payana, S.ST., M.T.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(120% 120% at 50% 10%, #0f172a 0%, #020617 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(148, 163, 184, 0.15);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    header {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
+    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #f8fafc; }
+    .brand-text span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+
+    .header-controls { display: flex; align-items: center; gap: 12px; }
+    .btn-icon {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+    }
+    .btn-icon:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 28px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1140px, 94vw);
+      height: min(640px, 84vh);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+      padding: 36px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.98);
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .slide-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .slide-body::-webkit-scrollbar { width: 4px; }
+    .slide-body::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+
+    footer {
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 440px;
+      height: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
+    .btn-nav {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover:not(:disabled) {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+      font-family: var(--font-code);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-cyan { border-left: 4px solid var(--primary); background: rgba(56, 189, 248, 0.04); }
+    .card-emerald { border-left: 4px solid var(--accent-emerald); background: rgba(52, 211, 153, 0.04); }
+    .card-amber { border-left: 4px solid var(--accent-amber); background: rgba(251, 191, 36, 0.04); }
+    .card-purple { border-left: 4px solid var(--accent-purple); background: rgba(192, 132, 252, 0.04); }
+    .card-rose { border-left: 4px solid var(--accent-rose); background: rgba(251, 113, 133, 0.04); }
+
+    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #ffffff; display: flex; align-items: center; gap: 6px; }
+    .card p, .card li { font-size: 0.82rem; color: #cbd5e1; line-height: 1.55; }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(192, 132, 252, 0.05) 100%);
+      border: 1px solid rgba(129, 140, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+    .quote-text { font-size: 0.82rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+    .quote-author { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 600; }
+
+    pre {
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+    table.slide-table th, table.slide-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    table.slide-table th {
+      background: rgba(30, 41, 59, 0.8);
+      font-weight: 700;
+      color: var(--primary);
+    }
+    table.slide-table td { color: #cbd5e1; }
+
+    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .hero-title { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; color: #ffffff; margin-bottom: 12px; line-height: 1.2; }
+    .hero-title span { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+    .hero-pill { background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 99px; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
+        <div class="brand-sub">IFR206 • Pertemuan 04 • Universitas Ubudiyah Indonesia</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
+    </div>
+  </header>
+
+  <main id="slide-viewport">
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="hero-slide">
+        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
+        <h1 class="hero-title">Struktur Kontrol <span>Percabangan</span></h1>
+        <p style="font-size: 1.05rem; color: #94a3b8; max-width: 740px; line-height: 1.6;">
+          Teorema Struktur Kontrol, Pengambilan Keputusan Kondisional (Decision-Making), Evaluasi Bertingkat & Arsitektur Alur Logika
+        </p>
+        <div class="hero-meta">
+          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
+          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
+          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🧠 FILOSOFI DECISION MAKING</div>
+        <h2 class="slide-title">Mengapa Komputer Butuh Mengambil Keputusan?</h2>
+        <p class="slide-subtitle">Dari kalkulator mekanis statis menuju agen komputasi cerdas yang adaptif</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>💡 Titik Tolak Keberdayaan Program</h4>
+            <p>
+              Program sekuensial murni (baris per baris tanpa percabangan) seperti rekaman pita kaset: kaku, pasif, dan tidak peduli terhadap lingkungan luar.
+            </p>
+            <p style="margin-top: 8px;">
+              <strong>Percabangan (Branching)</strong> adalah pintu gerbang kecerdasan buatan (Artificial Intelligence). Dengan percabangan, program mampu membaca <em>keadaan dunia (state)</em>, menimbang parameter kondisi, dan memilih jalur tindakan optimal.
+            </p>
+          </div>
+          <div class="card card-purple">
+            <h4>🏛️ Teorema Böhm-Jacopini (1966)</h4>
+            <p>
+              Corrado Böhm dan Giuseppe Jacopini membuktikan secara matematis bahwa <strong>seluruh algoritma yang dapat dihitung di alam semesta</strong> cukup dibangun hanya dengan 3 struktur kendali:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>1. <strong>Sequence</strong> (Aliran Sekuensial)</li>
+              <li>2. <strong>Selection / Branching</strong> (Percabangan Logika)</li>
+              <li>3. <strong>Iteration</strong> (Perulangan Loop)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote-box">
+          <div class="quote-title">💡 Refleksi Filosofis</div>
+          <div class="quote-text">"Kecerdasan bukanlah kemampuan menghitung angka dengan cepat, melainkan kemampuan memilih jalur keputusan yang tepat saat dihadapkan pada ketidakpastian kondisi."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 3)</h2>
+        <p class="slide-subtitle">Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-emerald">
+            <h4>🎯 Capaian Terkait</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li><strong>CPL01 (Pengetahuan):</strong> Menguasai konsep dasar alur kontrol eksekusi prosesor.</li>
+              <li><strong>CPL03 (Problem Solving):</strong> Mampu memodelkan kasus keputusan bisnis kompleks menjadi formula percabangan yang efisien.</li>
+              <li><strong>CPMK0106:</strong> Mampu merancang algoritma percabangan multi-kondisi bebas redundansi.</li>
+            </ul>
+          </div>
+          <div class="card card-cyan">
+            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
+            <ul style="padding-left: 18px; margin-top: 8px;">
+              <li>Mampu membedakan kapan menggunakan `if-else`, `nested-if`, dan `switch-case`.</li>
+              <li>Mampu memetakan logika percabangan ke dalam diagram alir Flowchart ISO (Decision Symbol).</li>
+              <li>Mampu mencegah jebakan *Dangling Else* dan *Cyclomatic Complexity Explosion*.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🔀 TAKSONOMI PERCABANGAN</div>
+        <h2 class="slide-title">Klasifikasi Pola Struktur Percabangan</h2>
+        <p class="slide-subtitle">5 Pola Desain Pengambilan Keputusan dalam Rekayasa Perangkat Lunak</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-cyan">
+            <h4>1. Tunggal (`if`)</h4>
+            <p>Aksi dieksekusi HANYA jika kondisi `True`. Jika `False`, instruksi dilewati tanpa aksi alternatif.</p>
+          </div>
+          <div class="card card-emerald">
+            <h4>2. Ganda (`if-else`)</h4>
+            <p>Dua jalur diskrit saling lepas (*mutually exclusive*): Blok A jika `True`, Blok B jika `False`.</p>
+          </div>
+          <div class="card card-amber">
+            <h4>3. Majemuk (`if-elif-else`)</h4>
+            <p>Rantai evaluasi kaskade bertingkat. Kondisi pertama yang lolos akan dieksekusi, sisanya dilewati.</p>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top: 12px;">
+          <div class="card card-purple">
+            <h4>4. Bersarang (*Nested If*)</h4>
+            <p>Struktur percabangan di dalam percabangan lain, digunakan saat keputusan bergantung pada prasyarat sebelumnya (misal: Login valid → Cek Role Admin).</p>
+          </div>
+          <div class="card card-rose">
+            <h4>5. Multi-Way (`switch-case`)</h4>
+            <p>Pemilihan jalur berdasarkan perbandingan nilai diskrit (integer, char, enum) dengan tabel loncat (*Jump Table*).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚖️ PERBANDINGAN STRUKTURAL</div>
+        <h2 class="slide-title">`if-else-if` vs `switch-case`</h2>
+        <p class="slide-subtitle">Perbedaan karakteristik semantik, performa CPU & fleksibilitas logika</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Dimensi Evaluasi</th>
+              <th>Struktur `if-else-if` Cascade</th>
+              <th>Struktur `switch-case` Selection</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bentuk Kondisi</strong></td>
+              <td>Ekspresi logika bebas (relasional, range, boolean, rentang angka)</td>
+              <td>Hanya nilai diskrit eksak / konstanta tunggal (int, char, enum)</td>
+            </tr>
+            <tr>
+              <td><strong>Mekanisme Eksekusi</strong></td>
+              <td>Pemeriksaan linear sekuensial satu demi satu dari atas ke bawah</td>
+              <td>Dapat dioptimasi kompilator menjadi <strong>Jump Table (O(1))</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Kesesuaian Kasus</strong></td>
+              <td>Rentang skor (misal: `nilai >= 85 && nilai <= 100`)</td>
+              <td>Pilihan menu navigasi kasir (Pilih menu `1`, `2`, `3`)</td>
+            </tr>
+            <tr>
+              <td><strong>Kebutuhan `break`</strong></td>
+              <td>Tidak perlu (otomatis berhenti pada blok yang cocok)</td>
+              <td>Wajib (untuk mencegah eksekusi bocor ke case bawah / *fallthrough*)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚡ EKSPRESI RINGKAS</div>
+        <h2 class="slide-title">Operator Kondisional Ternary (`? :`)</h2>
+        <p class="slide-subtitle">Sintaksis fungsional ekspresif untuk penugasan nilai satu baris (*Inline Decision*)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div class="card card-cyan" style="margin-bottom: 10px;">
+              <h4>Format Standar Ternary:</h4>
+              <p><code>kondisi ? nilai_jika_true : nilai_jika_false;</code></p>
+              <p style="margin-top: 6px; font-size: 0.78rem;">
+                Operator Ternary adalah satu-satunya operator di bahasa C++/Java yang membutuhkan 3 operand.
+              </p>
+            </div>
+            <div class="card card-amber">
+              <h4>Prinsip Clean Code:</h4>
+              <p>Gunakan Ternary hanya untuk ekspresi sederhana. Hindari *Nested Ternary* bertingkat karena merusak keterbacaan kode (*readability*).</p>
+            </div>
+          </div>
+          <div>
+            <pre><code>// 1. Gaya Konvensional if-else (6 baris):
+string status;
+if (nilai >= 60) {
+    status = "LULUS";
+} else {
+    status = "REMIDIAL";
+}
+
+// 2. Gaya Elegan Ternary (1 baris):
+string status = (nilai >= 60) ? "LULUS" : "REMIDIAL";
+
+// 3. Di Python:
+status = "LULUS" if nilai >= 60 else "REMIDIAL"</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">💻 STUDI KASUS SISTEM AKADEMIK</div>
+        <h2 class="slide-title">Studi Kasus: Konversi Nilai Mutu OBE</h2>
+        <p class="slide-subtitle">Menerapkan percabangan majemuk kaskade pada standar penilaian Universitas Ubudiyah Indonesia</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3 (Cascade Guard)</div>
+            <pre><code># Konversi Nilai Mutu UUI
+nilai = float(input("Nilai Akhir (0-100): "))
+
+if nilai >= 85:
+    grade, bobot = "A", 4.0
+elif nilai >= 75:
+    grade, bobot = "B", 3.0
+elif nilai >= 65:
+    grade, bobot = "C", 2.0
+elif nilai >= 50:
+    grade, bobot = "D", 1.0
+else:
+    grade, bobot = "E", 0.0
+
+print(f"Grade Mutu : {grade}")
+print(f"Bobot Indeks: {bobot}")</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++ (Structured Flow)</div>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double nilai;
+    cout &lt;&lt; "Nilai Akhir (0-100): "; cin &gt;&gt; nilai;
+
+    char grade;
+    if (nilai &gt;= 85) grade = 'A';
+    else if (nilai &gt;= 75) grade = 'B';
+    else if (nilai &gt;= 65) grade = 'C';
+    else if (nilai &gt;= 50) grade = 'D';
+    else grade = 'E';
+
+    cout &lt;&lt; "Grade Mutu : " &lt;&lt; grade &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">⚠️ ANOMALI & JEBAKAN LOGIKA</div>
+        <h2 class="slide-title">Jebakan Klasik Percabangan (Common Pitfalls)</h2>
+        <p class="slide-subtitle">Bug tersembunyi yang sering merusak alur komputasi perangkat lunak</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-rose">
+            <h4>1. Missing Break (Fallthrough)</h4>
+            <p>Lupa menulis `break` pada `switch-case` akan menyebabkan program terus mengeksekusi case di bawahnya tanpa evaluasi kondisi!</p>
+          </div>
+          <div class="card card-amber">
+            <h4>2. Dangling Else Problem</h4>
+            <p>Ambiguitas blok `else` pada nested-if tanpa tanda kurung kurawal `{}`. Blok `else` akan selalu menempel pada `if` terdekat!</p>
+          </div>
+          <div class="card card-purple">
+            <h4>3. Arrow Anti-Pattern</h4>
+            <p>Nesting `if` terlalu dalam (> 4 tingkat) membuat kode membentuk panah mendatar dan sangat sulit diuji (*high cyclomatic complexity*).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🛡️ REKAYASA KODE BERSIH</div>
+        <h2 class="slide-title">Best Practice: Teknik *Early Return / Guard Clauses*</h2>
+        <p class="slide-subtitle">Mengubah sarang `nested-if` yang ruwet menjadi alur linear yang bersih dan elegan</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-rose); margin-bottom: 4px;">❌ Kode Bersarang Rawan Bug (Arrow Code):</div>
+            <pre><code>function prosesBayar(user, saldo) {
+    if (user != null) {
+        if (user.isActive) {
+            if (saldo >= 100000) {
+                // Eksekusi bayar
+                return "SUKSES";
+            }
+        }
+    }
+    return "GAGAL";
+}</code></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-emerald); margin-bottom: 4px;">✅ Menggunakan Guard Clause (Linear & Bersih):</div>
+            <pre><code>function prosesBayar(user, saldo) {
+    // Tangani skenario gagal di awal (Early Exit):
+    if (user == null) return "GAGAL";
+    if (!user.isActive) return "GAGAL";
+    if (saldo < 100000) return "GAGAL";
+
+    // Alur utama tanpa indentasi berlebih:
+    // Eksekusi bayar
+    return "SUKSES";
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div>
+        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 3</div>
+        <h2 class="slide-title">Rangkuman Materi & Tugas Kasus Nyata</h2>
+        <p class="slide-subtitle">Uji kompetensi logika pengambilan keputusan terstruktur</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card card-cyan">
+            <h4>📌 Rangkuman Inti</h4>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li>Percabangan memungkinkan komputer bertindak adaptif dan mengambil keputusan deterministik.</li>
+              <li>Pilih `if-else-if` untuk evaluasi rentang nilai; gunakan `switch-case` untuk menu diskrit bernilai tetap.</li>
+              <li>Gunakan *Guard Clauses* untuk meratakan sarang percabangan yang rumit.</li>
+            </ul>
+          </div>
+          <div class="card card-emerald">
+            <h4>📝 Tugas Mandiri Minggu 4</h4>
+            <p style="margin-top: 6px;">
+              Rancanglah program <strong>Kalkulator Tarif Parkir Mall Bertingkat</strong>:
+            </p>
+            <ul style="padding-left: 18px; margin-top: 4px;">
+              <li>Jenis Kendaraan: Motor (Rp 2.000) atau Mobil (Rp 5.000) untuk 2 jam pertama.</li>
+              <li>Jam berikutnya: Tambahan Rp 1.000/jam (Motor) dan Rp 2.000/jam (Mobil).</li>
+              <li>Diskon 10% jika memiliki kartu Member VIP.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Navigasi: <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">◀</kbd> <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">▶</kbd> atau <kbd style="background: rgba(30,41,59,0.8); padding: 2px 6px; border: 1px solid var(--card-border); border-radius: 4px;">Spasi</kbd>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div class="nav-btn-group">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
+      <div class="slide-counter" id="slide-num">1 / 10</div>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNum = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active', 'prev');
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else if (idx < currentSlide) {
+          s.classList.add('prev');
+        }
+      });
+
+      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
+      btnPrev.disabled = currentSlide === 0;
+      btnNext.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
+      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
+      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
+    });
+
+    updateSlide();
+</script>
+</body>
+</html>
