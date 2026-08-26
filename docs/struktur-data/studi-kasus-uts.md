@@ -12,18 +12,18 @@
 
 | Struktur Data | Akses Acak ($i$) | Insert di Awal | Insert di Akhir | Hapus di Awal | Hapus di Akhir | Memory Overhead |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Array Statis** | **$O(1)$** | $O(n)$ | $O(n)$ | $O(n)$ | $O(n)$ | Nol (Paling Hemat) |
-| **Slice Dinamis (Go)** | **$O(1)$** | $O(n)$ | **$O(1)$ amortized** | $O(n)$ / $O(1)^*$ | $O(1)$ | Sedang (24B Header) |
-| **Singly Linked List** | $O(n)$ | **$O(1)$** | **$O(1)$ (with Tail)** | **$O(1)$** | $O(n)$ | +8 Bytes per Node |
-| **Doubly Linked List** | $O(n)$ | **$O(1)$** | **$O(1)$** | **$O(1)$** | **$O(1)$** | +16 Bytes per Node |
-| **Stack (LIFO)** | $O(n)$ | **$O(1)$** | - | **$O(1)$** | - | Rendah |
-| **Circular Queue (FIFO)**| $O(n)$ | - | **$O(1)$ (Enqueue)** | **$O(1)$ (Dequeue)** | - | Rendah |
+| **Array Statis** | **`O(1)`** | `O(n)` | `O(n)` | `O(n)` | `O(n)` | Nol (Paling Hemat) |
+| **Slice Dinamis (Go)** | **`O(1)`** | `O(n)` | **`O(1)` amortized** | `O(n)` / $O(1)^*$ | `O(1)` | Sedang (24B Header) |
+| **Singly Linked List** | `O(n)` | **`O(1)`** | **`O(1)` (with Tail)** | **`O(1)`** | `O(n)` | +8 Bytes per Node |
+| **Doubly Linked List** | `O(n)` | **`O(1)`** | **`O(1)`** | **`O(1)`** | **`O(1)`** | +16 Bytes per Node |
+| **Stack (LIFO)** | `O(n)` | **`O(1)`** | - | **`O(1)`** | - | Rendah |
+| **Circular Queue (FIFO)**| `O(n)` | - | **`O(1)` (Enqueue)** | **`O(1)` (Dequeue)** | - | Rendah |
 
 ---
 
 ## 2. Praktikum Benchmarking Resmi Golang (`testing.B`)
 
-Berikut program pengujian empiris untuk membuktikan kecepatan **Prepend pada Linked List ($O(1)$)** versus **Prepend pada Slice ($O(n)$)** pada $100.000$ operasi:
+Berikut program pengujian empiris untuk membuktikan kecepatan **Prepend pada Linked List (`O(1)`)** versus **Prepend pada Slice (`O(n)`)** pada $100.000$ operasi:
 
 ```go
 package main

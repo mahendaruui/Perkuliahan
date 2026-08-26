@@ -36,10 +36,10 @@ graph LR
 | Operasi / Karakteristik | Array / Slice Dinamis | Singly Linked List |
 | :--- | :--- | :--- |
 | **Tata Letak Memori** | Blok memori kontigu bersebelahan. | Blok memori tersebar di Heap (*Non-contiguous*). |
-| **Akses Elemen Acak ($A[i]$)** | **$O(1)$ (Sangat Cepat via rumus indeks)**. | **$O(n)$ (Harus traversal dari Head)**. |
-| **Penyisipan di Awal (*Prepend*)** | $O(n)$ (Harus menggeser seluruh elemen). | **$O(1)$ (Hanya ubah pointer Head)**. |
-| **Penyisipan di Akhir (*Append*)** | $O(1)$ amortized (bisa $O(n)$ jika reallocate).| **$O(1)$ jika punya pointer Tail** (atau $O(n)$). |
-| **Penghapusan Elemen Depan** | $O(n)$ (atau $O(1)$ dengan pemotongan slice).| **$O(1)$ (Langsung Head = Head.Next)**. |
+| **Akses Elemen Acak (`A[i]`)** | **`O(1)` (Sangat Cepat via rumus indeks)**. | **`O(n)` (Harus traversal dari Head)**. |
+| **Penyisipan di Awal (*Prepend*)** | `O(n)` (Harus menggeser seluruh elemen). | **`O(1)` (Hanya ubah pointer Head)**. |
+| **Penyisipan di Akhir (*Append*)** | `O(1)` amortized (bisa `O(n)` jika reallocate).| **`O(1)` jika punya pointer Tail** (atau `O(n)`). |
+| **Penghapusan Elemen Depan** | `O(n)` (atau `O(1)` dengan pemotongan slice).| **`O(1)` (Langsung Head = Head.Next)**. |
 | **Efisiensi Memori (Overhead)** | Sangat hemat (Hanya data murni). | Ada beban tambahan memori 8 bytes untuk pointer `Next` di tiap node. |
 | **CPU Cache Locality** | **Sangat Baik** (Data berdekatan di cache L1/L2). | Kurang optimal (Pointer dereferencing memicu *cache miss*). |
 

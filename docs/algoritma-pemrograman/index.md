@@ -42,7 +42,7 @@ Modul materi perkuliahan ini dirancang secara komprehensif berbasis kurikulum **
 * **[Minggu 11: Teknik Rekursi & Call Stack](./rekursi.md)** — Base Case, Recursive Step, Call Stack Simulation, Divide & Conquer *(Sub-CPMK 5)*
 
 ### 🔹 Bagian 5: Algoritma Pencarian, Pengurutan & Kompleksitas
-* **[Minggu 12: Algoritma Pencarian (Searching)](./algoritma-pencarian.md)** — Linear Search vs Binary Search, Analisis Performa $O(n)$ vs $O(\log n)$ *(Sub-CPMK 6)*
+* **[Minggu 12: Algoritma Pencarian (Searching)](./algoritma-pencarian.md)** — Linear Search vs Binary Search, Analisis Performa `O(n)` vs $O(log n)$ *(Sub-CPMK 6)*
 * **[Minggu 13-14: Algoritma Pengurutan (Sorting)](./algoritma-pengurutan.md)** — Bubble Sort, Selection Sort, Insertion Sort & Komparasi Big-O *(Sub-CPMK 6)*
 
 ### 🔹 Bagian 6: Evaluasi Akhir & Capstone Project

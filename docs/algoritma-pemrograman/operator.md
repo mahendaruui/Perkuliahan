@@ -50,7 +50,7 @@ Operator modulo (`%`) **hanya berlaku pada bilangan bulat (integer)**. Modulo sa
 
 ### Tabel Kebenaran Operator Logika
 
-| Kondisi $A$ | Kondisi $B$ | $A \land B$ (`AND` / `&&`) | $A \lor B$ (`OR` / `\|\|`) | $\neg A$ (`NOT` / `!`) |
+| Kondisi $A$ | Kondisi $B$ | $A \land B$ (`AND` / `&&`) | $A \lor B$ (`OR` / `\|\|`) | $≠g A$ (`NOT` / `!`) |
 | :---: | :---: | :---: | :---: | :---: |
 | **`true`** | **`true`** | **`true`** | **`true`** | **`false`** |
 | **`true`** | **`false`** | **`false`** | **`true`** | **`false`** |
@@ -126,5 +126,5 @@ else:
    bool hasil = (x + y * 2 > z) && !(y % 3 == 0) || (z / x == 3);
    ```
 2. Buatlah program untuk menentukan kelayakan beasiswa mahasiswa dengan kriteria:
-   - IPK $\ge 3.50$ **DAN** Penghasilan Orang Tua $< \text{Rp } 5.000.000$, **ATAU**
+   - IPK $≥ 3.50$ **DAN** Penghasilan Orang Tua $< Rp  5.000.000$, **ATAU**
    - Mahasiswa memiliki prestasi nasional (Status Prestasi = `true`).

@@ -3,7 +3,7 @@
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 6)
 - **CPMK Terkait:** CPMK0106 (Konsep Matematika Informatika & Logika Algoritma)
 - **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving)
-- **Indikator:** Mahasiswa mampu menganalisis mekanisme kerja algoritma Linear Search dan Binary Search, memahami syarat prasyarat keterurutan data, serta mengevaluasi perbandingan efisiensi kompleksitas waktu komputasi $O(n)$ versus $O(\log n)$.
+- **Indikator:** Mahasiswa mampu menganalisis mekanisme kerja algoritma Linear Search dan Binary Search, memahami syarat prasyarat keterurutan data, serta mengevaluasi perbandingan efisiensi kompleksitas waktu komputasi `O(n)` versus $O(log n)$.
 :::
 
 ---
@@ -28,8 +28,8 @@ graph TD
 | :--- | :--- | :--- |
 | **Prasyarat Dataset** | Data boleh **acak / tidak terurut**. | Data **wajib terurut (*sorted*)**. |
 | **Prinsip Kerja** | Membandingkan target dengan elemen satu per satu dari awal hingga akhir. | Membagi ruang pencarian menjadi 2 bagian secara berulang (*Divide and Conquer*). |
-| **Worst-Case Complexity** | $O(n)$ (Jika data di ujung atau tidak ditemukan). | $O(\log_2 n)$ (Sangat cepat pada dataset besar). |
-| **Contoh 1 Juta Data** | Butuh hingga $1.000.000$ operasi perbandingan. | Hanya butuh maksimal $\approx 20$ kali perbandingan! |
+| **Worst-Case Complexity** | `O(n)` (Jika data di ujung atau tidak ditemukan). | $O(log₂ n)$ (Sangat cepat pada dataset besar). |
+| **Contoh 1 Juta Data** | Butuh hingga $1.000.000$ operasi perbandingan. | Hanya butuh maksimal ≈ 20 kali perbandingan! |
 
 ---
 

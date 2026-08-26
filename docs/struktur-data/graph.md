@@ -3,7 +3,7 @@
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 6)
 - **CPMK Terkait:** CPMK0101 (Struktur Data Non-Linear), CPMK0106 (Analisis Kompleksitas)
 - **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL04 (Solusi Rekayasa Komputasi)
-- **Indikator:** Mahasiswa mampu menguraikan definisi formal Graf $G = (V, E)$, membedakan graf berarah (*Directed*) vs tidak berarah (*Undirected*), berbobot (*Weighted*), serta mengimplementasikan representasi *Adjacency List* menggunakan Golang `map[T][]Edge[T]`.
+- **Indikator:** Mahasiswa mampu menguraikan definisi formal Graf `G = (V, E)`, membedakan graf berarah (*Directed*) vs tidak berarah (*Undirected*), berbobot (*Weighted*), serta mengimplementasikan representasi *Adjacency List* menggunakan Golang `map[T][]Edge[T]`.
 :::
 
 ---
@@ -11,7 +11,7 @@
 ## 1. Definisi & Jenis-Jenis Graf
 
 **Graf ($G$)** adalah struktur data non-linear matematika yang didefinisikan sebagai pasangan himpunan:
-$$G = (V, E)$$
+$`G = (V, E)`$
 - **$V$ (*Vertices / Nodes*):** Himpunan simpul objek data.
 - **$E$ (*Edges / Links*):** Himpunan pasangan simpul yang menyatakan relasi/koneksi antar objek.
 
@@ -38,11 +38,11 @@ graph LR
 
 ## 2. Komparasi Representasi Memori: Adjacency Matrix vs Adjacency List
 
-| Parameter | Adjacency Matrix (Matriks $V \times V$) | Adjacency List (Daftar Tetangga) |
+| Parameter | Adjacency Matrix (Matriks $V × V$) | Adjacency List (Daftar Tetangga) |
 | :--- | :--- | :--- |
-| **Konsumsi Memori** | $O(V^2)$ (Boros jika graf renggang / *sparse*). | **$O(V + E)$ (Sangat Hemat & Optimal)**. |
-| **Cek Ketetanggaan ($u \to v$)** | **$O(1)$** (Langsung akses matriks `[u][v]`). | $O(\text{degree}(u))$. |
-| **Cari Seluruh Tetangga Simpul**| $O(V)$ (Harus pindai seluruh baris). | **$O(\text{degree}(u))$ (Cepat)**. |
+| **Konsumsi Memori** | `O(V²)` (Boros jika graf renggang / *sparse*). | **`O(V + E)` (Sangat Hemat & Optimal)**. |
+| **Cek Ketetanggaan ($u \to v$)** | **`O(1)`** (Langsung akses matriks `[u][v]`). | $O(degree(u))$. |
+| **Cari Seluruh Tetangga Simpul**| $O(V)$ (Harus pindai seluruh baris). | **$O(degree(u))$ (Cepat)**. |
 | **Rekomendasi Industri** | Graf padat (*dense graph*). | **Graf umum, jejaring sosial, peta jalan**. |
 
 ---

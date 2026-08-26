@@ -60,7 +60,7 @@ Pada sebuah Circular Queue dengan kapasitas $K = 6$, posisi `Front = 4` dan `Rea
 ---
 
 ### 5. Linked List vs Slice Prepend
-Mengapa operasi penyisipan elemen di awal (*Prepend*) pada Singly Linked List berkinerja $O(1)$, sedangkan pada Slice dinamis berkinerja $O(n)$?
+Mengapa operasi penyisipan elemen di awal (*Prepend*) pada Singly Linked List berkinerja `O(1)`, sedangkan pada Slice dinamis berkinerja `O(n)`?
 - A. Karena Linked List tidak perlu menggeser elemen memori yang sudah ada, melainkan cukup menghubungkan pointer `newNode.Next = head`. ✅
 - B. Karena Linked List disimpan di cache CPU register.
 - C. Karena Slice selalu menggandakan kapasitasnya setiap kali ada elemen baru.
@@ -78,10 +78,10 @@ Penelusuran (*Traversal*) manakah pada sebuah Binary Search Tree yang **selalu m
 ---
 
 ### 7. Kompleksitas Algoritma Searching
-Berapakah jumlah perbandingan maksimum yang dibutuhkan oleh algoritma **Binary Search** untuk mencari angka pada array terurut dengan $1.048.576$ elemen ($2^{20}$)?
+Berapakah jumlah perbandingan maksimum yang dibutuhkan oleh algoritma **Binary Search** untuk mencari angka pada array terurut dengan $1.048.576$ elemen (2²⁰)?
 - A. $1.048.576$ kali
 - B. $1.000$ kali
-- C. $20$ kali (karena $\log_2(2^{20}) = 20$) ✅
+- C. $20$ kali (karena $log₂(2²⁰) = 20$) ✅
 - D. $2$ kali
 
 ---
@@ -105,7 +105,7 @@ Algoritma Dijkstra digunakan untuk mencari rute terpendek dengan syarat utama:
 ---
 
 ### 10. LRU Cache
-Struktur data gabungan yang paling efisien untuk membangun sistem **LRU Cache** dengan operasi `Get` dan `Put` dalam waktu $O(1)$ adalah:
+Struktur data gabungan yang paling efisien untuk membangun sistem **LRU Cache** dengan operasi `Get` dan `Put` dalam waktu `O(1)` adalah:
 - A. Array + Binary Tree
 - B. Hash Map + Doubly Linked List ✅
 - C. Stack + Circular Queue

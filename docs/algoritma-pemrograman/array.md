@@ -28,8 +28,8 @@ graph LR
     style E fill:#e0f2fe,stroke:#0284c7
 ```
 
-Rumus akses alamat memori elemen ke-$i$ (*Direct Access in $O(1)$*):
-$$\text{Alamat}(A[i]) = \text{Base Address} + (i \times \text{Ukuran Tipe Data})$$
+Rumus akses alamat memori elemen ke-$i$ (*Direct Access in `O(1)`*):
+$$Alamat(A[i]) = Base Address + (i × Ukuran Tipe Data)$$
 
 ---
 

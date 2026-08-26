@@ -16,7 +16,7 @@ Sebuah fungsi rekursif **wajib memiliki 2 bagian mutlak**:
 1. **Base Case (Kasus Dasar):** Kondisi terminasi di mana fungsi berhenti memanggil dirinya dan langsung mengembalikan nilai dasar.
 2. **Recursive Step (Langkah Rekursif):** Instruksi di mana fungsi memanggil dirinya sendiri dengan parameter yang bergerak mendekati Base Case.
 
-$$\text{Faktorial: } n! = \begin{cases} 1 & \text{jika } n = 0 \text{ atau } n = 1 \quad \text{(Base Case)} \\ n \times (n-1)! & \text{jika } n > 1 \quad \text{(Recursive Case)} \end{cases}$$
+$$Faktorial:  n! = \begin{cases} 1 & jika  n = 0  atau  n = 1 \quad (Base Case) \\ n × (n-1)! & jika  n > 1 \quad (Recursive Case) \end{cases}$$
 
 ```mermaid
 graph TD
@@ -86,4 +86,4 @@ print("Fibonacci ke-7 =", fibonacci(7))
 
 1. Buatlah trace table alur pemanggilan stack untuk `fibonacci(4)`!
 2. Rancanglah fungsi rekursif untuk menghitung perpangkatan $a^b$ ($a$ pangkat $b$).
-3. Pecahkan teka-teki klasik **Menara Hanoi (*Tower of Hanoi*)** untuk memindahkan $N$ piringan dari tiang sumber ke tiang tujuan secara rekursif!
+3. Pecahkan teka-teki klasik **Menara Hanoi (*Tower of Hanoi*)** untuk memindahkan `N` piringan dari tiang sumber ke tiang tujuan secara rekursif!

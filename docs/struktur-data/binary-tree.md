@@ -46,9 +46,9 @@ graph TD
 | :--- | :--- |
 | **Full Binary Tree** | Setiap simpul memiliki tepat **0 atau 2 anak** (tidak ada simpul beranak 1). |
 | **Complete Binary Tree** | Semua level terisi penuh kecuali level terakhir, dan daun pada level terakhir merapat ke kiri. |
-| **Perfect Binary Tree** | Semua simpul internal memiliki 2 anak dan semua daun berada pada level kedalaman yang sama ($N = 2^{h+1} - 1$). |
+| **Perfect Binary Tree** | Semua simpul internal memiliki 2 anak dan semua daun berada pada level kedalaman yang sama (N = 2ʰ⁺¹ - 1). |
 | **Balanced Binary Tree** | Selisih tinggi subtree kiri dan kanan pada setiap simpul tidak lebih dari 1 (misal: AVL Tree). |
-| **Degenerate / Skewed Tree** | Setiap simpul hanya memiliki 1 anak (menyerupai Linked List dengan performa memburuk ke $O(n)$). |
+| **Degenerate / Skewed Tree** | Setiap simpul hanya memiliki 1 anak (menyerupai Linked List dengan performa memburuk ke `O(n)`). |
 
 ---
 
@@ -113,5 +113,5 @@ func main() {
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 5)
 
-1. Buktikan secara matematis bahwa pada sebuah *Perfect Binary Tree* dengan tinggi $h$, jumlah total daun adalah $2^h$!
+1. Buktikan secara matematis bahwa pada sebuah *Perfect Binary Tree* dengan tinggi `h`, jumlah total daun adalah 2ʰ!
 2. Buatlah fungsi Golang `IsLeaf(node *TreeNode[T]) bool` untuk memeriksa apakah sebuah simpul adalah simpul daun!

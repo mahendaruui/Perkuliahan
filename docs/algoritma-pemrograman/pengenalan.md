@@ -44,7 +44,7 @@ Menurut pakar ilmu komputer **Donald E. Knuth** dalam mahakaryanya *The Art of C
 
 Sering kali terjadi kerancuan antara konsep algoritma dan program komputer. Hubungan keduanya dirumuskan dalam persamaan klasik oleh Niklaus Wirth:
 
-$$\text{Algorithms} + \text{Data Structures} = \text{Programs}$$
+$$Algorithms + Data Structures = Programs$$
 
 ```mermaid
 graph TD

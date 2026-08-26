@@ -38,8 +38,8 @@ graph LR
 Pada implementasi array/slice statis linear: saat elemen di-dequeue dari depan, ruang di depan menjadi kosong namun pointer `Rear` terus bergerak ke ujung belakang. Hal ini memicu kondisi **False Overflow** (antrean terlihat penuh padahal slot depan kosong).
 
 Solusinya adalah **Circular Queue (Antrean Melingkar)** menggunakan operasi matematika modulo ($\%$):
-$$\text{Next Rear} = (\text{Rear} + 1) \% \text{Kapasitas}$$
-$$\text{Next Front} = (\text{Front} + 1) \% \text{Kapasitas}$$
+$$Next Rear = (Rear + 1) \% Kapasitas$$
+$$Next Front = (Front + 1) \% Kapasitas$$
 
 ```mermaid
 graph TD
@@ -195,5 +195,5 @@ func main() {
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 3)
 
-1. Rancanglah struktur **Double-Ended Queue (Deque)** di Golang yang mendukung operasi `PushFront`, `PushBack`, `PopFront`, dan `PopBack` dalam waktu $O(1)$.
+1. Rancanglah struktur **Double-Ended Queue (Deque)** di Golang yang mendukung operasi `PushFront`, `PushBack`, `PopFront`, dan `PopBack` dalam waktu `O(1)`.
 2. Jelaskan perbedaan mendasar antara *Simple FIFO Queue* dan *Priority Queue* dalam konteks penjadwalan proses pada Sistem Operasi!

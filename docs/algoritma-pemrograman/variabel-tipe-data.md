@@ -56,8 +56,8 @@ graph TD
 | **`bool` / `boolean`** | 1 Byte | `true` (1) atau `false` (0) | `true`, `false` |
 | **`char`** | 1 Byte | Karakter tunggal ASCII (0 s.d. 255) | `'A'`, `'7'`, `'#'` |
 | **`int` (Integer)** | 4 Bytes (32-bit) | $-2.147.483.648$ s.d. $+2.147.483.647$ | `100`, `-45`, `0` |
-| **`float` (Single Precision)** | 4 Bytes | Presisi $\approx 7$ digit desimal | `3.14159f`, `-0.005f` |
-| **`double` (Double Precision)**| 8 Bytes (64-bit) | Presisi $\approx 15-17$ digit desimal | `3.141592653589793` |
+| **`float` (Single Precision)** | 4 Bytes | Presisi ≈ 7 digit desimal | `3.14159f`, `-0.005f` |
+| **`double` (Double Precision)**| 8 Bytes (64-bit) | Presisi ≈ 15-17 digit desimal | `3.141592653589793` |
 | **`string`** | Dinamis | Kumpulan karakter teks | `"Universitas Ubudiyah"` |
 
 ---

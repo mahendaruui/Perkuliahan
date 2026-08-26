@@ -3,7 +3,7 @@
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 3)
 - **CPMK Terkait:** CPMK0101 (Struktur Data Linear), CPMK0106 (Analisis Kompleksitas)
 - **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving), CPL04 (Solusi Rekayasa)
-- **Indikator:** Mahasiswa mampu mengimplementasikan ADT Stack berbasis *Generic Slice* dan *Pointer Node*, menganalisis seluruh operasi dasar dalam waktu $O(1)$, serta menyelesaikan kasus rekayasa nyata (*Balanced Parentheses*, Evaluasi Postfix RPN, dan Undo/Redo Engine).
+- **Indikator:** Mahasiswa mampu mengimplementasikan ADT Stack berbasis *Generic Slice* dan *Pointer Node*, menganalisis seluruh operasi dasar dalam waktu `O(1)`, serta menyelesaikan kasus rekayasa nyata (*Balanced Parentheses*, Evaluasi Postfix RPN, dan Undo/Redo Engine).
 :::
 
 ---
@@ -34,11 +34,11 @@ graph TD
 
 | Nama Operasi | Deskripsi Aksi | Time Complexity | Space Complexity |
 | :--- | :--- | :---: | :---: |
-| **`Push(item)`** | Menambahkan elemen baru ke atas puncak (Top). | $O(1)$ amortized | $O(1)$ |
-| **`Pop()`** | Mengambil dan menghapus elemen dari puncak (Top). | $O(1)$ | $O(1)$ |
-| **`Peek() / Top()`** | Melihat nilai elemen di puncak tanpa menghapusnya. | $O(1)$ | $O(1)$ |
-| **`IsEmpty()`** | Memeriksa apakah stack tidak memiliki elemen. | $O(1)$ | $O(1)$ |
-| **`Size()`** | Mengembalikan jumlah total elemen dalam stack. | $O(1)$ | $O(1)$ |
+| **`Push(item)`** | Menambahkan elemen baru ke atas puncak (Top). | `O(1)` amortized | `O(1)` |
+| **`Pop()`** | Mengambil dan menghapus elemen dari puncak (Top). | `O(1)` | `O(1)` |
+| **`Peek() / Top()`** | Melihat nilai elemen di puncak tanpa menghapusnya. | `O(1)` | `O(1)` |
+| **`IsEmpty()`** | Memeriksa apakah stack tidak memiliki elemen. | `O(1)` | `O(1)` |
+| **`Size()`** | Mengembalikan jumlah total elemen dalam stack. | `O(1)` | `O(1)` |
 
 ---
 
@@ -214,5 +214,5 @@ sequenceDiagram
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 3)
 
-1. **Evaluasi Postfix (Reverse Polish Notation):** Buatlah program Golang menggunakan Stack untuk menghitung hasil ekspresi postfix: `"5 3 + 2 * 7 -"` ($((5+3) \times 2) - 7 = 9$).
+1. **Evaluasi Postfix (Reverse Polish Notation):** Buatlah program Golang menggunakan Stack untuk menghitung hasil ekspresi postfix: `"5 3 + 2 * 7 -"` ($((5+3) × 2) - 7 = 9$).
 2. **Reverse String:** Tuliskan fungsi pembalik teks (*string reversal*) menggunakan struktur data Stack generik!

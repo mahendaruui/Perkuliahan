@@ -135,8 +135,8 @@ graph TD
 
 ### Algoritma Pertumbuhan Kapasitas Slice (*Slice Growth Algorithm*)
 Ketika `append()` dipanggil dan melebihi `cap`:
-- Jika `cap < 256`: Kapasitas baru berlipat ganda ($2 \times \text{cap}$).
-- Jika `cap \ge 256`: Kapasitas bertumbuh secara bertahap dengan rumus $\text{cap}_{\text{baru}} = \text{cap} + (\text{cap} + 3 \times 256) / 4$.
+- Jika `cap < 256`: Kapasitas baru berlipat ganda ($2 × cap$).
+- Jika `cap ≥ 256`: Kapasitas bertumbuh secara bertahap dengan rumus $cap_{baru} = cap + (cap + 3 × 256) / 4$.
 
 ---
 

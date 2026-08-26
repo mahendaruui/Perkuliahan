@@ -126,6 +126,6 @@ for (int baris = 1; baris <= tinggi; baris++) {
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 3)
 
-1. Buatlah program untuk menghitung nilai faktorial ($N! = N \times (N-1) \times \dots \times 1$) dengan penanganan khusus untuk $0! = 1$.
+1. Buatlah program untuk menghitung nilai faktorial ($N! = N × (N-1) × ... × 1$) dengan penanganan khusus untuk $0! = 1$.
 2. Buatlah program untuk mencetak deret bilangan prima antara 1 hingga 100 menggunakan perulangan bersarang.
 3. Rancanglah sistem kasir sederhana yang terus meminta input belanja barang dan menghitung total harga sampai kasir memasukkan angka `0` untuk selesai transaksi.

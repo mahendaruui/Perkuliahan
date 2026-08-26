@@ -14,7 +14,7 @@ Pada **Doubly Linked List**, setiap Node memiliki dua pointer:
 1. **`Next`:** Merujuk ke Node berikutnya.
 2. **`Prev`:** Merujuk ke Node sebelumnya.
 
-Keunggulan mutlak Doubly Linked List adalah kita dapat melakukan operasi navigasi maju dan mundur, serta menghapus sembarang node yang referensinya diketahui dalam waktu **$O(1)$ murni** tanpa perlu mencari node pendahulunya (*predecessor*).
+Keunggulan mutlak Doubly Linked List adalah kita dapat melakukan operasi navigasi maju dan mundur, serta menghapus sembarang node yang referensinya diketahui dalam waktu **`O(1)` murni** tanpa perlu mencari node pendahulunya (*predecessor*).
 
 ```mermaid
 graph LR
@@ -51,7 +51,7 @@ graph LR
 Untuk mendeteksi apakah suatu linked list mengalami siklus/looping tanpa batas:
 - Pointer **Slow (Kura-kura)** bergerak 1 langkah.
 - Pointer **Fast (Kelinci)** bergerak 2 langkah.
-- Jika ada siklus, `Fast` dan `Slow` **pasti akan bertemu** pada satu titik dalam waktu $O(n)$.
+- Jika ada siklus, `Fast` dan `Slow` **pasti akan bertemu** pada satu titik dalam waktu `O(n)`.
 
 ```go
 func HasCycle[T comparable](head *Node[T]) bool {
@@ -72,7 +72,7 @@ func HasCycle[T comparable](head *Node[T]) bool {
 ## 3. Studi Kasus Industri: Implementasi LRU (Least Recently Used) Cache
 
 **LRU Cache** adalah komponen arsitektur vital pada sistem basis data (seperti Redis dan buffer pool MySQL) untuk menyimpan data paling sering diakses di RAM:
-- Menggunakan **Hash Map** (`map[K]*Node`) untuk pencarian instan $O(1)$.
+- Menggunakan **Hash Map** (`map[K]*Node`) untuk pencarian instan `O(1)`.
 - Menggunakan **Doubly Linked List** untuk memelihara urutan frekuensi akses: node yang baru diakses dipindahkan ke paling depan (Head), sedangkan node yang paling jarang diakses di ujung ekor (Tail) akan dibuang (*evicted*) saat kapasitas penuh.
 
 ```mermaid

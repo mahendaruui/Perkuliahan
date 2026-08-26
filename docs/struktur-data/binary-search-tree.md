@@ -11,9 +11,9 @@
 ## 1. Properti Fundamental Binary Search Tree (BST)
 
 **Binary Search Tree (BST)** adalah pohon biner dengan aturan pengurutan ketat (*ordering property*):
-Untuk setiap simpul $N$:
-1. Semua nilai di **Subtree Kiri** harus **lebih kecil** dari nilai $N$ ($L < N$).
-2. Semua nilai di **Subtree Kanan** harus **lebih besar** dari nilai $N$ ($R > N$).
+Untuk setiap simpul `N`:
+1. Semua nilai di **Subtree Kiri** harus **lebih kecil** dari nilai `N` ($L < N$).
+2. Semua nilai di **Subtree Kanan** harus **lebih besar** dari nilai `N` ($R > N$).
 3. Tidak boleh ada nilai duplikat (atau ditangani dengan aturan khusus).
 
 ```mermaid
@@ -167,5 +167,5 @@ func main() {
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 5)
 
-1. Mengapa Binary Search Tree dapat mengalami penurunan performa ke $O(n)$ saat data dimasukkan dalam keadaan sudah terurut? Bagaimana cara mengatasinya (*Self-Balancing AVL / Red-Black Tree*)?
+1. Mengapa Binary Search Tree dapat mengalami penurunan performa ke `O(n)` saat data dimasukkan dalam keadaan sudah terurut? Bagaimana cara mengatasinya (*Self-Balancing AVL / Red-Black Tree*)?
 2. Buatlah fungsi `LevelOrder(root *BSTNode[T])` menggunakan struktur data **Queue** untuk mencetak simpul tingkat demi tingkat (*Breadth-First Search*)!

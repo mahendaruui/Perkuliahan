@@ -24,7 +24,7 @@
 Rancang dan bangunlah aplikasi konsol interaktif berbasis menu yang mencakup fitur-fitur berikut:
 
 1. **Struktur Data:** Gunakan array / struct untuk menyimpan minimal 10 record data (NPM, Nama, Nilai Tugas, Nilai UTS, Nilai UAS, Nilai Akhir, dan Grade).
-2. **Kalkulasi Modular:** Buat fungsi terpisah untuk menghitung Nilai Akhir ($30\% \text{ Tugas} + 35\% \text{ UTS} + 35\% \text{ UAS}$) dan penentuan Grade Mutu.
+2. **Kalkulasi Modular:** Buat fungsi terpisah untuk menghitung Nilai Akhir ($30\%  Tugas + 35\%  UTS + 35\%  UAS$) dan penentuan Grade Mutu.
 3. **Fitur Pengurutan (Sorting):** Menu untuk mengurutkan data mahasiswa berdasarkan Nilai Akhir tertinggi (*Descending*) menggunakan algoritma **Insertion Sort** atau **Bubble Sort**.
 4. **Fitur Pencarian (Searching):** Menu pencarian mahasiswa berdasarkan NPM menggunakan **Binary Search** (dengan pengurutan NPM terlebih dahulu).
 5. **Statistik Kelas:** Menampilkan nilai rata-rata kelas, nilai tertinggi, dan nilai terendah.

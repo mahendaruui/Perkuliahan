@@ -79,7 +79,7 @@ graph LR
 | :--- | :--- | :--- |
 | **Mekanisme Alokasi** | Otomatis dialokasikan dan didealokasikan saat fungsi dipanggil (*Push*) dan selesai (*Pop*). | Dialokasikan secara dinamis saat runtime; didealokasikan oleh *Garbage Collector (GC)*. |
 | **Kecepatan Akses** | **Sangat Cepat** (Instruksi CPU pointer register). | **Lebih Lambat** (Memerlukan dereferensi pointer dan penanganan fragmentasi). |
-| **Batas Ukuran** | Terbatas (Ukuran stack awal goroutine di Go $\approx 2\text{ KB}$, dapat tumbuh dinamis). | Sangat besar (Dibatasi oleh kapasitas fisik RAM sistem). |
+| **Batas Ukuran** | Terbatas (Ukuran stack awal goroutine di Go ≈ 2 KB, dapat tumbuh dinamis). | Sangat besar (Dibatasi oleh kapasitas fisik RAM sistem). |
 | **Siklus Hidup** | Terikat pada *scope* fungsi lokal (*lexical lifetime*). | Bertahan selama masih ada pointer aktif yang mereferensikannya. |
 
 ### Escape Analysis di Golang
@@ -136,7 +136,7 @@ type Container[T any] interface {
 
 ## 4. Analisis Kompleksitas Asimptotik (Notasi Big-O)
 
-Notasi **Big-O ($O$)** menggambarkan batas atas (*upper bound*) dari laju pertumbuhan waktu eksekusi (*Time Complexity*) atau konsumsi memori (*Space Complexity*) suatu algoritma terhadap bertambahnya ukuran data masukan ($n$).
+Notasi **Big-O — O(n)** menggambarkan batas atas (*upper bound*) dari laju pertumbuhan waktu eksekusi (*Time Complexity*) atau konsumsi memori (*Space Complexity*) suatu algoritma terhadap bertambahnya ukuran data masukan (n).
 
 ```mermaid
 graph LR
@@ -153,16 +153,16 @@ graph LR
     style O2N fill:#fee2e2,stroke:#dc2626;
 ```
 
-### Tabel Komparasi Waktu Eksekusi Berdasarkan Pertumbuhan Data ($n$)
+### Tabel Komparasi Waktu Eksekusi Berdasarkan Pertumbuhan Data (n)
 
-| Notasi Big-O | $n = 10$ | $n = 100$ | $n = 1.000$ | $n = 1.000.000$ | Kategori Performa |
+| Notasi Big-O | n = 10 | n = 100 | n = 1.000 | n = 1.000.000 | Kategori Performa |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **$O(1)$** | $1\text{ ns}$ | $1\text{ ns}$ | $1\text{ ns}$ | $1\text{ ns}$ | 🟢 Luar Biasa (*Ideal*) |
-| **$O(\log n)$** | $3\text{ ns}$ | $7\text{ ns}$ | $10\text{ ns}$ | $20\text{ ns}$ | 🟢 Sangat Cepat |
-| **$O(n)$** | $10\text{ ns}$ | $100\text{ ns}$ | $1\text{ }\mu\text{s}$ | $1\text{ ms}$ | 🟡 Cukup / Linear |
-| **$O(n \log n)$** | $30\text{ ns}$ | $700\text{ ns}$ | $10\text{ }\mu\text{s}$ | $20\text{ ms}$ | 🟡 Efisien untuk Sorting |
-| **$O(n^2)$** | $100\text{ ns}$ | $10\text{ }\mu\text{s}$ | $1\text{ ms}$ | $\approx 16.6\text{ menit}$ | 🔴 Lambat (Hindari untuk Big Data) |
-| **$O(2^n)$** | $1\text{ }\mu\text{s}$ | $1.26 \times 10^{21}\text{ thn}$ | $\infty$ | $\infty$ | ⛔ Tidak Layak Komputasi |
+| **`O(1)`** | 1 ns | 1 ns | 1 ns | 1 ns | 🟢 Luar Biasa (*Ideal*) |
+| **`O(log n)`** | 3 ns | 7 ns | 10 ns | 20 ns | 🟢 Sangat Cepat |
+| **`O(n)`** | 10 ns | 100 ns | 1 µs | 1 ms | 🟡 Cukup / Linear |
+| **`O(n log n)`** | 30 ns | 700 ns | 10 µs | 20 ms | 🟡 Efisien untuk Sorting |
+| **`O(n²)`** | 100 ns | 10 µs | 1 ms | ≈ 16.6 menit | 🔴 Lambat (Hindari untuk Big Data) |
+| **`O(2ⁿ)`** | 1 µs | 1.26 × 10²¹ tahun | ∞ | ∞ | ⛔ Tidak Layak Komputasi |
 
 ---
 

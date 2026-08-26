@@ -3,7 +3,7 @@
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 6)
 - **CPMK Terkait:** CPMK0106 (Konsep Matematika Informatika & Logika Algoritma)
 - **CPL Terkait:** CPL01 (Pengetahuan Dasar), CPL03 (Problem Solving)
-- **Indikator:** Mahasiswa mampu mengimplementasikan algoritma pengurutan dasar (*Bubble Sort, Selection Sort, Insertion Sort*), menyusun trace table pergeseran data, serta menganalisis komparasi efisiensi waktu komputasi Big-O ($O(n^2)$ vs $O(n \log n)$).
+- **Indikator:** Mahasiswa mampu mengimplementasikan algoritma pengurutan dasar (*Bubble Sort, Selection Sort, Insertion Sort*), menyusun trace table pergeseran data, serta menganalisis komparasi efisiensi waktu komputasi Big-O (`O(n²)` vs $O(n log n)$).
 :::
 
 ---
@@ -27,9 +27,9 @@ graph LR
 
 | Algoritma | Prinsip Kerja Utama | Best Case | Average Case | Worst Case | Stabilitas |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Bubble Sort** | Membandingkan pasangan elemen bersebelahan dan menukarnya (*swap*) jika tidak berurutan. Elemen terbesar mengapung ke ujung. | $O(n)$ | $O(n^2)$ | $O(n^2)$ | Stable |
-| **Selection Sort** | Mencari elemen terkecil di sisa array yang belum terurut, lalu menukarnya ke posisi paling depan. | $O(n^2)$ | $O(n^2)$ | $O(n^2)$ | Unstable |
-| **Insertion Sort** | Menyisipkan satu per satu elemen ke posisi yang tepat pada bagian array yang sudah terurut (seperti menyusun kartu). | $O(n)$ | $O(n^2)$ | $O(n^2)$ | Stable |
+| **Bubble Sort** | Membandingkan pasangan elemen bersebelahan dan menukarnya (*swap*) jika tidak berurutan. Elemen terbesar mengapung ke ujung. | `O(n)` | `O(n²)` | `O(n²)` | Stable |
+| **Selection Sort** | Mencari elemen terkecil di sisa array yang belum terurut, lalu menukarnya ke posisi paling depan. | `O(n²)` | `O(n²)` | `O(n²)` | Unstable |
+| **Insertion Sort** | Menyisipkan satu per satu elemen ke posisi yang tepat pada bagian array yang sudah terurut (seperti menyusun kartu). | `O(n)` | `O(n²)` | `O(n²)` | Stable |
 
 ---
 

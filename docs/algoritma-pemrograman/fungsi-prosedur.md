@@ -102,5 +102,5 @@ print("List setelah diubah dalam fungsi:", angka_list)
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 5)
 
-1. Buatlah fungsi `isPrima(int n)` yang mengembalikan nilai `true` jika bilangan bulat $n$ adalah prima, dan `false` jika bukan.
+1. Buatlah fungsi `isPrima(int n)` yang mengembalikan nilai `true` jika bilangan bulat `n` adalah prima, dan `false` jika bukan.
 2. Buatlah prosedur `tukarNilai(int &a, int &b)` untuk menukar nilai dua variabel menggunakan pointer / reference.

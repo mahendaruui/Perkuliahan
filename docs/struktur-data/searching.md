@@ -12,10 +12,10 @@
 
 | Algoritma Pencarian | Prasyarat Dataset | Best Case | Average Case | Worst Case | Skenario Ideal |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Linear Search** | Tidak perlu terurut. | $O(1)$ | $O(n)$ | $O(n)$ | Dataset kecil / acak. |
-| **Binary Search** | **Wajib terurut**. | $O(1)$ | $O(\log n)$ | $O(\log n)$ | Array terurut statis. |
-| **Interpolation Search**| **Terurut & terdistribusi seragam**. | $O(1)$ | $O(\log \log n)$| $O(n)$ | Buku telepon, data nilai merata. |
-| **Hash Table Lookup** | Menggunakan kunci hash (*Key-Value*). | **$O(1)$** | **$O(1)$** | $O(n)$ | Database indexing, Cache. |
+| **Linear Search** | Tidak perlu terurut. | `O(1)` | `O(n)` | `O(n)` | Dataset kecil / acak. |
+| **Binary Search** | **Wajib terurut**. | `O(1)` | $O(log n)$ | $O(log n)$ | Array terurut statis. |
+| **Interpolation Search**| **Terurut & terdistribusi seragam**. | `O(1)` | $O(\log log n)$| `O(n)` | Buku telepon, data nilai merata. |
+| **Hash Table Lookup** | Menggunakan kunci hash (*Key-Value*). | **`O(1)`** | **`O(1)`** | `O(n)` | Database indexing, Cache. |
 
 ---
 
@@ -119,5 +119,5 @@ func main() {
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 5 & 6)
 
-1. Apa yang dimaksud dengan **Load Factor ($\alpha = \frac{n}{k}$)** pada Hash Table dan kapan proses *Rehashing* (penggandaan ukuran tabel) wajib dieksekusi?
+1. Apa yang dimaksud dengan **Load Factor (α = n / k)** pada Hash Table dan kapan proses *Rehashing* (penggandaan ukuran tabel) wajib dieksekusi?
 2. Tuliskan kode fungsi `Delete(key string)` pada struktur Hash Table di atas!

@@ -28,7 +28,7 @@ graph TD
 
 ## 2. Operasi Penjumlahan Matriks 2D
 
-Dua buah matriks $A$ dan $B$ berordo sama ($m \times n$) dapat dijumlahkan dengan menjumlahkan elemen-elemen yang seletak:
+Dua buah matriks $A$ dan $B$ berordo sama ($m × n$) dapat dijumlahkan dengan menjumlahkan elemen-elemen yang seletak:
 $$C[i][j] = A[i][j] + B[i][j]$$
 
 ::: code-group
@@ -125,5 +125,5 @@ else:
 
 ## 📝 Evaluasi & Latihan Mandiri (Sub-CPMK 4)
 
-1. Buatlah program untuk menghitung **perkalian dua buah matriks** $A_{m \times k} \times B_{k \times n} = C_{m \times n}$.
-2. Buatlah program enkripsi teks sederhana menggunakan **Caesar Cipher** (menggeser setiap karakter sebanyak $k$ langkah dalam alfabet).
+1. Buatlah program untuk menghitung **perkalian dua buah matriks** $A_{m × k} × B_{k × n} = C_{m × n}$.
+2. Buatlah program enkripsi teks sederhana menggunakan **Caesar Cipher** (menggeser setiap karakter sebanyak `k` langkah dalam alfabet).
