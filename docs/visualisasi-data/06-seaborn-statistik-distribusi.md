@@ -13,28 +13,28 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 
 ```mermaid
 flowchart TD
-    subgraph PlotDist["📊 4 Plot Distribusi Statistik Utama di Seaborn"]
+    subgraph GroupA["📈 Kelompok 1: Estimasi Bentuk & Kepadatan Kontinu"]
         direction TB
-        subgraph ColA["Kelompok 1: Estimasi Bentuk & Kepadatan Kontinu"]
-            A["📈 <b>1. Histogram & KDE Plot</b><br>Menilai sebaran frekuensi, kemiringan data (skewness), dan kurva normalitas."]
-            C["🎻 <b>3. Violin Plot</b><br>Menggabungkan ringkasan kuartil box plot dengan estimasi densitas kontur (KDE)."]
-        end
-        subgraph ColB["Kelompok 2: Ringkasan Kuartil & Kumulatif"]
-            B["📦 <b>2. Box Plot (Box & Whisker)</b><br>Menampilkan 5 angka statistik (Median, Q1/Q3, IQR) dan mendeteksi outlier."]
-            D["📉 <b>4. ECDF Plot (Empirical CDF)</b><br>Menyajikan kurva persentil kumulatif aktual tanpa bias penentuan lebar bin."]
-        end
+        A["📈 <b>1. Histogram & KDE Plot</b><br>Menilai sebaran frekuensi, kemiringan data (skewness), dan kurva normalitas."]
+        C["🎻 <b>3. Violin Plot</b><br>Menggabungkan ringkasan kuartil box plot dengan estimasi densitas kontur (KDE)."]
+        A --> C
     end
 
-    A --> C
-    B --> D
+    subgraph GroupB["📦 Kelompok 2: Ringkasan Kuartil & Kumulatif"]
+        direction TB
+        B["📦 <b>2. Box Plot (Box & Whisker)</b><br>Menampilkan 5 angka statistik (Median, Q1/Q3, IQR) dan mendeteksi outlier."]
+        D["📉 <b>4. ECDF Plot (Empirical Cumulative)</b><br>Menyajikan kurva persentil kumulatif aktual tanpa bias penentuan lebar bin."]
+        B --> D
+    end
 
-    style PlotDist fill:#f8fafc,stroke:#3730a3,stroke-width:2px
-    style ColA fill:#eef2ff,stroke:#6366f1,stroke-width:1px
-    style ColB fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
-    style A fill:#ffffff,stroke:#4f46e5,stroke-width:2px
-    style C fill:#ffffff,stroke:#4f46e5,stroke-width:2px
-    style B fill:#ffffff,stroke:#9333ea,stroke-width:2px
-    style D fill:#ffffff,stroke:#9333ea,stroke-width:2px
+    GroupA ==> GroupB
+
+    style GroupA fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style GroupB fill:#faf5ff,stroke:#9333ea,stroke-width:2px
+    style A fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style C fill:#ffffff,stroke:#3b82f6,stroke-width:2px
+    style B fill:#ffffff,stroke:#a855f7,stroke-width:2px
+    style D fill:#ffffff,stroke:#a855f7,stroke-width:2px
 ```
 
 ---
