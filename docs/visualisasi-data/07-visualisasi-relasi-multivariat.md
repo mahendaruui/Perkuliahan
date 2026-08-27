@@ -14,24 +14,27 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 
 Korelasi mengukur kekuatan dan arah hubungan linear atau monotonik antara dua variabel acak:
 
-$$\text{Pearson } r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}$$
+::: info 📐 Formula: Koefisien Korelasi Pearson (r)
+> **`r = Σ((x - x̄)(y - ȳ)) ÷ √[ Σ(x - x̄)² × Σ(y - ȳ)² ]`**
+>
+> * **Rentang Nilai:** **−1.0 s.d. +1.0**
+>   - **r = +1.0:** Korelasi positif linear sempurna.
+>   - **r = 0.0:** Tidak terdapat hubungan linear.
+>   - **r = −1.0:** Korelasi negatif linear sempurna.
+:::
 
 | Jenis Korelasi | Asumsi & Karakteristik Data | Kapan Digunakan? |
 | :--- | :--- | :--- |
-| **Pearson ($r$)** | Data numerik kontinu, berdistribusi normal, mengukur hubungan linear. | Analisis hubungan linear standar (misal: Tinggi vs Berat Badan). |
-| **Spearman ($\rho$)** | Data ordinal atau kontinu, non-parametrik, mengukur hubungan monotonik. | Data memiliki outlier ekstrem atau hubungan bersifat kurva melengkung. |
-| **Kendall ($\tau$)** | Berbasis pasangan data konkordan/diskordan (*rank-based*). | Sampel data kecil dengan banyak nilai peringkat yang sama (*ties*). |
+| **Pearson (r)** | Data numerik kontinu, berdistribusi normal, mengukur hubungan linear. | Analisis hubungan linear standar (misal: Tinggi vs Berat Badan). |
+| **Spearman (rho / ρ)** | Data ordinal atau kontinu, non-parametrik, mengukur hubungan monotonik. | Data memiliki outlier ekstrem atau hubungan bersifat kurva melengkung. |
+| **Kendall (tau / τ)** | Berbasis pasangan data konkordan/diskordan (*rank-based*). | Sampel data kecil dengan banyak nilai peringkat yang sama (*ties*). |
 
 ```mermaid
 flowchart TD
-    subgraph Masking["Teknik Triangular Masking (Efisiensi Tufte)"]
-        M1["Matriks Korelasi Penuh (NxN)<br>Mengandung duplikasi simetris di atas dan bawah diagonal"]
-        M2["np.triu(np.ones_like(corr, dtype=bool))<br>Memotong segitiga atas (Upper Triangle)"]
-        M3["Heatmap Minimalis Tufte<br>Bebas redundansi visual & mudah dibaca"]
-        M1 --> M2 --> M3
-    end
+    M1["📑 <b>1. Matriks Korelasi Penuh (N × N)</b><br>Mengandung duplikasi simetris di atas dan bawah garis diagonal"]
+    --> M2["✂️ <b>2. Masking Segitiga Atas</b><br>Gunakan np.triu() untuk memotong redundansi visual"]
+    --> M3["📊 <b>3. Heatmap Minimalis Tufte</b><br>Menghasilkan visualisasi korelasi yang bersih, informatif, dan ber-Data-Ink tinggi"]
 
-    style Masking fill:#f8fafc,stroke:#334155,stroke-width:2px
     style M1 fill:#fee2e2,stroke:#ef4444,stroke-width:1px
     style M2 fill:#fef3c7,stroke:#d97706,stroke-width:1px
     style M3 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
@@ -44,19 +47,18 @@ flowchart TD
 Pada tahun 1973, ahli statistik Francis Anscombe merumuskan **Anscombe’s Quartet** untuk membuktikan bahwa **analisis statistik deskriptif numerik (mean, varians, korelasi) tanpa inspeksi visualisasi data adalah tindakan yang sangat berbahaya!**
 
 ```mermaid
-flowchart LR
-    Stats["📊 4 Dataset Berbeda Memiliki Statistik Identik:<br>• Rata-rata X = 9.0, Rata-rata Y = 7.5<br>• Variansi X = 11.0, Variansi Y = 4.125<br>• Korelasi Pearson r = 0.816<br>• Garis Regresi: Y = 3.00 + 0.500X"]
-
-    Stats --> D1["Dataset I: Hubungan Linear Normal"]
-    Stats --> D2["Dataset II: Hubungan Kurva Kuadratik"]
-    Stats --> D3["Dataset III: Linear Sempurna + 1 Outlier Ekstrem"]
-    Stats --> D4["Dataset IV: Vertikal Konstan + 1 Leverage Point"]
+flowchart TD
+    Stats["📊 <b>Statistik Deskriptif Identik pada 4 Dataset Berbeda:</b><br>• Rata-rata X = 9.0, Rata-rata Y = 7.5<br>• Variansi X = 11.0, Variansi Y = 4.125<br>• Korelasi Pearson r = 0.816<br>• Garis Regresi Linear OLS: Y = 3.00 + 0.500X"]
+    --> D1["🔵 <b>Dataset I:</b> Hubungan Linear Normal Ideal"]
+    --> D2["🟢 <b>Dataset II:</b> Hubungan Non-Linear Kurva Kuadratik"]
+    --> D3["🔴 <b>Dataset III:</b> Hubungan Linear Sempurna + 1 Outlier Ekstrem"]
+    --> D4["🟣 <b>Dataset IV:</b> Sebaran Vertikal Konstan + 1 Titik Pengungkit (Leverage Point)"]
 
     style Stats fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
-    style D1 fill:#dbeafe,stroke:#2563eb
-    style D2 fill:#dcfce7,stroke:#16a34a
-    style D3 fill:#fee2e2,stroke:#ef4444
-    style D4 fill:#fdf4ff,stroke:#c084fc
+    style D1 fill:#dbeafe,stroke:#2563eb,stroke-width:1px
+    style D2 fill:#dcfce7,stroke:#16a34a,stroke-width:1px
+    style D3 fill:#fee2e2,stroke:#ef4444,stroke-width:1px
+    style D4 fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
 ```
 
 ---
@@ -64,7 +66,7 @@ flowchart LR
 ## 3. Visualisasi Aliran & Hierarki: Treemap & Sankey
 
 1. **Treemap:** Membagi ruang 2D menjadi persegi panjang bersarang di mana luas area merepresentasikan besaran volume data kuantitatif, dan warna menunjukkan metrik performa kedua.
-2. **Sankey Diagram:** Menggambarkan aliran (*flow*) atau perpindahan kuantitas antar simpul tahapan proses bisnis (misal: dari Pengunjung Web $\to$ Masuk Keranjang $\to$ Checkout $\to$ Pembayaran Berhasil).
+2. **Sankey Diagram:** Menggambarkan aliran (*flow*) atau perpindahan kuantitas antar simpul tahapan proses bisnis (misal: dari Pengunjung Web → Masuk Keranjang → Checkout → Pembayaran Berhasil).
 
 ---
 
@@ -170,7 +172,7 @@ fig_treemap.update_layout(
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Triangular Masking:** Selalu potong separuh matriks korelasi yang berulang (*redundant*) untuk memaksimalkan rasio data-ink.
 2. **Pelajaran Anscombe's Quartet:** Jangan pernah mempercayai ringkasan angka statistik (mean, standard deviation, correlation) sebelum melihat visualisasi sebaran datanya.
-3. **Korelasi vs Kausalitas:** Adanya korelasi kuat ($r \approx 1.0$) antara dua variabel tidak membuktikan adanya hubungan sebab-akibat (*correlation does not imply causation*).
+3. **Korelasi vs Kausalitas:** Adanya korelasi kuat (r ≈ 1.0) antara dua variabel tidak membuktikan adanya hubungan sebab-akibat (*correlation does not imply causation*).
 4. **Treemap & Sankey:** Gunakan Treemap untuk hierarki bagian-ke-keseluruhan (*part-to-whole*), dan Sankey Diagram untuk aliran kuantitas multi-tahap.
 :::
 

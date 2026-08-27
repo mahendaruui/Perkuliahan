@@ -22,8 +22,8 @@ Evaluasi Tengah Semester (UTS) menguji penguasaan komprehensif mahasiswa terhada
 
 #### Soal 1: Kalkulasi Lie Factor & Audit Integritas Grafis
 Sebuah perusahaan logistik mempublikasikan infografis yang membandingkan pertumbuhan armada pengiriman:
-* **Data Riil:** Jumlah armada tahun 2022 adalah **1.000 unit**, dan pada tahun 2024 meningkat menjadi **1.300 unit** ($+30\%$).
-* **Representasi Visual:** Grafik menggunakan ilustrasi truk 2D. Panjang truk tahun 2022 digambar $2\text{ cm}$ (luas area $4\text{ cm}^2$), sedangkan truk tahun 2024 digambar dengan panjang $6\text{ cm}$ (luas area $36\text{ cm}^2$, meningkat $+800\%$).
+* **Data Riil:** Jumlah armada tahun 2022 adalah **1.000 unit**, dan pada tahun 2024 meningkat menjadi **1.300 unit** (+30%).
+* **Representasi Visual:** Grafik menggunakan ilustrasi truk 2D. Panjang truk tahun 2022 digambar 2 cm (luas area 4 cm²), sedangkan truk tahun 2024 digambar dengan panjang 6 cm (luas area 36 cm², meningkat +800%).
 
 **Tugas Anda:**
 1. Hitung nilai **Lie Factor** dari grafik infografis tersebut secara matematis!

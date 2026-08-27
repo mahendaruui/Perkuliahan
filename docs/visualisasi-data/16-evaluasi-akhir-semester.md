@@ -29,7 +29,7 @@ Evaluasi Akhir Semester (UAS) merupakan puncak penilaian berbasis **Outcome-Base
 | :---: | :--- | :---: | :--- |
 | **1** | 🌐 **Fungsionalitas & Interaktivitas Web** | **30 Poin** | • Kecepatan & kelancaran widget filter interaktif (*Sidebar, Sliders, Multi-select*)<br>• Pemanfaatan caching `@st.cache_data` yang optimal tanpa latensi berlebih<br>• Tata letak multi-halaman/tabs yang intuitif & bebas dari *runtime crash/error* |
 | **2** | 💡 **Ketajaman Insight & Data Storytelling** | **25 Poin** | • Rumusan *The Big Idea* yang jelas dan berbasis bukti kuantitatif<br>• Struktur cerita 3 babak (*Status Quo → Konflik/Anomali → Solusi Terukur*)<br>• Kehadiran anotasi penunjuk fokus (*Direct Labeling*) yang memandu audiens |
-| **3** | 📊 **Kualitas Desain Visual & Etika Tufte** | **25 Poin** | • Rasio data-ink tinggi, bebas dari *chartjunk*, 3D semu, dan distorsi sumbu<br>• Integritas grafis terjaga ($\text{Lie Factor} \approx 1.0$)<br>• Penggunaan palet warna saintifik yang ramah bagi buta warna (*Colorblind Safe*) |
+| **3** | 📊 **Kualitas Desain Visual & Etika Tufte** | **25 Poin** | • Rasio data-ink tinggi, bebas dari *chartjunk*, 3D semu, dan distorsi sumbu<br>• Integritas grafis terjaga (Lie Factor ≈ 1.0)<br>• Penggunaan palet warna saintifik yang ramah bagi buta warna (*Colorblind Safe*) |
 | **4** | 💻 **Kerapian Kode, Git & Dokumentasi** | **20 Poin** | • Kepatuhan kaidah *Clean Code* & modularitas fungsi Python di folder `src/`<br>• Kelengkapan berkas `requirements.txt` dan `config.toml`<br>• Kualitas `README.md` repositori GitHub lengkap dengan petunjuk instalasi |
 
 ---

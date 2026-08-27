@@ -21,10 +21,11 @@ Secara epistemologis, mata dan korteks visual manusia bekerja secara paralel den
 
 ```mermaid
 flowchart TD
-    A["📦 Data Mentah (Raw Data)<br>• Struktur tak berpola<br>• Angka-angka masif"] -->|"1. Wrangling & Transformasi"| B["📑 Data Tabular Terstruktur<br>• Variabel independen & dependen<br>• Agregasi statistik"]
-    B -->|"2. Pemetaan Visual (Visual Encoding)"| C["📊 Representasi Grafis<br>• Posisi, Panjang, Warna, Bentuk"]
-    C -->|"3. Persepsi Sensorik Korteks Visual"| D["💡 Wawasan Kognitif (Actionable Insight)<br>• Pola, Tren, Anomali, Korelasi"]
-    D -->|"4. Pengambilan Keputusan Strategis"| E["🚀 Dampak & Kebijakan Nyata<br>• Efisiensi, Profit, Solusi Masalah"]
+    A["📦 <b>1. Data Mentah (Raw Data)</b><br>Kumpulan angka masif tanpa struktur pola"]
+    --> B["📑 <b>2. Data Tabular Terstruktur</b><br>Hasil pembersihan data, penataan variabel, & agregasi statistik"]
+    --> C["📊 <b>3. Representasi Grafis</b><br>Pemetaan data ke saluran visual: Posisi, Panjang Batang, Warna, Bentuk"]
+    --> D["💡 <b>4. Wawasan Kognitif (Actionable Insight)</b><br>Penemuan pola tren, korelasi variabel, dan anomali secara instan"]
+    --> E["🚀 <b>5. Pengambilan Keputusan Strategis</b><br>Solusi pemecahan masalah bisnis dan perumusan kebijakan nyata"]
 
     style A fill:#f8fafc,stroke:#64748b,stroke-width:2px
     style B fill:#e0f2fe,stroke:#0284c7,stroke-width:2px
@@ -52,10 +53,10 @@ Berdasarkan taksonomi Stanley Smith Stevens (1946), data diklasifikasikan ke dal
 
 | Skala Pengukuran | Karakteristik Matematis | Operasi yang Sah | Contoh dalam Dataset | Saluran Visual yang Tepat |
 | :--- | :--- | :--- | :--- | :--- |
-| **1. Nominal (Kategorikal)** | Hanya membedakan identitas atau label tanpa urutan intrinsik. | Equality ($=, \neq$), Modus, Frekuensi | Kategori Produk, Jenis Kelamin, Nama Provinsi, Status Pernikahan | Rona Warna (*Hue*), Bentuk Ikon (*Shape*), Posisi Spasial |
-| **2. Ordinal** | Memiliki urutan peringkat (*ranking*), namun jarak antar peringkat tidak terukur pasti. | Perbandingan ($<, >$), Median, Persentil | Tingkat Kepuasan (Puas, Cukup, Buruk), Jenjang Pendidikan (SD, SMP, SMA, S1), Peringkat Kelas | Saturasi Warna (*Luminance*), Ukuran (*Size*), Urutan Posisi Batang |
-| **3. Interval** | Memiliki urutan dan jarak yang pasti antar nilai, namun **tidak memiliki nilai nol mutlak** (nol bersifat arbitrer). | Penjumlahan, Pengurangan, Rata-rata ($+, -$) | Suhu Celcius/Fahrenheit, Tahun Kalender, Skor IQ, Jam dalam Sehari | Posisi pada Sumbu Terkalibrasi, Garis (*Line*), Panjang Relatif |
-| **4. Rasio (Ratio)** | Memiliki urutan, jarak pasti, dan **memiliki nilai nol mutlak** (nol berarti tidak ada nilai). | Semua operasi aritmetika ($+, -, \times, \div$), Rasio | Pendapatan (Rp), Bobot (kg), Jarak (km), Jumlah Transaksi, Usia | Panjang Batang (*Bar Length*), Posisi pada Sumbu Umum (0-origin), Luas Area |
+| **1. Nominal (Kategorikal)** | Hanya membedakan identitas atau label tanpa urutan intrinsik. | Equality (=, ≠), Modus, Frekuensi | Kategori Produk, Jenis Kelamin, Nama Provinsi, Status Pernikahan | Rona Warna (*Hue*), Bentuk Ikon (*Shape*), Posisi Spasial |
+| **2. Ordinal** | Memiliki urutan peringkat (*ranking*), namun jarak antar peringkat tidak terukur pasti. | Perbandingan (<, >), Median, Persentil | Tingkat Kepuasan (Puas, Cukup, Buruk), Jenjang Pendidikan (SD, SMP, SMA, S1), Peringkat Kelas | Saturasi Warna (*Luminance*), Ukuran (*Size*), Urutan Posisi Batang |
+| **3. Interval** | Memiliki urutan dan jarak yang pasti antar nilai, namun **tidak memiliki nilai nol mutlak** (nol bersifat arbitrer). | Penjumlahan, Pengurangan, Rata-rata (+, −) | Suhu Celcius/Fahrenheit, Tahun Kalender, Skor IQ, Jam dalam Sehari | Posisi pada Sumbu Terkalibrasi, Garis (*Line*), Panjang Relatif |
+| **4. Rasio (Ratio)** | Memiliki urutan, jarak pasti, dan **memiliki nilai nol mutlak** (nol berarti tidak ada nilai). | Semua operasi aritmetika (+, −, ×, ÷), Rasio | Pendapatan (Rp), Bobot (kg), Jarak (km), Jumlah Transaksi, Usia | Panjang Batang (*Bar Length*), Posisi pada Sumbu Umum (0-origin), Luas Area |
 
 ::: warning ⚠️ PERINGATAN KRITIS: Titik Nol pada Skala Rasio
 Untuk data berskala **Rasio** yang direpresentasikan dengan diagram batang (*Bar Chart*), sumbu nilai **WAJIB dimulai dari angka nol (0)**. Memotong sumbu pada diagram batang (*truncated baseline*) akan memanipulasi rasio perbandingan visual dan melanggar integritas grafis!
@@ -68,11 +69,14 @@ Untuk data berskala **Rasio** yang direpresentasikan dengan diagram batang (*Bar
 Kemampuan visualisasi data dalam menyelesaikan persoalan nyata telah terbukti sepanjang sejarah modern:
 
 ```mermaid
-timeline
-    title Tonggak Sejarah Visualisasi Data Monumental
-    1854 : John Snow : Peta Kolera Broad Street Soho (Epidemiologi Spasial)
-    1858 : Florence Nightingale : Diagram Area Kutub Coxcomb (Sanitasi Rumah Sakit Militer)
-    1869 : Charles Joseph Minard : Peta Kampanye Napoleon ke Rusia 1812 (Grafik Multivariat)
+flowchart TD
+    H1["📍 <b>1854: Peta Kolera Broad Street (Dr. John Snow)</b><br>Menandai titik kematian kolera di London → Menemukan pompa air tercemar → Kelahiran Epidemiologi Spasial"]
+    --> H2["🌹 <b>1858: Diagram Area Kutub Coxcomb (Florence Nightingale)</b><br>Memvisualisasikan penyebab mortalitas tentara Krimea → Reformasi higienitas rumah sakit modern"]
+    --> H3["🗺️ <b>1869: Peta Aliran Pasukan Napoleon (Charles Joseph Minard)</b><br>Mengintegrasikan 6 dimensi variabel ke dalam grafik 2D → Puncak mahakarya grafika analitis"]
+
+    style H1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style H2 fill:#fdf4ff,stroke:#c084fc,stroke-width:2px
+    style H3 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
 ```
 
 ### A. Peta Kolera Broad Street karya Dr. John Snow (1854)
@@ -93,7 +97,7 @@ Edward Tufte menyebut karya Charles Joseph Minard sebagai *"the best statistical
 1. **Ukuran Pasukan:** Diwakili oleh ketebalan garis alur (mulai dari 422.000 tentara di perbatasan Polandia hingga tersisa hanya 10.000 prajurit saat kembali).
 2. **Lokasi Geografis 2D:** Garis lintang (*latitude*) dan garis bujur (*longitude*) rute perjalanan.
 3. **Arah Pergerakan:** Garis krem muda (pasukan bergerak maju menuju Moskow) dan garis hitam pekat (pasukan mundur melarikan diri).
-4. **Suhu Udara Ekstrem:** Grafik temperatur di bawah peta yang menunjukkan cuaca beku hingga $-30^\circ\text{C}$ pada saat pasukan mundur.
+4. **Suhu Udara Ekstrem:** Grafik temperatur di bawah peta yang menunjukkan cuaca beku hingga −30°C pada saat pasukan mundur.
 5. **Waktu / Tanggal:** Tanggal-tanggal kritis saat penyeberangan sungai dan mundurnya pasukan.
 6. **Topografi Sungai:** Titik-titik penyeberangan sungai beku seperti Sungai Berezina yang memakan ribuan korban jiwa.
 
@@ -104,24 +108,20 @@ Edward Tufte menyebut karya Charles Joseph Minard sebagai *"the best statistical
 Dalam alur kerja analitik profesional, praktisi visualisasi data membedakan dua fase utama:
 
 ```mermaid
-flowchart LR
-    subgraph Fase1["🔍 FASE 1: EKSPLORASI (EDA)"]
+flowchart TD
+    subgraph Fase1["🔍 FASE 1: EKSPLORASI DATA (EDA)"]
         direction TB
-        E1["Banyak Variabel Diuji"] --> E2["Cari Pola & Anomali"]
-        E2 --> E3["Target: Data Analyst Sendiri"]
+        E1["• Menguji puluhan variabel secara dinamis<br>• Menemukan anomali, tren & korelasi<br>• Target: Diri sendiri / Tim data internal"]
     end
 
-    subgraph Transformasi["🔄 Proses Penyaringan Insight"]
+    subgraph Transformasi["🔄 FASE PENYARINGAN & FOKUS"]
         direction TB
-        T1["Pilih 1 Temuan Kunci"]
-        T2["Eliminasi Noise & Clutter"]
-        T3["Tambahkan Anotasi & Warna Fokus"]
+        T1["• Pilih 1–2 temuan bisnis paling kritis<br>• Hapus noise grafis & elemen tidak esensial<br>• Tambahkan penekanan warna aksen & narasi"]
     end
 
-    subgraph Fase2["📢 FASE 2: EKSPLANASI (Storytelling)"]
+    subgraph Fase2["📢 FASE 2: EKSPLANASI DATA (Storytelling)"]
         direction TB
-        X1["Fokus pada 1 Pesan Kunci"] --> X2["Pandu Perhatian Audiens"]
-        X2 --> X3["Target: Pengambil Keputusan"]
+        X1["• Fokus pada 1 pesan kunci (Actionable Takeaway)<br>• Pandu atensi audiens secara terstruktur<br>• Target: Manajemen eksekutif & pengambil kebijakan"]
     end
 
     Fase1 --> Transformasi --> Fase2

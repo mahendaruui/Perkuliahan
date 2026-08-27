@@ -16,20 +16,17 @@ Data geospasial adalah data yang mengaitkan suatu informasi atribut dengan posis
 
 ```mermaid
 flowchart TD
-    subgraph Geometri["Tipe Primitif Geometri Vektor (OGC Standard)"]
-        P1["📍 <b>Point (Titik 0D)</b><br>Koordinat Latitude, Longitude tunggal<br>Contoh: Posisi Rumah Sakit, Menara BTS, Halte Bus"]
-        P2["〰️ <b>LineString (Garis 1D)</b><br>Urutan titik koordinat terhubung<br>Contoh: Jaringan Jalan Tol, Jalur Pipa Minyak, Sungai"]
-        P3["🗺️ <b>Polygon & MultiPolygon (Area 2D)</b><br>Area tertutup berkoordinat cincin batas<br>Contoh: Batas Wilayah Provinsi, Danau, Zona Industri"]
-    end
+    P1["📍 <b>1. Point (Titik 0D)</b><br>Koordinat Latitude, Longitude tunggal<br>Contoh: Lokasi Rumah Sakit, Kampus, Menara BTS, Halte"]
+    --> P2["〰️ <b>2. LineString (Garis 1D)</b><br>Urutan titik koordinat terhubung membentuk jalur<br>Contoh: Jaringan Jalan Tol, Jalur Pipa Gas, Aliran Sungai"]
+    --> P3["🗺️ <b>3. Polygon & MultiPolygon (Area 2D)</b><br>Area tertutup berkoordinat cincin batas wilayah<br>Contoh: Batas Administrasi Provinsi, Danau, Zona Rawan Gempa"]
 
-    style Geometri fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style P1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style P2 fill:#fefce8,stroke:#ca8a04,stroke-width:1px
-    style P3 fill:#ecfdf5,stroke:#10b981,stroke-width:1px
+    style P1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style P2 fill:#fefce8,stroke:#ca8a04,stroke-width:2px
+    style P3 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
 ```
 
 ### Sistem Referensi Koordinat (Coordinate Reference System - CRS)
-1. **Geographic CRS (WGS84 / EPSG:4326):** Menggunakan satuan derajat sudut desimal (*latitude* $-90^\circ$ s.d. $+90^\circ$, *longitude* $-180^\circ$ s.d. $+180^\circ$). Merupakan standar baku sensor GPS dan format berkas GeoJSON.
+1. **Geographic CRS (WGS84 / EPSG:4326):** Menggunakan satuan derajat sudut desimal (latitude −90° s.d. +90°, longitude −180° s.d. +180°). Merupakan standar baku sensor GPS dan format berkas GeoJSON.
 2. **Projected CRS (Web Mercator / EPSG:3857):** Memproyeksikan bola bumi ke bidang datar 2D dalam satuan meter. Digunakan oleh mesin tile peta web seperti OpenStreetMap, Google Maps, dan Leaflet.
 
 ---
@@ -39,9 +36,10 @@ flowchart TD
 Folium menggabungkan kemudahan manipulasi data Python dengan kekuatan rendering visual peta interaktif **Leaflet.js**:
 
 ```mermaid
-flowchart LR
-    Python["🐍 Python Data<br>• Pandas DataFrame<br>• GeoPandas GeoDataFrame<br>• GeoJSON Dict"] -->|"Folium API"| Engine["⚙️ Folium Generator Engine"]
-    Engine -->|"Compile to HTML/JS"| Leaflet["🌐 Leaflet.js Interactive Web Map<br>• Tile Layers (CartoDB, OSM)<br>• Markers & Popups<br>• GeoJSON Choropleth Layers"]
+flowchart TD
+    Python["🐍 <b>1. Sumber Data Spasial Python</b><br>• Pandas DataFrame (Tabel Koordinat GPS)<br>• GeoPandas GeoDataFrame & Format GeoJSON"]
+    --> Engine["⚙️ <b>2. Mesin Folium Compiler</b><br>Menerjemahkan instruksi Python menjadi kode JavaScript Leaflet.js"]
+    --> Leaflet["🌐 <b>3. Peta Interaktif Leaflet.js di Browser</b><br>• Tile Layers (CartoDB, OSM)<br>• Marker Clustering & HTML Popups<br>• Layer Choropleth Tematik"]
 
     style Python fill:#dbeafe,stroke:#2563eb,stroke-width:2px
     style Engine fill:#fef3c7,stroke:#d97706,stroke-width:2px

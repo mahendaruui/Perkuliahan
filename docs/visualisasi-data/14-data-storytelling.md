@@ -6,7 +6,7 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 2. Merumuskan **The 3-Minute Story** dan **The Big Idea** untuk mengarahkan pesan utama kepada pengambil keputusan.
 3. Mengeliminasi kekacauan visual (*Visual Clutter*) secara sistematis untuk meminimalkan beban kognitif audiens.
 4. Menerapkan teknik penekanan selektif (*Selective Preattentive Focus*) menggunakan skema palet **Abu-abu Netral + 1 Warna Aksen**.
-5. Menyusun struktur naratif 3 babak (*Konteks $\to$ Konflik $\to$ Resolusi*) dan mengimplementasikan transformasi grafik *Before vs After* menggunakan Python Matplotlib.
+5. Menyusun struktur naratif 3 babak (*Konteks → Konflik → Resolusi*) dan mengimplementasikan transformasi grafik *Before vs After* menggunakan Python Matplotlib.
 
 ---
 
@@ -17,13 +17,11 @@ Cole Nussbaumer Knaflic (mantan People Analytics Manager di Google) merumuskan 6
 ```mermaid
 flowchart TD
     S1["🎯 <b>1. Pahami Konteks (Understand the Context)</b><br>Identifikasi WHO (Audiens), WHAT (Aksi yang diharapkan), dan HOW (Format komunikasi)"]
-    S2["📊 <b>2. Pilih Tampilan yang Tepat (Choose Display)</b><br>Gunakan grafik batang berperingkat, garis tren, atau tabel ringkas; hindari Pie 3D"]
-    S3["🧹 <b>3. Eliminasi Clutter (Eliminate Clutter)</b><br>Hapus bingkai tebal, gridline mencolok, dan elemen dekoratif non-substantif"]
-    S4["🎨 <b>4. Fokuskan Perhatian (Focus Attention)</b><br>Gunakan atribut pra-atentif selektif: Abu-abu untuk konteks, 1 warna menyala untuk pesan utama"]
-    S5["📐 <b>5. Berpikir Seperti Desainer (Think Like a Designer)</b><br>Manfaatkan ruang kosong (Whitespace), hierarki teks, dan aksesibilitas visual"]
-    S6["📖 <b>6. Ceritakan Narasi Utuh (Tell a Story)</b><br>Susun alur cerita 3 babak: Status Quo → Titik Masalah/Konflik → Solusi Berbasis Data"]
-
-    S1 --> S2 --> S3 --> S4 --> S5 --> S6
+    --> S2["📊 <b>2. Pilih Tampilan yang Tepat (Choose Display)</b><br>Gunakan grafik batang berperingkat, garis tren, atau tabel ringkas; hindari Pie 3D"]
+    --> S3["🧹 <b>3. Eliminasi Clutter (Eliminate Clutter)</b><br>Hapus bingkai tebal, gridline mencolok, dan elemen dekoratif non-substantif"]
+    --> S4["🎨 <b>4. Fokuskan Perhatian (Focus Attention)</b><br>Gunakan atribut pra-atentif selektif: Abu-abu untuk konteks, 1 warna menyala untuk pesan utama"]
+    --> S5["📐 <b>5. Berpikir Seperti Desainer (Think Like a Designer)</b><br>Manfaatkan ruang kosong (Whitespace), hierarki teks, dan aksesibilitas visual"]
+    --> S6["📖 <b>6. Ceritakan Narasi Utuh (Tell a Story)</b><br>Susun alur cerita 3 babak: Status Quo → Titik Masalah/Konflik → Solusi Berbasis Data"]
 
     style S1 fill:#f8fafc,stroke:#334155,stroke-width:2px
     style S2 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
@@ -51,16 +49,14 @@ flowchart TD
 ### B. Struktur Narasi Data 3 Babak
 
 ```mermaid
-flowchart LR
-    Babak1["🎬 <b>BABAK 1: Status Quo</b><br>Kondisi eksisting pasar & target tahunan yang telah disepakati"]
-    Babak2["⚡ <b>BABAK 2: Konflik & Anomali</b><br>Munculnya masalah: penurunan performa, lonjakan komplain, atau efisiensi anjlok"]
-    Babak3["🚀 <b>BABAK 3: Resolusi & Aksi</b><br>Rekomendasi strategis berbasis wawasan data untuk mengatasi masalah"]
-
-    Babak1 --> Babak2 --> Babak3
+flowchart TD
+    Babak1["🎬 <b>BABAK 1: Status Quo & Konteks Eksisting</b><br>Menjelaskan kondisi awal, latar belakang operasional, & target baseline yang disepakati"]
+    --> Babak2["⚡ <b>BABAK 2: Konflik & Titik Kritis Anomali</b><br>Kemunculan masalah: penurunan performa mendadak, penumpukan backlog tiket, atau biaya membengkak"]
+    --> Babak3["🚀 <b>BABAK 3: Resolusi & Rekomendasi Aksi Nyata</b><br>Rekomendasi strategis berbasis data untuk memulihkan performa dan mencapai sasaran bisnis"]
 
     style Babak1 fill:#dbeafe,stroke:#2563eb,stroke-width:2px
     style Babak2 fill:#fee2e2,stroke:#ef4444,stroke-width:2px
-    style Babak3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    style Babak3 fill:#dcfce7,stroke:#10b981,stroke-width:2px
 ```
 
 ---

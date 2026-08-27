@@ -16,16 +16,10 @@ Plotly merender grafik interaktif berbasis teknologi web standar (**D3.js** dan 
 
 ```mermaid
 flowchart TD
-    subgraph PlotlyStructure["Arsitektur Pustaka Plotly Python"]
-        PX["🚀 <b>Plotly Express (px)</b><br>• Antarmuka tingkat tinggi (High-level API)<br>• Cepat, sintaks satu baris, terintegrasi Tidy DataFrame<br>• Cocok untuk eksplorasi analitis cepat"]
-        
-        GO["⚙️ <b>Plotly Graph Objects (go)</b><br>• Antarmuka tingkat rendah (Low-level API: go.Figure)<br>• Kontrol penuh terhadap hierarki JSON, data traces, layout<br>• Wajib untuk animasi kompleks, UI dropdown, & multi-subplot kustom"]
-    end
+    PX["🚀 <b>1. Plotly Express (px) — High-Level API</b><br>• Cepat, ringkas (1 baris kode), otomatis terintegrasi Pandas Tidy DataFrame<br>• Ideal untuk eksplorasi analitis cepat dan pembuatan chart standar"]
+    --> GO["⚙️ <b>2. Plotly Graph Objects (go) — Low-Level API</b><br>• Objek go.Figure dengan kendali presisi atas hierarki JSON, data traces, & layout<br>• Wajib untuk multi-subplot kustom, dual Y-axis, dan kontrol antarmuka internal"]
+    --> WebBrowser["🌐 <b>3. Browser Web Rendering Canvas (D3.js / WebGL)</b><br>• Menghasilkan grafik interaktif mandiri (Zoom, Pan, Hover, Export HTML)"]
 
-    PX -->|"Menghasilkan Objek"| GO
-    GO -->|"Dirender oleh Mesin"| WebBrowser["🌐 Browser Web (D3.js / WebGL Rendering Canvas)"]
-
-    style PlotlyStructure fill:#f8fafc,stroke:#334155,stroke-width:2px
     style PX fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style GO fill:#fdf4ff,stroke:#c084fc,stroke-width:2px
     style WebBrowser fill:#ecfdf5,stroke:#10b981,stroke-width:2px

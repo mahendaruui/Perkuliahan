@@ -16,15 +16,11 @@ Dataset Machine Learning di dunia nyata sering kali memiliki puluhan hingga ribu
 
 ```mermaid
 flowchart TD
-    subgraph Metode["Komparasi Teknik Reduksi Dimensi"]
-        PCA["📐 <b>Principal Component Analysis (PCA)</b><br>• Teknik Linear berbasis Aljabar Linier (Eigenvectors & Eigenvalues)<br>• Memaksimalkan variansi proyeksi data<br>• Cepat, deterministik, menjaga struktur global data"]
-        
-        TSNE["🎯 <b>t-Distributed Stochastic Neighbor Embedding (t-SNE)</b><br>• Teknik Non-Linear berbasis Probabilitas Distribusi t-Student<br>• Menjaga kedekatan lokal antar titik tetangga (Local Neighborhood)<br>• Sangat unggul untuk visualisasi klaster pemisahan kelas"]
-    end
+    PCA["📐 <b>1. Principal Component Analysis (PCA) — Linear</b><br>• Berbasis Aljabar Linear (Matriks Kovarians, Eigenvectors & Eigenvalues)<br>• Memaksimalkan variansi global data terproyeksi<br>• Bersifat deterministik, cepat, dan menjaga struktur makro dataset"]
+    --> TSNE["🎯 <b>2. t-SNE / UMAP — Non-Linear Manifold</b><br>• Berbasis Probabilitas Bersyarat & Distribusi t-Student<br>• Menjaga kedekatan lingkungan lokal antar titik data (*Local Neighborhood*)<br>• Sangat unggul untuk visualisasi pemisahan klaster kelas yang kompleks"]
 
-    style Metode fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style PCA fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style TSNE fill:#ecfdf5,stroke:#10b981,stroke-width:1px
+    style PCA fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style TSNE fill:#ecfdf5,stroke:#10b981,stroke-width:2px
 ```
 
 ---
@@ -32,19 +28,21 @@ flowchart TD
 ## 2. Visualisasi Evaluasi Model Machine Learning
 
 ```mermaid
-flowchart LR
-    subgraph Klasifikasi["📊 Evaluasi Model Klasifikasi"]
+flowchart TD
+    subgraph Klasifikasi["📊 1. Evaluasi Kinerja Model Klasifikasi"]
         direction TB
-        C1["<b>Confusion Matrix Heatmap</b><br>Mengidentifikasi True/False Positif & Negatif"]
-        C2["<b>Kurva ROC-AUC</b><br>Trade-off True Positive Rate vs False Positive Rate"]
-        C3["<b>Precision-Recall Curve</b><br>Wajib untuk dataset tidak seimbang (Imbalanced Data)"]
+        C1["• <b>Confusion Matrix Heatmap:</b> Mengidentifikasi True/False Positif & Negatif"]
+        --> C2["• <b>Kurva ROC-AUC:</b> Trade-off True Positive Rate vs False Positive Rate"]
+        --> C3["• <b>Precision-Recall Curve:</b> Wajib untuk dataset tidak seimbang (*Imbalanced Data*)"]
     end
 
-    subgraph Interpretasi["🔍 Explainable AI (XAI)"]
+    subgraph Interpretasi["🔍 2. Keterjelasan Model (Explainable AI - XAI)"]
         direction TB
-        X1["<b>Feature Importance Bar Chart</b><br>Kontribusi bobot variabel model"]
-        X2["<b>Decision Tree Structure</b><br>Visualisasi aturan IF-ELSE percabangan pohon"]
+        X1["• <b>Feature Importance Bar Chart:</b> Kontribusi signifikansi bobot fitur"]
+        --> X2["• <b>Decision Tree Visualizer:</b> Visualisasi struktur logika percabangan IF-ELSE"]
     end
+
+    Klasifikasi --> Interpretasi
 
     style Klasifikasi fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style Interpretasi fill:#fdf4ff,stroke:#c084fc,stroke-width:2px

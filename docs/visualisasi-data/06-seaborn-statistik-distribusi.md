@@ -16,23 +16,23 @@ Seaborn dibangun di atas Matplotlib dengan integrasi mendalam bersama struktur d
 
 ```mermaid
 flowchart TD
-    subgraph FigureLevel["1. Figure-Level Functions (Mengelola Seluruh Kanvas FacetGrid)"]
+    subgraph FigureLevel["🚀 1. Figure-Level Functions (Mengelola Seluruh Kanvas FacetGrid)"]
         direction TB
-        F1["<b>displot()</b> → Distribusi Data"]
-        F2["<b>catplot()</b> → Data Kategorikal"]
-        F3["<b>relplot()</b> → Hubungan Variabel"]
-        F4["Karakteristik: Otomatis membuat Subplot FacetGrid multi-kolom/baris"]
-        F1 --- F2 --- F3 --- F4
+        F1["• <b>displot()</b> → Eksplorasi Distribusi Data"]
+        --> F2["• <b>catplot()</b> → Komparasi Kategori Statistik"]
+        --> F3["• <b>relplot()</b> → Hubungan Scatter & Tren Waktu"]
+        --> F4["<i>Karakteristik: Otomatis membagi kanvas menjadi FacetGrid multi-panel</i>"]
     end
 
-    subgraph AxesLevel["2. Axes-Level Functions (Menggambar pada Objek ax Spesifik)"]
+    subgraph AxesLevel["⚙️ 2. Axes-Level Functions (Menggambar Langsung pada Objek ax)"]
         direction TB
-        A1["<b>histplot(), kdeplot(), ecdfplot()</b>"]
-        A2["<b>boxplot(), violinplot(), barplot(), stripplot()</b>"]
-        A3["<b>scatterplot(), lineplot()</b>"]
-        A4["Karakteristik: Dapat digabungkan fleksibel ke dalam plt.subplots()"]
-        A1 --- A2 --- A3 --- A4
+        A1["• <b>histplot(), kdeplot(), ecdfplot()</b>"]
+        --> A2["• <b>boxplot(), violinplot(), barplot(), stripplot()</b>"]
+        --> A3["• <b>scatterplot(), lineplot()</b>"]
+        --> A4["<i>Karakteristik: Dapat digabungkan fleksibel ke dalam plt.subplots() Matplotlib</i>"]
     end
+
+    FigureLevel --> AxesLevel
 
     style FigureLevel fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style AxesLevel fill:#ecfdf5,stroke:#10b981,stroke-width:2px
@@ -45,26 +45,31 @@ flowchart TD
 Memilih grafik distribusi yang tepat sangat krusial untuk mendeteksi kecondongan (*skewness*), modalitas (unimodal vs bimodal), dan nilai pencilan:
 
 ```mermaid
-flowchart LR
-    A["Analisis Distribusi Data Kontinu"] --> B{"Berapa Banyak Observasi (N) & Kategori?"}
-    B -- "Eksplorasi Univariat Tunggal" --> C["📈 <b>Histplot + KDE</b> (Bentuk Kurva)<br>📉 <b>ECDF Plot</b> (Fungsi Kumulatif)"]
-    B -- "Komparasi Antar Kategori (N Sedang)" --> D["🎻 <b>Violin Plot</b><br>(Memperlihatkan Bimodalitas)"]
-    B -- "Komparasi Antar Kategori (N Besar > 10.000)" --> E["📦 <b>Boxen / Letter-Value Plot</b><br>(Kuantil Detail Ekstrem)"]
-    B -- "N Kecil (< 100 per grup)" --> F["🐝 <b>Swarm Plot / Strip Plot</b><br>(Titik Observasi Asli)"]
+flowchart TD
+    Start["📊 <b>Pemilihan Plot Distribusi Data Kontinu</b>"]
+    --> Q1{"Berapa Banyak Variabel & Kategori yang Dianalisis?"}
+    
+    Q1 -- "1 Variabel Tunggal (Univariat)" --> U["📈 <b>Histplot + KDE</b> (Bentuk Kurva)<br>📉 <b>ECDF Plot</b> (Fungsi Distribusi Kumulatif Bebas Bias)"]
+    
+    Q1 -- "Komparasi Multi-Kategori" --> Q2{"Berapa Banyak Observasi Sampel (N)?"}
+    
+    Q2 -- "N Sedang (< 1.000 per grup)" --> D1["🎻 <b>Violin Plot</b><br>(Mendeteksi Bimodalitas & Puncak Data Ganda)"]
+    Q2 -- "N Besar (> 10.000 data)" --> D2["📦 <b>Boxen / Letter-Value Plot</b><br>(Menampilkan Kuantil Ekstrem secara Detail)"]
+    Q2 -- "N Kecil (< 100 data)" --> D3["🐝 <b>Swarm Plot / Strip Plot</b><br>(Menampilkan Seluruh Titik Observasi Asli)"]
 
-    style A fill:#f8fafc,stroke:#475569
-    style C fill:#dbeafe,stroke:#2563eb
-    style D fill:#fdf4ff,stroke:#c084fc
-    style E fill:#fef3c7,stroke:#d97706
-    style F fill:#dcfce7,stroke:#16a34a
+    style Start fill:#f8fafc,stroke:#475569,stroke-width:2px
+    style U fill:#dbeafe,stroke:#2563eb,stroke-width:1px
+    style D1 fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
+    style D2 fill:#fef3c7,stroke:#d97706,stroke-width:1px
+    style D3 fill:#dcfce7,stroke:#16a34a,stroke-width:1px
 ```
 
 ### Perbandingan 4 Plot Distribusi Kunci:
 
 | Tipe Grafik | Parameter Statistik yang Diwakili | Keunggulan Utama | Kelemahan / Batasan |
 | :--- | :--- | :--- | :--- |
-| **Histogram & KDE** | Estimasi densitas probabilitas, modus, *skewness*, *kurtosis*. | Sangat intuitif untuk melihat puncak distribusi. | Sensitif terhadap pemilihan lebar bin (*bin width*) dan parameter *bandwidth* ($h$). |
-| **Box Plot (Tukey)** | Ringkasan 5 Angka (Min, $Q_1$, Median, $Q_3$, Max) & Outliers. | Ringkas, sangat efisien untuk membandingkan 10+ kategori sekaligus. | Menyembunyikan distribusi bimodal (data 2 puncak terlihat seperti seragam). |
+| **Histogram & KDE** | Estimasi densitas probabilitas, modus, *skewness*, *kurtosis*. | Sangat intuitif untuk melihat puncak distribusi. | Sensitif terhadap pemilihan lebar bin (*bin width*) dan parameter *bandwidth* (h). |
+| **Box Plot (Tukey)** | Ringkasan 5 Angka (Min, Q1, Median, Q3, Max) & Outliers. | Ringkas, sangat efisien untuk membandingkan 10+ kategori sekaligus. | Menyembunyikan distribusi bimodal (data 2 puncak terlihat seperti seragam). |
 | **Violin Plot** | Gabungan Boxplot + estimasi kontur kepadatan probabilitas (KDE). | Menampilkan bimodalitas dan variasi bentuk kepadatan data secara utuh. | Membutuhkan sampel yang cukup; parameter smoothing dapat menghasilkan ekor semu. |
 | **ECDF Plot** | Nilai persentil kumulatif empiris dari 0% hingga 100%. | **Bebas 100% dari bias penentuan lebar bin** (*No binning artifacts*). | Kurang intuitif bagi audiens awam yang belum memahami konsep fungsi kumulatif. |
 

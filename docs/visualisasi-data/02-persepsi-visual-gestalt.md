@@ -15,28 +15,14 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 Untuk merancang visualisasi yang efektif, kita harus memahami bagaimana otak manusia mengolah stimulus visual dari layar komputer:
 
 ```mermaid
-flowchart LR
-    subgraph S1["1. Memori Sensorik (Sensory Memory)"]
-        direction TB
-        M1["• Kapasitas sangat besar<br>• Kecepatan: < 250 ms<br>• Bekerja otomatis (Bawah Sadar)<br>• Memproses Atribut Pra-atentif"]
-    end
+flowchart TD
+    Input["🖥️ <b>Stimulus Visual Layar / Grafik</b>"]
+    --> S1["⚡ <b>1. Memori Sensorik (Sensory Memory)</b><br>• Kecepatan respons super cepat (< 250 ms)<br>• Bawah sadar & memproses atribut pra-atentif secara paralel"]
+    --> S2["🧠 <b>2. Memori Kerja (Working Memory)</b><br>• Kapasitas SANGAT TERBATAS (hanya 4 ± 1 chunks data)<br>• Rentan beban berlebih (*Cognitive Overload*)"]
+    --> S3["📚 <b>3. Memori Jangka Panjang (Long-Term Memory)</b><br>• Kapasitas tak terbatas untuk wawasan, pengalaman, & narasi cerita"]
 
-    subgraph S2["2. Memori Kerja (Working Memory)"]
-        direction TB
-        M2["• Kapasitas SANGAT TERBATAS<br>• Hanya 4 ± 1 chunks informasi<br>• Rentan kelebihan beban (*Cognitive Overload*)<br>• Memproses teks, angka & logika"]
-    end
-
-    subgraph S3["3. Memori Jangka Panjang (Long-Term)"]
-        direction TB
-        M3["• Kapasitas tak terbatas<br>• Menyimpan pola, pengalaman & wawasan<br>• Mengingat cerita & struktur data"]
-    end
-
-    Input["Layar / Grafik"] --> S1
-    S1 -->|"Fokus Perhatian (Attention)"| S2
-    S2 -->|"Konsolidasi & Makna"| S3
-    S3 -.->|"Ekspektasi & Pengetahuan Awal"| S2
-
-    style S1 fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
+    style Input fill:#f8fafc,stroke:#475569,stroke-width:2px
+    style S1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style S2 fill:#fee2e2,stroke:#ef4444,stroke-width:2px
     style S3 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
 ```
@@ -55,18 +41,15 @@ Pemrosesan pra-atentif adalah mekanisme persepsi visual spontan di mana otak men
 
 ```mermaid
 flowchart TD
-    subgraph Atribut["4 Kategori Atribut Pra-atentif"]
-        C1["📐 1. BENTUK (Form)<br>• Panjang Garis (Length)<br>• Lebar Batang (Width)<br>• Orientasi Sudut (Angle)<br>• Ukuran Area (Size)<br>• Bentuk Ikon (Shape)"]
-        C2["🎨 2. WARNA (Color)<br>• Rona (Hue)<br>• Intensitas (Saturation)<br>• Kecerahan (Luminance)"]
-        C3["📍 3. POSISI (Spatial Position)<br>• Koordinat 2D (X, Y)<br>• Kedalaman Spasial"]
-        C4["⚡ 4. GERAKAN (Motion)<br>• Kerlipan (Flicker)<br>• Kecepatan Gerak (Velocity)"]
-    end
+    C1["📐 <b>1. BENTUK (Form)</b><br>• Panjang Batang (Length) & Lebar (Width)<br>• Orientasi Sudut (Angle) & Ukuran Area (Size)<br>• Bentuk Ikon Marker (Shape)"]
+    --> C2["🎨 <b>2. WARNA (Color)</b><br>• Rona Kategori (Hue)<br>• Intensitas Kejenuhan (Saturation)<br>• Kecerahan (Luminance)"]
+    --> C3["📍 <b>3. POSISI (Spatial Position)</b><br>• Koordinat 2D Sumbu X dan Y (Paling Akurat)<br>• Kedalaman Spasial"]
+    --> C4["⚡ <b>4. GERAKAN (Motion)</b><br>• Kerlipan Sinyal (Flicker)<br>• Kecepatan & Arah Animasi (Velocity)"]
 
-    style Atribut fill:#f8fafc,stroke:#475569,stroke-width:2px
-    style C1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-    style C2 fill:#fefce8,stroke:#ca8a04,stroke-width:1px
-    style C3 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style C4 fill:#faf5ff,stroke:#9333ea,stroke-width:1px
+    style C1 fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
+    style C2 fill:#fefce8,stroke:#ca8a04,stroke-width:2px
+    style C3 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style C4 fill:#faf5ff,stroke:#9333ea,stroke-width:2px
 ```
 
 ### Tabel Efektivitas Atribut Pra-atentif Berdasarkan Tipe Data:
@@ -113,7 +96,7 @@ Warna adalah alat komunikasi data yang sangat impresif, namun menjadi sumber kes
 2. **Palet Sekuensial (Sequential):** Menggunakan satu gradasi rona warna dari terang (nilai rendah) ke gelap (nilai tinggi) atau sebaliknya.
    - *Contoh:* Kepadatan penduduk, jumlah penjualan, tingkat curah hujan.
 3. **Palet Divergen (Diverging):** Menggunakan dua rona warna kontras yang bertemu pada titik tengah netral (biasanya putih, abu-abu, atau kuning pucat).
-   - *Contoh:* Suhu di atas vs di bawah titik beku ($0^\circ\text{C}$), laba vs rugi keuangan, margin selisih elektoral.
+   - *Contoh:* Suhu di atas vs di bawah titik beku (0°C), laba vs rugi keuangan, margin selisih elektoral.
 
 ```mermaid
 graph TD

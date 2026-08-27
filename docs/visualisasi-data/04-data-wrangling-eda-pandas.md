@@ -16,34 +16,22 @@ Sebelum data dapat divisualisasikan dengan pustaka modern seperti Seaborn atau P
 
 ```mermaid
 flowchart TD
-    subgraph TidyRules["3 Aturan Baku Tidy Data (Hadley Wickham)"]
-        R1["1. Setiap variabel membentuk satu KOLOM (Column)."]
-        R2["2. Setiap observasi/kejadian membentuk satu BARIS (Row)."]
-        R3["3. Setiap jenis unit observasi membentuk satu TABEL (Table)."]
-    end
+    R1["📐 <b>1. Aturan Kolom</b><br>Setiap variabel statistik membentuk satu KOLOM (Column)"]
+    --> R2["📑 <b>2. Aturan Baris</b><br>Setiap unit observasi / kejadian unik membentuk satu BARIS (Row)"]
+    --> R3["🗂️ <b>3. Aturan Tabel</b><br>Setiap jenis entitas observasi membentuk satu TABEL terstruktur (Table)"]
 
-    style TidyRules fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style R1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style R2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-    style R3 fill:#fefce8,stroke:#ca8a04,stroke-width:1px
+    style R1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style R2 fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
+    style R3 fill:#fefce8,stroke:#ca8a04,stroke-width:2px
 ```
 
 ### Perbedaan Format Wide vs Long (Tidy)
 
 ```mermaid
-flowchart LR
-    subgraph Wide["Format WIDE (Cocok untuk Laporan Manual)"]
-        direction TB
-        W["Kota | Jan | Feb | Mar<br>Aceh | 100 | 120 | 110<br>Medan| 150 | 160 | 155"]
-    end
-
-    subgraph Long["Format LONG / TIDY (Wajib untuk Plotly/Seaborn)"]
-        direction TB
-        L["Kota | Bulan | Penjualan<br>Aceh | Jan | 100<br>Aceh | Feb | 120<br>Aceh | Mar | 110<br>Medan| Jan | 150<br>..."]
-    end
-
-    Wide -->|"pd.melt()"| Long
-    Long -->|"df.pivot_table()"| Wide
+flowchart TD
+    Wide["📑 <b>Format WIDE (Format Laporan Manual)</b><br>Kota | Jan | Feb | Mar<br>Aceh | 100 | 120 | 110<br>Medan| 150 | 160 | 155"]
+    -->|"pd.melt() — Unpivot Kolom Waktu"| Long["📊 <b>Format LONG / TIDY (Format Visualisasi Data)</b><br>Kota | Bulan | Penjualan<br>Aceh | Jan | 100<br>Aceh | Feb | 120<br>Aceh | Mar | 110<br>Medan| Jan | 150<br>..."]
+    Long -->|"df.pivot_table() — Tabulasi Silang"| Wide
 
     style Wide fill:#fee2e2,stroke:#ef4444,stroke-width:2px
     style Long fill:#ecfdf5,stroke:#10b981,stroke-width:2px
@@ -66,26 +54,33 @@ flowchart LR
 ### B. Deteksi Outlier: Metode Interquartile Range (IQR)
 Metode Rentang Interkuartil (Tukey’s Fences) adalah teknik non-parametrik yang tangguh terhadap data yang tidak berdistribusi normal:
 
-$$\text{IQR} = Q_3 - Q_1$$
-$$\text{Batas Bawah (Lower Fence)} = Q_1 - 1.5 \times \text{IQR}$$
-$$\text{Batas Atas (Upper Fence)} = Q_3 + 1.5 \times \text{IQR}$$
-
-Titik data $x$ dinyatakan sebagai **Pencilan (Outlier)** jika $x < \text{Batas Bawah}$ atau $x > \text{Batas Atas}$.
+::: info 📐 Formula: Rentang Interkuartil (IQR) & Batas Tukey
+> **`IQR = Q3 − Q1`**
+>
+> **`Batas Bawah (Lower Fence) = Q1 − (1.5 × IQR)`**
+>
+> **`Batas Atas (Upper Fence)  = Q3 + (1.5 × IQR)`**
+>
+> *Kriteria Outlier:* Titik data `x` dinyatakan sebagai pencilan jika **`x < Batas Bawah`** atau **`x > Batas Atas`**.
+:::
 
 ```mermaid
-flowchart LR
-    LB["Batas Bawah<br>Q1 - 1.5*IQR"] --- Q1["Kuartil 1 (25%)"]
-    Q1 --- Median["Median (Q2 / 50%)"]
-    Median --- Q3["Kuartil 3 (75%)"]
-    Q3 --- UB["Batas Atas<br>Q3 + 1.5*IQR"]
+flowchart TD
+    OutlierR["⚠️ <b>Pencilan Kanan (Upper Outlier)</b><br>Nilai Data > Q3 + 1.5 × IQR"]
+    --> UB["📏 <b>Batas Atas (Upper Fence)</b> = Q3 + 1.5 × IQR"]
+    --> Q3["📦 <b>Kuartil Atas (Q3 / Persentil 75%)</b>"]
+    --> Median["🎯 <b>Median (Q2 / Titik Tengah 50%)</b>"]
+    --> Q1["📦 <b>Kuartil Bawah (Q1 / Persentil 25%)</b>"]
+    --> LB["📏 <b>Batas Bawah (Lower Fence)</b> = Q1 − 1.5 × IQR"]
+    --> OutlierL["⚠️ <b>Pencilan Kiri (Lower Outlier)</b><br>Nilai Data < Q1 − 1.5 × IQR"]
 
-    OutlierL["⚠️ Outlier Kiri (< LB)"] -.-> LB
-    UB -.-> OutlierR["⚠️ Outlier Kanan (> UB)"]
-
-    style LB fill:#fee2e2,stroke:#ef4444
-    style UB fill:#fee2e2,stroke:#ef4444
-    style OutlierL fill:#f87171,color:#ffffff
-    style OutlierR fill:#f87171,color:#ffffff
+    style OutlierR fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+    style UB fill:#fef3c7,stroke:#d97706,stroke-width:1px
+    style Q3 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
+    style Median fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+    style Q1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
+    style LB fill:#fef3c7,stroke:#d97706,stroke-width:1px
+    style OutlierL fill:#fee2e2,stroke:#ef4444,stroke-width:2px
 ```
 
 ---
@@ -208,7 +203,7 @@ print(df_long_tidy.head(6))
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Tidy Data:** Struktur data tabular terbaik untuk analisis dan visualisasi adalah *1 baris = 1 observasi*, *1 kolom = 1 variabel*.
 2. **Pembersihan String:** Hapus spasi tak kasat mata (`str.strip()`) dan seragamkan kapitalisasi (`str.title()`) sebelum melakukan `groupby`.
-3. **Penanganan Outlier:** Gunakan metode IQR ($Q_1 - 1.5\text{IQR}$ s.d. $Q_3 + 1.5\text{IQR}$) untuk mendeteksi pencilan ekstrem, dan lakukan capping (*winsorizing*) atau filtering terisolasi.
+3. **Penanganan Outlier:** Gunakan metode IQR (Q1 − 1.5×IQR s.d. Q3 + 1.5×IQR) untuk mendeteksi pencilan ekstrem, dan lakukan capping (*winsorizing*) atau filtering terisolasi.
 4. **Reshaping:** Gunakan `pivot_table` untuk tabulasi silang laporan, dan gunakan `pd.melt()` untuk mengembalikan data ke format *Long* yang siap dipetakan ke sumbu grafik.
 :::
 

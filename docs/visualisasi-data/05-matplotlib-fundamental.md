@@ -16,19 +16,21 @@ Matplotlib menyediakan dua pendekatan pemrograman visual:
 
 ```mermaid
 flowchart TD
-    subgraph Prosedural["1. Antarmuka Prosedural (Pyplot / MATLAB-Style)"]
+    subgraph Prosedural["❌ 1. Antarmuka Prosedural (Pyplot / MATLAB-Style)"]
         direction TB
         P1["plt.plot(x, y)<br>plt.title('Judul')<br>plt.xlabel('X')"]
-        P2["❌ Menggunakan status global tersembunyi (State-Machine)<br>❌ Sulit untuk multi-panel dan kustomisasi kompleks"]
+        P2["• Menggunakan status global tersembunyi (State-Machine)<br>• Sulit untuk multi-panel dan kustomisasi kompleks"]
         P1 --> P2
     end
 
-    subgraph OO["2. Antarmuka Object-Oriented (OO Interface) — STANDAR WAJIB"]
+    subgraph OO["✅ 2. Antarmuka Object-Oriented (OO API) — STANDAR WAJIB"]
         direction TB
         O1["fig, ax = plt.subplots()<br>ax.plot(x, y)<br>ax.set_title('Judul')"]
-        O2["✅ Eksplisit, modular, dan dapat dikontrol secara presisi<br>✅ Standar baku dalam riset akademik & aplikasi industri"]
+        O2["• Eksplisit, modular, dan dapat dikontrol secara presisi<br>• Standar baku dalam riset akademik & aplikasi industri"]
         O1 --> O2
     end
+
+    Prosedural --> OO
 
     style Prosedural fill:#fee2e2,stroke:#ef4444,stroke-width:2px
     style OO fill:#ecfdf5,stroke:#10b981,stroke-width:2px
@@ -39,26 +41,22 @@ flowchart TD
 ```mermaid
 flowchart TD
     Figure["🖼️ <b>Figure (Objek Kanvas Terluar)</b><br>Mengatur ukuran kanvas (figsize), resolusi (DPI), dan warna latar belakang"]
-    
-    Figure --> Axes1["📊 <b>Axes (Bidang Gambar Subplot)</b><br>Area koordinat tempat data dirender"]
-    Figure --> Axes2["📊 <b>Axes (Subplot Lainnya)</b>"]
+    --> Axes["📊 <b>Axes (Bidang Koordinat Subplot)</b><br>Area tempat kurva dan data dirender"]
 
-    subgraph AnatomiAxes["🔍 Komponen Internal Objek Axes"]
+    subgraph AnatomiAxes["🔍 Komponen Internal di Dalam Objek Axes"]
         direction TB
         Title["🏷️ <b>Title & Subtitle</b> (Judul grafik & wawasan)"]
-        Spines["🔲 <b>Spines</b> (4 Garis bingkai: top, bottom, left, right)"]
-        XAxis["📏 <b>X-Axis / Y-Axis</b> (Label sumbu, Major/Minor Ticks, & Tick Labels)"]
-        DataMark["🎨 <b>Visual Primitives</b> (Lines, Bars, Patches, Collections)"]
-        Legend["📌 <b>Legend & Colorbar</b> (Petunjuk seri data & skala)"]
-        Annotation["💬 <b>Annotations</b> (Panah & teks penunjuk fokus)"]
+        --> Spines["🔲 <b>Spines</b> (4 Garis bingkai: top, bottom, left, right)"]
+        --> XAxis["📏 <b>X-Axis / Y-Axis</b> (Label sumbu, Major/Minor Ticks, & Tick Labels)"]
+        --> DataMark["🎨 <b>Visual Primitives</b> (Lines, Bars, Patches, Collections)"]
+        --> Legend["📌 <b>Legend & Colorbar</b> (Petunjuk seri data & skala)"]
+        --> Annotation["💬 <b>Annotations</b> (Panah & teks penunjuk fokus)"]
     end
 
-    Axes1 --> AnatomiAxes
-    Title --> Spines --> XAxis --> DataMark --> Legend --> Annotation
+    Axes --> AnatomiAxes
 
     style Figure fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style Axes1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
-    style Axes2 fill:#f1f5f9,stroke:#64748b,stroke-width:1px
+    style Axes fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style AnatomiAxes fill:#faf5ff,stroke:#9333ea,stroke-width:1px
 ```
 
@@ -69,15 +67,11 @@ flowchart TD
 Dalam dashboard analitis profesional, tata letak subplot sering kali tidak simetris (misalnya 1 grafik utama berukuran besar di sebelah kiri, dan 2 grafik ringkasan berukuran kecil di sebelah kanan). Matplotlib menyediakan modul `matplotlib.gridspec.GridSpec` untuk memecah kanvas menjadi matriks grid yang fleksibel.
 
 ```mermaid
-flowchart LR
-    subgraph GridSpec2x3["Contoh Matriks GridSpec (2 Baris x 3 Kolom)"]
-        direction TB
-        G1["Axes Utama (Line Chart Tren)<br>Span: baris 0:2, kolom 0:2 (Besar)"]
-        G2["Axes Top Right (Bar Chart)<br>Span: baris 0, kolom 2 (Kecil)"]
-        G3["Axes Bottom Right (Donut Chart)<br>Span: baris 1, kolom 2 (Kecil)"]
-    end
+flowchart TD
+    G1["📊 <b>1. Axes Utama (Line Chart Tren)</b><br>Span: baris 0:2, kolom 0:2 (Panel Kiri Lebar)"]
+    --> G2["📈 <b>2. Axes Top Right (Bar Chart Produk)</b><br>Span: baris 0, kolom 2 (Panel Kanan Atas)"]
+    --> G3["🎯 <b>3. Axes Bottom Right (Donut Chart Kepuasan)</b><br>Span: baris 1, kolom 2 (Panel Kanan Bawah)"]
 
-    style GridSpec2x3 fill:#f8fafc,stroke:#475569,stroke-width:2px
     style G1 fill:#dbeafe,stroke:#2563eb,stroke-width:2px
     style G2 fill:#fef3c7,stroke:#d97706,stroke-width:1px
     style G3 fill:#dcfce7,stroke:#16a34a,stroke-width:1px

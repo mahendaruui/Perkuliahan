@@ -15,18 +15,15 @@ Setiap kelompok (atau individu) wajib memilih salah satu dari 4 domain studi kas
 
 ```mermaid
 flowchart TD
-    subgraph PilihanDomain["🏛️ 4 Domain Pilihan Capstone Project"]
-        D1["🏥 <b>Domain A: Kesehatan Publik & Epidemiologi Spasial</b><br>• Analisis persebaran penyakit/stunting per kabupaten<br>• Peta Choropleth interaktif & prediksi tren mingguan"]
-        D2["💰 <b>Domain B: Finansial, Saham & Manajemen Risiko</b><br>• Dashboard portofolio investasi & volatilitas pasar saham<br>• Candlestick OHLC interaktif & matriks korelasi aset"]
-        D3["🛒 <b>Domain C: E-Commerce & Segmentasi Pelanggan (RFM)</b><br>• Analisis Recency, Frequency, Monetary pelanggan<br>• Visualisasi klaster 3D PCA & corong penjualan (Funnel)"]
-        D4["🌍 <b>Domain D: Kualitas Lingkungan & Sensor Kebencanaan</b><br>• Monitoring polusi udara PM2.5 / sensor hidrologi banjir<br>• Heatmap spasial titik panas & dekomposisi deret waktu"]
-    end
+    D1["🏥 <b>Domain A: Kesehatan Publik & Epidemiologi Spasial</b><br>• Analisis persebaran penyakit/stunting per kabupaten<br>• Peta Choropleth interaktif & prediksi tren mingguan"]
+    --> D2["💰 <b>Domain B: Finansial, Saham & Manajemen Risiko</b><br>• Dashboard portofolio investasi & volatilitas pasar saham<br>• Candlestick OHLC interaktif & matriks korelasi aset"]
+    --> D3["🛒 <b>Domain C: E-Commerce & Segmentasi Pelanggan (RFM)</b><br>• Analisis Recency, Frequency, Monetary pelanggan<br>• Visualisasi klaster 3D PCA & corong penjualan (Funnel)"]
+    --> D4["🌍 <b>Domain D: Kualitas Lingkungan & Sensor Kebencanaan</b><br>• Monitoring polusi udara PM2.5 / sensor hidrologi banjir<br>• Heatmap spasial titik panas & dekomposisi deret waktu"]
 
-    style PilihanDomain fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style D1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style D2 fill:#ecfdf5,stroke:#10b981,stroke-width:1px
-    style D3 fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
-    style D4 fill:#fefce8,stroke:#ca8a04,stroke-width:1px
+    style D1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style D2 fill:#ecfdf5,stroke:#10b981,stroke-width:2px
+    style D3 fill:#fdf4ff,stroke:#c084fc,stroke-width:2px
+    style D4 fill:#fefce8,stroke:#ca8a04,stroke-width:2px
 ```
 
 ---

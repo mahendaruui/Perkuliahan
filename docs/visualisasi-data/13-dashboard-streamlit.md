@@ -16,24 +16,22 @@ Streamlit merevolusi pengembangan antarmuka data dengan memungkinkan pembuatan w
 
 ```mermaid
 flowchart TD
-    subgraph ReactiveModel["Siklus Eksekusi Reaktif Streamlit"]
-        UserAction["👤 Interaksi Pengguna (Menggeser Slider / Memilih Filter)"]
-        ReRun["🔄 Streamlit Menjalankan Ulang Script dari Baris Pertama (Top-to-Bottom)"]
-        CacheCheck{"Apakah Data Ada di Cache?"}
-        UseCache["⚡ Ambil Data dari RAM Cache (Instan, <5 ms)"]
-        RunCompute["⏳ Jalankan Query / Komputasi Ulang & Simpan ke Cache"]
-        RenderUI["🎨 Render Ulang Elemen Antarmuka Web yang Berubah"]
+    UserAction["👤 <b>1. Interaksi Pengguna</b><br>Menggeser slider, memilih checkbox, atau mengganti filter"]
+    --> ReRun["🔄 <b>2. Siklus Re-run Otomatis</b><br>Streamlit mengeksekusi ulang seluruh script dari baris paling atas (*Top-to-Bottom*)"]
+    --> CacheCheck{"Apakah Hasil Komputasi Tersimpan di Cache?"}
+    
+    CacheCheck -- "YA" --> UseCache["⚡ <b>3A. Ambil dari Memori RAM Cache</b><br>Data dimuat seketika tanpa komputasi ulang (< 5 ms)"]
+    CacheCheck -- "TIDAK" --> RunCompute["⏳ <b>3B. Eksekusi Komputasi / Query Ulang</b><br>Hasil disimpan ke cache (@st.cache_data)"]
+    
+    UseCache --> RenderUI["🎨 <b>4. Render Ulang Komponen Antarmuka Web</b>"]
+    RunCompute --> RenderUI
 
-        UserAction --> ReRun --> CacheCheck
-        CacheCheck -- "YA" --> UseCache --> RenderUI
-        CacheCheck -- "TIDAK" --> RunCompute --> RenderUI
-    end
-
-    style ReactiveModel fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style UserAction fill:#eff6ff,stroke:#2563eb,stroke-width:1px
+    style UserAction fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style ReRun fill:#f8fafc,stroke:#475569,stroke-width:1px
     style CacheCheck fill:#fef3c7,stroke:#d97706,stroke-width:1px
     style UseCache fill:#ecfdf5,stroke:#10b981,stroke-width:2px
     style RunCompute fill:#fee2e2,stroke:#ef4444,stroke-width:1px
+    style RenderUI fill:#dbeafe,stroke:#0284c7,stroke-width:2px
 ```
 
 ### Dua Jenis Caching Streamlit:
@@ -46,28 +44,24 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    PageConfig["⚙️ <b>st.set_page_config(layout='wide')</b><br>Konfigurasi judul tab browser, icon, & layout lebar"]
+    PageConfig["⚙️ <b>1. st.set_page_config(layout='wide')</b><br>Pengaturan judul halaman, favicon tab browser, dan tata letak lebar"]
+    --> Sidebar["🔍 <b>2. Sidebar Kontrol (st.sidebar)</b><br>Filter interaktif: Wilayah, Kategori Produk, & Slider Rentang Tanggal"]
+    --> Header["🏷️ <b>3. Header & Deskripsi (st.title & st.markdown)</b><br>Judul dashboard eksekutif dan wawasan pengantar"]
+    --> Metrics["📊 <b>4. Kartu Metrik KPI (st.columns & st.metric)</b><br>Ringkasan angka kunci: Total Revenue (+14.2%), Transaksi, & Margin"]
+    --> Tabs["🗂️ <b>5. Wadah Navigasi Tab (st.tabs)</b>"]
     
-    PageConfig --> Sidebar["🔍 <b>Sidebar (st.sidebar)</b><br>Filter Wilayah, Slider Tanggal, & Pilihan Metrik"]
-    PageConfig --> Main["🖥️ <b>Kanvas Utama Dashboard</b>"]
-
-    subgraph MainContent["Anatomi Halaman Utama"]
+    subgraph TabPanels["Panel Konten di Dalam Tab"]
         direction TB
-        Header["🏷️ <b>Header & Subheader</b> (Judul Aplikasi & Ringkasan Deskriptif)"]
-        Metrics["📊 <b>KPI Metric Cards (st.columns & st.metric)</b><br>Total Pendapatan (Delta +12%), Transaksi, Margin Laba"]
-        Tabs["🗂️ <b>Tabs Konten (st.tabs)</b>"]
-        
-        subgraph TabPanels["Panel di Dalam Tab"]
-            T1["📈 Tab 1: Tren Penjualan (Plotly Line)"]
-            T2["🗺️ Tab 2: Peta Sebaran (Plotly / Folium Map)"]
-            T3["📑 Tab 3: Tabel Data Detail & Tombol Download CSV"]
-        end
+        T1["📈 <b>Tab 1:</b> Grafik Tren Mingguan & Barmode Kategori (Plotly)"]
+        --> T2["🗺️ <b>Tab 2:</b> Donut Chart Pangsa Pasar Regional & Peta"]
+        --> T3["📑 <b>Tab 3:</b> Tabel Data Terfilter & Tombol Unduh CSV"]
     end
 
-    Main --> Header --> Metrics --> Tabs --> TabPanels
+    Tabs --> TabPanels
 
     style PageConfig fill:#f8fafc,stroke:#334155,stroke-width:2px
     style Sidebar fill:#eff6ff,stroke:#2563eb,stroke-width:1px
+    style Header fill:#f8fafc,stroke:#475569,stroke-width:1px
     style Metrics fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
     style Tabs fill:#ecfdf5,stroke:#10b981,stroke-width:1px
 ```

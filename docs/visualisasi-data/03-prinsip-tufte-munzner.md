@@ -16,28 +16,27 @@ Profesor Edward R. Tufte (Universitas Yale) meletakkan standar filosofis dan eti
 
 ```mermaid
 flowchart TD
-    subgraph Tufte["Prinsip Utama Desain Analitis Edward Tufte"]
-        T1["📐 1. Maksimalkan Data-Ink Ratio<br>Hapus elemen non-data dan data redundan"]
-        T2["⚖️ 2. Jaga Integritas Grafis (Lie Factor ≈ 1.0)<br>Skala visual harus proporsional dengan angka riil"]
-        T3["🧹 3. Eliminasi Chartjunk Total<br>Hapus 3D semu, arsir moiré, dan gridline tebal"]
-        T4["🔲 4. Terapkan Small Multiples<br>Gunakan panel berulang untuk data multivariat"]
-    end
+    T1["📐 <b>1. Maksimalkan Data-Ink Ratio</b><br>Hapus elemen non-data dan tinta data yang redundan"]
+    --> T2["⚖️ <b>2. Jaga Integritas Grafis (Lie Factor ≈ 1.0)</b><br>Perubahan visual harus proporsional secara eksak dengan angka riil"]
+    --> T3["🧹 <b>3. Eliminasi Chartjunk Total</b><br>Hapus 3D semu, arsir moiré yang bergetar, dan garis kisi tebal"]
+    --> T4["🔲 <b>4. Terapkan Small Multiples</b><br>Gunakan kisi-kisi panel berulang seragam untuk data multivariat"]
 
-    style Tufte fill:#f8fafc,stroke:#334155,stroke-width:2px
-    style T1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
-    style T2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-    style T3 fill:#fee2e2,stroke:#ef4444,stroke-width:1px
-    style T4 fill:#faf5ff,stroke:#9333ea,stroke-width:1px
+    style T1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style T2 fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
+    style T3 fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+    style T4 fill:#faf5ff,stroke:#9333ea,stroke-width:2px
 ```
 
 ### A. Data-Ink Ratio (Rasio Tinta Data)
 Tufte mendefinisikan bahwa setiap tetes tinta pada kertas (atau piksel pada layar monitor) harus didedikasikan untuk menampilkan informasi substantif data.
 
-::: info 📐 Formula Matematis: Data-Ink Ratio
-$$\text{Data-Ink Ratio} = \frac{\text{Tinta / Piksel Data Kunci}}{\text{Total Tinta / Piksel Seluruh Grafik}} = 1.0 - \text{Proporsi Tinta Non-Data}$$
-
-* **Nilai Ideal:** Mendekati **1.0** (hampir 100% piksel menyajikan informasi substansi data).
-* **Rasio Rendah (< 0.5):** Menandakan grafik dipenuhi oleh dekorasi visual yang sia-sia (*clutter/chartjunk*).
+::: info 📐 Formula: Data-Ink Ratio (Edward Tufte)
+> **`Data-Ink Ratio = (Tinta / Piksel Data Kunci) ÷ (Total Tinta / Piksel Seluruh Grafik)`**
+>
+> **`Data-Ink Ratio = 1.0 − Proporsi Tinta Non-Data`**
+>
+> * **Nilai Ideal:** Mendekati **1.0** (hampir 100% piksel didedikasikan untuk substansi data).
+> * **Rasio Rendah (< 0.5):** Menandakan visualisasi dipenuhi elemen dekoratif tidak penting (*chartjunk*).
 :::
 
 **Lima Aturan Tufte untuk Data-Ink:**
@@ -61,8 +60,10 @@ $$\text{Data-Ink Ratio} = \frac{\text{Tinta / Piksel Data Kunci}}{\text{Total Ti
 ### C. Lie Factor & Integritas Grafis
 Visualisasi data harus merepresentasikan kebenaran angka secara geometris tanpa distorsi persepsi.
 
-::: info 📐 Formula Matematis: Lie Factor
-$$\text{Lie Factor} = \frac{\text{Besar Efek pada Grafik (\%)}}{\text{Besar Efek pada Data Riil (\%)}} = \frac{\left| \frac{\text{Ukuran Visual Akhir} - \text{Ukuran Visual Awal}}{\text{Ukuran Visual Awal}} \right|}{\left| \frac{\text{Nilai Data Akhir} - \text{Nilai Data Awal}}{\text{Nilai Data Awal}} \right|}$$
+::: info 📐 Formula: Lie Factor (Integritas Grafis)
+> **`Lie Factor = (Besar Efek pada Grafik %) ÷ (Besar Efek pada Data Riil %)`**
+>
+> **`Lie Factor = |(Ukuran Visual Akhir − Ukuran Visual Awal) / Ukuran Visual Awal| ÷ |(Nilai Data Akhir − Nilai Data Awal) / Nilai Data Awal|`**
 :::
 
 | Nilai Lie Factor | Kategori Kejujuran Grafis | Implikasi Interpretasi |
@@ -80,11 +81,9 @@ Profesor Tamara Munzner (Universitas British Columbia) merumuskan kerangka kerja
 ```mermaid
 flowchart TD
     L1["1. Domain Problem Characterization<br>Siapa target pengguna dan apa masalah riil di dunia nyata?"]
-    L2["2. Data and Task Abstraction (WHAT & WHY)<br>Apa tipe datanya (What) dan apa tujuan analitisnya (Why)?"]
-    L3["3. Visual Encoding and Interaction Design (HOW)<br>Bagaimana data dipetakan ke Marks & Channels (How)?"]
-    L4["4. Algorithm Design & Implementation<br>Bagaimana algoritma dan kode merender visualisasi secara efisien?"]
-
-    L1 --> L2 --> L3 --> L4
+    --> L2["2. Data and Task Abstraction (WHAT & WHY)<br>Apa tipe datanya (What) dan apa tujuan analitisnya (Why)?"]
+    --> L3["3. Visual Encoding and Interaction Design (HOW)<br>Bagaimana data dipetakan ke Marks & Channels (How)?"]
+    --> L4["4. Algorithm Design & Implementation<br>Bagaimana algoritma dan kode merender visualisasi secara efisien?"]
 
     style L1 fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
     style L2 fill:#fdf4ff,stroke:#c084fc,stroke-width:2px
@@ -110,26 +109,26 @@ flowchart TD
 - **Channels (Saluran Pengontrol):** Posisi, Panjang, Sudut, Luas, Bentuk, Rona Warna, Kecerahan, Transparansi.
 
 ```mermaid
-flowchart LR
-    subgraph Kuantitatif["Saluran Data Kuantitatif (Magnitude)"]
+flowchart TD
+    subgraph Kuantitatif["📊 Saluran Visual Data Kuantitatif (Magnitude) - Terurut dari Paling Akurat"]
         direction TB
-        Q1["1. Posisi pada Sumbu Umum (Paling Akurat)"]
-        Q2["2. Posisi pada Sumbu Terpisah"]
-        Q3["3. Panjang Batang (Length)"]
-        Q4["4. Kemiringan Sudut (Angle/Slope)"]
-        Q5["5. Luas Area 2D"]
-        Q6["6. Kecerahan / Saturasi Warna"]
-        Q1 --> Q2 --> Q3 --> Q4 --> Q5 --> Q6
+        Q1["1. Posisi pada Sumbu Bersama (Position on Common Scale) ⭐⭐⭐⭐⭐"]
+        --> Q2["2. Posisi pada Sumbu Terpisah (Position on Unaligned Scale) ⭐⭐⭐⭐"]
+        --> Q3["3. Panjang Batang (Length / 1D Size) ⭐⭐⭐⭐"]
+        --> Q4["4. Kemiringan Sudut (Angle / Slope) ⭐⭐⭐"]
+        --> Q5["5. Luas Area 2D (Area) ⭐⭐"]
+        --> Q6["6. Kecerahan / Saturasi Warna (Luminance) ⭐"]
     end
 
-    subgraph Kategorikal["Saluran Data Kategorikal (Identity)"]
+    subgraph Kategorikal["🏷️ Saluran Visual Data Kategorikal (Identity) - Terurut dari Paling Efektif"]
         direction TB
-        C1["1. Posisi Wilayah Spasial (Paling Jelas)"]
-        C2["2. Rona Warna (Color Hue)"]
-        C3["3. Bentuk Ikon (Shape)"]
-        C4["4. Pola Isian (Texture/Stipple)"]
-        C1 --> C2 --> C3 --> C4
+        C1["1. Posisi Wilayah Spasial (Spatial Region) ⭐⭐⭐⭐⭐"]
+        --> C2["2. Rona Warna (Color Hue) ⭐⭐⭐⭐⭐"]
+        --> C3["3. Bentuk Ikon (Shape Marker) ⭐⭐⭐⭐"]
+        --> C4["4. Pola Isian (Texture / Stipple) ⭐⭐"]
     end
+
+    Kuantitatif --> Kategorikal
 
     style Kuantitatif fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
     style Kategorikal fill:#ecfdf5,stroke:#10b981,stroke-width:2px
@@ -261,13 +260,13 @@ plt.show()
 
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Data-Ink Ratio:** Hapus elemen non-data dan redundan untuk memastikan bahwa setiap piksel menyajikan informasi substansial.
-2. **Lie Factor:** Jaga integritas grafis agar $0.95 \le \text{Lie Factor} \le 1.05$. Jangan pernah memotong sumbu atau memanipulasi proporsi 3D.
+2. **Lie Factor:** Jaga integritas grafis agar **0.95 ≤ Lie Factor ≤ 1.05**. Jangan pernah memotong sumbu atau memanipulasi proporsi 3D.
 3. **Framework Munzner (What-Why-How):** Rancang pemetaan visual dengan mendahulukan tipe data (*What*), tujuan analitis (*Why*), dan saluran visual yang paling akurat (*How*).
 4. **Small Multiples:** Gunakan kisi-kisi grafik multi-panel dengan skala sumbu yang seragam untuk membandingkan data multivariat tanpa tumpang tindih (*overplotting*).
 :::
 
 ### 📝 Tugas Praktikum 3 (Mandiri)
-1. **Perhitungan Lie Factor Mandiri:** Diberikan grafik laporan tahunan di mana angka anggaran naik dari Rp 50 Juta menjadi Rp 65 Juta (+30%). Namun luas lingkaran pada grafik membesar dari diameter 2 cm menjadi diameter 5 cm (Luas area membesar $+525\%$).
+1. **Perhitungan Lie Factor Mandiri:** Diberikan grafik laporan tahunan di mana angka anggaran naik dari Rp 50 Juta menjadi Rp 65 Juta (+30%). Namun luas lingkaran pada grafik membesar dari diameter 2 cm menjadi diameter 5 cm (Luas area membesar +525%).
    - Hitung nilai Lie Factor grafik tersebut.
    - Buat kesimpulan apakah grafik tersebut termasuk *Misleading* atau objektif.
 2. **Audit What-Why-How Tamara Munzner:** Pilihlah sebuah grafik dari publikasi portal data pemerintah (misal: BPS atau Satu Data Indonesia):
