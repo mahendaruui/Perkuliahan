@@ -36,21 +36,30 @@ Rancang dan bangunlah sebuah aplikasi konsol interaktif berbasis menu yang mengi
 
 ```mermaid
 flowchart TD
-    Menu["🖥️ <b>MENU UTAMA SISTEM AKADEMIK TERPADU</b>"]
-    --> Opt1["1. 📥 Input & Validasi Data Mahasiswa (Array of Struct / Class)"]
-    Menu --> Opt2["2. 📊 Tampilkan Seluruh Data & Kalkulasi Statistik (Min, Max, Rata-rata)"]
-    Menu --> Opt3["3. ⚡ Urutkan Mahasiswa Berdasarkan Nilai Akhir (Sorting Descending)"]
-    Menu --> Opt4["4. 🔍 Cari Mahasiswa Berdasarkan NIM (Binary Search O(log N))"]
-    Menu --> Opt5["5. 📈 Laporan Distribusi Grade Mutu (A, B, C, D, E)"]
-    Menu --> Opt0["0. 🛑 Keluar dari Sistem (Exit)"]
+    Actor(("👤 <b>Dosen / Pengguna Sistem</b>"))
 
-    style Menu fill:#eff6ff,stroke:#2563eb,stroke-width:2px
-    style Opt1 fill:#f8fafc,stroke:#475569,stroke-width:1px
-    style Opt2 fill:#f8fafc,stroke:#475569,stroke-width:1px
-    style Opt3 fill:#fefce8,stroke:#ca8a04,stroke-width:1px
-    style Opt4 fill:#ecfdf5,stroke:#10b981,stroke-width:1px
-    style Opt5 fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
-    style Opt0 fill:#fee2e2,stroke:#ef4444,stroke-width:1px
+    subgraph SystemBoundary["🏛️ <b>Boundary Sistem: SIM-AKAD Terpadu (CLI)</b>"]
+        direction TB
+        UC1(["📥 <b>UC01: Input & Validasi Data Mahasiswa</b><br>Menambah record NIM, Nama, dan Nilai Tugas/UTS/UAS"])
+        UC2(["📊 <b>UC02: Kalkulasi Statistik & Nilai Akhir</b><br>Menghitung Nilai Akhir, Grade Mutu, Min, Max, dan Rata-rata"])
+        UC3(["⚡ <b>UC03: Urutkan Data Prestasi (Sorting)</b><br>Mengurutkan ranking nilai akhir secara Descending"])
+        UC4(["🔍 <b>UC04: Pencarian Mahasiswa (Searching)</b><br>Mencari data mahasiswa berdasarkan NIM via Binary Search"])
+        UC5(["📈 <b>UC05: Rekapitulasi Distribusi Grade</b><br>Menampilkan rekapitulasi jumlah huruf mutu A, B, C, D, E"])
+    end
+
+    Actor --> UC1
+    Actor --> UC2
+    Actor --> UC3
+    Actor --> UC4
+    Actor --> UC5
+
+    style Actor fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+    style SystemBoundary fill:#f8fafc,stroke:#334155,stroke-width:2px
+    style UC1 fill:#ffffff,stroke:#0284c7,stroke-width:1.5px
+    style UC2 fill:#ffffff,stroke:#0284c7,stroke-width:1.5px
+    style UC3 fill:#ffffff,stroke:#0284c7,stroke-width:1.5px
+    style UC4 fill:#ffffff,stroke:#0284c7,stroke-width:1.5px
+    style UC5 fill:#ffffff,stroke:#0284c7,stroke-width:1.5px
 ```
 
 ### Rincian Fitur Wajib yang Harus Diprogram:
