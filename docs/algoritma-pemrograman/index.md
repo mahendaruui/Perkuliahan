@@ -71,7 +71,8 @@ flowchart TD
 * **[Minggu 12: Algoritma Pencarian (Searching Algorithm)](./algoritma-pencarian.md)** — Linear Search O(n) vs Binary Search O(log n), Penurunan Matematis log₂(n), Divide & Conquer, serta Pencegahan Integer Overflow *(Sub-CPMK 6)*
 * **[Minggu 13-14: Algoritma Pengurutan (Sorting Algorithm)](./algoritma-pengurutan.md)** — Bubble Sort (Early Exit), Selection Sort, Insertion Sort, Penurunan Deret Aritmatika n(n-1)/2, Kestabilan Sorting & Pengantar O(n log n) *(Sub-CPMK 6)*
 
-### 🔹 Bagian 6: Evaluasi Terpadu & Mini-Project
+### 🔹 Bagian 6: Integrasi Proyek & Evaluasi Capstone
+* **[Minggu 15: Integrasi Proyek Mini, Clean Code & Studi Kasus](./proyek-mini.md)** — Arsitektur Rekayasa Perangkat Lunak, Penerapan Clean Code (SRP & DRY), Diagram Use Case & Aplikasi Konsol Terpadu *(Sub-CPMK 7)*
 * **[Minggu 16: Evaluasi Akhir Semester & Capstone Mini-Project](./SOAL_UAS.md)** — Rubrik Penilaian Capstone OBE, Spesifikasi Sistem Informasi Konsol Terpadu, Skenario Test Cases & Live Coding *(Sub-CPMK 7)*
 
 ---

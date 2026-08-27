@@ -263,7 +263,14 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 12 — Algoritma Pencarian (Searching)', link: '/algoritma-pemrograman/algoritma-pencarian' },
-              { text: 'Minggu 13-14 — Algoritma Pengurutan (Sorting)', link: '/algoritma-pemrograman/algoritma-pengurutan' },
+              { text: 'Minggu 13-14 — Algoritma Pengurutan (Sorting)', link: '/algoritma-pemrograman/algoritma-pengurutan' }
+            ]
+          },
+          {
+            text: 'Integrasi Proyek & Evaluasi',
+            collapsed: false,
+            items: [
+              { text: 'Minggu 15 — Integrasi Proyek Mini & Clean Code', link: '/algoritma-pemrograman/proyek-mini' },
               { text: 'Minggu 16 — Bank Soal & Evaluasi UAS', link: '/algoritma-pemrograman/SOAL_UAS' }
             ]
           }
