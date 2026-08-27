@@ -3,8 +3,8 @@
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 6)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami taksonomi algoritma pencarian pada struktur data linear.
-2. Menganalisis mekanisme kerja dan kompleksitas **Linear Search ($O(n)$)** vs **Binary Search ($O(\log n)$)**.
-3. Menjelaskan penurunan matematis efisiensi logaritmik $\log_2(N)$ pada paradigma *Divide and Conquer*.
+2. Menganalisis mekanisme kerja dan kompleksitas **Linear Search (`O(n)`)** vs **Binary Search (`O(log n)`)**.
+3. Menjelaskan penurunan matematis efisiensi logaritmik `log₂(N)` pada paradigma *Divide and Conquer*.
 4. Mengidentifikasi dan mencegah bug klasik komputasi: **Integer Overflow pada Perhitungan Midpoint**.
 5. Mengimplementasikan Binary Search dalam versi **Iteratif** dan **Rekursif** menggunakan C++ dan Python 3.
 
@@ -45,21 +45,21 @@ flowchart TD
 Mengapa Binary Search mampu memeriksa 1 juta data hanya dalam 20 langkah?
 
 ::: info 📐 Formula: Penurunan Asimtotik Binary Search
-> Pada setiap langkah, ukuran dataset $N$ dibagi 2:
+> Pada setiap langkah, ukuran dataset N dibagi 2:
 >
-> **`Langkah 0:`** $N$
+> **`Langkah 0:`** N
 >
-> **`Langkah 1:`** $N / 2$
+> **`Langkah 1:`** N ÷ 2
 >
-> **`Langkah 2:`** $N / 4 = N / 2^2$
+> **`Langkah 2:`** N ÷ 4 = N ÷ 2²
 >
-> **`Langkah k:`** $N / 2^k$
+> **`Langkah k:`** N ÷ 2ᵏ
 >
 > Pencarian berhenti pada kondisi terburuk ketika ruang sisa bernilai 1 elemen:
 >
-> **`N / 2^k = 1  ⟹  2^k = N  ⟹  k = log₂(N)`**
+> **`N ÷ 2ᵏ = 1  ⟹  2ᵏ = N  ⟹  k = log₂(N)`**
 >
-> *Untuk 1 Juta Data:* $k = \lceil \log_2(1.000.000) \rceil \approx 20$ kali perbandingan.
+> *Untuk 1 Juta Data:* k = ⌈log₂(1.000.000)⌉ ≈ 20 kali perbandingan.
 :::
 
 ---
@@ -254,5 +254,5 @@ if __name__ == "__main__":
 :::
 
 ### 📝 Tugas Praktikum 12 (Mandiri)
-1. **Trace Table Binary Search:** Susunlah Trace Table pencarian target $K = 45$ pada array terurut: `[12, 24, 35, 45, 58, 69, 73, 85, 96]`. Catat nilai `kiri`, `kanan`, `mid`, dan `arr[mid]` pada setiap iterasi!
+1. **Trace Table Binary Search:** Susunlah Trace Table pencarian target K = 45 pada array terurut: `[12, 24, 35, 45, 58, 69, 73, 85, 96]`. Catat nilai `kiri`, `kanan`, `mid`, dan `arr[mid]` pada setiap iterasi!
 2. **Pencarian Kemunculan Pertama (*First Occurrence*):** Diberikan array yang memuat duplikasi angka terurut (misal: `[2, 4, 4, 4, 8, 10]`), modifikasi Binary Search agar mengembalikan indeks **kemunculan pertama** dari angka 4 (yaitu indeks 1, bukan indeks 2 atau 3).

@@ -5,9 +5,9 @@ Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami siklus hidup iterasi, membedakan antara **Counted Loop (`for`)** dan **Uncounted Loop (`while`, `do-while`)**.
 2. Membuktikan kebenaran algoritma iteratif menggunakan konsep **Loop Invariant**.
 3. Mengontrol terminasi iterasi secara terstruktur menggunakan **`break`** dan **`continue`**, serta mengidentifikasi penyebab **Infinite Loop**.
-4. Menganalisis kompleksitas waktu geometris pada perulangan bersarang (**Nested Loops: $O(n)$, $O(n^2)$, $O(n^3)$**).
+4. Menganalisis kompleksitas waktu geometris pada perulangan bersarang (**Nested Loops: `O(n)`, `O(n²)`, `O(n³)`**).
 5. Menyusun **Tabel Penelusuran (*Trace Table / Dry Run*)** formal untuk memverifikasi transisi status variabel langkah-demi-langkah.
-6. Mengimplementasikan algoritma iterasi bilangan prima (optimasi $\sqrt{n}$) dan deret menggunakan C++ dan Python 3.
+6. Mengimplementasikan algoritma iterasi bilangan prima (optimasi `√n`) dan deret menggunakan C++ dan Python 3.
 
 ---
 
@@ -45,13 +45,13 @@ Dalam ilmu komputer teoretis, **Loop Invariant** adalah properti atau relasi mat
 
 | Jenis Struktur Loop | Karakteristik Utama & Evaluasi | Kapan Wajib Digunakan? | Jumlah Eksekusi Minimum |
 | :--- | :--- | :--- | :---: |
-| **`for` loop** | **Counted Loop:** Evaluasi kondisi di awal (*Pre-test*). Counter terintegrasi rapi. | Jumlah putaran iterasi sudah diketahui secara pasti (misal: traversal $N$ elemen array). | **0 Kali** (Jika kondisi awal false) |
+| **`for` loop** | **Counted Loop:** Evaluasi kondisi di awal (*Pre-test*). Counter terintegrasi rapi. | Jumlah putaran iterasi sudah diketahui secara pasti (misal: traversal N elemen array). | **0 Kali** (Jika kondisi awal false) |
 | **`while` loop** | **Uncounted Loop:** Evaluasi kondisi di awal (*Pre-test*). | Jumlah iterasi bergantung pada kejadian dinamis (membaca stream file, sensor, validasi input). | **0 Kali** (Jika kondisi awal false) |
 | **`do-while` loop** | **Post-tested Loop:** Evaluasi kondisi dikerjakan di bagian akhir. | Blok program **harus dijalankan minimal 1 kali** sebelum validasi (misal: menampilkan menu aplikasi). | **1 Kali** (Pasti dieksekusi sekali) |
 
 ---
 
-## 3. Kompleksitas Geometris: Nested Loops ($O(n) \to O(n^2)$)
+## 3. Kompleksitas Geometris: Nested Loops (O(n) → O(n²))
 
 Ketika sebuah perulangan berada di dalam perulangan lainnya (*Nested Loops*), total eksekusi instruksi dihitung dari perkalian jumlah iterasi loop luar dan loop dalam:
 
@@ -78,7 +78,7 @@ flowchart TD
 
 ## 4. Tabel Penelusuran Formal (*Trace Table / Dry Run*)
 
-Tabel penelusuran digunakan untuk memverifikasi alur logika dan transisi status variabel pada algoritma penjumlahan deret ganjil $N=4$:
+Tabel penelusuran digunakan untuk memverifikasi alur logika dan transisi status variabel pada algoritma penjumlahan deret ganjil N = 4:
 
 ```text
 Algoritma:
@@ -91,17 +91,17 @@ for i = 1 to 4:
 | Iterasi ke- | Status Awal `i` | Evaluasi `i <= 4` | Perhitungan `ganjil` | Nilai `total` Baru | Output Layar |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | *Inisialisasi* | `-` | `-` | `-` | `0` | `-` |
-| **Iterasi 1** | `1` | `1 <= 4 (TRUE)` | $2(1) - 1 = 1$ | $0 + 1 = 1$ | `Suku: 1` |
-| **Iterasi 2** | `2` | `2 <= 4 (TRUE)` | $2(2) - 1 = 3$ | $1 + 3 = 4$ | `Suku: 3` |
-| **Iterasi 3** | `3` | `3 <= 4 (TRUE)` | $2(3) - 1 = 5$ | $4 + 5 = 9$ | `Suku: 5` |
-| **Iterasi 4** | `4` | `4 <= 4 (TRUE)` | $2(4) - 1 = 7$ | $9 + 7 = 16$ | `Suku: 7` |
+| **Iterasi 1** | `1` | `1 <= 4 (TRUE)` | 2(1) − 1 = 1 | 0 + 1 = 1 | `Suku: 1` |
+| **Iterasi 2** | `2` | `2 <= 4 (TRUE)` | 2(2) − 1 = 3 | 1 + 3 = 4 | `Suku: 3` |
+| **Iterasi 3** | `3` | `3 <= 4 (TRUE)` | 2(3) − 1 = 5 | 4 + 5 = 9 | `Suku: 5` |
+| **Iterasi 4** | `4` | `4 <= 4 (TRUE)` | 2(4) − 1 = 7 | 9 + 7 = 16 | `Suku: 7` |
 | **Terminasi** | `5` | `5 <= 4 (FALSE)`| *(Loop Berhenti)* | `16` | `Total Akhir: 16` |
 
 ---
 
 ## 5. Implementasi Kode Hands-on Dual-Stack (C++ & Python 3)
 
-Berikut implementasi algoritma penentuan bilangan prima teroptimasi batas akar kuadrat ($O(\sqrt{n})$) dan pembuatan pola matriks piramida angka:
+Berikut implementasi algoritma penentuan bilangan prima teroptimasi batas akar kuadrat (`O(√n)`) dan pembuatan pola matriks piramida angka:
 
 ::: code-group
 ```cpp [C++]
@@ -223,18 +223,18 @@ if __name__ == "__main__":
 1. **Pilihan Loop:** Gunakan `for` jika jumlah batas perulangan pasti, `while` untuk kondisi dinamis, dan `do-while` saat blok harus berjalan minimal 1 kali.
 2. **Loop Invariant:** Jadikan invariant sebagai jaminan matematis bahwa setiap iterasi membawa status program semakin mendekati solusi akhir yang benar.
 3. **Trace Table:** Selalu susun trace table di atas kertas untuk menelusuri bug pergeseran indeks (*off-by-one errors*) sebelum menjalankan program.
-4. **Optimasi $\sqrt{n}$:** Batasi pemeriksaan pembagi pada algoritma bilangan prima hingga $\sqrt{n}$ untuk memangkas waktu eksekusi dari $O(n)$ menjadi $O(\sqrt{n})$.
+4. **Optimasi `√n`:** Batasi pemeriksaan pembagi pada algoritma bilangan prima hingga `√n` untuk memangkas waktu eksekusi dari `O(n)` menjadi `O(√n)`.
 :::
 
 ### 📝 Tugas Praktikum 5 (Mandiri)
-1. **Analisis Trace Table Algoritma Euclid:** Susunlah Trace Table lengkap untuk mencari Faktor Persekutuan Terbesar (**FPB / GCD**) antara angka $A = 252$ dan $B = 105$ menggunakan algoritma pembagian modulo berulang Euclid:
+1. **Analisis Trace Table Algoritma Euclid:** Susunlah Trace Table lengkap untuk mencari Faktor Persekutuan Terbesar (**FPB / GCD**) antara angka A = 252 dan B = 105 menggunakan algoritma pembagian modulo berulang Euclid:
    ```text
    while B != 0:
        sisa = A % B
        A = B
        B = sisa
    ```
-2. **Deret Fibonacci Iteratif:** Buat program iteratif untuk mencetak $N$ suku pertama deret Fibonacci ($0, 1, 1, 2, 3, 5, 8, 13, \dots$) tanpa menggunakan teknik rekursi dengan alokasi memori $O(1)$.
+2. **Deret Fibonacci Iteratif:** Buat program iteratif untuk mencetak N suku pertama deret Fibonacci (0, 1, 1, 2, 3, 5, 8, 13, ...) tanpa menggunakan teknik rekursi dengan alokasi memori `O(1)`.
 3. **Deteksi Infinite Loop:** Identifikasi mengapa potongan kode berikut mengalami *infinite loop* pada arsitektur komputer riil dan perbaiki:
    ```cpp
    for (float x = 0.0f; x != 1.0f; x += 0.1f) {

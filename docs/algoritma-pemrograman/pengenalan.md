@@ -56,7 +56,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Finiteness** | Setiap cabang perulangan dan rekursi harus memiliki kondisi terminasi (*exit condition*). | Program mengalami *hang*, *freeze*, atau kehabisan memori (*Out of Memory*). |
 | **Definiteness** | Menghindari instruksi ambigu seperti "tambahkan secukupnya" atau pembagian dengan nol. | Hasil tidak konsisten atau terjadi *runtime crash*. |
-| **Input** | Domain dan tipe data masukan ditentukan secara presisi ($x \in \mathbb{R}, x \ge 0$). | Terjadi *unexpected behavior* saat menerima data anomali. |
+| **Input** | Domain dan tipe data masukan ditentukan secara presisi (contoh: x ∈ ℝ, x ≥ 0). | Terjadi *unexpected behavior* saat menerima data anomali. |
 | **Output** | Terdapat jaminan nilai kembalian (*return value*) atau perubahan status sistem. | Algoritma tidak memiliki nilai manfaat fungsional. |
 | **Effectiveness** | Operasi aritmatika/logika dasar dapat dihitung secara eksak oleh ALU (*Arithmetic Logic Unit*). | Instruksi tidak dapat dieksekusi oleh mesin fisik. |
 
@@ -205,7 +205,7 @@ flowchart TD
 
 ## 6. Contoh Implementasi Dual-Stack (C++ & Python 3)
 
-Berikut adalah implementasi program komputasi sekuensial konversi suhu dari **Celcius** ke **Fahrenheit**, **Reamur**, dan **Kelvin** lengkap dengan validasi titik nol mutlak ($0\text{ Kelvin} = -273.15^\circ\text{C}$):
+Berikut adalah implementasi program komputasi sekuensial konversi suhu dari **Celcius** ke **Fahrenheit**, **Reamur**, dan **Kelvin** lengkap dengan validasi titik nol mutlak (0 Kelvin = −273.15°C):
 
 ::: code-group
 ```cpp [C++]

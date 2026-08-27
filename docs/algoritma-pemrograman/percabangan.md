@@ -76,7 +76,7 @@ else
 | Dimensi Komparasi | `if-else-if` Bertingkat | `switch-case` Pemilihan |
 | :--- | :--- | :--- |
 | **Karakteristik Kondisi** | Ekspresi boolean arbitrer (`x > 10 && y < 5`, nilai `float`, rentang). | Hanya nilai konstanta diskrit integral (`int`, `char`, `enum`). |
-| **Mekanisme Eksekusi Mesin** | Linear Search: Memeriksa kondisi satu per satu dari atas ke bawah ($O(n)$). | **Jump Table / Binary Decision Tree ($O(1)$)**: CPU langsung melompat ke alamat memori instruksi terkait. |
+| **Mekanisme Eksekusi Mesin** | Linear Search: Memeriksa kondisi satu per satu dari atas ke bawah (`O(n)`). | **Jump Table / Binary Decision Tree (`O(1)`)**: CPU langsung melompat ke alamat memori instruksi terkait. |
 | **Kecepatan pada Banyak Kasus (> 5)** | Melambat seiring bertambahnya jumlah cabang. | Sangat konsisten dan cepat berkat optimasi tabel lompatan (*Jump Table*). |
 | **Pernyataan `break`** | Tidak dibutuhkan. | **Wajib disertakan** untuk mencegah *fallthrough* (eksekusi bocor ke case bawahnya). |
 
@@ -236,15 +236,15 @@ if __name__ == "__main__":
 
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Teorema Böhm-Jacopini:** Percabangan (*Selection*) adalah salah satu dari 3 pilar utama pengendali logika komputasi universal.
-2. **Jump Table `switch-case`:** Manfaatkan `switch-case` untuk pencocokan nilai diskrit berperingkat banyak karena dieksekusi dalam $O(1)$.
+2. **Jump Table `switch-case`:** Manfaatkan `switch-case` untuk pencocokan nilai diskrit berperingkat banyak karena dieksekusi dalam `O(1)`.
 3. **Pemberian Tanda Kurung:** Gunakan selalu kurung kurawal `{}` untuk menghindari masalah *Dangling Else*.
 4. **Guard Clauses:** Terapkan teknik *Early Return* di awal fungsi untuk menyaring kondisi salah/invalid, menjaga alur kode utama tetap linier dan bersih.
 :::
 
 ### 📝 Tugas Praktikum 4 (Mandiri)
 1. **Studi Kasus Tahun Kabisat (*Leap Year*):** Rancang algoritma dalam flowchart dan pseudocode untuk menentukan apakah suatu tahun kalender adalah tahun kabisat berdasarkan aturan astronomis:
-   - Tahun habis dibagi 400 $\to$ **Kabisat**.
-   - Tahun habis dibagi 100 tetapi tidak habis dibagi 400 $\to$ **Bukan Kabisat**.
-   - Tahun habis dibagi 4 tetapi tidak habis dibagi 100 $\to$ **Kabisat**.
-   - Sisanya $\to$ **Bukan Kabisat**.
-2. **Refactoring Kode Bersarang:** Diberikan kode dengan 4 lapis `if` bersarang untuk validasi pembelian tiket bioskop (Cek Umur $\to$ Cek Saldo $\to$ Cek Ketersediaan Kursi $\to$ Cetak Tiket). Tulis ulang kode tersebut menggunakan teknik *Guard Clauses* di C++ atau Python.
+   - Tahun habis dibagi 400 → **Kabisat**.
+   - Tahun habis dibagi 100 tetapi tidak habis dibagi 400 → **Bukan Kabisat**.
+   - Tahun habis dibagi 4 tetapi tidak habis dibagi 100 → **Kabisat**.
+   - Sisanya → **Bukan Kabisat**.
+2. **Refactoring Kode Bersarang:** Diberikan kode dengan 4 lapis `if` bersarang untuk validasi pembelian tiket bioskop (Cek Umur → Cek Saldo → Cek Ketersediaan Kursi → Cetak Tiket). Tulis ulang kode tersebut menggunakan teknik *Guard Clauses* di C++ atau Python.

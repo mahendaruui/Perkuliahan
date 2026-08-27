@@ -4,9 +4,9 @@
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami hakikat pengurutan data, konsep **Kestabilan (*Stability*)**, memori **In-Place**, dan **Adaptabilitas (*Adaptivity*)**.
 2. Menguasai 3 algoritma pengurutan fundamental: **Bubble Sort (dengan optimasi Early Exit)**, **Selection Sort**, dan **Insertion Sort**.
-3. Membuktikan penurunan matematis deret aritmatika kompleksitas kuadratik $\frac{N(N-1)}{2} \implies O(N^2)$.
+3. Membuktikan penurunan matematis deret aritmatika kompleksitas kuadratik `N(N−1) ÷ 2 ⟹ O(N²)`.
 4. Menyusun **Trace Table (Tabel Penelusuran Pergeseran Data)** langkah-demi-langkah pada setiap fase iterasi (*pass*).
-5. Memahami perbandingan efisiensi algoritma elementer $O(N^2)$ dengan algoritma lanjut berorde **$O(N \log N)$ (Merge Sort & Quick Sort)**.
+5. Memahami perbandingan efisiensi algoritma elementer `O(N²)` dengan algoritma lanjut berorde **`O(N log N)` (Merge Sort & Quick Sort)**.
 6. Mengimplementasikan algoritma pengurutan menggunakan C++ dan Python 3.
 
 ---
@@ -30,7 +30,7 @@ flowchart TD
 1. **Time Complexity:** Jumlah perbandingan dan pertukaran elemen pada kasus terbaik (*Best*), rata-rata (*Average*), dan terburuk (*Worst*).
 2. **Space Complexity (In-Place Memory):** Algoritma berstatus *In-Place* jika hanya membutuhkan memori tambahan konstan **`O(1)`** tanpa menduplikasi array.
 3. **Stability (Kestabilan):** Algoritma berstatus *Stable* jika **mempertahankan urutan relatif asli** dari elemen-elemen yang memiliki nilai kunci sama (sangat penting pada pengurutan multi-kolom).
-4. **Adaptivity (Adaptabilitas):** Algoritma mampu berjalan jauh lebih cepat ($O(N)$) jika data input sudah dalam kondisi hampir terurut.
+4. **Adaptivity (Adaptabilitas):** Algoritma mampu berjalan jauh lebih cepat (`O(N)`) jika data input sudah dalam kondisi hampir terurut.
 
 ---
 
@@ -64,11 +64,11 @@ flowchart TD
 
 | Algoritma Sorting | Best Case | Average Case | Worst Case | Space Complexity | Kestabilan (*Stability*) | Jumlah Swaps Maksimal |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Bubble Sort (Optimized)** | **`O(N)`** | `O(N²)` | `O(N²)` | **`O(1)`** | **Stable** | $O(N^2)$ |
-| **Selection Sort** | `O(N²)` | `O(N²)` | `O(N²)` | **`O(1)`** | **Unstable** | **$N - 1$ Swaps** |
-| **Insertion Sort** | **`O(N)`** | `O(N²)` | `O(N²)` | **`O(1)`** | **Stable** | $O(N^2)$ |
-| *Merge Sort (Lanjut)* | $O(N \log N)$ | $O(N \log N)$ | $O(N \log N)$ | $O(N)$ | **Stable** | $O(N \log N)$ |
-| *Quick Sort (Lanjut)* | $O(N \log N)$ | $O(N \log N)$ | $O(N^2)$ | $O(\log N)$ | **Unstable** | $O(N \log N)$ |
+| **Bubble Sort (Optimized)** | **`O(N)`** | `O(N²)` | `O(N²)` | **`O(1)`** | **Stable** | `O(N²)` |
+| **Selection Sort** | `O(N²)` | `O(N²)` | `O(N²)` | **`O(1)`** | **Unstable** | **N − 1 Swaps** |
+| **Insertion Sort** | **`O(N)`** | `O(N²)` | `O(N²)` | **`O(1)`** | **Stable** | `O(N²)` |
+| *Merge Sort (Lanjut)* | `O(N log N)` | `O(N log N)` | `O(N log N)` | `O(N)` | **Stable** | `O(N log N)` |
+| *Quick Sort (Lanjut)* | `O(N log N)` | `O(N log N)` | `O(N²)` | `O(log N)` | **Unstable** | `O(N log N)` |
 
 ::: info 📐 Formula: Penurunan Matematis Deret Aritmatika O(N²)
 > Total perbandingan pada Bubble / Selection Sort:
@@ -82,13 +82,13 @@ flowchart TD
 
 ## 3. Trace Table Dry Run: Pergeseran Data pada Bubble Sort
 
-Data Awal: `[ 64, 25, 12, 22, 11 ]` ($N = 5$)
+Data Awal: `[ 64, 25, 12, 22, 11 ]` (N = 5)
 
 | Pass ke- | Pasangan Dibandingkan | Operasi Swap Dilakukan? | Status Susunan Array Setelah Langkah | Elemen Terkunci di Posisi Akhir |
 | :---: | :---: | :---: | :---: | :---: |
-| **Pass 1** | (64, 25) $\to$ (64, 12) $\to$ (64, 22) $\to$ (64, 11) | Swap 4x | `[ 25, 12, 22, 11, `**`64`**` ]` | **64** terkunci di indeks 4 |
-| **Pass 2** | (25, 12) $\to$ (25, 22) $\to$ (25, 11) | Swap 3x | `[ 12, 22, 11, `**`25`**`, `**`64`**` ]` | **25** terkunci di indeks 3 |
-| **Pass 3** | (12, 22) $\to$ (22, 11) | Swap 1x | `[ 12, 11, `**`22`**`, `**`25`**`, `**`64`**` ]` | **22** terkunci di indeks 2 |
+| **Pass 1** | (64, 25) → (64, 12) → (64, 22) → (64, 11) | Swap 4x | `[ 25, 12, 22, 11, `**`64`**` ]` | **64** terkunci di indeks 4 |
+| **Pass 2** | (25, 12) → (25, 22) → (25, 11) | Swap 3x | `[ 12, 22, 11, `**`25`**`, `**`64`**` ]` | **25** terkunci di indeks 3 |
+| **Pass 3** | (12, 22) → (22, 11) | Swap 1x | `[ 12, 11, `**`22`**`, `**`25`**`, `**`64`**` ]` | **22** terkunci di indeks 2 |
 | **Pass 4** | (12, 11) | Swap 1x | `[`**`11`**`, `**`12`**`, `**`22`**`, `**`25`**`, `**`64`**` ]` | **Semua Elemen Terurut!** |
 
 ---
@@ -250,9 +250,9 @@ if __name__ == "__main__":
 ## 5. Rangkuman & Latihan Mandiri
 
 ::: tip 💡 Rangkuman Konsep Kunci
-1. **Optimasi Bubble Sort:** Selalu pasang bendera boolean `swapped` agar Bubble Sort dapat berhenti seketika dalam $O(n)$ jika data sudah terurut.
-2. **Selection Sort:** Terbaik jika biaya penulisan memori (*write-operation*) sangat mahal karena hanya melakukan maksimal $N-1$ pertukaran (*swaps*).
-3. **Insertion Sort:** Pilihan terbaik di antara algoritma $O(n^2)$ untuk data streaming atau data yang hampir terurut (*nearly sorted*).
+1. **Optimasi Bubble Sort:** Selalu pasang bendera boolean `swapped` agar Bubble Sort dapat berhenti seketika dalam `O(n)` jika data sudah terurut.
+2. **Selection Sort:** Terbaik jika biaya penulisan memori (*write-operation*) sangat mahal karena hanya melakukan maksimal N − 1 pertukaran (*swaps*).
+3. **Insertion Sort:** Pilihan terbaik di antara algoritma `O(n²)` untuk data streaming atau data yang hampir terurut (*nearly sorted*).
 4. **Kestabilan (*Stability*):** Bubble Sort dan Insertion Sort bersifat stabil (*stable*), sedangkan Selection Sort tidak stabil (*unstable*).
 :::
 

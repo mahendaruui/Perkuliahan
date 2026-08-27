@@ -3,7 +3,7 @@
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 4)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami representasi array 2 dimensi (matriks) dalam memori fisik RAM (**Row-Major vs Column-Major Order**) dan membuktikan rumus pengalamatannya.
-2. Mengimplementasikan operasi aljabar matriks: **Penjumlahan ($O(n^2)$)** dan **Perkalian Matriks ($O(n^3)$)**.
+2. Mengimplementasikan operasi aljabar matriks: **Penjumlahan (`O(n²)`)** dan **Perkalian Matriks (`O(n³)`)**.
 3. Memahami arsitektur representasi teks: **ASCII**, **Unicode (UTF-8)**, *Null-Terminated C-Strings* (`char[]`), dan *Dynamic String Object*.
 4. Mengimplementasikan algoritma pemrosesan string: **Validasi Palindrom (Two-Pointer)** dan **Enkripsi Caesar Cipher (Modulo 26)**.
 5. Menyusun kode matriks dan manipulasi teks yang efisien menggunakan C++ dan Python 3.
@@ -41,21 +41,21 @@ flowchart TD
 ::: info 📐 Formula: Rumus Pengalamatan Matriks 2D (Row-Major Order)
 > **`Alamat(M[i][j]) = Base_Address + (i × JUMLAH_KOLOM + j) × Ukuran_Tipe_Data`**
 >
-> * **`i`:** Indeks baris yang dicari ($0 \le i < \text{BARIS}$).
-> * **`j`:** Indeks kolom yang dicari ($0 \le j < \text{KOLOM}$).
+> * **`i`:** Indeks baris yang dicari (0 ≤ i < BARIS).
+> * **`j`:** Indeks kolom yang dicari (0 ≤ j < KOLOM).
 > * **`JUMLAH_KOLOM`:** Total kapasitas kolom per baris.
 :::
 
 ---
 
-## 2. Aljabar Matriks: Perkalian Matriks $O(n^3)$
+## 2. Aljabar Matriks: Perkalian Matriks O(n³)
 
-Dua buah matriks $A$ ($M \times K$) dan $B$ ($K \times N$) dapat dikalikan jika dan hanya jika **jumlah kolom matriks $A$ sama dengan jumlah baris matriks $B$**:
+Dua buah matriks A (M × K) dan B (K × N) dapat dikalikan jika dan hanya jika **jumlah kolom matriks A sama dengan jumlah baris matriks B**:
 
 ::: info 📐 Formula: Perkalian Matriks (Dot Product)
 > **`C[i][j] = Σ ( A[i][k] × B[k][j] )` untuk `k = 0` hingga `K − 1`**
 >
-> Kompleksitas waktu untuk matriks persegi $N \times N$ adalah **`O(N³)`** (3 lapis nested loops).
+> Kompleksitas waktu untuk matriks persegi N × N adalah **`O(N³)`** (3 lapis nested loops).
 :::
 
 ```mermaid
@@ -277,12 +277,12 @@ if __name__ == "__main__":
 
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Row-Major Layout:** Matriks 2D disimpan secara sekuensial per baris di RAM.
-2. **Kompleksitas Matriks:** Penjumlahan matriks berordo $O(n^2)$, sedangkan perkalian matriks standar membutuhkan 3 lapis nested loop $O(n^3)$.
+2. **Kompleksitas Matriks:** Penjumlahan matriks berordo O(n²), sedangkan perkalian matriks standar membutuhkan 3 lapis nested loop O(n³).
 3. **Null Terminator:** C-String mengandalkan karakter `'\0'` untuk mendeteksi batas akhir teks; ketiadaan karakter ini akan memicu pembacaan memori liar.
 4. **Modulo 26:** Operasi `(c + shift) % 26` memastikan karakter selalu berputar dalam 26 huruf alfabet alfabetik secara aman.
 :::
 
 ### 📝 Tugas Praktikum 9 (Mandiri)
-1. **Transpose Matriks:** Buatlah fungsi untuk menghitung **Transpose Matriks** $A^T$ di mana elemen baris diubah menjadi elemen kolom ($A^T[j][i] = A[i][j]$) untuk matriks berukuran $M \times N$.
+1. **Transpose Matriks:** Buatlah fungsi untuk menghitung **Transpose Matriks** Aᵀ di mana elemen baris diubah menjadi elemen kolom (Aᵀ[j][i] = A[i][j]) untuk matriks berukuran M × N.
 2. **Hitung Frekuensi Karakter (Histogram Huruf):** Buat program untuk menghitung frekuensi kemunculan setiap huruf (A-Z) pada sebuah paragraf teks menggunakan array frekuensi berukuran 26.
 3. **Pencarian Substring Sederhana:** Implementasikan algoritma pencarian teks naif (*Brute Force Substring Search*) untuk menemukan indeks kemunculan pertama kata kunci `Pola` di dalam kalimat panjang `Teks`.

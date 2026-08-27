@@ -94,7 +94,7 @@ flowchart TD
     style F2B fill:#fee2e2,stroke:#ef4444,stroke-width:1px
 ```
 
-* **Kompleksitas Waktu Eksponensial:** Pohon memiliki kedalaman $N$ dengan total pemanggilan mencapai **`O(2^N)`**!
+* **Kompleksitas Waktu Eksponensial:** Pohon memiliki kedalaman N dengan total pemanggilan mencapai **`O(2ᴺ)`**!
 * **Masalah Redundansi:** Sub-masalah `fib(2)` dihitung berulang kali secara sia-sia.
 * **Solusi Optimasi (Memoization):** Simpan hasil yang sudah dihitung dalam tabel memori sehingga kompleksitas anjlok menjadi linier **`O(N)`**.
 
@@ -102,17 +102,17 @@ flowchart TD
 
 ## 4. Mahakarya Algoritma: Teka-teki Menara Hanoi (*Tower of Hanoi*)
 
-Teka-teki legendaris memindahkan $N$ piringan berdiameter berbeda dari **Tiang Asal (A)** ke **Tiang Tujuan (C)** dengan bantuan **Tiang Perantara (B)** mengikuti 2 aturan:
+Teka-teki legendaris memindahkan N piringan berdiameter berbeda dari **Tiang Asal (A)** ke **Tiang Tujuan (C)** dengan bantuan **Tiang Perantara (B)** mengikuti 2 aturan:
 1. Hanya 1 piringan yang boleh dipindahkan dalam satu waktu.
 2. Piringan besar **tidak boleh diletakkan di atas piringan yang lebih kecil**.
 
 ::: info 📐 Formula: Logika Divide and Conquer Menara Hanoi
-> Untuk memindahkan $N$ piringan dari Tiang `Asal` ke `Tujuan`:
-> 1. Pindahkan $(N − 1)$ piringan dari `Asal` ke `Bantuan` (Menggunakan rekursi).
-> 2. Pindahkan 1 piringan terbesar (ke-$N$) langsung dari `Asal` ke `Tujuan`.
-> 3. Pindahkan $(N − 1)$ piringan dari `Bantuan` ke `Tujuan` (Menggunakan rekursi).
+> Untuk memindahkan N piringan dari Tiang `Asal` ke `Tujuan`:
+> 1. Pindahkan (N − 1) piringan dari `Asal` ke `Bantuan` (Menggunakan rekursi).
+> 2. Pindahkan 1 piringan terbesar (ke-N) langsung dari `Asal` ke `Tujuan`.
+> 3. Pindahkan (N − 1) piringan dari `Bantuan` ke `Tujuan` (Menggunakan rekursi).
 >
-> **`Total Langkah Minimum = 2^N − 1`**
+> **`Total Langkah Minimum = 2ᴺ − 1`**
 :::
 
 ---
@@ -249,13 +249,13 @@ if __name__ == "__main__":
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Dua Komponen Wajib:** Pastikan Base Case terdefinisi mutlak dan parameter selalu bergerak menuju Base Case demi mencegah *Stack Overflow*.
 2. **Call Stack Unwinding:** Hasil komputasi rekursif dihitung saat Stack Frame di-pop mundur (*unwinding phase*).
-3. **Pohon Rekursi:** Waspadai rekursi ganda yang memicu ledakan kompleksitas $O(2^n)$; selalu gunakan *memoization* untuk mereduksinya menjadi $O(n)$.
+3. **Pohon Rekursi:** Waspadai rekursi ganda yang memicu ledakan kompleksitas `O(2ⁿ)`; selalu gunakan *memoization* untuk mereduksinya menjadi `O(n)`.
 4. **Divide and Conquer:** Rekursi adalah alat paling elegan untuk memecahkan persoalan partisi seperti Menara Hanoi dan penjelajahan pohon/grafik.
 :::
 
 ### 📝 Tugas Praktikum 11 (Mandiri)
-1. **Perpangkatan Cepat Rekursif ($O(\log n)$):** Rancang fungsi rekursif `double power(double a, int b)` untuk menghitung $a^b$ dengan memanfaatkan sifat:
-   - Jika $b$ genap: $a^b = (a^{b/2})^2$
-   - Jika $b$ ganjil: $a^b = a \times a^{b-1}$
-   Buktikan bahwa kompleksitasnya adalah $O(\log b)$!
+1. **Perpangkatan Cepat Rekursif (`O(log n)`):** Rancang fungsi rekursif `double power(double a, int b)` untuk menghitung aᵇ dengan memanfaatkan sifat:
+   - Jika b genap: aᵇ = (a^(b/2))²
+   - Jika b ganjil: aᵇ = a × a^(b-1)
+   Buktikan bahwa kompleksitasnya adalah `O(log b)`!
 2. **Pembalikan Teks Rekursif:** Buat fungsi rekursif yang mencetak kalimat string secara terbalik tanpa menggunakan perulangan `for`/`while` dan tanpa membalik array asli.

@@ -39,7 +39,7 @@ Logika proposisi dalam pemrograman dibangun di atas fondasi Aljabar Boolean yang
 
 ### Tabel Kebenaran Lengkap Operasi Logika
 
-| Input $A$ | Input $B$ | $A \land B$ (AND / `&&`) | $A \lor B$ (OR / `\|\|`) | $A \oplus B$ (XOR / `^`) | $\neg A$ (NOT / `!`) |
+| Input A | Input B | A ∧ B (AND / `&&`) | A ∨ B (OR / `\|\|`) | A ⊕ B (XOR / `^`) | ¬A (NOT / `!`) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`false` (0)** | **`false` (0)** | `false` (0) | `false` (0) | `false` (0) | `true` (1) |
 | **`false` (0)** | **`true` (1)** | `false` (0) | `true` (1) | `true` (1) | `true` (1) |
@@ -118,17 +118,17 @@ Jangan bergantung pada hafalan hierarki presedensi yang rumit. **Gunakan selalu 
 Operator bitwise memanipulasi bit individual secara langsung pada tingkat register prosesor:
 
 ::: info 📐 Formula: Perkalian & Pembagian Kilat dengan Bit Shift
-> **`x << k`** setara dengan mengalikan **`x × 2^k`**
+> **`x << k`** setara dengan mengalikan **`x × 2ᵏ`**
 >
-> **`x >> k`** setara dengan membagi bulat **`x ÷ 2^k`**
+> **`x >> k`** setara dengan membagi bulat **`x ÷ 2ᵏ`**
 >
-> *Contoh:* `5 << 3` = $5 \times 2^3 = 5 \times 8 = 40$.
+> *Contoh:* `5 << 3` = 5 × 2³ = 5 × 8 = 40.
 :::
 
 ### Empat Operasi Bitmasking Standar:
 1. **Set Bit ke-k (Mengubah bit menjadi 1):** `angka = angka | (1 << k)`
 2. **Clear Bit ke-k (Mengubah bit menjadi 0):** `angka = angka & ~(1 << k)`
-3. **Toggle Bit ke-k (Membalik bit 0 $\leftrightarrow$ 1):** `angka = angka ^ (1 << k)`
+3. **Toggle Bit ke-k (Membalik bit 0 ↔ 1):** `angka = angka ^ (1 << k)`
 4. **Check Bit ke-k (Menguji status bit):** `bool status = (angka & (1 << k)) != 0`
 
 ---
@@ -268,4 +268,4 @@ if __name__ == "__main__":
    - `42 | 27`
    - `42 ^ 27`
    - `~42` (Two's complement 8-bit)
-3. **Pengecekan Bilangan Pangkat Dua:** Rancang fungsi satu baris menggunakan operasi bitwise `(n & (n - 1)) == 0` untuk menentukan apakah suatu bilangan bulat positif $n$ adalah bilangan berpangkat dua ($2, 4, 8, 16, 32, \dots$). Jelaskan mengapa algoritma ini bekerja secara matematis!
+3. **Pengecekan Bilangan Pangkat Dua:** Rancang fungsi satu baris menggunakan operasi bitwise `(n & (n - 1)) == 0` untuk menentukan apakah suatu bilangan bulat positif n adalah bilangan berpangkat dua (2, 4, 8, 16, 32, ...). Jelaskan mengapa algoritma ini bekerja secara matematis!

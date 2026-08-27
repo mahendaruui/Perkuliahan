@@ -2,9 +2,9 @@
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 4)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
-1. Memahami karakteristik alokasi memori fisik **Array Kontigu** dan membuktikan akses acak instan (**Direct Access $O(1)$**) melalui rumus pengalamatan memori.
-2. Menganalisis efisiensi operasi dasar pada array: **Traversal**, **Insertion $O(n)$**, **Deletion $O(n)$**, dan **Pencarian Nilai Ekstrem**.
-3. Menguasai teknik algoritma **Two-Pointer** untuk pembalikan larik secara mandiri (**In-Place Reversal $O(1)$ Space**).
+1. Memahami karakteristik alokasi memori fisik **Array Kontigu** dan membuktikan akses acak instan (**Direct Access `O(1)`**) melalui rumus pengalamatan memori.
+2. Menganalisis efisiensi operasi dasar pada array: **Traversal**, **Insertion `O(n)`**, **Deletion `O(n)`**, dan **Pencarian Nilai Ekstrem**.
+3. Menguasai teknik algoritma **Two-Pointer** untuk pembalikan larik secara mandiri (**In-Place Reversal `O(1)` Space**).
 4. Mengidentifikasi dan mengamankan program dari kerentanan memori: **Buffer Overflow**, **Segmentation Fault**, dan **Off-by-One Error**.
 5. Mengimplementasikan manipulasi larik, kalkulasi statistik, dan penyisipan data menggunakan C++ dan Python 3.
 
@@ -37,7 +37,7 @@ flowchart TD
 > **`Alamat(A[i]) = Base_Address + (i × Ukuran_Tipe_Data)`**
 >
 > * **`Base_Address`:** Alamat memori elemen pertama `A[0]`.
-> * **`i`:** Nomor indeks elemen yang dicari ($0 \le i < N$).
+> * **`i`:** Nomor indeks elemen yang dicari (0 ≤ i < N).
 > * **`Ukuran_Tipe_Data`:** Ukuran byte tipe data (`sizeof(int)` = 4 Bytes).
 >
 > *Implikasi:* CPU dapat langsung melompat ke elemen mana pun dalam waktu konstan **`O(1)`** murni dengan 1 operasi perkalian dan 1 penjumlahan tanpa perlu menelusuri elemen sebelumnya!
@@ -77,7 +77,7 @@ Sisipkan 99 pada Indeks 2:
 
 ## 3. Teknik Two-Pointer: Pembalikan Larik (*In-Place Reversal*)
 
-Algoritma pembalikan array tanpa alokasi memori tambahan (*In-Place*) menggunakan 2 penunjuk: `kiri` bergerak maju dari indeks 0, dan `kanan` bergerak mundur dari indeks $N-1$:
+Algoritma pembalikan array tanpa alokasi memori tambahan (*In-Place*) menggunakan 2 penunjuk: `kiri` bergerak maju dari indeks 0, dan `kanan` bergerak mundur dari indeks N − 1:
 
 ```mermaid
 flowchart TD
@@ -100,7 +100,7 @@ flowchart TD
 ## 4. Bahaya Memori: Buffer Overflow & Off-by-One Error
 
 ::: danger 🚫 PERINGATAN KEAMANAN: OUT-OF-BOUNDS ARRAY ACCESS
-- **Off-by-One Error:** Array dengan ukuran $N=5$ memiliki indeks sah **`0, 1, 2, 3, 4`**. Mencoba mengakses `A[5]` adalah kesalahan fatal!
+- **Off-by-One Error:** Array dengan ukuran N = 5 memiliki indeks sah **`0, 1, 2, 3, 4`**. Mencoba mengakses `A[5]` adalah kesalahan fatal!
 - **C++ (Unchecked Bounds):** C++ secara default tidak memeriksa batas indeks demi kecepatan eksekusi. Mengakses `A[100]` akan membaca memori liar (*Garbage Memory*) atau merusak segmen memori lain (*Segmentation Fault / Buffer Overflow Attack*).
 - **Python (Checked Bounds):** Python secara otomatis melempar pengecualian `IndexError: list index out of range`.
 :::
@@ -261,13 +261,13 @@ if __name__ == "__main__":
 ## 6. Rangkuman & Latihan Mandiri
 
 ::: tip 💡 Rangkuman Konsep Kunci
-1. **Memori Kontigu:** Array menyimpan data secara bersebelahan di RAM, memungkinkan pembacaan acak instan $O(1)$ berdasarkan rumus pengalamatan offset.
-2. **Biaya Pergeseran:** Operasi penyisipan dan penghapusan di tengah array membutuhkan waktu $O(n)$ karena harus menggeser elemen tetangga.
-3. **Pola Two-Pointer:** Manfaatkan teknik dua penunjuk untuk membalik data tanpa mengalokasikan array kedua (*In-place $O(1)$ space*).
-4. **Proteksi Indeks:** Selalu pastikan indeks berada pada rentang $0 \le i < N$ untuk mencegah bencana *buffer overflow*.
+1. **Memori Kontigu:** Array menyimpan data secara bersebelahan di RAM, memungkinkan pembacaan acak instan `O(1)` berdasarkan rumus pengalamatan offset.
+2. **Biaya Pergeseran:** Operasi penyisipan dan penghapusan di tengah array membutuhkan waktu `O(n)` karena harus menggeser elemen tetangga.
+3. **Pola Two-Pointer:** Manfaatkan teknik dua penunjuk untuk membalik data tanpa mengalokasikan array kedua (*In-place `O(1)` space*).
+4. **Proteksi Indeks:** Selalu pastikan indeks berada pada rentang 0 ≤ i < N untuk mencegah bencana *buffer overflow*.
 :::
 
 ### 📝 Tugas Praktikum 7 (Mandiri)
-1. **Penghapusan Elemen Array:** Rancang fungsi C++ / Python untuk menghapus elemen pada indeks $k$ dari sebuah array berukuran $N$. Pastikan elemen-elemen di sebelah kanan digeser ke kiri dan ukuran aktif berkurang 1.
-2. **Pengecekan Larik Terurut (*Is Sorted*):** Buatlah fungsi yang mengembalikan `true` jika sebuah array sudah terurut secara menaik (*ascending*), atau `false` jika belum, dalam kompleksitas $O(n)$ waktu dan $O(1)$ memori.
-3. **Algoritma Two-Sum Dasar:** Diberikan sebuah array bilangan bulat `arr` dan sebuah nilai target `target`, cari dua buah indeks elemen dalam array tersebut yang jika dijumlahkan menghasilkan nilai `target` (Gunakan pendekatan nested loop $O(n^2)$ atau sorting two-pointer).
+1. **Penghapusan Elemen Array:** Rancang fungsi C++ / Python untuk menghapus elemen pada indeks k dari sebuah array berukuran N. Pastikan elemen-elemen di sebelah kanan digeser ke kiri dan ukuran aktif berkurang 1.
+2. **Pengecekan Larik Terurut (*Is Sorted*):** Buatlah fungsi yang mengembalikan `true` jika sebuah array sudah terurut secara menaik (*ascending*), atau `false` jika belum, dalam kompleksitas `O(n)` waktu dan `O(1)` memori.
+3. **Algoritma Two-Sum Dasar:** Diberikan sebuah array bilangan bulat `arr` dan sebuah nilai target `target`, cari dua buah indeks elemen dalam array tersebut yang jika dijumlahkan menghasilkan nilai `target` (Gunakan pendekatan nested loop `O(n²)` atau sorting two-pointer).

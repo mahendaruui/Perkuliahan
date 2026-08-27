@@ -93,7 +93,7 @@ Ketika operasi aritmatika menghasilkan nilai yang melampaui kapasitas bit maksim
 :::
 
 ### B. Ketidakakuratan Bilangan Desimal (IEEE 754 Floating-Point Imprecision)
-Dalam komputasi biner, pecahan basis-10 seperti $0.1$ dan $0.2$ tidak dapat direpresentasikan secara eksak dalam biner basis-2 (menghasilkan angka biner berulang tak hingga $0.0001100110011..._2$).
+Dalam komputasi biner, pecahan basis-10 seperti 0.1 dan 0.2 tidak dapat direpresentasikan secara eksak dalam biner basis-2 (menghasilkan angka biner berulang tak hingga 0.0001100110011...₂).
 
 ::: warning ⚠️ Peringatan: Jangan Bandingkan Float dengan Operator `==`
 ```cpp
@@ -121,7 +121,7 @@ flowchart TD
 ```
 
 ### Dua Metode Type Casting:
-1. **Implisit (Type Promotion / Coercion):** Dikerjakan otomatis oleh kompilator dari tipe kecil ke tipe lebih besar tanpa kehilangan data (contoh: `int` + `double` $\to$ `double`).
+1. **Implisit (Type Promotion / Coercion):** Dikerjakan otomatis oleh kompilator dari tipe kecil ke tipe lebih besar tanpa kehilangan data (contoh: `int` + `double` → `double`).
 2. **Eksplisit (Manual Casting):** Diinstruksikan secara sadar oleh programmer ketika ada potensi pemotongan bit (*truncation*):
    - C++ Standar: `static_cast<int>(nilaiDesimal)`
    - Python: `int(nilai_desimal)`
@@ -253,8 +253,8 @@ if __name__ == "__main__":
 :::
 
 ### 📝 Tugas Praktikum 2 (Mandiri)
-1. **Analisis Bitwise Two's Complement:** Tuliskan representasi biner 8-bit untuk angka $+45$ dan angka $-45$ menggunakan metode *Two's Complement* (Langkah: Invert semua bit lalu tambahkan 1).
-2. **Investigasi Floating-Point Precision:** Buatlah sebuah program sederhana yang menjumlahkan angka $0.1$ sebanyak 10 kali ke dalam sebuah variabel akumulator. Cetak hasilnya dan jelaskan mengapa hasilnya tidak tepat bernilai $1.0000000000000000$.
+1. **Analisis Bitwise Two's Complement:** Tuliskan representasi biner 8-bit untuk angka +45 dan angka −45 menggunakan metode *Two's Complement* (Langkah: Invert semua bit lalu tambahkan 1).
+2. **Investigasi Floating-Point Precision:** Buatlah sebuah program sederhana yang menjumlahkan angka 0.1 sebanyak 10 kali ke dalam sebuah variabel akumulator. Cetak hasilnya dan jelaskan mengapa hasilnya tidak tepat bernilai 1.0000000000000000.
 3. **Pemberian Tipe Data Optimal:** Tentukan tipe data yang paling efisien dari segi memori untuk menyimpan:
    - Jumlah hari dalam 1 bulan (1–31).
    - Populasi penduduk dunia (8.1 Miliar jiwa).
