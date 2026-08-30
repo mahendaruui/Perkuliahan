@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div class="flipbook-wrapper" ref="wrapperRef" :class="{ 'is-fullscreen': isFullscreen }">
-      <!-- Top Header Bar -->
+      <!-- Top Header Bar (Fixed / High Z-Index, never overlapped by zoom) -->
       <div class="flipbook-header">
         <div class="book-info">
           <div class="book-badge">E-BOOK INTERAKTIF 3D</div>
@@ -27,107 +27,188 @@
         </div>
       </div>
 
-      <!-- Main Stage -->
-      <div class="flipbook-stage" :style="{ transform: `scale(${zoomLevel})` }">
-        <!-- Navigation Prev Button -->
+      <!-- Main Stage Viewport (Confines zoomed book completely) -->
+      <div
+        class="flipbook-viewport"
+        ref="viewportRef"
+        :class="{ 'is-panning': isPanning, 'is-zoomed': zoomLevel > 1.0 }"
+        @mousedown="startPan"
+        @mousemove="onPan"
+        @mouseup="endPan"
+        @mouseleave="endPan"
+      >
+        <!-- Nav Edge Buttons (Pinned above pages) -->
         <button
           class="nav-edge nav-prev"
           @click="prevPage"
-          :disabled="currentPage <= 1"
+          :disabled="currentPage <= 1 || isAnimating"
           title="Halaman Sebelumnya (Panah Kiri)"
         >
           <span>‹</span>
         </button>
 
-        <!-- The 3D Book Container -->
-        <div
-          class="book-container"
-          :class="{
-            'is-spread': isSpreadMode,
-            'is-single': !isSpreadMode,
-            'is-cover': isSpreadMode && (currentPage === 1 || currentPage === totalPages)
-          }"
-          @touchstart="handleTouchStart"
-          @touchend="handleTouchEnd"
-        >
-          <!-- SPREAD MODE (Double Page) -->
-          <template v-if="isSpreadMode">
-            <!-- Left Page -->
-            <div
-              class="page-sheet page-left"
-              :class="{ 'page-blank': !leftPageNumber }"
-              @click="prevPage"
-            >
-              <img
-                v-if="leftPageNumber"
-                :src="getPageUrl(leftPageNumber)"
-                :alt="`Halaman ${leftPageNumber}`"
-                loading="eager"
-                class="page-img"
-              />
-              <div v-if="leftPageNumber" class="page-number-pill left-pill">
-                {{ formatPageNum(leftPageNumber) }}
-              </div>
-              <div class="spine-shadow left-spine"></div>
-            </div>
-
-            <!-- Book Spine Middle Crease -->
-            <div class="book-spine-crease"></div>
-
-            <!-- Right Page -->
-            <div
-              class="page-sheet page-right"
-              :class="{ 'page-blank': !rightPageNumber }"
-              @click="nextPage"
-            >
-              <img
-                v-if="rightPageNumber"
-                :src="getPageUrl(rightPageNumber)"
-                :alt="`Halaman ${rightPageNumber}`"
-                loading="eager"
-                class="page-img"
-              />
-              <div v-if="rightPageNumber" class="page-number-pill right-pill">
-                {{ formatPageNum(rightPageNumber) }}
-              </div>
-              <div class="spine-shadow right-spine"></div>
-            </div>
-          </template>
-
-          <!-- SINGLE PAGE MODE -->
-          <template v-else>
-            <div class="page-sheet page-single">
-              <img
-                :src="getPageUrl(currentPage)"
-                :alt="`Halaman ${currentPage}`"
-                loading="eager"
-                class="page-img"
-              />
-              <div class="page-number-pill single-pill">
-                {{ formatPageNum(currentPage) }} / {{ totalPages }}
-              </div>
-            </div>
-          </template>
-        </div>
-
-        <!-- Navigation Next Button -->
         <button
           class="nav-edge nav-next"
           @click="nextPage"
-          :disabled="currentPage >= totalPages"
+          :disabled="currentPage >= totalPages || isAnimating"
           title="Halaman Selanjutnya (Panah Kanan / Spasi)"
         >
           <span>›</span>
         </button>
+
+        <!-- Transform Stage Container (Scalable & Pannable) -->
+        <div
+          class="flipbook-stage"
+          :style="stageTransformStyle"
+        >
+          <!-- 3D Book Container -->
+          <div
+            class="book-container"
+            :class="{
+              'is-spread': isSpreadMode,
+              'is-single': !isSpreadMode,
+              'is-cover': isSpreadMode && (currentPage === 1 || currentPage === totalPages)
+            }"
+            @touchstart="handleTouchStart"
+            @touchend="handleTouchEnd"
+          >
+            <!-- ================= SPREAD MODE (2 HALAMAN) ================= -->
+            <template v-if="isSpreadMode">
+              <!-- Left Base Page -->
+              <div
+                class="page-sheet page-left"
+                :class="{ 'page-blank': !baseLeftPage }"
+                @click="!isAnimating && prevPage()"
+              >
+                <img
+                  v-if="baseLeftPage"
+                  :src="getPageUrl(baseLeftPage)"
+                  :alt="`Halaman ${baseLeftPage}`"
+                  class="page-img"
+                  draggable="false"
+                />
+                <div v-if="baseLeftPage" class="page-number-pill left-pill">
+                  {{ formatPageNum(baseLeftPage) }}
+                </div>
+                <div class="spine-shadow left-spine"></div>
+              </div>
+
+              <!-- Center Spine Crease -->
+              <div class="book-spine-crease"></div>
+
+              <!-- Right Base Page -->
+              <div
+                class="page-sheet page-right"
+                :class="{ 'page-blank': !baseRightPage }"
+                @click="!isAnimating && nextPage()"
+              >
+                <img
+                  v-if="baseRightPage"
+                  :src="getPageUrl(baseRightPage)"
+                  :alt="`Halaman ${baseRightPage}`"
+                  class="page-img"
+                  draggable="false"
+                />
+                <div v-if="baseRightPage" class="page-number-pill right-pill">
+                  {{ formatPageNum(baseRightPage) }}
+                </div>
+                <div class="spine-shadow right-spine"></div>
+              </div>
+
+              <!-- ================= 3D FLIPPING LEAF (ANIMASI MEMBALIK HALAMAN) ================= -->
+              <div
+                v-if="isAnimating"
+                class="flipping-leaf"
+                :class="flipDirection === 'next' ? 'flip-next-leaf' : 'flip-prev-leaf'"
+                :style="leafAnimatedStyle"
+              >
+                <!-- Front Side of Turning Leaf -->
+                <div
+                  class="leaf-face leaf-front"
+                  :class="flipDirection === 'next' ? 'face-right-round' : 'face-left-round'"
+                >
+                  <img
+                    v-if="flipperFrontPage"
+                    :src="getPageUrl(flipperFrontPage)"
+                    :alt="`Halaman ${flipperFrontPage}`"
+                    class="page-img"
+                    draggable="false"
+                  />
+                  <div
+                    class="leaf-shadow"
+                    :style="{
+                      opacity: dynamicShadowOpacity,
+                      background: flipDirection === 'next'
+                        ? 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)'
+                        : 'linear-gradient(to left, rgba(0,0,0,0.45) 0%, transparent 100%)'
+                    }"
+                  ></div>
+                  <div
+                    v-if="flipperFrontPage"
+                    class="page-number-pill"
+                    :class="flipDirection === 'next' ? 'right-pill' : 'left-pill'"
+                  >
+                    {{ formatPageNum(flipperFrontPage) }}
+                  </div>
+                </div>
+
+                <!-- Back Side of Turning Leaf -->
+                <div
+                  class="leaf-face leaf-back"
+                  :class="flipDirection === 'next' ? 'face-left-round' : 'face-right-round'"
+                >
+                  <img
+                    v-if="flipperBackPage"
+                    :src="getPageUrl(flipperBackPage)"
+                    :alt="`Halaman ${flipperBackPage}`"
+                    class="page-img"
+                    draggable="false"
+                  />
+                  <div
+                    class="leaf-shadow"
+                    :style="{
+                      opacity: dynamicShadowOpacity,
+                      background: flipDirection === 'next'
+                        ? 'linear-gradient(to left, rgba(0,0,0,0.45) 0%, transparent 100%)'
+                        : 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)'
+                    }"
+                  ></div>
+                  <div
+                    v-if="flipperBackPage"
+                    class="page-number-pill"
+                    :class="flipDirection === 'next' ? 'left-pill' : 'right-pill'"
+                  >
+                    {{ formatPageNum(flipperBackPage) }}
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- ================= SINGLE PAGE MODE (1 HALAMAN) ================= -->
+            <template v-else>
+              <div class="page-sheet page-single">
+                <img
+                  :src="getPageUrl(currentPage)"
+                  :alt="`Halaman ${currentPage}`"
+                  class="page-img"
+                  draggable="false"
+                />
+                <div class="page-number-pill single-pill">
+                  {{ formatPageNum(currentPage) }} / {{ totalPages }}
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
       </div>
 
-      <!-- Bottom Control Toolbar -->
+      <!-- Bottom Control Toolbar (Fixed / High Z-Index) -->
       <div class="flipbook-toolbar">
         <div class="toolbar-section">
-          <button class="btn-ctrl" @click="goToPage(1)" :disabled="currentPage <= 1" title="Halaman Pertama">
+          <button class="btn-ctrl" @click="goToPage(1)" :disabled="currentPage <= 1 || isAnimating" title="Halaman Pertama">
             ⇤
           </button>
-          <button class="btn-ctrl" @click="prevPage" :disabled="currentPage <= 1" title="Sebelumnya">
+          <button class="btn-ctrl" @click="prevPage" :disabled="currentPage <= 1 || isAnimating" title="Sebelumnya">
             ◀
           </button>
           
@@ -144,10 +225,10 @@
             <span>dari {{ totalPages }}</span>
           </div>
 
-          <button class="btn-ctrl" @click="nextPage" :disabled="currentPage >= totalPages" title="Selanjutnya">
+          <button class="btn-ctrl" @click="nextPage" :disabled="currentPage >= totalPages || isAnimating" title="Selanjutnya">
             ▶
           </button>
-          <button class="btn-ctrl" @click="goToPage(totalPages)" :disabled="currentPage >= totalPages" title="Halaman Terakhir">
+          <button class="btn-ctrl" @click="goToPage(totalPages)" :disabled="currentPage >= totalPages || isAnimating" title="Halaman Terakhir">
             ⇥
           </button>
         </div>
@@ -165,15 +246,15 @@
         </div>
 
         <div class="toolbar-section tools-right">
-          <!-- Zoom Controls -->
-          <button class="btn-ctrl" @click="zoomOut" :disabled="zoomLevel <= 0.7" title="Perkecil">
+          <!-- Zoom Controls (Extended up to 300% / 3.0x with Drag-to-Pan) -->
+          <button class="btn-ctrl" @click="zoomOut" :disabled="zoomLevel <= 0.6" title="Perkecil">
             ➖
           </button>
-          <span class="zoom-text">{{ Math.round(zoomLevel * 100) }}%</span>
-          <button class="btn-ctrl" @click="zoomIn" :disabled="zoomLevel >= 1.6" title="Perbesar">
+          <span class="zoom-text" :title="`Zoom: ${Math.round(zoomLevel * 100)}%`">{{ Math.round(zoomLevel * 100) }}%</span>
+          <button class="btn-ctrl" @click="zoomIn" :disabled="zoomLevel >= 3.0" title="Perbesar (Hingga 300%)">
             ➕
           </button>
-          <button class="btn-ctrl" @click="resetZoom" title="Reset Zoom">
+          <button class="btn-ctrl" @click="resetZoom" title="Reset Zoom (100%)">
             ↺
           </button>
 
@@ -267,6 +348,8 @@ const props = withDefaults(
 )
 
 const wrapperRef = ref<HTMLElement | null>(null)
+const viewportRef = ref<HTMLElement | null>(null)
+
 const currentPage = ref(1)
 const inputPage = ref(1)
 const isSpreadMode = ref(true)
@@ -275,6 +358,24 @@ const zoomLevel = ref(1.0)
 const soundEnabled = ref(true)
 const showTOC = ref(false)
 const showThumbnails = ref(false)
+
+// Panning states (when zoomed in)
+const isPanning = ref(false)
+const panStartX = ref(0)
+const panStartY = ref(0)
+const panOffsetX = ref(0)
+const panOffsetY = ref(0)
+
+// 3D Flip Animation States
+const isAnimating = ref(false)
+const flipDirection = ref<'next' | 'prev'>('next')
+const flipProgress = ref(0)
+
+const baseLeftPage = ref<number | null>(null)
+const baseRightPage = ref<number | null>(1)
+
+const flipperFrontPage = ref<number | null>(null)
+const flipperBackPage = ref<number | null>(null)
 
 // Table of Contents Mapping
 const tocItems = [
@@ -303,18 +404,43 @@ const tocItems = [
   { title: 'Profil Tim Penulis & Dewan Pakar Informatika UUI', page: 86, level: 1 }
 ]
 
-// Double-page spread computation
-const leftPageNumber = computed(() => {
-  if (!isSpreadMode.value) return currentPage.value
-  if (currentPage.value === 1) return null
-  return currentPage.value % 2 === 0 ? currentPage.value : currentPage.value - 1
+function getSpreadPages(p: number): { left: number | null; right: number | null } {
+  if (p === 1) return { left: null, right: 1 }
+  const left = p % 2 === 0 ? p : p - 1
+  const right = left + 1 <= props.totalPages ? left + 1 : null
+  return { left, right }
+}
+
+function updateBasePages(p: number) {
+  const { left, right } = getSpreadPages(p)
+  baseLeftPage.value = left
+  baseRightPage.value = right
+}
+
+// Stage transform style (Scale + Pan)
+const stageTransformStyle = computed(() => {
+  return {
+    transform: `translate(${panOffsetX.value}px, ${panOffsetY.value}px) scale(${zoomLevel.value})`,
+    cursor: zoomLevel.value > 1.0 ? (isPanning.value ? 'grabbing' : 'grab') : 'default'
+  }
 })
 
-const rightPageNumber = computed(() => {
-  if (!isSpreadMode.value) return null
-  if (currentPage.value === 1) return 1
-  const rightNum = (currentPage.value % 2 === 0 ? currentPage.value : currentPage.value - 1) + 1
-  return rightNum <= props.totalPages ? rightNum : null
+// Leaf 3D transform during page flip
+// NEXT: starts at 0deg on right, flips left to -180deg (transform-origin: left center)
+// PREV: starts at 0deg on left, flips right to +180deg (transform-origin: right center)
+const leafAnimatedStyle = computed(() => {
+  const isNext = flipDirection.value === 'next'
+  const angle = isNext ? -180 * flipProgress.value : 180 * flipProgress.value
+
+  return {
+    transformOrigin: isNext ? 'left center' : 'right center',
+    transform: `rotateY(${angle}deg)`
+  }
+})
+
+// Dynamic shadow intensity based on sine curve of flip progress
+const dynamicShadowOpacity = computed(() => {
+  return Number((Math.sin(Math.PI * flipProgress.value) * 0.55).toFixed(2))
 })
 
 function getPageUrl(pageNum: number): string {
@@ -333,7 +459,8 @@ function formatPageNum(pageNum: number): string {
 
 function isPageInView(p: number): boolean {
   if (!isSpreadMode.value) return currentPage.value === p
-  return p === leftPageNumber.value || p === rightPageNumber.value
+  const { left, right } = getSpreadPages(currentPage.value)
+  return p === left || p === right
 }
 
 function isItemActive(p: number): boolean {
@@ -350,11 +477,11 @@ function playFlipSound() {
     if (!audioCtx) audioCtx = new AudioContextClass()
     if (audioCtx.state === 'suspended') audioCtx.resume()
 
-    const bufferSize = Math.floor(audioCtx.sampleRate * 0.1)
+    const bufferSize = Math.floor(audioCtx.sampleRate * 0.12)
     const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate)
     const data = buffer.getChannelData(0)
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3))
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.28))
     }
 
     const noise = audioCtx.createBufferSource()
@@ -362,12 +489,12 @@ function playFlipSound() {
 
     const filter = audioCtx.createBiquadFilter()
     filter.type = 'lowpass'
-    filter.frequency.setValueAtTime(1200, audioCtx.currentTime)
-    filter.frequency.exponentialRampToValueAtTime(250, audioCtx.currentTime + 0.1)
+    filter.frequency.setValueAtTime(1400, audioCtx.currentTime)
+    filter.frequency.exponentialRampToValueAtTime(280, audioCtx.currentTime + 0.12)
 
     const gain = audioCtx.createGain()
-    gain.gain.setValueAtTime(0.25, audioCtx.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1)
+    gain.gain.setValueAtTime(0.32, audioCtx.currentTime)
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12)
 
     noise.connect(filter)
     filter.connect(gain)
@@ -379,39 +506,105 @@ function playFlipSound() {
   }
 }
 
-// Navigation methods
+// ================= 3D PAGE FLIP ENGINE =================
+function triggerFlipAnimation(targetPage: number, direction: 'next' | 'prev') {
+  if (isAnimating.value) return
+  isAnimating.value = true
+  flipDirection.value = direction
+  flipProgress.value = 0
+
+  const oldP = currentPage.value
+  const newP = targetPage
+
+  const oldSpread = getSpreadPages(oldP)
+  const newSpread = getSpreadPages(newP)
+
+  if (direction === 'next') {
+    // NEXT: Right page flips left to reveal upcoming left page on back
+    baseLeftPage.value = oldSpread.left
+    baseRightPage.value = newSpread.right
+    flipperFrontPage.value = oldSpread.right
+    flipperBackPage.value = newSpread.left
+  } else {
+    // PREV: Left page flips right to reveal upcoming right page on back
+    baseLeftPage.value = newSpread.left
+    baseRightPage.value = oldSpread.right
+    flipperFrontPage.value = oldSpread.left
+    flipperBackPage.value = newSpread.right
+  }
+
+  playFlipSound()
+
+  const duration = 480
+  const startTime = performance.now()
+
+  function animate(now: number) {
+    const elapsed = now - startTime
+    const t = Math.min(1, elapsed / duration)
+    // Smooth Cubic Ease-in-out
+    flipProgress.value = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+    if (t < 1) {
+      requestAnimationFrame(animate)
+    } else {
+      currentPage.value = targetPage
+      inputPage.value = targetPage
+      updateBasePages(targetPage)
+      isAnimating.value = false
+      flipProgress.value = 0
+    }
+  }
+
+  requestAnimationFrame(animate)
+}
+
 function nextPage() {
+  if (isAnimating.value) return
   if (isSpreadMode.value) {
     if (currentPage.value === 1) {
-      goToPage(2)
+      triggerFlipAnimation(2, 'next')
     } else {
       const next = currentPage.value + 2
-      if (next <= props.totalPages) goToPage(next)
-      else if (currentPage.value < props.totalPages) goToPage(props.totalPages)
+      if (next <= props.totalPages) triggerFlipAnimation(next, 'next')
+      else if (currentPage.value < props.totalPages) triggerFlipAnimation(props.totalPages, 'next')
     }
   } else {
-    if (currentPage.value < props.totalPages) goToPage(currentPage.value + 1)
+    if (currentPage.value < props.totalPages) {
+      currentPage.value++
+      inputPage.value = currentPage.value
+      playFlipSound()
+    }
   }
 }
 
 function prevPage() {
+  if (isAnimating.value) return
   if (isSpreadMode.value) {
     if (currentPage.value <= 2) {
-      goToPage(1)
+      triggerFlipAnimation(1, 'prev')
     } else {
-      goToPage(currentPage.value - 2)
+      triggerFlipAnimation(currentPage.value - 2, 'prev')
     }
   } else {
-    if (currentPage.value > 1) goToPage(currentPage.value - 1)
+    if (currentPage.value > 1) {
+      currentPage.value--
+      inputPage.value = currentPage.value
+      playFlipSound()
+    }
   }
 }
 
 function goToPage(pageNum: number) {
   const target = Math.max(1, Math.min(props.totalPages, pageNum))
   if (target !== currentPage.value) {
-    currentPage.value = target
-    inputPage.value = target
-    playFlipSound()
+    if (isSpreadMode.value && Math.abs(target - currentPage.value) <= 2) {
+      triggerFlipAnimation(target, target > currentPage.value ? 'next' : 'prev')
+    } else {
+      currentPage.value = target
+      inputPage.value = target
+      updateBasePages(target)
+      playFlipSound()
+    }
   }
 }
 
@@ -434,21 +627,49 @@ function jumpFromThumb(p: number) {
   showThumbnails.value = false
 }
 
-// Zoom & Modes
+// ================= ZOOM & PANNING (EXTENDED UP TO 300%) =================
 function zoomIn() {
-  if (zoomLevel.value < 1.6) zoomLevel.value = Number((zoomLevel.value + 0.15).toFixed(2))
+  if (zoomLevel.value < 3.0) {
+    zoomLevel.value = Number((zoomLevel.value + 0.25).toFixed(2))
+  }
 }
 
 function zoomOut() {
-  if (zoomLevel.value > 0.7) zoomLevel.value = Number((zoomLevel.value - 0.15).toFixed(2))
+  if (zoomLevel.value > 0.6) {
+    zoomLevel.value = Number((zoomLevel.value - 0.25).toFixed(2))
+    if (zoomLevel.value <= 1.0) {
+      panOffsetX.value = 0
+      panOffsetY.value = 0
+    }
+  }
 }
 
 function resetZoom() {
   zoomLevel.value = 1.0
+  panOffsetX.value = 0
+  panOffsetY.value = 0
+}
+
+function startPan(e: MouseEvent) {
+  if (zoomLevel.value <= 1.0) return
+  isPanning.value = true
+  panStartX.value = e.clientX - panOffsetX.value
+  panStartY.value = e.clientY - panOffsetY.value
+}
+
+function onPan(e: MouseEvent) {
+  if (!isPanning.value) return
+  panOffsetX.value = e.clientX - panStartX.value
+  panOffsetY.value = e.clientY - panStartY.value
+}
+
+function endPan() {
+  isPanning.value = false
 }
 
 function toggleSpreadMode() {
   isSpreadMode.value = !isSpreadMode.value
+  updateBasePages(currentPage.value)
 }
 
 function toggleSound() {
@@ -506,6 +727,12 @@ function handleKeyDown(e: KeyboardEvent) {
   } else if (e.key === 'End') {
     e.preventDefault()
     goToPage(props.totalPages)
+  } else if (e.key === '+' || e.key === '=') {
+    zoomIn()
+  } else if (e.key === '-') {
+    zoomOut()
+  } else if (e.key === '0') {
+    resetZoom()
   }
 }
 
@@ -518,6 +745,7 @@ function handleResize() {
 }
 
 onMounted(() => {
+  updateBasePages(currentPage.value)
   window.addEventListener('keydown', handleKeyDown)
   window.addEventListener('resize', handleResize)
   handleResize()
@@ -533,11 +761,11 @@ onUnmounted(() => {
 .flipbook-wrapper {
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 1.5rem auto 3rem;
   background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
   border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -558,15 +786,17 @@ onUnmounted(() => {
   z-index: 9999;
 }
 
-/* Header */
+/* Header (Fixed at top, high z-index, never covered by zoom) */
 .flipbook-header {
+  position: relative;
+  z-index: 40;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -646,65 +876,87 @@ onUnmounted(() => {
   filter: brightness(1.15);
 }
 
-/* Stage Area */
-.flipbook-stage {
+/* Viewport Area (Strictly bounds zoomed content) */
+.flipbook-viewport {
   position: relative;
+  z-index: 10;
+  flex: 1;
+  min-height: 600px;
+  max-height: 78vh;
+  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
-  min-height: 580px;
-  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-  transform-origin: center center;
-  transition: transform 0.25s ease-out;
-  overflow: hidden;
 }
 
+.flipbook-viewport.is-zoomed {
+  cursor: grab;
+}
+
+.flipbook-viewport.is-panning {
+  cursor: grabbing;
+}
+
+/* Nav Edge Buttons */
 .nav-edge {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 46px;
-  height: 64px;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  width: 48px;
+  height: 68px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   color: #ffffff;
-  font-size: 2rem;
+  font-size: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
+  z-index: 35;
   transition: all 0.2s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .nav-edge:hover:not(:disabled) {
-  background: rgba(59, 130, 246, 0.85);
+  background: rgba(59, 130, 246, 0.9);
   border-color: #60a5fa;
   transform: translateY(-50%) scale(1.08);
 }
 
 .nav-edge:disabled {
-  opacity: 0.25;
+  opacity: 0.2;
   cursor: not-allowed;
 }
 
-.nav-prev { left: 1rem; }
-.nav-next { right: 1rem; }
+.nav-prev { left: 1.2rem; }
+.nav-next { right: 1.2rem; }
 
-/* Book 3D Container */
-.book-container {
+/* Transform Stage */
+.flipbook-stage {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.3);
+  padding: 2rem 1rem;
+  transition: transform 0.15s ease-out;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Book 3D Container */
+.book-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   background: #ffffff;
-  perspective: 1500px;
-  max-width: 90%;
-  max-height: 72vh;
+  perspective: 2600px;
+  max-width: 92%;
+  max-height: 70vh;
 }
 
 .page-sheet {
@@ -716,10 +968,6 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.page-sheet:hover {
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
 .page-left {
@@ -739,23 +987,24 @@ onUnmounted(() => {
 .page-img {
   width: auto;
   height: auto;
-  max-height: 70vh;
+  max-height: 68vh;
   max-width: 100%;
   display: block;
   object-fit: contain;
+  pointer-events: none;
 }
 
 .page-blank {
   background: #f8fafc;
-  min-width: 320px;
-  min-height: 450px;
+  min-width: 340px;
+  min-height: 480px;
 }
 
 .book-spine-crease {
-  width: 10px;
+  width: 12px;
   height: 100%;
-  background: linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.25) 100%);
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+  background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.3) 100%);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
   z-index: 5;
 }
 
@@ -763,25 +1012,91 @@ onUnmounted(() => {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 24px;
+  width: 28px;
   pointer-events: none;
   z-index: 2;
 }
 
 .left-spine {
   right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.18) 0%, transparent 100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.22) 0%, transparent 100%);
 }
 
 .right-spine {
   left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, transparent 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.22) 0%, transparent 100%);
+}
+
+/* ================= 3D FLIPPING LEAF ================= */
+.flipping-leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  z-index: 30;
+  pointer-events: none;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.flip-next-leaf {
+  right: 0;
+  transform-origin: left center;
+}
+
+.flip-prev-leaf {
+  left: 0;
+  transform-origin: right center;
+}
+
+.leaf-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.face-right-round {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.face-left-round {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.leaf-front {
+  transform: rotateY(0deg);
+}
+
+.leaf-back {
+  transform: rotateY(180deg);
+}
+
+.leaf-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  transition: opacity 0.1s ease;
 }
 
 .page-number-pill {
   position: absolute;
   bottom: 0.5rem;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(15, 23, 42, 0.8);
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 600;
@@ -796,13 +1111,15 @@ onUnmounted(() => {
 
 /* Bottom Toolbar */
 .flipbook-toolbar {
+  position: relative;
+  z-index: 40;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   flex-wrap: wrap;
   gap: 0.75rem;
 }
@@ -894,8 +1211,9 @@ onUnmounted(() => {
 .zoom-text {
   font-size: 0.8rem;
   color: #94a3b8;
-  min-width: 42px;
+  min-width: 46px;
   text-align: center;
+  font-weight: 600;
 }
 
 /* Slide-in Drawers & Modals */
@@ -905,8 +1223,8 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
   z-index: 100;
   display: flex;
 }
