@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pertemuan 1 - Kontrak Kuliah & Pengantar OOP PHP 8+ | Mahendar Dwi Payana, S.ST., M.T.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
     :root {
       --primary: #4f46e5;
       --primary-hover: #4338ca;
@@ -113,7 +116,7 @@
       border-color: #94a3b8;
     }
 
-    
+
     .timer-badge {
       background: #f1f5f9;
       border: 1px solid var(--border-dark);
@@ -130,10 +133,12 @@
       user-select: none;
       transition: all 0.2s ease;
     }
+
     .timer-badge:hover {
       background: #e2e8f0;
       border-color: #94a3b8;
     }
+
     .timer-badge.paused {
       color: #e11d48;
       border-color: #fda4af;
@@ -285,12 +290,37 @@
       font-weight: 700;
       margin-bottom: 8px;
     }
-    .badge-php { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
-    .badge-blue { background: #e0f2fe; color: #0369a1; }
-    .badge-green { background: #d1fae5; color: #047857; }
-    .badge-purple { background: #f3e8ff; color: #7e22ce; }
-    .badge-amber { background: #fef3c7; color: #b45309; }
-    .badge-pink { background: #fce7f3; color: #be185d; }
+
+    .badge-php {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: 1px solid #c7d2fe;
+    }
+
+    .badge-blue {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-green {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .badge-purple {
+      background: #f3e8ff;
+      color: #7e22ce;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .badge-pink {
+      background: #fce7f3;
+      color: #be185d;
+    }
 
     /* Tables */
     .custom-table {
@@ -340,13 +370,36 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    .code-keyword { color: #fb7185; font-weight: 600; }
-    .code-class { color: #38bdf8; font-weight: 600; }
-    .code-func { color: #c084fc; }
-    .code-str { color: #4ade80; }
-    .code-var { color: #fde047; }
-    .code-num { color: #fb923c; }
-    .code-comment { color: #94a3b8; font-style: italic; }
+    .code-keyword {
+      color: #fb7185;
+      font-weight: 600;
+    }
+
+    .code-class {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .code-func {
+      color: #c084fc;
+    }
+
+    .code-str {
+      color: #4ade80;
+    }
+
+    .code-var {
+      color: #fde047;
+    }
+
+    .code-num {
+      color: #fb923c;
+    }
+
+    .code-comment {
+      color: #94a3b8;
+      font-style: italic;
+    }
 
     /* Footer & Controls */
     footer {
@@ -474,17 +527,20 @@
     .author-info {
       text-align: left;
     }
+
     .author-name {
       font-weight: 700;
       font-size: 1rem;
       color: #0f172a;
     }
+
     .author-role {
       font-size: 0.8rem;
       color: var(--text-muted);
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
@@ -497,7 +553,8 @@
       </div>
     </div>
     <div class="header-controls">
-      <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
+      <span class="timer-badge" id="presentationTimer"
+        title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
       <span class="slide-badge" id="slideIndicator">SLIDE 1 / 10</span>
       <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
     </div>
@@ -513,9 +570,10 @@
         Kontrak Perkuliahan &amp; Pengantar OOP dengan PHP 8+
       </h1>
       <h2 class="slide-subtitle" style="max-width: 780px; margin-bottom: 20px;">
-        Membangun fondasi berpikir berorientasi objek, evolusi PHP modern, 4 pilar OOP, Composer Autoloading, dan arsitektur enterprise.
+        Membangun fondasi berpikir berorientasi objek, evolusi PHP modern, 4 pilar OOP, Composer Autoloading, dan
+        arsitektur enterprise.
       </h2>
-      
+
       <div class="avatar-box">
         <div class="avatar-img">MD</div>
         <div class="author-info">
@@ -535,7 +593,8 @@
         <div class="card-box">
           <div class="card-icon">📜</div>
           <div class="card-title">1. Kontrak Perkuliahan</div>
-          <div class="card-desc">Aturan kelas, Capaian Pembelajaran Lulusan (CPL/CPMK), dan bobot asesmen berbasis OBE.</div>
+          <div class="card-desc">Aturan kelas, Capaian Pembelajaran Lulusan (CPL/CPMK), dan bobot asesmen berbasis OBE.
+          </div>
         </div>
         <div class="card-box">
           <div class="card-icon">🧠</div>
@@ -560,7 +619,8 @@
         <div class="card-box">
           <div class="card-icon">🎯</div>
           <div class="card-title">6. Q&amp;A &amp; Diskusi</div>
-          <div class="card-desc">Tanya jawab interaktif dan persiapan materi praktikum pertemuan 2 (Class &amp; Object).</div>
+          <div class="card-desc">Tanya jawab interaktif dan persiapan materi praktikum pertemuan 2 (Class &amp; Object).
+          </div>
         </div>
       </div>
     </div>
@@ -629,7 +689,8 @@
           <div class="card-box" style="border-left: 4px solid var(--accent-green);">
             <div class="card-title">🎯 Capaian Pembelajaran Mata Kuliah (CPMK)</div>
             <div class="card-desc">
-              Mahasiswa mampu merancang dan membangun aplikasi PHP modern berbasis OOP, menerapkan pola desain SOLID, memanfaatkan modularitas Composer, serta membangun mini project terintegrasi.
+              Mahasiswa mampu merancang dan membangun aplikasi PHP modern berbasis OOP, menerapkan pola desain SOLID,
+              memanfaatkan modularitas Composer, serta membangun mini project terintegrasi.
             </div>
           </div>
         </div>
@@ -640,7 +701,8 @@
     <div class="slide">
       <div class="slide-tag">🔄 Evolusi Paradigma</div>
       <h1 class="slide-title">PHP Prosedural vs PHP Modern (OOP)</h1>
-      <h2 class="slide-subtitle">Bagaimana cara penulisan kode PHP berevolusi dari skrip sederhana ke arsitektur enterprise:</h2>
+      <h2 class="slide-subtitle">Bagaimana cara penulisan kode PHP berevolusi dari skrip sederhana ke arsitektur
+        enterprise:</h2>
 
       <div class="grid-2">
         <div class="card-box" style="border-top: 4px solid var(--accent-amber);">
@@ -686,14 +748,16 @@
     <div class="slide">
       <div class="slide-tag">🏛️ Fondasi Fundamental</div>
       <h1 class="slide-title">4 Pilar Utama OOP di PHP</h1>
-      <h2 class="slide-subtitle">Prinsip dasar yang diterapkan dalam seluruh siklus rekayasa perangkat lunak berorientasi objek:</h2>
+      <h2 class="slide-subtitle">Prinsip dasar yang diterapkan dalam seluruh siklus rekayasa perangkat lunak
+        berorientasi objek:</h2>
 
       <div class="grid-4">
         <div class="card-box" style="border-top: 4px solid #f43f5e;">
           <div class="card-icon">🔒</div>
           <div class="card-title">1. Encapsulation</div>
           <div class="card-desc">
-            Melindungi properti dengan <code>private</code> / <code>protected</code> serta <code>readonly</code> (PHP 8.1), akses data melalui getter/setter yang tervalidasi.
+            Melindungi properti dengan <code>private</code> / <code>protected</code> serta <code>readonly</code> (PHP
+            8.1), akses data melalui getter/setter yang tervalidasi.
           </div>
         </div>
 
@@ -701,7 +765,8 @@
           <div class="card-icon">🧬</div>
           <div class="card-title">2. Inheritance</div>
           <div class="card-desc">
-            Pewarisan hierarkis menggunakan <code>extends</code> dan pemanggilan <code>parent::</code>, serta <strong>Trait</strong> untuk <em>horizontal code reuse</em> di PHP.
+            Pewarisan hierarkis menggunakan <code>extends</code> dan pemanggilan <code>parent::</code>, serta
+            <strong>Trait</strong> untuk <em>horizontal code reuse</em> di PHP.
           </div>
         </div>
 
@@ -709,7 +774,8 @@
           <div class="card-icon">🎭</div>
           <div class="card-title">3. Polymorphism</div>
           <div class="card-desc">
-            Perilaku berbeda melalui <em>Method Overriding</em> dan <em>Type Hinting</em> parameter yang menerima instance parent class atau interface.
+            Perilaku berbeda melalui <em>Method Overriding</em> dan <em>Type Hinting</em> parameter yang menerima
+            instance parent class atau interface.
           </div>
         </div>
 
@@ -717,7 +783,8 @@
           <div class="card-icon">🧩</div>
           <div class="card-title">4. Abstraction</div>
           <div class="card-desc">
-            Memisahkan kontrak fungsi dan detail teknis melalui <code>abstract class</code> dan <code>interface</code> untuk decoupling sistem.
+            Memisahkan kontrak fungsi dan detail teknis melalui <code>abstract class</code> dan <code>interface</code>
+            untuk decoupling sistem.
           </div>
         </div>
       </div>
@@ -733,19 +800,22 @@
         <div class="card-box">
           <span class="badge badge-php">PHP 8.0</span>
           <div class="card-title">Constructor Promotion</div>
-          <div class="card-desc">Deklarasi visibilitas dan tipe properti langsung di parameter constructor — bebas boilerplate!</div>
+          <div class="card-desc">Deklarasi visibilitas dan tipe properti langsung di parameter constructor — bebas
+            boilerplate!</div>
         </div>
 
         <div class="card-box">
           <span class="badge badge-php">PHP 8.0</span>
           <div class="card-title">Union Types &amp; Named Args</div>
-          <div class="card-desc">Tipe fleksibel seperti <code>int|float</code> dan pemanggilan parameter dengan nama parameter eksplisit.</div>
+          <div class="card-desc">Tipe fleksibel seperti <code>int|float</code> dan pemanggilan parameter dengan nama
+            parameter eksplisit.</div>
         </div>
 
         <div class="card-box">
           <span class="badge badge-php">PHP 8.1</span>
           <div class="card-title">Pure &amp; Backed Enums</div>
-          <div class="card-desc">Tipe data enumerasi native dengan method pendukung untuk validasi status atau kategori.</div>
+          <div class="card-desc">Tipe data enumerasi native dengan method pendukung untuk validasi status atau kategori.
+          </div>
         </div>
 
         <div class="card-box">
@@ -757,13 +827,16 @@
         <div class="card-box">
           <span class="badge badge-php">PHP 8.0</span>
           <div class="card-title">Nullsafe Operator (?->)</div>
-          <div class="card-desc">Pencegahan error null pointer saat chaining method: <code>$user?->getProfile()?->getCity()</code>.</div>
+          <div class="card-desc">Pencegahan error null pointer saat chaining method:
+            <code>$user?->getProfile()?->getCity()</code>.
+          </div>
         </div>
 
         <div class="card-box">
           <span class="badge badge-php">PHP 8.2</span>
           <div class="card-title">Readonly Classes</div>
-          <div class="card-desc">Seluruh properti dalam class otomatis berstatus readonly untuk Data Transfer Objects (DTO).</div>
+          <div class="card-desc">Seluruh properti dalam class otomatis berstatus readonly untuk Data Transfer Objects
+            (DTO).</div>
         </div>
       </div>
     </div>
@@ -797,12 +870,17 @@
         }
         <span class="code-var">$this</span>->saldo += <span class="code-var">$jumlah</span>;
     }
-}</code></pre>
+}
+</code>
+</pre>
         </div>
 
         <div>
-          <pre><code><span class="code-comment">// Penggunaan Objek (Client Code)</span>
-<span class="code-var">$rekening</span> = <span class="code-keyword">new</span> <span class="code-class">AkunBank</span>(
+          <pre>
+            <code>
+              <span class="code-comment">// Penggunaan Objek (Client Code)</span>
+<span class="code-var">$rekening</span> = <span class="code-keyword">new</span> 
+<span class="code-class">AkunBank</span>(
     nomorRekening: <span class="code-str">"123-456-789"</span>,
     pemilik: <span class="code-str">"Budi Santoso"</span>,
     saldo: <span class="code-num">500_000</span>
@@ -832,26 +910,31 @@
         <div class="card-box">
           <div class="card-icon">📂</div>
           <div class="card-title">1. Namespace</div>
-          <div class="card-desc">Mencegah bentrok nama class antar modul atau library pihak ketiga: <code>namespace App\Model;</code></div>
+          <div class="card-desc">Mencegah bentrok nama class antar modul atau library pihak ketiga:
+            <code>namespace App\Model;</code>
+          </div>
         </div>
 
         <div class="card-box">
           <div class="card-icon">🎼</div>
           <div class="card-title">2. Composer</div>
-          <div class="card-desc">Package manager resmi PHP untuk mengelola dependensi dan menghasilkan class autoloader otomatis.</div>
+          <div class="card-desc">Package manager resmi PHP untuk mengelola dependensi dan menghasilkan class autoloader
+            otomatis.</div>
         </div>
 
         <div class="card-box">
           <div class="card-icon">🚀</div>
           <div class="card-title">3. PSR-4 Autoloading</div>
-          <div class="card-desc">Tidak perlu lagi memanggil puluhan <code>require_once</code> secara manual di setiap file!</div>
+          <div class="card-desc">Tidak perlu lagi memanggil puluhan <code>require_once</code> secara manual di setiap
+            file!</div>
         </div>
       </div>
 
       <div class="card-box" style="margin-top: 16px; background: rgba(30, 41, 59, 0.4);">
         <div class="card-title" style="font-size: 1rem; color: #818cf8;">Struktur Folder Project Standar:</div>
         <div class="card-desc" style="font-family: 'Fira Code', monospace; font-size: 0.82rem; color: #cbd5e1;">
-          project-root/ ➔ <strong>composer.json</strong> | <strong>src/</strong> (Model/, Service/, Exception/, Repository/) | <strong>data/</strong> | <strong>public/</strong> (index.php)
+          project-root/ ➔ <strong>composer.json</strong> | <strong>src/</strong> (Model/, Service/, Exception/,
+          Repository/) | <strong>data/</strong> | <strong>public/</strong> (index.php)
         </div>
       </div>
     </div>
@@ -877,7 +960,8 @@
           <div class="card-icon">📦</div>
           <div class="card-title">Composer</div>
           <div class="card-desc">
-            • Unduh dari: <a href="https://getcomposer.org" target="_blank" style="color: #818cf8;">getcomposer.org</a><br>
+            • Unduh dari: <a href="https://getcomposer.org" target="_blank"
+              style="color: #818cf8;">getcomposer.org</a><br>
             • Untuk autoloading PSR-4 &amp; library pihak ketiga.<br>
             • Cek terminal: <code>composer --version</code>
           </div>
@@ -902,13 +986,15 @@
       </span>
       <h1 class="slide-title" style="font-size: 2.8rem;">Ada Pertanyaan atau Diskusi?</h1>
       <h2 class="slide-subtitle" style="max-width: 680px; margin-bottom: 24px;">
-        "Menguasai PHP OOP adalah pintu gerbang utama menuju pengembangan aplikasi web modern berbasis Laravel dan microservices."
+        "Menguasai PHP OOP adalah pintu gerbang utama menuju pengembangan aplikasi web modern berbasis Laravel dan
+        microservices."
       </h2>
 
       <div class="card-box" style="max-width: 650px; text-align: left; margin: 0 auto 24px auto;">
         <div class="card-title" style="color: #818cf8;">📝 Rencana Pertemuan 2 Minggu Depan:</div>
         <div class="card-desc">
-          1. Praktik langsung membuat <strong>Class, Object, Typed Properties</strong>, dan <strong>Method</strong> di PHP 8.<br>
+          1. Praktik langsung membuat <strong>Class, Object, Typed Properties</strong>, dan <strong>Method</strong> di
+          PHP 8.<br>
           2. Memahami perilaku kata kunci <code>$this</code> dan alokasi memori objek.<br>
           3. Jangan lupa memastikan PHP 8.1+ dan Composer sudah terpasang di laptop masing-masing!
         </div>
@@ -937,7 +1023,7 @@
     </div>
   </footer>
 
-    <script>
+  <script>
     const slides = document.querySelectorAll('.slide');
     const slideIndicator = document.getElementById('slideIndicator');
     const progressBar = document.getElementById('progressBar');
@@ -1086,4 +1172,5 @@
     startTimer();
   </script>
 </body>
+
 </html>

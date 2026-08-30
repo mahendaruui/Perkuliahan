@@ -2,6 +2,12 @@
 
 Selamat datang di repositori materi perkuliahan **Pemrograman Berorientasi Objek (Object-Oriented Programming - OOP) menggunakan Bahasa Pemrograman PHP 8+**. Mata kuliah ini dirancang untuk membekali mahasiswa dengan penguasaan paradigma rekayasa perangkat lunak modern, empat pilar utama OOP, *clean code*, prinsip desain **SOLID**, dan arsitektur aplikasi berbasis **Model-Service-Repository**.
 
+::: tip 📖 BUKU AJAR DIGITAL INTERAKTIF (FLIPBOOK 3D)
+Telah tersedia **Buku Ajar Resmi Pemrograman Berorientasi Objek menggunakan PHP 8+ (86 Halaman, 14 BAB)** dengan fitur pembaca digital interaktif (*3D Page-Turn Flipbook*), daftar isi cerdas, dan unduhan berkas resmi.
+
+👉 **[Buka Pembaca Flipbook Buku Ajar 3D](/pemrograman-oop-php/buku-ajar)**
+:::
+
 ---
 
 ## 📋 Informasi Mata Kuliah
@@ -32,7 +38,7 @@ Selamat datang di repositori materi perkuliahan **Pemrograman Berorientasi Objek
 - **Minggu 8: Ujian Tengah Semester (UTS)** — *Evaluasi Teoretis dan Uji Praktikum Komprehensif Minggu 1–7.*
 
 ### 4. Ekosistem Modern, Error Handling & I/O
-- [Minggu 9: Manajemen Namespace, Standar PSR-4, dan Composer](/pemrograman-oop-php/namespace) — *Isolasi ruang nama, resolusi FQN/aliasing, PSR-4 autoloading, dan optimasi kelas produksi.*
+- [Minggu 9: Manajemen Namespace, Standar PSR-4, dan Composer](/pemrograman-oop-php/namespace) — *namespace isolation, resolusi FQN/aliasing, PSR-4 autoloading, dan optimasi class produksi.*
 - [Minggu 10: Penanganan Kesalahan (Exception Handling) & Robust Error Flow](/pemrograman-oop-php/exception-handling) — *Hierarki Throwable, fail-fast, multi-catch, throw expression PHP 8.0+, dan rich exceptions.*
 - [Minggu 11: Koleksi Objek (Object Collections) & Manipulasi Array Modern](/pemrograman-oop-php/collection) — *First-Class Collections, SPL interfaces (Countable, IteratorAggregate), dan manipulasi fungsional.*
 - [Minggu 12: Manajemen Berkas (File Handling & I/O Streams)](/pemrograman-oop-php/file-handling) — *File locking (flock LOCK_EX), SplFileObject, json_validate (PHP 8.3+), dan File Repository.*

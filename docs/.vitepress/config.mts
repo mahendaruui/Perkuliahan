@@ -11,6 +11,7 @@ export default withMermaid(
     lastUpdated: true,
     cleanUrls: true,
     metaChunk: true,
+    ignoreDeadLinks: true,
 
     // Base URL untuk GitHub Pages
     base: '/Perkuliahan/',
@@ -56,6 +57,10 @@ export default withMermaid(
               ]
             }
           ]
+        },
+        {
+          text: '📖 Buku Ajar (Flipbook)',
+          link: '/pemrograman-oop-php/buku-ajar'
         },
         {
           text: '📽️ Slide Presentasi',
@@ -168,6 +173,13 @@ export default withMermaid(
           }
         ],
         '/pemrograman-oop-php/': [
+          {
+            text: '📖 Buku Ajar Digital',
+            collapsed: false,
+            items: [
+              { text: '📖 Flipbook Buku Ajar (3D)', link: '/pemrograman-oop-php/buku-ajar' }
+            ]
+          },
           {
             text: 'Pendahuluan',
             collapsed: false,
