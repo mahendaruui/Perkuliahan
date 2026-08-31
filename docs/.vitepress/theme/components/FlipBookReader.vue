@@ -275,7 +275,7 @@
         <div v-if="showTOC" class="drawer-overlay" @click.self="showTOC = false">
           <div class="drawer-panel">
             <div class="drawer-header">
-              <h3>📑 Daftar Isi Buku</h3>
+              <h3>📑 Daftar Isi Buku (88 Halaman)</h3>
               <button class="btn-close" @click="showTOC = false">✕</button>
             </div>
             <div class="drawer-body">
@@ -340,7 +340,7 @@ const props = withDefaults(
   {
     title: 'Pemrograman Berorientasi Objek menggunakan PHP 8+',
     subtitle: 'Buku Ajar Resmi Kurikulum OBE Program Studi Informatika UUI',
-    totalPages: 86,
+    totalPages: 88,
     basePath: '/Perkuliahan/flipbook/oop-php/page-',
     pdfDownloadUrl: '/Perkuliahan/books/Buku_Ajar_OOP_PHP8_Latest.pdf',
     docDownloadUrl: '/Perkuliahan/books/Buku_Ajar_OOP_PHP8_Latest.docx'
@@ -377,31 +377,30 @@ const baseRightPage = ref<number | null>(1)
 const flipperFrontPage = ref<number | null>(null)
 const flipperBackPage = ref<number | null>(null)
 
-// Table of Contents Mapping
+// Table of Contents Mapping (Updated for 88 Pages Edition)
 const tocItems = [
   { title: 'Halaman Sampul Depan (Cover)', page: 1, level: 1 },
   { title: 'Halaman Judul & Informasi Penulis', page: 2, level: 1 },
   { title: 'Informasi Penerbitan & Hak Cipta (KDT)', page: 3, level: 1 },
   { title: 'Kata Pengantar Penulis', page: 4, level: 1 },
-  { title: 'Matriks Capaian Pembelajaran (CPL & CPMK)', page: 6, level: 1 },
-  { title: 'Daftar Isi Lengkap', page: 8, level: 1 },
-  { title: 'BAB 1: Pengantar Paradigma OOP & Ekosistem PHP 8+', page: 13, level: 1 },
-  { title: 'BAB 2: Anatomi Class, Objek, dan Manajemen Memori', page: 18, level: 1 },
-  { title: 'BAB 3: Method, Constructor Promotion, dan Siklus Hidup Objek', page: 22, level: 1 },
-  { title: 'BAB 4: Enkapsulasi, Visibility Modifiers, Readonly & Hooks', page: 25, level: 1 },
-  { title: 'BAB 5: Pewarisan (Inheritance), Final Keyword & Trait', page: 33, level: 1 },
-  { title: 'BAB 6: Polimorfisme (Polymorphism) & Dynamic Dispatch', page: 39, level: 1 },
-  { title: 'BAB 7: Abstraksi: Abstract Class, Interface & Backed Enum', page: 44, level: 1 },
-  { title: 'BAB 8: Manajemen Namespace, Standar PSR-4 & Composer', page: 50, level: 1 },
-  { title: 'BAB 9: Penanganan Kesalahan (Exception Handling) Tangguh', page: 55, level: 1 },
-  { title: 'BAB 10: Koleksi Objek Terstruktur (First-Class Collections)', page: 60, level: 1 },
-  { title: 'BAB 11: Manajemen Berkas & I/O Stream (Mitigasi Race Condition)', page: 64, level: 1 },
-  { title: 'BAB 12: Prinsip Desain Perangkat Lunak SOLID pada PHP Modern', page: 68, level: 1 },
-  { title: 'BAB 13: Arsitektur Aplikasi (Model-Service-Repository)', page: 72, level: 1 },
-  { title: 'BAB 14: Studi Kasus Mini Project: Sistem POS Terpadu', page: 78, level: 1 },
-  { title: 'Glosarium Istilah Rekayasa Perangkat Lunak', page: 82, level: 1 },
-  { title: 'Daftar Pustaka Standar Internasional', page: 84, level: 1 },
-  { title: 'Profil Tim Penulis & Dewan Pakar Informatika UUI', page: 86, level: 1 }
+  { title: 'Daftar Isi Lengkap', page: 6, level: 1 },
+  { title: 'BAB 1: Pengantar Paradigma OOP & Ekosistem PHP 8+', page: 9, level: 1 },
+  { title: 'BAB 2: Anatomi Class, Objek, dan Manajemen Memori', page: 14, level: 1 },
+  { title: 'BAB 3: Method, Constructor Promotion, dan Siklus Hidup Objek', page: 21, level: 1 },
+  { title: 'BAB 4: Enkapsulasi, Visibility Modifiers, Readonly & Hooks', page: 29, level: 1 },
+  { title: 'BAB 5: Pewarisan (Inheritance), Final Keyword & Trait', page: 37, level: 1 },
+  { title: 'BAB 6: Polimorfisme (Polymorphism) & Dynamic Dispatch', page: 43, level: 1 },
+  { title: 'BAB 7: Abstraksi: Abstract Class, Interface & Backed Enum', page: 48, level: 1 },
+  { title: 'BAB 8: Manajemen Namespace, Standar PSR-4 & Composer', page: 53, level: 1 },
+  { title: 'BAB 9: Penanganan Kesalahan (Exception Handling) Tangguh', page: 58, level: 1 },
+  { title: 'BAB 10: Koleksi Objek Terstruktur (First-Class Collections)', page: 63, level: 1 },
+  { title: 'BAB 11: Manajemen Berkas & I/O Stream (Mitigasi Race Condition)', page: 67, level: 1 },
+  { title: 'BAB 12: Prinsip Desain Perangkat Lunak SOLID pada PHP Modern', page: 71, level: 1 },
+  { title: 'BAB 13: Arsitektur Aplikasi (Model-Service-Repository)', page: 75, level: 1 },
+  { title: 'BAB 14: Studi Kasus Mini Project: Sistem POS Terpadu', page: 80, level: 1 },
+  { title: 'Glosarium Istilah Rekayasa Perangkat Lunak & OOP PHP', page: 84, level: 1 },
+  { title: 'Daftar Pustaka Standar Internasional', page: 86, level: 1 },
+  { title: 'Profil Tim Penulis UUI', page: 88, level: 1 }
 ]
 
 function getSpreadPages(p: number): { left: number | null; right: number | null } {
@@ -426,8 +425,6 @@ const stageTransformStyle = computed(() => {
 })
 
 // Leaf 3D transform during page flip
-// NEXT: starts at 0deg on right, flips left to -180deg (transform-origin: left center)
-// PREV: starts at 0deg on left, flips right to +180deg (transform-origin: right center)
 const leafAnimatedStyle = computed(() => {
   const isNext = flipDirection.value === 'next'
   const angle = isNext ? -180 * flipProgress.value : 180 * flipProgress.value
@@ -450,10 +447,6 @@ function getPageUrl(pageNum: number): string {
 
 function formatPageNum(pageNum: number): string {
   if (pageNum === 1) return 'Sampul'
-  if (pageNum >= 2 && pageNum <= 12) {
-    const roman = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi']
-    return roman[pageNum - 2] || String(pageNum)
-  }
   return String(pageNum)
 }
 
@@ -520,13 +513,11 @@ function triggerFlipAnimation(targetPage: number, direction: 'next' | 'prev') {
   const newSpread = getSpreadPages(newP)
 
   if (direction === 'next') {
-    // NEXT: Right page flips left to reveal upcoming left page on back
     baseLeftPage.value = oldSpread.left
     baseRightPage.value = newSpread.right
     flipperFrontPage.value = oldSpread.right
     flipperBackPage.value = newSpread.left
   } else {
-    // PREV: Left page flips right to reveal upcoming right page on back
     baseLeftPage.value = newSpread.left
     baseRightPage.value = oldSpread.right
     flipperFrontPage.value = oldSpread.left
