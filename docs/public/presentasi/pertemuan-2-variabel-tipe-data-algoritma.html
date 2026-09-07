@@ -1,808 +1,543 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pertemuan 2 - Ontologi Data, Memori RAM & Type System | Mahendar Dwi Payana, S.ST., M.T.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-    :root {
-      --bg-page: #f8fafc;
-      --card-bg: #ffffff;
-      --card-subtle: #f8fafc;
-      --card-border: #e2e8f0;
-      --card-border-strong: #cbd5e1;
-      --primary: #0284c7; /* Sky 600 */
-      --primary-hover: #0369a1;
-      --primary-light: #e0f2fe;
-      --secondary: #6366f1; /* Indigo 500 */
-      --accent-purple: #9333ea;
-      --accent-emerald: #059669;
-      --accent-amber: #d97706;
-      --accent-rose: #e11d48;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --font-code: 'Fira Code', 'JetBrains Mono', monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-page);
-      color: var(--text-main);
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      flex-direction: column;
-      user-select: none;
-    }
-
-    header {
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    }
-
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-logo { height: 32px; width: auto; border-radius: 6px; }
-    .brand-text { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
-    .brand-text span { color: var(--primary); }
-    .brand-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
-
-    .header-controls { display: flex; align-items: center; gap: 10px; }
-    
-    .timer-badge {
-      background: #f1f5f9;
-      border: 1px solid var(--card-border-strong);
-      color: #0f172a;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      font-family: var(--font-code);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
-    }
-    .timer-badge:hover {
-      background: #e2e8f0;
-      border-color: #475569;
-    }
-    .timer-badge.paused {
-      color: #e11d48;
-      border-color: #fda4af;
-      background: #fff1f2;
-    }
-
-    .btn-icon {
-      background: #ffffff;
-      border: 1px solid var(--card-border-strong);
-      color: var(--text-main);
-      padding: 6px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      font-family: inherit;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    }
-    .btn-icon:hover {
-      background: #f1f5f9;
-      border-color: #475569;
-    }
-
-    #slide-viewport {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 28px;
-    }
-
-    .slide {
-      position: absolute;
-      width: min(1140px, 94vw);
-      height: min(640px, 84vh);
-      background: #ffffff;
-      border-radius: 24px;
-      border: 1px solid var(--card-border-strong);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
-      padding: 36px 44px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      opacity: 0;
-      transform: translateY(20px) scale(0.98);
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .slide.active {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-      z-index: 10;
-    }
-
-    .slide.prev {
-      opacity: 0;
-      transform: translateY(-20px) scale(0.98);
-    }
-
-    .slide-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 4px 12px;
-      border-radius: 99px;
-      background: #e0f2fe;
-      border: 1px solid #bae6fd;
-      color: #0369a1;
-      margin-bottom: 8px;
-    }
-
-    .slide-title {
-      font-size: 1.85rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #0f172a;
-      line-height: 1.25;
-      margin-bottom: 4px;
-    }
-
-    .slide-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    .slide-body {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 6px;
-    }
-    .slide-body::-webkit-scrollbar { width: 5px; }
-    .slide-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-
-    footer {
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.03);
-    }
-
-    .progress-track {
-      flex: 1;
-      max-width: 440px;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 99px;
-      overflow: hidden;
-      margin: 0 20px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
-      width: 0%;
-      border-radius: 99px;
-      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav-btn-group { display: flex; align-items: center; gap: 8px; }
-    .btn-nav {
-      background: #ffffff;
-      border: 1px solid var(--card-border-strong);
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: 700;
-      transition: all 0.2s;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    }
-    .btn-nav:hover:not(:disabled) {
-      background: var(--primary);
-      color: #0f172a;
-      border-color: var(--primary);
-    }
-    .btn-nav:disabled { opacity: 0.35; cursor: not-allowed; }
-
-    .slide-counter {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #334155;
-      min-width: 70px;
-      text-align: center;
-      font-family: var(--font-code);
-      background: #f1f5f9;
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--card-border-strong);
-    }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-
-    .card {
-      background: #f8fafc;
-      border: 1px solid var(--card-border-strong);
-      border-radius: 14px;
-      padding: 16px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.2s ease;
-    }
-    .card:hover {
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.06);
-      transform: translateY(-2px);
-    }
-    .card-cyan { border-left: 4px solid var(--primary); background: #f0f9ff; }
-    .card-emerald { border-left: 4px solid var(--accent-emerald); background: #ecfdf5; }
-    .card-amber { border-left: 4px solid var(--accent-amber); background: #fffbeb; }
-    .card-purple { border-left: 4px solid var(--accent-purple); background: #faf5ff; }
-    .card-rose { border-left: 4px solid var(--accent-rose); background: #fff1f2; }
-
-    .card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #0f172a; display: flex; align-items: center; gap: 6px; }
-    .card p, .card li { font-size: 0.84rem; color: #334155; line-height: 1.55; }
-
-    .quote-box {
-      background: #eef2ff;
-      border: 1px solid #c7d2fe;
-      border-radius: 14px;
-      padding: 14px 18px;
-      margin-top: 10px;
-    }
-    .quote-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #4338ca; letter-spacing: 0.08em; margin-bottom: 4px; }
-    .quote-text { font-size: 0.85rem; color: #1e1b4b; font-style: italic; line-height: 1.5; }
-    .quote-author { font-size: 0.75rem; color: #6366f1; margin-top: 4px; text-align: right; font-weight: 600; }
-
-    pre {
-      background: #0f172a;
-      color: #38bdf8;
-      border: 1px solid #1e293b;
-      padding: 14px;
-      border-radius: 12px;
-      font-family: var(--font-code);
-      font-size: 0.82rem;
-      line-height: 1.55;
-      overflow-x: auto;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    table.slide-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.84rem;
-      margin-top: 6px;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--card-border-strong);
-    }
-    table.slide-table th, table.slide-table td {
-      padding: 10px 14px;
-      border: 1px solid var(--card-border-strong);
-      text-align: left;
-    }
-    table.slide-table th {
-      background: #f1f5f9;
-      font-weight: 700;
-      color: #0f172a;
-      border-bottom: 2px solid var(--card-border-strong);
-    }
-    table.slide-table td {
-      color: #334155;
-      background: #ffffff;
-    }
-    table.slide-table tr:hover td {
-      background: #f8fafc;
-    }
-
-    .hero-slide { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
-    .hero-title { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; color: #0f172a; margin-bottom: 12px; line-height: 1.2; }
-    .hero-title span { color: var(--primary); }
-    .hero-meta { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
-    .hero-pill { background: #f1f5f9; border: 1px solid var(--card-border-strong); padding: 8px 16px; border-radius: 99px; font-size: 0.84rem; font-weight: 600; color: #334155; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 2 - Variabel, Tipe Data & Dekonstruksi Memori | Mahendar Dwi Payana, S.ST., M.T.</title>
+<meta name="description" content="Slide interaktif Pertemuan 2 Algoritma & Pemrograman: arsitektur memori 5 segmen, anatomi variabel, taksonomi tipe primitif, Two's Complement, IEEE 754, overflow, static vs dynamic typing, casting, dan hands-on C++ & Python.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--primary:#4f46e5;--primary-hover:#4338ca;--primary-light:#e0e7ff;--secondary:#0284c7;
+--bg-page:#f8fafc;--card-bg:#fff;--text-main:#0f172a;--text-muted:#64748b;
+--border:#e2e8f0;--border-dark:#cbd5e1;--accent-green:#059669;--accent-amber:#d97706;--accent-purple:#9333ea;--accent-pink:#db2777;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background-color:var(--bg-page);color:var(--text-main);overflow:hidden;height:100vh;width:100vw;display:flex;flex-direction:column;user-select:none}
+header{padding:12px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{height:32px;width:auto;border-radius:4px}
+.brand-text{font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:#0f172a}
+.brand-text span{color:#4f46e5}
+.brand-sub{font-size:.75rem;color:var(--text-muted);font-weight:500}
+.header-controls{display:flex;align-items:center;gap:10px}
+.btn-icon{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .2s ease;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-icon:hover{background:#f1f5f9;border-color:#94a3b8}
+.timer-badge{background:#f1f5f9;border:1px solid var(--border-dark);color:#0f172a;padding:4px 12px;border-radius:20px;font-size:.82rem;font-weight:700;font-family:'Fira Code',monospace;display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;transition:all .2s ease}
+.timer-badge:hover{background:#e2e8f0;border-color:#94a3b8}
+.timer-badge.paused{color:#e11d48;border-color:#fda4af;background:#fff1f2}
+.slide-badge{background:#eef2ff;border:1px solid #c7d2fe;color:#4338ca;padding:4px 10px;border-radius:20px;font-size:.8rem;font-weight:700;font-family:'Fira Code',monospace}
+main{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px}
+main::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 10%,rgba(79,70,229,.08),transparent 60%),radial-gradient(600px 300px at 85% 90%,rgba(2,132,199,.08),transparent 60%);pointer-events:none}
+.slide{position:absolute;width:92%;max-width:1200px;height:86%;background:#fff;border:1px solid var(--border);border-radius:20px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:scale(.95) translateY(20px);pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 40px -15px rgba(0,0,0,.07),0 0 1px 1px rgba(0,0,0,.03);overflow-y:auto}
+.slide.active{opacity:1;transform:scale(1) translateY(0);pointer-events:auto;z-index:10}
+.slide.active .anim{animation:rise .55s cubic-bezier(.16,1,.3,1) both}
+.slide.active .anim:nth-child(2){animation-delay:.06s}.slide.active .anim:nth-child(3){animation-delay:.12s}.slide.active .anim:nth-child(4){animation-delay:.18s}.slide.active .anim:nth-child(5){animation-delay:.24s}.slide.active .anim:nth-child(6){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.slide-tag{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+h1.slide-title{font-size:2.4rem;font-weight:800;line-height:1.15;letter-spacing:-.03em;margin-bottom:14px;color:#0f172a}
+h2.slide-subtitle{font-size:1.15rem;font-weight:500;color:var(--text-muted);margin-bottom:28px;line-height:1.5}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.card-box{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:22px 24px;transition:all .3s ease}
+.card-box:hover{border-color:#818cf8;box-shadow:0 10px 25px -5px rgba(79,70,229,.08);transform:translateY(-2px)}
+.card-icon{font-size:2rem;margin-bottom:12px}
+.card-title{font-size:1.12rem;font-weight:700;color:#0f172a;margin-bottom:8px}
+.card-desc{font-size:.9rem;color:#475569;line-height:1.65}
+.card-desc code,.pill-code{font-family:'Fira Code',monospace;font-size:.82em;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;padding:1px 6px;border-radius:6px}
+.badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:700;margin-bottom:8px}
+.badge-php{background:#e0e7ff;color:#3730a3;border:1px solid #c7d2fe}
+.badge-blue{background:#e0f2fe;color:#0369a1}.badge-green{background:#d1fae5;color:#047857}.badge-purple{background:#f3e8ff;color:#7e22ce}.badge-amber{background:#fef3c7;color:#b45309}.badge-pink{background:#fce7f3;color:#be185d}
+.custom-table{width:100%;border-collapse:collapse;margin-top:16px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.custom-table th{background:#f1f5f9;color:#0f172a;padding:12px 16px;font-size:.9rem;text-align:left;font-weight:700;border-bottom:2px solid var(--border-dark)}
+.custom-table td{padding:12px 16px;font-size:.88rem;color:#334155;border-bottom:1px solid var(--border);background:#fff}
+.custom-table tr:hover td{background:#f8fafc}
+pre{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:18px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.84rem;line-height:1.65;color:#f8fafc;margin-top:12px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.code-keyword{color:#fb7185;font-weight:600}.code-class{color:#38bdf8;font-weight:600}.code-func{color:#c084fc}.code-str{color:#4ade80}.code-var{color:#fde047}.code-num{color:#fb923c}.code-comment{color:#94a3b8;font-style:italic}
+footer{padding:14px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 -1px 3px rgba(0,0,0,.03)}
+.progress-container{flex:1;max-width:400px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin:0 20px}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#4f46e5,#6366f1,#06b6d4);transition:width .3s ease}
+.nav-buttons{display:flex;gap:12px}
+.btn-nav{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s ease;box-shadow:0 2px 4px rgba(79,70,229,.2)}
+.btn-nav:hover{background:var(--primary-hover);transform:scale(1.02)}
+.btn-nav.secondary{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-nav.secondary:hover{background:#f8fafc}
+.btn-nav:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.key-hint{font-size:.75rem;color:var(--text-muted);font-family:'Fira Code',monospace}
+.cover-slide{text-align:center;align-items:center;justify-content:center}
+.cover-badge{background:#eef2ff;border:1px solid #c7d2fe;color:#4338ca;padding:6px 16px;border-radius:30px;font-weight:700;font-size:.9rem;margin-bottom:20px;display:inline-block}
+.avatar-box{margin-top:28px;display:flex;align-items:center;gap:16px;background:#f8fafc;padding:12px 24px;border-radius:50px;border:1px solid var(--border-dark);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.avatar-img{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem}
+.author-info{text-align:left}.author-name{font-weight:700;font-size:1rem;color:#0f172a}.author-role{font-size:.8rem;color:var(--text-muted)}
+.hero-orbs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+.orb-1{width:340px;height:340px;background:#c7d2fe;top:-90px;left:-70px}
+.orb-2{width:300px;height:300px;background:#bae6fd;bottom:-100px;right:-50px}
+.orb-3{width:180px;height:180px;background:#fbcfe8;top:30%;right:12%}
+.divider-slide{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 45%,#0e7490 100%);border:none;color:#fff;text-align:left;justify-content:center}
+.divider-slide h1.slide-title{color:#fff;font-size:2.6rem}
+.divider-slide h2.slide-subtitle{color:#c7d2fe}
+.divider-slide .slide-tag{color:#a5b4fc}
+.divider-num{font-family:'Fira Code',monospace;font-size:.85rem;color:#a5b4fc;letter-spacing:.2em;margin-bottom:10px}
+.slide-num{position:absolute;bottom:14px;right:20px;font-family:'Fira Code',monospace;font-size:.72rem;color:#94a3b8}
+.divider-slide .slide-num{color:#a5b4fc}
+.slide-watermark{position:absolute;right:22px;bottom:42px;width:110px;height:auto;opacity:.08;pointer-events:none;user-select:none;z-index:5}
+.divider-slide .slide-watermark{opacity:.16;filter:brightness(0) invert(1)}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.stat{background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
+.stat b{font-size:1.7rem;display:block;letter-spacing:-.02em}
+.stat small{color:var(--text-muted);font-weight:600}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.tl-item{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:16px}
+.tl-item b{font-size:.85rem}.tl-item p{font-size:.78rem;color:#475569;margin-top:6px;line-height:1.55}
+.tl-ver{font-family:'Fira Code',monospace;font-size:.72rem;font-weight:700;color:#4338ca;background:#eef2ff;border:1px solid #c7d2fe;border-radius:20px;padding:2px 10px;display:inline-block;margin-bottom:8px}
+details.quiz{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:10px}
+details.quiz summary{cursor:pointer;font-weight:700;font-size:.92rem;color:#0f172a}
+details.quiz .answer{margin-top:10px;font-size:.88rem;color:#334155;line-height:1.6;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px}
+.callout{border-radius:12px;padding:16px 18px;font-size:.9rem;line-height:1.6;margin-top:14px}
+.callout-indigo{background:#eef2ff;border:1px solid #c7d2fe;color:#312e81}
+.callout-green{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.callout-amber{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.callout-red{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.rm-item{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.78rem}
+.rm-item b{display:block;font-size:.8rem;margin-bottom:4px}
+.rm-item.done{border-left:4px solid var(--primary)}
+.rm-item.next{border:2px solid var(--primary);background:#eef2ff}
+.check-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:.9rem;color:#334155}
+.check-list li{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.formula{background:linear-gradient(135deg,#1e1b4b,#312e81 60%,#0e7490);color:#fff;border-radius:14px;padding:22px;text-align:center;font-size:1.25rem;font-weight:800;letter-spacing:-.01em;margin-top:16px}
+.formula small{display:block;font-weight:500;font-size:.82rem;color:#c7d2fe;margin-top:8px}
+.output-block{background:#052e16;border:1px solid #166534;border-radius:12px;padding:16px 18px;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.7;color:#bbf7d0;margin-top:12px}
+.bit-row{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap}
+.bit{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:700;padding:5px 9px;border-radius:6px;background:#1e293b;color:#94a3b8}
+.bit.one{background:#065f46;color:#6ee7b7}
+.bit.sign{background:#7c2d12;color:#fdba74}
+.mem-cell{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:16px 18px;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.9;color:#e2e8f0;margin-top:12px}
+.mem-cell .addr{color:#38bdf8}.mem-cell .val{color:#4ade80}.mem-cell .nm{color:#fde047}
+@media (max-width:768px){
+.slide{padding:24px 20px;width:96%;height:90%}
+h1.slide-title{font-size:1.6rem}
+h2.slide-subtitle{font-size:.95rem;margin-bottom:18px}
+.grid-2,.grid-3,.grid-4,.stat-row,.roadmap,.timeline{grid-template-columns:1fr}
+pre{font-size:.75rem}
+header .brand-sub,.key-hint{display:none}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <img src="/Perkuliahan/uuifav.png" alt="Logo UUI" class="brand-logo" onerror="this.style.display='none'">
-      <div>
-        <div class="brand-text">ALGORITMA & <span>PEMROGRAMAN</span></div>
-        <div class="brand-sub">IFR206 • Pertemuan 02 • Universitas Ubudiyah Indonesia</div>
-      </div>
-    </div>
-    <div class="header-controls">
-      <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
-      <button class="btn-icon" onclick="toggleFullScreen()">⛶ Layar Penuh (F)</button>
-    </div>
-  </header>
+<header>
+<div class="brand">
+<img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+<div><div class="brand-text">ALGORITMA &amp; PEMROGRAMAN <span>(IFR 206)</span></div><div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 2</div></div>
+</div>
+<div class="header-controls">
+<span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
+<span class="slide-badge" id="slideIndicator">SLIDE 1 / …</span>
+<button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+</div>
+</header>
+<main>
 
-  <main id="slide-viewport">
-    <!-- SLIDE 1 -->
-    <div class="slide active">
-      <div class="hero-slide">
-        <div class="slide-tag">⚡ KURIKULUM OBE • IFR206</div>
-        <h1 class="hero-title">Ontologi Data, <span>Memori RAM</span> & Type System</h1>
-        <p style="font-size: 1.05rem; color: #475569; max-width: 740px; line-height: 1.6;">
-          Bagaimana Komputer Memahami Realitas: Representasi Biner Shannon, Alokasi Sel RAM, Batasan Bit Silikon & Konversi Tipe Data
-        </p>
-        <div class="hero-meta">
-          <div class="hero-pill">👤 Mahendar Dwi Payana, S.ST., M.T.</div>
-          <div class="hero-pill">🏛️ Prodi S-1 Informatika — FST UUI</div>
-          <div class="hero-pill">📚 Bobot: 3 SKS (2T / 1P)</div>
-        </div>
-      </div>
-    </div>
+<!-- 01 COVER -->
+<div class="slide active cover-slide">
+<div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div style="position:relative">
+<span class="cover-badge">⚡ IFR 206 • PERTEMUAN 2 / 16 • SUB-CPMK 2</span>
+<h1 class="slide-title anim" style="font-size:2.9rem;max-width:950px;">Variabel, Tipe Data &amp; Dekonstruksi Memori</h1>
+<h2 class="slide-subtitle anim" style="max-width:780px;margin:0 auto 10px auto;">Dari nama simbolik hingga bit fisik: 5 segmen memori, Two's Complement, jebakan overflow, dan duel typing C++ vs Python.</h2>
+<div class="stat-row anim" style="max-width:760px;margin:18px auto 0 auto;">
+<div class="stat"><b>🗄️ 5</b><small>Segmen memori</small></div>
+<div class="stat"><b>🔢 2</b><small>Sistem bilangan mesin</small></div>
+<div class="stat"><b>💥 2</b><small>Bahaya: overflow &amp; float</small></div>
+</div>
+<div class="avatar-box anim"><div class="avatar-img">MD</div><div class="author-info"><div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div><div class="author-role">Dosen Pengampu • Fakultas Sains dan Teknologi UUI</div></div></div>
+</div>
+<span class="slide-num">01</span>
+</div>
 
-    <!-- SLIDE 2 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">🧠 REFLEKSI FILOSOFIS DATA</div>
-        <h2 class="slide-title">Mengapa Data Harus Memiliki Tipe?</h2>
-        <p class="slide-subtitle">Dari deretan tegangan listrik biner menuju makna semantik informasi</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-cyan">
-            <h4>💡 Ilusi Biner Mesin</h4>
-            <p>
-              Bagi prosesor komputer, memori RAM hanyalah miliaran kapasitor mini yang berisi muatan listrik: <strong>1 (High Voltage)</strong> atau <strong>0 (Low Voltage)</strong>.
-            </p>
-            <p style="margin-top: 8px;">
-              CPU tidak tahu apakah pola bit <code>01000001</code> adalah angka <strong>65</strong>, huruf <strong>'A'</strong>, atau instruksi Assembly! <strong>Tipe Data</strong> adalah kontrak filosofis yang memberi <em>makna semantik</em> dan <em>aturan operasi</em> pada bit-bit mati tersebut.
-            </p>
-          </div>
-          <div class="card card-purple">
-            <h4>🏛️ Teori Informasi Claude Shannon</h4>
-            <p>
-              Claude Shannon (1948) membuktikan bahwa informasi adalah reduksi dari ketidakpastian (entropy), yang dapat diukur secara eksak dalam satuan <strong>Bit (Binary Digit)</strong>.
-            </p>
-          </div>
-        </div>
-        <div class="quote-box">
-          <div class="quote-title">💡 Refleksi Sistem Tipe (Type Theory)</div>
-          <div class="quote-text">"Sistem tipe data diciptakan bukan untuk membatasi programmer, melainkan sebagai jaring pengaman logika agar mesin tidak pernah memperlakukan deretan bit teks sebagai instruksi perkalian."</div>
-          <div class="quote-author">— Robin Milner (Pencetus Teori Type Inference)</div>
-        </div>
-      </div>
-    </div>
+<!-- 02 AGENDA -->
+<div class="slide">
+<div class="slide-tag">📍 Roadmap Hari Ini</div>
+<h1 class="slide-title">Agenda Pertemuan 2</h1>
+<h2 class="slide-subtitle">Lima babak — dari RAM fisik hingga kode yang sadar memori:</h2>
+<div class="grid-3">
+<div class="card-box anim"><div class="card-icon">🗄️</div><div class="card-title">1. Memori &amp; Variabel</div><div class="card-desc">5 segmen virtual memory + 4 atribut anatomi variabel.</div></div>
+<div class="card-box anim"><div class="card-icon">🔢</div><div class="card-title">2. Taksonomi Tipe</div><div class="card-desc">Primitif vs komposit + tabel spesifikasi C++ 64-bit.</div></div>
+<div class="card-box anim"><div class="card-icon">💥</div><div class="card-title">3. Bahaya Biner</div><div class="card-desc">Integer overflow (Ariane 5!) + float imprecision 0.1+0.2.</div></div>
+<div class="card-box anim"><div class="card-icon">🔒</div><div class="card-title">4. Typing &amp; Casting</div><div class="card-desc">Static vs dynamic + jebakan pembagian bulat 275/3.</div></div>
+<div class="card-box anim"><div class="card-icon">💻</div><div class="card-title">5. Hands-on</div><div class="card-desc">sizeof &amp; alamat RAM, bignum Python, / vs //.</div></div>
+<div class="card-box anim"><div class="card-icon">🎯</div><div class="card-title">6. Kuis &amp; Tugas</div><div class="card-desc">Two's Complement ±45, akumulator 0.1, tipe optimal.</div></div>
+</div>
+<span class="slide-num">02</span>
+</div>
 
-    <!-- SLIDE 3 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
-        <h2 class="slide-title">Target Kompetensi (Sub-CPMK 2)</h2>
-        <p class="slide-subtitle">Kurikulum Outcome-Based Education Universitas Ubudiyah Indonesia</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-emerald">
-            <h4>🎯 Capaian Terkait</h4>
-            <ul style="padding-left: 18px; margin-top: 8px;">
-              <li><strong>CPL01 (Pengetahuan):</strong> Menguasai konsep representasi data dan alokasi memori fisik komputer.</li>
-              <li><strong>CPMK0101:</strong> Mampu memilih dan mengimplementasikan tipe data, variabel, dan konstanta secara optimal.</li>
-            </ul>
-          </div>
-          <div class="card card-cyan">
-            <h4>💡 Indikator Keberhasilan Mahasiswa</h4>
-            <ul style="padding-left: 18px; margin-top: 8px;">
-              <li>Mampu memetakan variabel ke alamat dan ukuran byte di RAM.</li>
-              <li>Mampu membedakan tipe primitif vs komposit.</li>
-              <li>Mampu melakukan type casting secara aman tanpa risiko precision loss.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- 03 ANATOMI VARIABEL -->
+<div class="slide">
+<div class="slide-tag">🔍 Abstraksi Alamat</div>
+<h1 class="slide-title">Variabel = Nama untuk Alamat RAM</h1>
+<h2 class="slide-subtitle">Empat atribut yang melekat pada setiap variabel yang kamu deklarasikan:</h2>
+<div class="grid-2">
+<div class="anim">
+<div class="mem-cell"><span class="nm">umurMahasiswa</span> <span style="color:#64748b">// identifier</span><br><span class="addr">0x7ffee4b6a8</span> <span style="color:#64748b">// alamat fisik RAM</span><br><span class="val">00010101₂ = 21</span> <span style="color:#64748b">// pola bit (int 4 byte)</span></div>
+<div class="callout callout-indigo">💡 Menulis <span class="pill-code">int umur = 21;</span> = meminjam 4 byte di alamat itu, lalu mengecapnya "umur".</div>
+</div>
+<div class="anim">
+<div class="card-box"><div class="card-title">🧬 4 atribut variabel</div><div class="card-desc">• <b>Identifier</b> — label manusia: <span class="pill-code">umurMahasiswa</span><br>• <b>Data type</b> — jatah byte + cara baca bit<br>• <b>Address</b> — indeks heksa unik: <span class="pill-code">0x7ffee4b6a8</span><br>• <b>Value</b> — pola bit aktual di sel itu</div></div>
+</div>
+</div>
+<span class="slide-num">03</span>
+</div>
 
-    <!-- SLIDE 4 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">🧠 MODEL MEMORI FISIK</div>
-        <h2 class="slide-title">Anatomi Variabel di Dalam Memori RAM</h2>
-        <p class="slide-subtitle">4 Dimensi Eksistensi Variabel dalam Komputasi Modern</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-cyan">
-            <h4>4 Atribut Mutlak Variabel:</h4>
-            <ol style="padding-left: 18px; margin-top: 6px;">
-              <li><strong>Nama (Identifier):</strong> Simbol pemanggil manusia (misal: <code>umur</code>).</li>
-              <li><strong>Tipe Data:</strong> Menentukan lebar bit (1B, 4B, 8B) & aturan format.</li>
-              <li><strong>Alamat Memori (Pointer Address):</strong> Lokasi fisik bus data RAM (misal: <code>0x7ffee4b6a8</code>).</li>
-              <li><strong>Nilai Biner (Value):</strong> Keadaan tegangan fisik saat ini (misal: <code>20</code>).</li>
-            </ol>
-          </div>
-          <div>
-            <div class="card card-purple">
-              <h4>Peta Memori RAM (Arsitektur Byte-Addressable):</h4>
-              <div style="font-family: var(--font-code); font-size: 0.78rem; background: #0f172a; color: #38bdf8; padding: 12px; border-radius: 8px; margin-top: 6px; line-height: 1.6;">
-                [0x1000] : [ 00000000 00010100 ] -> int umur (4 Bytes)<br>
-                [0x1004] : [ 01000000 01110110 ] -> float ipk (4 Bytes)<br>
-                [0x1008] : [ 01000001          ] -> char grade (1 Byte)
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- 04 DIVIDER MEMORI -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN I — PETA MEMORI</div>
+<h1 class="slide-title">🗄️ 5 Segmen Virtual Memory</h1>
+<h2 class="slide-subtitle">Setiap program yang jalan mendapat kapling RAM terbagi lima — kenali penghuninya.</h2>
+<span class="slide-num">04</span>
+</div>
 
-    <!-- SLIDE 5 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">📏 TAKSONOMI & RENTANG BIT</div>
-        <h2 class="slide-title">Tabel Ukuran Memori & Kapasitas Nilai</h2>
-        <p class="slide-subtitle">Batasan matematis representasi biner 2ⁿ pada hardware silikon</p>
-      </div>
-      <div class="slide-body">
-        <table class="slide-table">
-          <thead>
-            <tr>
-              <th>Tipe Data</th>
-              <th>Ukuran Byte (Bit)</th>
-              <th>Rentang Kapasitas Nilai</th>
-              <th>Pemanfaatan Nyata</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong><code>bool</code></strong></td>
-              <td>1 Byte (8 bit)</td>
-              <td><code>true</code> (1) atau <code>false</code> (0)</td>
-              <td>Flag status logika biner</td>
-            </tr>
-            <tr>
-              <td><strong><code>char</code></strong></td>
-              <td>1 Byte (8 bit)</td>
-              <td>-128 s.d. 127 (ASCII 0 s.d. 255)</td>
-              <td>Karakter teks tunggal</td>
-            </tr>
-            <tr>
-              <td><strong><code>int</code></strong></td>
-              <td>4 Bytes (32 bit)</td>
-              <td>-2.147.483.648 s.d. +2.147.483.647 (-2³¹ s.d. 2³¹-1)</td>
-              <td>Pencacah loop, ID entitas</td>
-            </tr>
-            <tr>
-              <td><strong><code>float</code></strong></td>
-              <td>4 Bytes (32 bit)</td>
-              <td>IEEE 754 Presisi Tunggal (~7 digit desimal)</td>
-              <td>Grafika 3D, sensor IoT</td>
-            </tr>
-            <tr>
-              <td><strong><code>double</code></strong></td>
-              <td>8 Bytes (64 bit)</td>
-              <td>IEEE 754 Presisi Ganda (~15-17 digit desimal)</td>
-              <td>Kalkulasi finansial, sains</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+<!-- 05 SEGMEN -->
+<div class="slide">
+<div class="slide-tag">🗄️ Virtual Memory Address Space</div>
+<h1 class="slide-title">Lima Penghuni RAM</h1>
+<h2 class="slide-subtitle">Dari yang paling dinamis hingga yang read-only:</h2>
+<div class="grid-3">
+<div class="card-box anim" style="border-top:4px solid #2563eb;"><div class="card-icon">🥞</div><div class="card-title">1. Stack ↓</div><div class="card-desc">Variabel lokal + parameter + call frame. Cepat &amp; otomatis. Tumbuh ke bawah.</div></div>
+<div class="card-box anim" style="border-top:4px solid #9333ea;"><div class="card-icon">📦</div><div class="card-title">2. Heap ↑</div><div class="card-desc">Alokasi dinamis runtime (<span class="pill-code">new</span>, <span class="pill-code">malloc</span>). Manual / garbage collector. Tumbuh ke atas.</div></div>
+<div class="card-box anim" style="border-top:4px solid #ca8a04;"><div class="card-icon">📑</div><div class="card-title">3. BSS</div><div class="card-desc">Global &amp; statis <b>belum</b> diinisialisasi — otomatis diisi 0.</div></div>
+<div class="card-box anim" style="border-top:4px solid #d97706;"><div class="card-icon">💾</div><div class="card-title">4. Data</div><div class="card-desc">Global &amp; statis <b>sudah</b> punya nilai awal eksplisit.</div></div>
+<div class="card-box anim" style="border-top:4px solid #475569;"><div class="card-icon">⚙️</div><div class="card-title">5. Text / Code</div><div class="card-desc">Instruksi biner mesin, read-only, dieksekusi CPU langsung.</div></div>
+<div class="card-box anim" style="background:#eef2ff;"><div class="card-icon">🧪</div><div class="card-title">Di mana umur?</div><div class="card-desc"><span class="pill-code">int umur = 21;</span> di dalam main → <b>Stack</b>. Global di luar fungsi → Data/BSS.</div></div>
+</div>
+<span class="slide-num">05</span>
+</div>
 
-    <!-- SLIDE 6 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">✍️ SINTAKSIS & KONSTANTA</div>
-        <h2 class="slide-title">Deklarasi, Inisialisasi & Konstanta (`const`)</h2>
-        <p class="slide-subtitle">Membedakan data dinamis (mutable) dengan kebenaran matematis mutlak (immutable)</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div>
-            <div class="card card-cyan" style="margin-bottom: 8px;">
-              <h4>Aturan Identifier yang Bersih:</h4>
-              <ul style="padding-left: 18px; margin-top: 4px;">
-                <li>Gunakan gaya <em>camelCase</em> untuk variabel (<code>totalBayar</code>).</li>
-                <li>Gunakan gaya <em>UPPER_SNAKE_CASE</em> untuk konstanta (<code>PI_VALUE</code>).</li>
-                <li>Dilarang diawali angka dan kata kunci cadangan (reserved keywords).</li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <pre><code>// 1. Variabel Dinamis (Mutable)
-int kuotaMahasiswa = 30;
-kuotaMahasiswa = 35; // Sah dimodifikasi
+<!-- 06 STACK VS HEAP -->
+<div class="slide">
+<div class="slide-tag">⚖️ Duel Segmen</div>
+<h1 class="slide-title">Stack vs Heap</h1>
+<h2 class="slide-subtitle">Dua segmen yang paling sering ditanya di kuis &amp; interview:</h2>
+<table class="custom-table anim">
+<thead><tr><th>Dimensi</th><th>🥞 Stack</th><th>📦 Heap</th></tr></thead>
+<tbody>
+<tr><td><strong>Isi</strong></td><td>Lokal, parameter, call frame</td><td>Objek dinamis, array besar</td></tr>
+<tr><td><strong>Kecepatan</strong></td><td>Sangat cepat (pointer geser)</td><td>Lebih lambat (cari blok bebas)</td></tr>
+<tr><td><strong>Umur data</strong></td><td>Otomatis hilang saat fungsi return</td><td>Hidup hingga di-free / GC</td></tr>
+<tr><td><strong>Risiko</strong></td><td>Stack overflow (rekursi tanpa henti!)</td><td>Memory leak (lupa free)</td></tr>
+</tbody>
+</table>
+<div class="callout callout-amber anim">⚠️ <b>Jembatan ke P11 (Rekursi):</b> tiap panggilan rekursif menumpuk 1 frame di stack. Tanpa base case → stack meledak.</div>
+<span class="slide-num">06</span>
+</div>
 
-// 2. Konstanta Matematis (Immutable)
-const double PI = 3.141592653589793;
-const double GRAVITASI = 9.80665;
+<!-- 07 DIVIDER TAKSONOMI -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN II — TAKSONOMI TIPE DATA</div>
+<h1 class="slide-title">🔢 Dari Bit ke Makna</h1>
+<h2 class="slide-subtitle">Bit yang sama bisa berarti huruf, angka, atau sampah — tipe yang menentukan.</h2>
+<span class="slide-num">07</span>
+</div>
 
-// PI = 3.14; // ERROR KOMPILATOR: Read-only memory!</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- 08 TAKSONOMI -->
+<div class="slide">
+<div class="slide-tag">🗂️ Klasifikasi</div>
+<h1 class="slide-title">Primitif vs Komposit</h1>
+<h2 class="slide-subtitle">Peta keluarga tipe data sebelum masuk ke tabel spesifikasi:</h2>
+<div class="grid-2">
+<div class="card-box anim" style="border-top:4px solid #2563eb;"><span class="badge badge-blue">PRIMITIF (ATOMIC)</span><div class="card-title">Disediakan CPU/kompilator</div><div class="card-desc">🔢 <b>Integral:</b> bool, char, short, int, long long<br>🌊 <b>Floating:</b> float (32-bit), double (64-bit)</div></div>
+<div class="card-box anim" style="border-top:4px solid #9333ea;"><span class="badge badge-purple">KOMPOSIT / TURUNAN</span><div class="card-title">Disusun dari primitif</div><div class="card-desc">Array, struct, pointer, string, class.<br>Bertemu lagi di P6 (Array) &amp; PBO.</div></div>
+</div>
+<div class="callout callout-indigo anim">💡 <b>Prinsip:</b> tipe = kontrak ganda: <i>berapa byte dipinjam</i> + <i>bagaimana bit dibaca</i>. Pola <span class="pill-code">01000001</span> bisa berarti 65 (int) atau 'A' (char)!</div>
+<span class="slide-num">08</span>
+</div>
 
-    <!-- SLIDE 7 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">🔄 TRANSFORMASI MEMORI</div>
-        <h2 class="slide-title">Konversi Tipe Data (Type Casting)</h2>
-        <p class="slide-subtitle">Rekonstruksi bit biner: Melebarkan wadah vs memotong informasi</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-emerald">
-            <h4>1. Widening Casting (Implisit / Otomatis)</h4>
-            <p style="margin-top: 4px;">
-              Mengalirkan data dari wadah kecil (misal <code>int</code> 4B) ke wadah lebih besar (misal <code>double</code> 8B). <strong>Aman 100% tanpa kehilangan informasi (lossless)</strong>.
-            </p>
-            <pre style="margin-top: 8px;"><code>int skor = 95;
-double skorDesimal = skor; // Menjadi 95.0</code></pre>
-          </div>
-          <div class="card card-amber">
-            <h4>2. Narrowing Casting (Eksplisit / Manual)</h4>
-            <p style="margin-top: 4px;">
-              Memaksa data dari wadah besar ke wadah kecil. <strong>Berisiko fatal pemotongan desimal (truncation)</strong> atau overflow.
-            </p>
-            <pre style="margin-top: 8px;"><code>double ipk = 3.92;
-int ipkBulat = (int)ipk; // Menjadi 3 (0.92 hilang!)</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- 09 TABEL INTEGRAL -->
+<div class="slide">
+<div class="slide-tag">📏 Spesifikasi C++ 64-bit • 1</div>
+<h1 class="slide-title">Bilangan Bulat (Integral)</h1>
+<h2 class="slide-subtitle">Ukuran, representasi, dan rentang — hafalkan yang ditebalkan:</h2>
+<table class="custom-table anim">
+<thead><tr><th>Tipe</th><th>Ukuran</th><th>Representasi</th><th>Rentang</th></tr></thead>
+<tbody>
+<tr><td><span class="pill-code">bool</span></td><td>1 Byte</td><td>8-bit (0/1)</td><td>false / true</td></tr>
+<tr><td><span class="pill-code">char</span></td><td>1 Byte</td><td>8-bit ASCII</td><td>−128 s.d. +127</td></tr>
+<tr><td><span class="pill-code"><b>int</b></span></td><td><b>4 Bytes</b></td><td>32-bit Two's Complement</td><td><b>−2,147,483,648 s.d. +2,147,483,647</b></td></tr>
+<tr><td><span class="pill-code">unsigned int</span></td><td>4 Bytes</td><td>32-bit murni</td><td>0 s.d. +4,294,967,295</td></tr>
+<tr><td><span class="pill-code">long long</span></td><td>8 Bytes</td><td>64-bit Two's Complement</td><td>±9.2 × 10¹⁸</td></tr>
+</tbody>
+</table>
+<div class="formula anim">Min = −2<sup>(n−1)</sup> &nbsp;&nbsp;•&nbsp;&nbsp; Maks = +2<sup>(n−1)</sup> − 1<small>Two's Complement • contoh 8-bit: min −128, maks +127</small></div>
+<span class="slide-num">09</span>
+</div>
 
-    <!-- SLIDE 8 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">💻 STUDI KASUS PRAKTIKUM</div>
-        <h2 class="slide-title">Studi Kasus: Presisi Perhitungan Lingkaran</h2>
-        <p class="slide-subtitle">Penerapan tipe floating-point ganda, manipulasi konstanta, dan pemformatan output</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">🐍 Python 3</div>
-            <pre><code># Hitung Lingkaran Presisi di Python
-import math
+<!-- 10 TABEL FLOAT -->
+<div class="slide">
+<div class="slide-tag">📏 Spesifikasi C++ 64-bit • 2</div>
+<h1 class="slide-title">Bilangan Riil (IEEE 754)</h1>
+<h2 class="slide-subtitle">Pecahan disimpan sebagai 3 komponen: tanda, eksponen, mantissa:</h2>
+<table class="custom-table anim">
+<thead><tr><th>Tipe</th><th>Ukuran</th><th>Format Bit</th><th>Presisi</th></tr></thead>
+<tbody>
+<tr><td><span class="pill-code">float</span></td><td>4 Bytes</td><td>1 sign + 8 exp + 23 mantissa</td><td>~7 digit desimal</td></tr>
+<tr><td><span class="pill-code"><b>double</b></span></td><td><b>8 Bytes</b></td><td>1 sign + 11 exp + 52 mantissa</td><td><b>~15–17 digit desimal</b></td></tr>
+</tbody>
+</table>
+<div class="grid-2">
+<div class="card-box anim"><div class="card-title">🎯 Aturan praktis</div><div class="card-desc">Uang, IPK, sains → selalu <span class="pill-code">double</span>. <span class="pill-code">float</span> hanya untuk data masif (grafis jutaan titik).</div></div>
+<div class="card-box anim"><div class="card-title">⚠️ Harga presisi</div><div class="card-desc">0.1 desimal = biner berulang tak hingga (0.000110011…). Slide 12 membuktikan akibatnya.</div></div>
+</div>
+<span class="slide-num">10</span>
+</div>
 
-r = float(input("Jari-jari lingkaran (r): "))
-luas = math.pi * (r ** 2)
-keliling = 2 * math.pi * r
+<!-- 11 TWOS -->
+<div class="slide">
+<div class="slide-tag">🔄 Representasi Negatif</div>
+<h1 class="slide-title">Two's Complement: −45</h1>
+<h2 class="slide-subtitle">Cara mesin menyimpan bilangan negatif dalam 8-bit — 3 langkah (tugas misi 1!):</h2>
+<div class="card-box anim"><div class="card-title">Langkah 1 — Tulis +45</div><div class="bit-row"><span class="bit">0</span><span class="bit">0</span><span class="bit one">1</span><span class="bit">0</span><span class="bit one">1</span><span class="bit one">1</span><span class="bit">0</span><span class="bit one">1</span></div></div>
+<div class="card-box anim" style="margin-top:10px;"><div class="card-title">Langkah 2 — Invert semua bit</div><div class="bit-row"><span class="bit one">1</span><span class="bit one">1</span><span class="bit">0</span><span class="bit one">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit one">1</span><span class="bit">0</span></div></div>
+<div class="card-box anim" style="margin-top:10px;border:2px solid var(--primary);"><div class="card-title">Langkah 3 — Tambah 1 → −45 ✅</div><div class="bit-row"><span class="bit one">1</span><span class="bit one">1</span><span class="bit">0</span><span class="bit one">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit one">1</span><span class="bit one">1</span></div></div>
+<span class="slide-num">11</span>
+</div>
 
-print(f"Luas     : {luas:.4f}")
-print(f"Keliling : {keliling:.4f}")</code></pre>
-          </div>
-          <div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px;">⚡ C++</div>
-            <pre><code>#include &lt;iostream&gt;
-#include &lt;iomanip&gt;
-#include &lt;cmath&gt;
-using namespace std;
+<!-- 12 DIVIDER BAHAYA -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN III — BAHAYA BINER</div>
+<h1 class="slide-title">💥 Ketika Bit Berkhianat</h1>
+<h2 class="slide-subtitle">Dua fenomena yang pernah meledakkan roket dan menggagalkan pemilu kode.</h2>
+<span class="slide-num">12</span>
+</div>
 
-int main() {
-    const double PI = M_PI;
-    double r;
-    cout &lt;&lt; "Jari-jari lingkaran (r): "; cin &gt;&gt; r;
+<!-- 13 OVERFLOW -->
+<div class="slide">
+<div class="slide-tag">💥 Integer Overflow</div>
+<h1 class="slide-title">2147483647 + 1 = −2147483648?! </h1>
+<h2 class="slide-subtitle">Bit tanda terbalik → nilai melompat ke ekstrem berlawanan (<i>wrap-around</i>):</h2>
+<div class="grid-2">
+<div class="anim">
+<pre><code><span class="code-keyword">int</span> <span class="code-var">maxInt</span> = <span class="code-num">2147483647</span>; <span class="code-comment">// INT_MAX</span>
+<span class="code-func">std::cout</span> &lt;&lt; <span class="code-var">maxInt</span> + <span class="code-num">1</span>;
+<span class="code-comment">// Output: -2147483648 😱</span></code></pre>
+<div class="output-block">INT_MAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 2147483647<br>+1 (OVERFLOW): -2147483648</div>
+</div>
+<div class="anim">
+<div class="callout callout-red">🚀 <b>Ariane 5 (1996):</b> konversi float 64-bit ke integer 16-bit yang overflow meledakkan roket $370 juta dalam 37 detik. Bug tipe data termahal sepanjang sejarah.</div>
+<div class="callout callout-green">✅ <b>Obatnya:</b> data finansial/NIM besar → <span class="pill-code">long long</span> / <span class="pill-code">int64_t</span>. Python aman otomatis (bignum, slide 18).</div>
+</div>
+</div>
+<span class="slide-num">13</span>
+</div>
 
-    double luas = PI * pow(r, 2);
-    double keliling = 2 * PI * r;
+<!-- 14 FLOAT -->
+<div class="slide">
+<div class="slide-tag">🌊 IEEE 754 Imprecision</div>
+<h1 class="slide-title">0.1 + 0.2 ≠ 0.3</h1>
+<h2 class="slide-subtitle">Pecahan desimal tak eksak dalam biner — jangan pernah bandingkan float dengan <span class="pill-code">==</span>:</h2>
+<div class="grid-2">
+<div class="anim">
+<pre><code><span class="code-comment">// ❌ SALAH — bisa FALSE!</span>
+<span class="code-keyword">if</span> (<span class="code-num">0.1</span> + <span class="code-num">0.2</span> == <span class="code-num">0.3</span>) { ... }
 
-    cout &lt;&lt; fixed &lt;&lt; setprecision(4);
-    cout &lt;&lt; "Luas     : " &lt;&lt; luas &lt;&lt; "\n";
-    cout &lt;&lt; "Keliling : " &lt;&lt; keliling &lt;&lt; "\n";
-    return 0;
-}</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
+<span class="code-comment">// ✅ BENAR — toleransi epsilon</span>
+<span class="code-keyword">if</span> (<span class="code-func">abs</span>((<span class="code-num">0.1</span>+<span class="code-num">0.2</span>)-<span class="code-num">0.3</span>) &lt; <span class="code-num">1e-9</span>) { ... }</code></pre>
+</div>
+<div class="anim">
+<div class="output-block">0.1 + 0.2 = 0.30000000000000004<br>0.1 × 10 (akumulator) = 0.9999999999999999</div>
+<div class="callout callout-amber">⚠️ <b>Tugas misi 2:</b> jumlahkan 0.1 sepuluh kali, cetak, dan jelaskan kenapa bukan tepat 1.0. Petunjuk: 0.1 = 0.000110011…₂ berulang.</div>
+</div>
+</div>
+<span class="slide-num">14</span>
+</div>
 
-    <!-- SLIDE 9 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">⚠️ ANOMALI KOMPUTASI</div>
-        <h2 class="slide-title">Jebakan Klasik Memori & Representasi</h2>
-        <p class="slide-subtitle">Ketika batasan arsitektur fisik mesin berbenturan dengan intuisi matematika</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-3">
-          <div class="card card-purple">
-            <h4>1. Integer Division Trap</h4>
-            <p>Di bahasa C/C++/Java, ekspresi <code>5 / 2</code> menghasilkan <code>2</code> (bukan <code>2.5</code>) karena kedua operan integer.</p>
-            <p><strong>Solusi:</strong> Gunakan minimal satu literal float: <code>5.0 / 2</code>.</p>
-          </div>
-          <div class="card card-amber">
-            <h4>2. Integer Overflow</h4>
-            <p>Menambahkan 1 pada angka integer maksimum (+2.147.483.647) akan memutar nilai menjadi negatif minimum (-2.147.483.648).</p>
-          </div>
-          <div class="card card-rose">
-            <h4>3. Floating-Point Rounding</h4>
-            <p>Pecahan desimal <code>0.1 + 0.2</code> di memori biner menghasilkan <code>0.30000000000000004</code> akibat limitasi IEEE 754.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- 15 DIVIDER TYPING -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN IV — TYPING &amp; CASTING</div>
+<h1 class="slide-title">🔒 Siapa Menjaga Tipemu?</h1>
+<h2 class="slide-subtitle">Kompilator yang galak vs interpreter yang santai — plus jebakan klasik 275/3.</h2>
+<span class="slide-num">15</span>
+</div>
 
-    <!-- SLIDE 10 -->
-    <div class="slide">
-      <div>
-        <div class="slide-tag">🎯 EVALUASI SUB-CPMK 2</div>
-        <h2 class="slide-title">Rangkuman & Tantangan Praktikum</h2>
-        <p class="slide-subtitle">Penguasaan representasi data sebagai fondasi pemecahan masalah algoritma</p>
-      </div>
-      <div class="slide-body">
-        <div class="grid-2">
-          <div class="card card-cyan">
-            <h4>📌 Rangkuman Inti</h4>
-            <ul style="padding-left: 18px; margin-top: 6px;">
-              <li>Tipe data adalah cetak biru penafsiran bit biner di dalam sel memori RAM.</li>
-              <li>Pilih tipe data dengan ukuran byte yang proporsional demi efisiensi memori.</li>
-              <li>Gunakan konstanta untuk menjaga integritas nilai invariant.</li>
-            </ul>
-          </div>
-          <div class="card card-emerald">
-            <h4>📝 Latihan Mandiri Minggu 2</h4>
-            <p style="margin-top: 6px;">
-              Buatlah program <strong>Kalkulator Slip Gaji Karyawan</strong>:
-            </p>
-            <ul style="padding-left: 18px; margin-top: 4px;">
-              <li>Gaji Pokok (tipe <code>double</code>), Tunjangan (15%), dan Pajak (5%).</li>
-              <li>Tampilkan rincian penghasilan bersih diformat 2 digit desimal.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+<!-- 16 STATIC DYNAMIC -->
+<div class="slide">
+<div class="slide-tag">⚙️ Sistem Pengetikan</div>
+<h1 class="slide-title">Static vs Dynamic Typing</h1>
+<h2 class="slide-subtitle">Kapan tipe diperiksa menentukan kecepatan, keamanan, dan gaya coding:</h2>
+<div class="grid-2">
+<div class="card-box anim" style="border-top:4px solid #2563eb;"><span class="badge badge-blue">STATIC — C++, JAVA, RUST</span><div class="card-desc" style="margin-top:8px;">• Dicek saat <b>kompilasi</b>.<br>• Variabel tak bisa ganti tipe.<br>• Cepat + minim bug runtime.<br>• <span class="pill-code">int x = 5; x = "a"; // ERROR</span></div></div>
+<div class="card-box anim" style="border-top:4px solid #059669;"><span class="badge badge-green">DYNAMIC — PYTHON, JS</span><div class="card-title" style="margin-top:4px;">Tipe menempel pada nilai</div><div class="card-desc">• Dicek saat <b>eksekusi</b>.<br>• Variabel bebas ganti tipe.<br>• Fleksibel, tuntut disiplin.<br>• <span class="pill-code">x = 5; x = "a"  # sah!</span></div></div>
+</div>
+<div class="callout callout-indigo anim">💡 <b>Mnemonic:</b> static = "KTP dikunci sejak lahir", dynamic = "profesi boleh ganti kapan saja, yang penting orangnya sama".</div>
+<span class="slide-num">16</span>
+</div>
 
-  <footer>
-    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
-      Navigasi: <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid var(--card-border-strong); border-radius: 4px;">◀</kbd> <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid var(--card-border-strong); border-radius: 4px;">▶</kbd> atau <kbd style="background: #f1f5f9; padding: 2px 6px; border: 1px solid var(--card-border-strong); border-radius: 4px;">Spasi</kbd>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
-    <div class="nav-btn-group">
-      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀</button>
-      <div class="slide-counter" id="slide-num">1 / 10</div>
-      <button class="btn-nav" id="btn-next" onclick="nextSlide()">▶</button>
-    </div>
-  </footer>
+<!-- 17 CASTING -->
+<div class="slide">
+<div class="slide-tag">🔄 Konversi Tipe</div>
+<h1 class="slide-title">Casting &amp; Jebakan 275/3</h1>
+<h2 class="slide-subtitle">Kasus paling sering bikin nilai IPK salah hitung di tugas mahasiswa:</h2>
+<div class="grid-2">
+<div class="anim">
+<pre><code><span class="code-keyword">int</span> <span class="code-var">total</span> = <span class="code-num">275</span>, <span class="code-var">n</span> = <span class="code-num">3</span>;
+<span class="code-comment">// ❌ Desimal terpotong: 91.0</span>
+<span class="code-keyword">double</span> <span class="code-var">salah</span> = <span class="code-var">total</span> / <span class="code-var">n</span>;
+<span class="code-comment">// ✅ Cast dulu: 91.6667</span>
+<span class="code-keyword">double</span> <span class="code-var">benar</span> = <span class="code-func">static_cast&lt;double&gt;</span>(<span class="code-var">total</span>) / <span class="code-var">n</span>;</code></pre>
+</div>
+<div class="anim">
+<div class="card-box"><div class="card-title">Dua metode casting</div><div class="card-desc">• <b>Implisit</b> (promotion): otomatis kecil → besar, <span class="pill-code">int + double → double</span>.<br>• <b>Eksplisit</b>: sadar &amp; manual — C++ <span class="pill-code">static_cast&lt;int&gt;(x)</span>, Python <span class="pill-code">int(x)</span>.</div></div>
+<div class="callout callout-amber">⚠️ <b>Python beda jebakan:</b> <span class="pill-code">/</span> selalu float, <span class="pill-code">//</span> floor. <span class="pill-code">275/3 = 91.66</span>, <span class="pill-code">275//3 = 91</span>.</div>
+</div>
+</div>
+<span class="slide-num">17</span>
+</div>
 
-    <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-    const slideNum = document.getElementById('slide-num');
-    const progressBar = document.getElementById('progress-bar');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
+<!-- 18 DIVIDER HANDSON -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN V — HANDS-ON DUAL-STACK</div>
+<h1 class="slide-title">💻 Intip Dapur Memori</h1>
+<h2 class="slide-subtitle">Buktikan semua teori hari ini dengan sizeof, alamat RAM, dan bignum.</h2>
+<span class="slide-num">18</span>
+</div>
 
-    // Presentation Timer (Global Scope - Continuous)
-    let timerSeconds = 0;
-    let timerInterval = null;
-    let timerRunning = true;
-    const timerElement = document.getElementById('presentationTimer');
+<!-- 19 CPP -->
+<div class="slide">
+<div class="slide-tag">💻 C++ • Inspeksi RAM</div>
+<h1 class="slide-title">sizeof &amp; Alamat Fisik</h1>
+<h2 class="slide-subtitle">Lihat sendiri byte dan alamat tiap variabel di RAM-mu:</h2>
+<div class="grid-2">
+<div class="anim">
+<pre><code><span class="code-keyword">int</span> <span class="code-var">umur</span> = <span class="code-num">21</span>;
+<span class="code-keyword">double</span> <span class="code-var">ipk</span> = <span class="code-num">3.85</span>;
+<span class="code-keyword">char</span> <span class="code-var">grade</span> = <span class="code-str">'A'</span>;
+<span class="code-func">std::cout</span> &lt;&lt; <span class="code-func">sizeof</span>(<span class="code-var">umur</span>)      <span class="code-comment">// 4</span>
+  &lt;&lt; <span class="code-func">sizeof</span>(<span class="code-var">ipk</span>)       <span class="code-comment">// 8</span>
+  &lt;&lt; <span class="code-func">sizeof</span>(<span class="code-var">grade</span>);    <span class="code-comment">// 1</span>
+<span class="code-func">std::cout</span> &lt;&lt; &amp;<span class="code-var">umur</span>;  <span class="code-comment">// 0x7ffee4b6a8</span></code></pre>
+</div>
+<div class="anim">
+<div class="output-block">umur&nbsp; : 21 | 4 Byte | 0x7ffee4b6a8<br>ipk&nbsp;&nbsp; : 3.85 | 8 Byte | 0x7ffee4b6a0<br>grade : A | 1 Byte | 0x7ffee4b69f</div>
+<div class="callout callout-green">✅ <b>Misi lab:</b> jalankan, bandingkan alamat berurutan (stack tumbuh ke bawah!), lalu coba <span class="pill-code">sizeof(long long)</span>.</div>
+</div>
+</div>
+<span class="slide-num">19</span>
+</div>
 
-    function formatTime(totalSec) {
-      const mins = Math.floor(totalSec / 60);
-      const secs = totalSec % 60;
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    }
+<!-- 20 PYTHON -->
+<div class="slide">
+<div class="slide-tag">🐍 Python • Fleksibel Tapi Mahal</div>
+<h1 class="slide-title">Bignum &amp; Overhead Objek</h1>
+<h2 class="slide-subtitle">Python tak kenal overflow — tapi tiap angka membawa "koper" objek:</h2>
+<div class="grid-2">
+<div class="anim">
+<pre><code><span class="code-var">raksasa</span> = <span class="code-num">2</span>**<span class="code-num">63</span> - <span class="code-num">1</span>
+<span class="code-func">print</span>(<span class="code-var">raksasa</span> + <span class="code-num">1</span>)
+<span class="code-comment"># 9223372036854775808 ✅</span>
+<span class="code-comment"># (C++ int64 sudah meledak!)</span>
 
-    function startTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        if (timerRunning) {
-          timerSeconds++;
-          if (timerElement) {
-            timerElement.textContent = `⏱️ ${formatTime(timerSeconds)}`;
-          }
-        }
-      }, 1000);
-    }
+<span class="code-func">print</span>(<span class="code-func">sys.getsizeof</span>(<span class="code-num">21</span>))   <span class="code-comment"># 28 Bytes!</span>
+<span class="code-func">print</span>(<span class="code-func">hex</span>(<span class="code-func">id</span>(<span class="code-var">umur</span>)))       <span class="code-comment"># ID memori</span></code></pre>
+</div>
+<div class="anim">
+<div class="card-box"><div class="card-title">⚖️ Harga fleksibilitas</div><div class="card-desc">int C++ = 4 byte murni. int Python = <b>28 byte</b> (header + refcount + tipe + nilai). Itulah kenapa numerik berat memakai NumPy.</div></div>
+<div class="callout callout-indigo">💡 <b>Analoginya:</b> C++ seperti amplop pasmembrane; Python seperti paket dengan label, asuransi, dan resi — aman tapi bulky.</div>
+</div>
+</div>
+<span class="slide-num">20</span>
+</div>
 
-    function toggleTimer() {
-      timerRunning = !timerRunning;
-      if (timerElement) {
-        if (!timerRunning) {
-          timerElement.classList.add('paused');
-          timerElement.title = "Timer Dijeda (Klik: Lanjut, Dobel Klik: Reset)";
-        } else {
-          timerElement.classList.remove('paused');
-          timerElement.title = "Timer Berjalan (Klik: Jeda, Dobel Klik: Reset)";
-        }
-      }
-    }
+<!-- 21 KUIS -->
+<div class="slide">
+<div class="slide-tag">🎮 Cek Pemahaman</div>
+<h1 class="slide-title">Kuis Kilat 3 Menit</h1>
+<h2 class="slide-subtitle">Jawab dulu dalam hati, baru klik untuk membuka jawaban:</h2>
+<details class="quiz anim"><summary>❓ 1. Variabel lokal fungsi main tinggal di segmen apa? Bagaimana dengan global terinisialisasi?</summary><div class="answer">✅ Lokal → <b>Stack</b> (otomatis, cepat). Global terinisialisasi → <b>Data segment</b>; yang belum diinisialisasi → <b>BSS</b> (di-nol-kan otomatis).</div></details>
+<details class="quiz anim"><summary>❓ 2. <code>int m = 2147483647; m + 1</code> menghasilkan?</summary><div class="answer">✅ <b>−2147483648.</b> Overflow 32-bit: bit tanda terbalik, nilai wrap-around ke minimum. Obat: <span class="pill-code">long long</span>.</div></details>
+<details class="quiz anim"><summary>❓ 3. Kenapa <code>total/nilai</code> (275/3, keduanya int) memberi 91.0 di C++?</summary><div class="answer">✅ <b>Integer division truncation.</b> Perlu <span class="pill-code">static_cast&lt;double&gt;(total)/n</span> → 91.6667. Di Python, <span class="pill-code">/</span> selalu float — jebakannya justru <span class="pill-code">//</span>.</div></details>
+<span class="slide-num">21</span>
+</div>
 
-    function resetTimer() {
-      timerSeconds = 0;
-      timerRunning = true;
-      if (timerElement) {
-        timerElement.classList.remove('paused');
-        timerElement.textContent = `⏱️ 00:00`;
-      }
-    }
+<!-- 22 TUGAS -->
+<div class="slide">
+<div class="slide-tag">📝 Tugas Praktikum 2</div>
+<h1 class="slide-title">Misi: Bit, Akumulator &amp; Tipe Optimal</h1>
+<h2 class="slide-subtitle">Tiga misi mandiri — kumpulkan via GitHub + LMS:</h2>
+<ul class="check-list">
+<li class="anim">✅ <b>Misi 1 — Two's Complement:</b> tulis representasi 8-bit untuk +45 dan −45 (invert + tambah 1). Tunjukkan tiap langkah seperti slide 11.</li>
+<li class="anim">✅ <b>Misi 2 — Akumulator 0.1:</b> jumlahkan 0.1 sepuluh kali, cetak hasil, jelaskan kenapa ≠ 1.0 (petunjuk: IEEE 754 + biner berulang).</li>
+<li class="anim">✅ <b>Misi 3 — Tipe optimal:</b> pilih tipe paling hemat untuk: hari/bulan (1–31), populasi dunia (8,1 M), saldo rupiah (puluhan T), status lulus/gagal.</li>
+</ul>
+<div class="callout callout-green anim">✅ <b>Kriteria nilai:</b> langkah biner benar + penjelasan presisi tepat + alasan pemilihan tipe (ukuran vs rentang).</div>
+<span class="slide-num">22</span>
+</div>
 
-    if (timerElement) {
-      timerElement.addEventListener('click', toggleTimer);
-      timerElement.addEventListener('dblclick', resetTimer);
-    }
+<!-- 23 ROADMAP -->
+<div class="slide">
+<div class="slide-tag">🗺️ Satu Semester</div>
+<h1 class="slide-title">Roadmap: P2 Selesai!</h1>
+<h2 class="slide-subtitle">Memori &amp; tipe dikuasai. Berikutnya: meracik ekspresi:</h2>
+<div class="roadmap anim">
+<div class="rm-item done"><b>P1 • Selesai</b>Pengantar algoritma</div>
+<div class="rm-item done"><b>P2 • Hari ini</b>Variabel, tipe &amp; memori</div>
+<div class="rm-item next"><b>P3 • Berikutnya</b>Operator &amp; ekspresi</div>
+<div class="rm-item"><b>P4–P5</b>Percabangan → perulangan</div>
+<div class="rm-item"><b>P6–P7</b>Array, matriks &amp; string</div>
+<div class="rm-item"><b>P8</b>UTS</div>
+<div class="rm-item"><b>P10–P14</b>Fungsi, rekursi, searching, sorting</div>
+<div class="rm-item"><b>P15–P16</b>Proyek mini &amp; UAS</div>
+</div>
+<span class="slide-num">23</span>
+</div>
 
-    function updateSlide() {
-      slides.forEach((s, idx) => {
-        s.classList.remove('active', 'prev');
-        if (idx === currentSlide) {
-          s.classList.add('active');
-        } else if (idx < currentSlide) {
-          s.classList.add('prev');
-        }
-      });
+<!-- 24 PENUTUP -->
+<div class="slide cover-slide">
+<div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+<div style="position:relative">
+<span class="cover-badge" style="background:#ecfdf5;border-color:#a7f3d0;color:#059669;">✅ AKHIR PERTEMUAN 2</span>
+<h1 class="slide-title anim" style="font-size:2.6rem;">Ada Pertanyaan?</h1>
+<h2 class="slide-subtitle anim" style="max-width:680px;margin:0 auto 20px auto;">"Tipe data adalah janji antara kamu dan mesin — ingkar janji, dan bit akan berkhianat tepat di hari demo."</h2>
+<div class="card-box anim" style="max-width:650px;text-align:left;margin:0 auto 20px auto;"><div class="card-title" style="color:#4f46e5;">🔜 Minggu Depan — Pertemuan 3:</div><div class="card-desc">Operator, ekspresi &amp; precedence — dari <span class="pill-code">275/3</span> yang menipu hingga tabel prioritas yang menyelamatkan IPK.</div></div>
+<div class="anim" style="font-size:.9rem;color:var(--text-muted);">Portal Bahan Ajar: <strong>mahendaruui.github.io/Perkuliahan/algoritma-pemrograman/</strong></div>
+</div>
+<span class="slide-num">24</span>
+</div>
 
-      slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
-      progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
-      btnPrev.disabled = currentSlide === 0;
-      btnNext.disabled = currentSlide === totalSlides - 1;
-    }
-
-    function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
-    function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
-
-    function toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => console.error(err));
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
-      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
-      else if (e.key === 'f' || e.key === 'F') toggleFullScreen();
-      else if (e.key === 'Home') { currentSlide = 0; updateSlide(); }
-      else if (e.key === 'End') { currentSlide = totalSlides - 1; updateSlide(); }
-    });
-
-    // Touch Navigation
-    let touchStartX = 0;
-    let touchEndX = 0;
-    document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-    document.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) nextSlide();
-      if (touchEndX - touchStartX > 50) prevSlide();
-    });
-
-    updateSlide();
-    startTimer();
-  </script>
+</main>
+<footer>
+<div class="key-hint">Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> / <kbd>Spasi</kbd> | Fullscreen: <kbd>F</kbd></div>
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+<div class="nav-buttons">
+<button class="btn-nav secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
+<button class="btn-nav" id="nextBtn" onclick="nextSlide()">Selanjutnya ▶</button>
+</div>
+</footer>
+<script>
+const slides=document.querySelectorAll('.slide');
+const slideIndicator=document.getElementById('slideIndicator');
+const progressBar=document.getElementById('progressBar');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+let currentSlide=0;const totalSlides=slides.length;
+let timerSeconds=0;let timerInterval=null;let timerRunning=true;
+const timerElement=document.getElementById('presentationTimer');
+function formatTime(s){const m=Math.floor(s/60);const r=s%60;return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0')}
+function startTimer(){if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(()=>{if(timerRunning){timerSeconds++;if(timerElement)timerElement.textContent='⏱️ '+formatTime(timerSeconds)}},1000)}
+function toggleTimer(){timerRunning=!timerRunning;if(timerElement){if(!timerRunning){timerElement.classList.add('paused');timerElement.title='Timer Dijeda (Klik: Lanjut, Dobel Klik: Reset)'}else{timerElement.classList.remove('paused');timerElement.title='Timer Berjalan (Klik: Jeda, Dobel Klik: Reset)'}}}
+function resetTimer(){timerSeconds=0;timerRunning=true;if(timerElement){timerElement.classList.remove('paused');timerElement.textContent='⏱️ 00:00'}}
+if(timerElement){timerElement.addEventListener('click',toggleTimer);timerElement.addEventListener('dblclick',resetTimer)}
+document.querySelectorAll('.slide').forEach(s=>{const w=document.createElement('img');w.src='/Perkuliahan/uuilogo.png';w.alt='';w.setAttribute('aria-hidden','true');w.className='slide-watermark';w.onerror=()=>w.remove();s.appendChild(w)});
+function updateSlide(){slides.forEach((s,i)=>{s.classList.toggle('active',i===currentSlide)});slideIndicator.textContent='SLIDE '+(currentSlide+1)+' / '+totalSlides;progressBar.style.width=((currentSlide+1)/totalSlides*100)+'%';prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===totalSlides-1;nextBtn.textContent=(currentSlide===totalSlides-1)?'Selesai 🏁':'Selanjutnya ▶'}
+function nextSlide(){if(currentSlide<totalSlides-1){currentSlide++;updateSlide()}}
+function prevSlide(){if(currentSlide>0){currentSlide--;updateSlide()}}
+function toggleFullscreen(){if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(e=>alert('Error fullscreen: '+e.message))}else{if(document.exitFullscreen)document.exitFullscreen()}}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();nextSlide()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prevSlide()}else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFullscreen()}else if(e.key==='Home'){currentSlide=0;updateSlide()}else if(e.key==='End'){currentSlide=totalSlides-1;updateSlide()}});
+let touchStartX=0,touchEndX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX});
+document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;if(touchStartX-touchEndX>50)nextSlide();if(touchEndX-touchStartX>50)prevSlide()});
+updateSlide();startTimer();
+</script>
 </body>
 </html>

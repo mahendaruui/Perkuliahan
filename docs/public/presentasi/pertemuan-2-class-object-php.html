@@ -84,6 +84,8 @@ footer{padding:14px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(1
 .divider-num{font-family:'Fira Code',monospace;font-size:.85rem;color:#a5b4fc;letter-spacing:.2em;margin-bottom:10px}
 .slide-num{position:absolute;bottom:14px;right:20px;font-family:'Fira Code',monospace;font-size:.72rem;color:#94a3b8}
 .divider-slide .slide-num{color:#a5b4fc}
+.slide-watermark{position:absolute;right:22px;bottom:42px;width:110px;height:auto;opacity:.08;pointer-events:none;user-select:none;z-index:5}
+.divider-slide .slide-watermark{opacity:.16;filter:brightness(0) invert(1)}
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
 .stat{background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
 .stat b{font-size:1.7rem;display:block;letter-spacing:-.02em}
@@ -696,6 +698,7 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.
 let touchStartX=0,touchEndX=0;
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX});
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;if(touchStartX-touchEndX>50)nextSlide();if(touchEndX-touchStartX>50)prevSlide()});
+document.querySelectorAll('.slide').forEach(s=>{const w=document.createElement('img');w.src='/Perkuliahan/uuilogo.png';w.alt='';w.setAttribute('aria-hidden','true');w.className='slide-watermark';w.onerror=()=>w.remove();s.appendChild(w)});
 updateSlide();startTimer();
 </script>
 </body>
