@@ -1,6 +1,16 @@
 # 📘 Modul 01: Hakikat, Sejarah & Epistemologi Visualisasi Data
 
+<div style="margin-bottom: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+  <a href="/Perkuliahan/presentasi/pertemuan-1-visualisasi-data" style="background-color: #0284c7; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+    📽️ Buka Slide Presentasi Pertemuan 1
+  </a>
+  <a href="/Perkuliahan/presentasi/pertemuan-1-pengantar-visualisasi-data.html" target="_blank" style="background-color: #1e293b; color: #f8fafc; border: 1px solid #334155; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+    ⛶ Layar Penuh (Tab Baru)
+  </a>
+</div>
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 1)
+
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Menjelaskan definisi, landasan epistemologis, dan tujuan fundamental visualisasi data dalam memperkuat kognisi manusia (*amplify cognition*).
 2. Mengklasifikasikan tipe data statistik (Skala Stevens: Nominal, Ordinal, Interval, Rasio) dan memahami implikasinya terhadap pemilihan representasi visual.

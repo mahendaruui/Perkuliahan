@@ -121,8 +121,16 @@ export default withMermaid(
             items: [
               { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-java' }
             ]
+          },
+          {
+            text: '📊 Visualisasi Data (Python)',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Hakikat & Epistemologi', link: '/presentasi/pertemuan-1-visualisasi-data' }
+            ]
           }
         ],
+
         '/pemrograman-oop/': [
           {
             text: 'Pendahuluan',

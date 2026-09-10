@@ -47,6 +47,15 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 
 ---
 
+## 📊 Visualisasi Data (IFR309)
+
+| Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
+| :---: | :--- | :---: | :---: |
+| **01** | Hakikat, Sejarah & Epistemologi Visualisasi Data | [Lihat di Web](/presentasi/pertemuan-1-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-visualisasi-data.html){target="_blank"} |
+
+
+---
+
 ## 💡 Fitur Slide Presentasi Interaktif
 - ⌨️ **Navigasi Keyboard:** Tombol <kbd>◀</kbd> / <kbd>▶</kbd> atau <kbd>Spasi</kbd> untuk berpindah slide.
 - ⛶ **Mode Fullscreen:** Tekan tombol <kbd>F</kbd> saat membuka slide untuk mode presentasi layar penuh.
