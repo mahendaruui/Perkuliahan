@@ -6,7 +6,11 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "v2:dev": "npm --prefix v2 run dev",
+    "v2:build": "npm --prefix v2 run build",
+    "v2:start": "npm --prefix v2 run start"
+
   },
   "keywords": [
     "algoritma",

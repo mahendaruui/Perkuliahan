@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pertemuan 2 - Psikologi Persepsi Visual, Teori Gestalt & Ergonomi Warna | Mahendar Dwi Payana, S.ST., M.T.</title>
+<meta name="description" content="Slide interaktif Pertemuan 2 Visualisasi Data: Arsitektur kognisi, atribut pra-atentif (<250ms), 7 hukum Gestalt, teori warna saintifik, dan aksesibilitas buta warna.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0284c7;--primary-hover:#0369a1;--primary-light:#e0f2fe;--secondary:#4f46e5;
+  --bg-page:#f8fafc;--card-bg:#fff;--text-main:#0f172a;--text-muted:#64748b;
+  --border:#e2e8f0;--border-dark:#cbd5e1;--accent-green:#059669;--accent-amber:#d97706;--accent-purple:#9333ea;--accent-pink:#db2777;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background-color:var(--bg-page);color:var(--text-main);overflow:hidden;height:100vh;width:100vw;display:flex;flex-direction:column;user-select:none}
+header{padding:12px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{height:32px;width:auto;border-radius:4px}
+.brand-text{font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:#0f172a}
+.brand-text span{color:var(--primary)}
+.brand-sub{font-size:.75rem;color:var(--text-muted);font-weight:500}
+.header-controls{display:flex;align-items:center;gap:10px}
+.btn-icon{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .2s ease;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-icon:hover{background:#f1f5f9;border-color:#94a3b8}
+.timer-badge{background:#f1f5f9;border:1px solid var(--border-dark);color:#0f172a;padding:4px 12px;border-radius:20px;font-size:.82rem;font-weight:700;font-family:'Fira Code',monospace;display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;transition:all .2s ease}
+.timer-badge:hover{background:#e2e8f0;border-color:#94a3b8}
+.timer-badge.paused{color:#e11d48;border-color:#fda4af;background:#fff1f2}
+.slide-badge{background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:4px 10px;border-radius:20px;font-size:.8rem;font-weight:700;font-family:'Fira Code',monospace}
+
+/* Audio Header Controls */
+.audio-header-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, .25);
+  transition: all .2s ease;
+}
+.audio-header-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.audio-header-btn.playing {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, .3);
+}
+.sound-wave { display: inline-flex; align-items: center; gap: 2px; height: 14px; }
+.sound-bar {
+  width: 3px;
+  height: 100%;
+  background: #fff;
+  border-radius: 2px;
+  animation: wave 1s ease-in-out infinite alternate;
+}
+.sound-bar:nth-child(2) { animation-delay: 0.2s; height: 60%; }
+.sound-bar:nth-child(3) { animation-delay: 0.4s; height: 80%; }
+@keyframes wave { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }
+.sound-wave.paused .sound-bar { animation: none; transform: scaleY(0.4); }
+.autoplay-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  color: #475569;
+  cursor: pointer;
+  background: #f1f5f9;
+  border: 1px solid var(--border-dark);
+  padding: 4px 10px;
+  border-radius: 8px;
+  user-select: none;
+  font-weight: 600;
+}
+.autoplay-label input { cursor: pointer; accent-color: #0284c7; }
+.speed-select {
+  background: #f1f5f9;
+  border: 1px solid var(--border-dark);
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+main{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px}
+main::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 10%,rgba(2,132,199,.08),transparent 60%),radial-gradient(600px 300px at 85% 90%,rgba(79,70,229,.08),transparent 60%);pointer-events:none}
+.slide{position:absolute;width:92%;max-width:1200px;height:86%;background:#fff;border:1px solid var(--border);border-radius:20px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:scale(.95) translateY(20px);pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 40px -15px rgba(0,0,0,.07),0 0 1px 1px rgba(0,0,0,.03);overflow-y:auto}
+.slide.active{opacity:1;transform:scale(1) translateY(0);pointer-events:auto;z-index:10}
+.slide.active .anim{animation:rise .55s cubic-bezier(.16,1,.3,1) both}
+.slide.active .anim:nth-child(2){animation-delay:.06s}.slide.active .anim:nth-child(3){animation-delay:.12s}.slide.active .anim:nth-child(4){animation-delay:.18s}.slide.active .anim:nth-child(5){animation-delay:.24s}.slide.active .anim:nth-child(6){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.slide-tag{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+h1.slide-title{font-size:2.3rem;font-weight:800;line-height:1.2;letter-spacing:-.03em;margin-bottom:14px;color:#0f172a}
+h2.slide-subtitle{font-size:1.1rem;font-weight:500;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.card-box{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:all .3s ease}
+.card-box:hover{border-color:#38bdf8;box-shadow:0 10px 25px -5px rgba(2,132,199,.08);transform:translateY(-2px)}
+.card-icon{font-size:2rem;margin-bottom:10px}
+.card-title{font-size:1.08rem;font-weight:700;color:#0f172a;margin-bottom:6px}
+.card-desc{font-size:.88rem;color:#475569;line-height:1.6}
+.card-desc code,.pill-code{font-family:'Fira Code',monospace;font-size:.82em;background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:1px 6px;border-radius:6px}
+.badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:700;margin-bottom:8px}
+.badge-blue{background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd}
+.badge-green{background:#d1fae5;color:#047857;border:1px solid #a7f3d0}
+.badge-purple{background:#f3e8ff;color:#7e22ce;border:1px solid #e9d5ff}
+.badge-amber{background:#fef3c7;color:#b45309;border:1px solid #fde68a}
+.badge-pink{background:#fce7f3;color:#be185d;border:1px solid #fbcfe8}
+.custom-table{width:100%;border-collapse:collapse;margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.custom-table th{background:#f1f5f9;color:#0f172a;padding:10px 14px;font-size:.88rem;text-align:left;font-weight:700;border-bottom:2px solid var(--border-dark)}
+.custom-table td{padding:10px 14px;font-size:.85rem;color:#334155;border-bottom:1px solid var(--border);background:#fff}
+.custom-table tr:hover td{background:#f8fafc}
+pre{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:16px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.6;color:#f8fafc;margin-top:10px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.code-keyword{color:#fb7185;font-weight:600}.code-class{color:#38bdf8;font-weight:600}.code-func{color:#c084fc}.code-str{color:#4ade80}.code-var{color:#fde047}.code-num{color:#fb923c}.code-comment{color:#94a3b8;font-style:italic}
+footer{padding:14px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 -1px 3px rgba(0,0,0,.03)}
+.progress-container{flex:1;max-width:400px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin:0 20px}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#0284c7,#38bdf8,#6366f1);transition:width .3s ease}
+.nav-buttons{display:flex;gap:12px}
+.btn-nav{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s ease;box-shadow:0 2px 4px rgba(2,132,199,.2)}
+.btn-nav:hover{background:var(--primary-hover);transform:scale(1.02)}
+.btn-nav.secondary{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-nav.secondary:hover{background:#f8fafc}
+.btn-nav:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.key-hint{font-size:.75rem;color:var(--text-muted);font-family:'Fira Code',monospace}
+.cover-slide{text-align:center;align-items:center;justify-content:center}
+.cover-badge{background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:6px 16px;border-radius:30px;font-weight:700;font-size:.9rem;margin-bottom:20px;display:inline-block}
+.avatar-box{margin-top:24px;display:flex;align-items:center;gap:16px;background:#f8fafc;padding:10px 22px;border-radius:50px;border:1px solid var(--border-dark);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.avatar-img{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.15rem}
+.author-info{text-align:left}.author-name{font-weight:700;font-size:.95rem;color:#0f172a}.author-role{font-size:.78rem;color:var(--text-muted)}
+.hero-orbs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+.orb-1{width:340px;height:340px;background:#bae6fd;top:-90px;left:-70px}
+.orb-2{width:300px;height:300px;background:#c7d2fe;bottom:-100px;right:-50px}
+.orb-3{width:180px;height:180px;background:#fbcfe8;top:30%;right:12%}
+.divider-slide{background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 45%,#312e81 100%);border:none;color:#fff;text-align:left;justify-content:center}
+.divider-slide h1.slide-title{color:#fff;font-size:2.6rem}
+.divider-slide h2.slide-subtitle{color:#bae6fd}
+.divider-slide .slide-tag{color:#7dd3fc}
+.divider-num{font-family:'Fira Code',monospace;font-size:.85rem;color:#7dd3fc;letter-spacing:.2em;margin-bottom:10px}
+.slide-num{position:absolute;bottom:14px;right:20px;font-family:'Fira Code',monospace;font-size:.72rem;color:#94a3b8}
+.divider-slide .slide-num{color:#7dd3fc}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.stat{background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.stat b{font-size:1.6rem;display:block;letter-spacing:-.02em;color:#0f172a}
+.stat small{color:var(--text-muted);font-weight:600}
+details.quiz{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:10px}
+details.quiz summary{cursor:pointer;font-weight:700;font-size:.92rem;color:#0f172a}
+details.quiz .answer{margin-top:10px;font-size:.88rem;color:#334155;line-height:1.6;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px}
+.callout{border-radius:12px;padding:14px 18px;font-size:.88rem;line-height:1.6;margin-top:14px}
+.callout-blue{background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1}
+.callout-green{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.callout-amber{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.rm-item{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.78rem}
+.rm-item b{display:block;font-size:.8rem;margin-bottom:4px;color:#0f172a}
+.rm-item.done{border-left:4px solid var(--primary);background:#f0f9ff}
+.rm-item.next{border:2px solid var(--primary);background:#e0f2fe}
+.check-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:#334155}
+.check-list li{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+
+/* Floating Audio Narration Drawer */
+.narration-drawer {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  width: 90%;
+  max-width: 900px;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 14px 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #f8fafc;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.narration-drawer.open {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.drawer-top { display: flex; justify-content: space-between; align-items: center; }
+.lecturer-badge { display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 700; color: #38bdf8; }
+.lecturer-badge span {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: .72rem;
+}
+.drawer-close { background: transparent; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; }
+.drawer-close:hover { color: #fff; }
+.caption-text { font-size: .88rem; line-height: 1.55; color: #e2e8f0; max-height: 65px; overflow-y: auto; padding-right: 6px; }
+.audio-controls-row { display: flex; align-items: center; gap: 12px; }
+.btn-play-pause {
+  background: #0284c7;
+  color: #fff;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  transition: all .2s ease;
+}
+.btn-play-pause:hover { background: #0369a1; transform: scale(1.06); }
+.audio-scrub {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #38bdf8;
+}
+.audio-time { font-family: 'Fira Code', monospace; font-size: .75rem; color: #94a3b8; min-width: 80px; text-align: right; }
+
+@media (max-width:768px){
+.slide{padding:24px 20px;width:96%;height:90%}
+h1.slide-title{font-size:1.6rem}
+h2.slide-subtitle{font-size:.95rem;margin-bottom:18px}
+.grid-2,.grid-3,.grid-4,.stat-row,.roadmap{grid-template-columns:1fr}
+pre{font-size:.75rem}
+header .brand-sub,.key-hint{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">
+<img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+<div><div class="brand-text">VISUALISASI DATA <span>(PYTHON)</span></div><div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 2</div></div>
+</div>
+<div class="header-controls">
+<button class="audio-header-btn" id="btnAudioToggle" onclick="toggleAudio()" title="Putar/Jeda Narasi Dosen (P/S)">
+  <div class="sound-wave paused" id="soundWaveIcon">
+    <div class="sound-bar"></div>
+    <div class="sound-bar"></div>
+    <div class="sound-bar"></div>
+  </div>
+  <span id="audioBtnLabel">🎙️ Narasi Dosen</span>
+</button>
+
+<label class="autoplay-label" title="Otomatis putar suara saat pindah slide (A)">
+  <input type="checkbox" id="chkAutoplay">
+  <span>Auto-Play</span>
+</label>
+
+<select class="speed-select" id="selAudioSpeed" onchange="changePlaybackRate(this.value)" title="Kecepatan Suara">
+  <option value="1.0">1.0x</option>
+  <option value="1.25" selected>1.25x</option>
+  <option value="1.5">1.5x</option>
+</select>
+
+<span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
+<span class="slide-badge" id="slideIndicator">SLIDE 1 / …</span>
+<button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+</div>
+</header>
+<main>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide active cover-slide">
+<div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div style="position:relative">
+<span class="cover-badge">🎨 IFR309 • BOBOT 3 SKS (T=2, P=1) • PERTEMUAN 2 / 16</span>
+<h1 class="slide-title anim" style="font-size:2.7rem;max-width:980px;">Psikologi Persepsi Visual, Teori Gestalt &amp; Ergonomi Warna</h1>
+<h2 class="slide-subtitle anim" style="max-width:820px;margin:0 auto 10px auto;">Memanfaatkan mekanisme kognitif bawah sadar manusia: Arsitektur memori, atribut pra-atentif (&lt;250ms), 7 hukum Gestalt, dan palet warna saintifik ramah buta warna.</h2>
+<div class="stat-row anim" style="max-width:780px;margin:18px auto 0 auto;">
+<div class="stat"><b>⚡ &lt; 250 ms</b><small>Respon Pra-atentif</small></div>
+<div class="stat"><b>🧩 7 Hukum</b><small>Prinsip Gestalt</small></div>
+<div class="stat"><b>👁️ 8% Pria</b><small>Penyandang Buta Warna</small></div>
+</div>
+<div class="avatar-box anim"><div class="avatar-img">MD</div><div class="author-info"><div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div><div class="author-role">Dosen Pengampu • NIDN: 1331108701 • FST UUI</div></div></div>
+</div>
+<div class="slide-num">01 / 20</div>
+</div>
+
+<!-- SLIDE 2: CAPAIAN PEMBELAJARAN (SUB-CPMK 1) -->
+<div class="slide">
+<div class="slide-tag">🎯 CAPAIAN PEMBELAJARAN</div>
+<h1 class="slide-title anim">Kompetensi Perkuliahan Pertemuan 2</h1>
+<h2 class="slide-subtitle anim">Fondasi psikologi persepsi visual untuk merancang visualisasi data yang presisi secara ilmiah</h2>
+<div class="grid-2 anim">
+<div class="card-box">
+<div class="card-title">📘 Capaian Pembelajaran (Sub-CPMK 1)</div>
+<ul class="check-list" style="margin-top:8px;">
+<li><span>🧠</span><b>Arsitektur Kognitif:</b> Memahami keterbatasan memori kerja (*Working Memory*) &amp; Teori Beban Kognitif Sweller.</li>
+<li><span>⚡</span><b>Atribut Pra-atentif:</b> Memanfaatkan bentuk, warna, dan posisi untuk memandu fokus dalam &lt; 250 milidetik.</li>
+<li><span>🧩</span><b>Prinsip Gestalt:</b> Menguasai 7 hukum pengelompokan visual dalam tata letak (*layout*) dashboard.</li>
+<li><span>🎨</span><b>Ergonomi Warna:</b> Menerapkan palet kualitatif, sekuensial, divergen, dan aksesibilitas ramah buta warna (*CVD*).</li>
+</ul>
+</div>
+<div class="card-box">
+<div class="card-title">🔗 Keterkaitan dengan Pertemuan 1</div>
+<p class="card-desc">
+Di Pertemuan 1, kita mempelajari bahwa visualisasi bertujuan memperkuat kognisi (*amplify cognition*) dan mengklasifikasikan data berdasarkan Skala Stevens.
+<br><br>
+Di Pertemuan 2, kita mempelajari <b>bagaimana mata dan otak memproses saluran-saluran visual tersebut</b> secara fisiologis dan psikologis agar pesan data tidak terdistorsi.
+</p>
+</div>
+</div>
+<div class="slide-num">02 / 20</div>
+</div>
+
+<!-- SLIDE 3: ROADMAP PERTEMUAN 2 -->
+<div class="slide">
+<div class="slide-tag">🗺️ ALUR MATERI HARI INI</div>
+<h1 class="slide-title anim">4 Pilar Persepsi Visual &amp; Ergonomi Warna</h1>
+<h2 class="slide-subtitle anim">Struktur pembahasan komprehensif dari sains kognitif hingga implementasi praktikum Python</h2>
+<div class="grid-4 anim">
+<div class="card-box" style="border-left:4px solid #0284c7;">
+<div class="badge badge-blue">PILAR 1</div>
+<div class="card-title">Arsitektur Memori</div>
+<p class="card-desc">Sensory memory, working memory (4±1 chunks), dan Cognitive Load Theory.</p>
+</div>
+<div class="card-box" style="border-left:4px solid #16a34a;">
+<div class="badge badge-green">PILAR 2</div>
+<div class="card-title">Pra-atentif Visual</div>
+<p class="card-desc">Deteksi anomali instan &lt; 250ms via Bentuk, Warna, Posisi, dan Gerak.</p>
+</div>
+<div class="card-box" style="border-left:4px solid #9333ea;">
+<div class="badge badge-purple">PILAR 3</div>
+<div class="card-title">7 Hukum Gestalt</div>
+<p class="card-desc">Proximity, Similarity, Enclosure, Connection, Continuity, Closure, &amp; Figure-Ground.</p>
+</div>
+<div class="card-box" style="border-left:4px solid #d97706;">
+<div class="badge badge-amber">PILAR 4</div>
+<div class="card-title">Ergonomi Warna</div>
+<p class="card-desc">Palet kualitatif/sekuensial/divergen, aksesibilitas CVD, &amp; colormap Viridis.</p>
+</div>
+</div>
+<div class="slide-num">03 / 20</div>
+</div>
+
+<!-- SLIDE 4: DIVIDER 1 -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN 01</div>
+<div class="slide-tag">SAINS KOGNITIF</div>
+<h1 class="slide-title anim">Arsitektur Memori &amp; Beban Kognitif</h1>
+<h2 class="slide-subtitle anim">Bagaimana mata dan otak manusia menyerap stimulus visual dari layar komputer.</h2>
+<div class="slide-num">04 / 20</div>
+</div>
+
+<!-- SLIDE 5: 3 TINGKAT MEMORI -->
+<div class="slide">
+<div class="slide-tag">🧠 MODEL SISTEM KOGNISI</div>
+<h1 class="slide-title anim">3 Tingkatan Memori dalam Pengolahan Visual</h1>
+<h2 class="slide-subtitle anim">Mengapa desainer visual wajib menjaga kapasitas memori kerja audiens agar tidak overload</h2>
+<div class="grid-3 anim">
+<div class="card-box" style="border-top:4px solid #0284c7;">
+<div class="card-icon">⚡</div>
+<div class="card-title">1. Sensory Memory</div>
+<p class="card-desc">
+<b>Kecepatan: &lt; 250 milidetik</b><br>
+Bekerja secara otomatis di alam bawah sadar (*pre-conscious*). Memproses atribut visual dasar secara paralel tanpa usaha sadar.
+</p>
+</div>
+<div class="card-box" style="border-top:4px solid #ef4444;background:#fff5f5;">
+<div class="card-icon">🧠</div>
+<div class="card-title" style="color:#b91c1c;">2. Working Memory</div>
+<p class="card-desc">
+<b>Kapasitas: Sangat Terbatas (4 ± 1)</b><br>
+Tempat memproses informasi aktif. Sangat rentan kelebihan beban (*cognitive overload*) jika grafik terlalu rumit atau legenda membingungkan.
+</p>
+</div>
+<div class="card-box" style="border-top:4px solid #16a34a;">
+<div class="card-icon">📚</div>
+<div class="card-title">3. Long-Term Memory</div>
+<p class="card-desc">
+<b>Kapasitas: Tak Terbatas</b><br>
+Menyimpan wawasan, pengalaman, dan model mental permanen. Sasaran akhir dari narasi data visual (*data storytelling*).
+</p>
+</div>
+</div>
+<div class="slide-num">05 / 20</div>
+</div>
+
+<!-- SLIDE 6: TEORI BEBAN KOGNITIF (SWELLER) -->
+<div class="slide">
+<div class="slide-tag">⚖️ COGNITIVE LOAD THEORY</div>
+<h1 class="slide-title anim">3 Beban Kognitif John Sweller pada Desain Grafik</h1>
+<h2 class="slide-subtitle anim">Misi utama praktisi: Memangkas beban sia-sia demi memaksimalkan wawasan bisnis</h2>
+<div class="grid-3 anim">
+<div class="card-box">
+<div class="badge badge-blue">INTRINSIC LOAD</div>
+<div class="card-title">Beban Hakiki Data</div>
+<p class="card-desc">
+Kerumitan intrinsik dari materi/data yang dianalisis. Tidak bisa dihilangkan, namun dapat diurai melalui hierarki informasi bertahap (*drill-down*).
+</p>
+</div>
+<div class="card-box" style="border-color:#fca5a5;background:#fff5f5;">
+<div class="badge badge-pink">EXTRANEOUS LOAD</div>
+<div class="card-title" style="color:#b91c1c;">Beban Eksternal Sia-Sia</div>
+<p class="card-desc">
+Beban mental akibat desain yang buruk: warna terlalu ramai, font sulit dibaca, legenda jauh dari data, atau chartjunk. <b>WAJIB DIBERSIHKAN!</b>
+</p>
+</div>
+<div class="card-box" style="border-color:#86efac;background:#f0fdf4;">
+<div class="badge badge-green">GERMANE LOAD</div>
+<div class="card-title" style="color:#15803d;">Beban Konstruktif</div>
+<p class="card-desc">
+Energi otak yang tercurah untuk menghubungkan pola data dan menarik kesimpulan bisnis. <b>TUJUAN: MAKSIMALKAN ALOKASI INI!</b>
+</p>
+</div>
+</div>
+<div class="slide-num">06 / 20</div>
+</div>
+
+<!-- SLIDE 7: DIVIDER 2 -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN 02</div>
+<div class="slide-tag">PERSEPSI VISUAL CEPAT</div>
+<h1 class="slide-title anim">Keajaiban Atribut Pra-atentif</h1>
+<h2 class="slide-subtitle anim">Bagaimana mata menangkap anomali dan fokus data dalam tempo kurang dari 250 milidetik.</h2>
+<div class="slide-num">07 / 20</div>
+</div>
+
+<!-- SLIDE 8: 4 KATEGORI ATRIBUT PRA-ATENTIF -->
+<div class="slide">
+<div class="slide-tag">⚡ PERSEPSI BAWAH SADAR</div>
+<h1 class="slide-title anim">4 Kategori Utama Atribut Pra-atentif</h1>
+<h2 class="slide-subtitle anim">Colin Ware (Information Visualization: Perception for Design)</h2>
+<div class="grid-4 anim">
+<div class="card-box">
+<div class="card-icon">📐</div>
+<div class="card-title">1. BENTUK (Form)</div>
+<p class="card-desc">
+• Panjang Batang (*Length*)<br>
+• Lebar Batang (*Width*)<br>
+• Ukuran Area (*Size*)<br>
+• Bentuk Ikon (*Shape*)<br>
+• Orientasi Sudut (*Angle*)
+</p>
+</div>
+<div class="card-box">
+<div class="card-icon">🎨</div>
+<div class="card-title">2. WARNA (Color)</div>
+<p class="card-desc">
+• Rona Kategori (*Hue*)<br>
+• Kejenuhan (*Saturation*)<br>
+• Kecerahan (*Luminance*)<br>
+• Kontras Nilai
+</p>
+</div>
+<div class="card-box">
+<div class="card-icon">📍</div>
+<div class="card-title">3. POSISI (Spatial)</div>
+<p class="card-desc">
+• Koordinat Sumbu X<br>
+• Koordinat Sumbu Y<br>
+• Kedalaman 2D/3D<br>
+• Jarak Spasial
+</p>
+</div>
+<div class="card-box">
+<div class="card-icon">🎬</div>
+<div class="card-title">4. GERAK (Motion)</div>
+<p class="card-desc">
+• Kerlipan (*Flicker*)<br>
+• Arah Animasi<br>
+• Kecepatan (*Velocity*)<br>
+• Transisi Data
+</p>
+</div>
+</div>
+<div class="slide-num">08 / 20</div>
+</div>
+
+<!-- SLIDE 9: MATRIKS EFEKTIVITAS SALURAN VISUAL -->
+<div class="slide">
+<div class="slide-tag">📊 EVALUASI PERSEPSI MACKINLAY</div>
+<h1 class="slide-title anim">Matriks Efektivitas Saluran Visual</h1>
+<h2 class="slide-subtitle anim">Kesesuaian atribut visual berdasarkan sifat matematis data kuantitatif vs kualitatif</h2>
+<div class="anim">
+<table class="custom-table">
+<thead>
+<tr>
+<th>Saluran Visual (*Encoding*)</th>
+<th>Data Kuantitatif (Angka/Besaran)</th>
+<th>Data Kualitatif (Kategori/Grup)</th>
+<th>Rekomendasi Tipe Grafik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Posisi Spasial (X, Y)</b></td>
+<td>⭐⭐⭐⭐⭐ <i>(Paling Akurat)</i></td>
+<td>⭐⭐⭐⭐⭐ <i>(Sangat Jelas)</i></td>
+<td>Scatter Plot, Dot Plot, Line Chart</td>
+</tr>
+<tr>
+<td><b>Panjang Batang (Length)</b></td>
+<td>⭐⭐⭐⭐⭐ <i>(Sangat Akurat)</i></td>
+<td>⭐⭐⭐ <i>(Cukup)</i></td>
+<td>Bar Chart, Bullet Chart</td>
+</tr>
+<tr>
+<td><b>Rona Warna (Hue)</b></td>
+<td>❌ <i>(Tidak Cocok untuk Angka)</i></td>
+<td>⭐⭐⭐⭐⭐ <i>(Paling Kuat Kategori)</i></td>
+<td>Legend Warna Kategori, Scatter Hue</td>
+</tr>
+<tr>
+<td><b>Saturasi / Luminance</b></td>
+<td>⭐⭐⭐⭐ <i>(Bagus untuk Intensitas)</i></td>
+<td>⭐⭐ <i>(Membingungkan)</i></td>
+<td>Heatmap, Choropleth Map</td>
+</tr>
+<tr>
+<td><b>Ukuran Area (Size)</b></td>
+<td>⭐⭐⭐ <i>(Cenderung Undervalued)</i></td>
+<td>⭐⭐⭐ <i>(Cukup)</i></td>
+<td>Bubble Chart, Treemap</td>
+</tr>
+<tr>
+<td><b>Bentuk Ikon (Shape)</b></td>
+<td>❌ <i>(Tidak Bermakna Angka)</i></td>
+<td>⭐⭐⭐⭐ <i>(Maks 3-5 Kategori)</i></td>
+<td>Marker Scatter (Bulat, Segitiga, Kotak)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="slide-num">09 / 20</div>
+</div>
+
+<!-- SLIDE 10: ATURAN EMAS PRA-ATENTIF -->
+<div class="slide">
+<div class="slide-tag">💡 ATURAN EMAS DESAIN</div>
+<h1 class="slide-title anim">Hindari Visual Noise: Aturan Maksimal 2 Atribut</h1>
+<h2 class="slide-subtitle anim">Ketika segalanya dibuat mencolok, maka tidak ada lagi yang menonjol</h2>
+<div class="grid-2 anim">
+<div class="card-box" style="border-color:#fca5a5;background:#fff5f5;">
+<div class="card-title" style="color:#b91c1c;">🚫 Over-Encoding (Kekacauan Visual)</div>
+<p class="card-desc">
+Jika Anda menggabungkan:
+</p>
+<ul class="check-list" style="margin-top:8px;">
+<li>Warna merah menyala pada 10 titik berbeda</li>
+<li>Ukuran titik yang beraneka ragam</li>
+<li>Bentuk marker segitiga, bintang, dan kotak bercampur</li>
+<li>Garis batas tebal berkedip</li>
+</ul>
+<p class="card-desc" style="margin-top:8px;">
+<b>Akibat:</b> Otak mengalami paralisis visual (*visual noise*) dan waktu pencarian melonjak drastis.
+</p>
+</div>
+<div class="card-box" style="border-color:#86efac;background:#f0fdf4;">
+<div class="card-title" style="color:#15803d;">✅ Prinsip Desain Terfokus</div>
+<p class="card-desc">
+Gunakan strategi <b>1 Atribut Kunci</b>:
+</p>
+<ul class="check-list" style="margin-top:8px;">
+<li>Jadikan 95% elemen grafik berwarna abu-abu netral (#94a3b8).</li>
+<li>Gunakan <b>hanya 1 warna aksen terang</b> (misal biru elektrik #0284c7) tepat pada titik anomali atau data penting yang ingin disampaikan.</li>
+<li>Tambahkan teks anotasi langsung ke titik tersebut.</li>
+</ul>
+</div>
+</div>
+<div class="slide-num">10 / 20</div>
+</div>
+
+<!-- SLIDE 11: DIVIDER 3 -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN 03</div>
+<div class="slide-tag">PSIKOLOGI GESTALT</div>
+<h1 class="slide-title anim">7 Hukum Psikologi Gestalt</h1>
+<h2 class="slide-subtitle anim">Prinsip universal otak manusia dalam mengorganisasikan elemen visual yang terpisah menjadi struktur utuh.</h2>
+<div class="slide-num">11 / 20</div>
+</div>
+
+<!-- SLIDE 12: GESTALT 1 & 2 -->
+<div class="slide">
+<div class="slide-tag">🧩 HUKUM GESTALT — BAGIAN 1</div>
+<h1 class="slide-title anim">1. Law of Proximity &amp; 2. Law of Similarity</h1>
+<h2 class="slide-subtitle anim">Fondasi dasar pengelompokan elemen visual pada grafik batang dan scatter plot</h2>
+<div class="grid-2 anim">
+<div class="card-box">
+<div class="badge badge-blue">HUKUM 1: PROXIMITY (KEDEKATAN)</div>
+<div class="card-title">Objek Berdekatan = Satu Kelompok</div>
+<p class="card-desc">
+Objek yang diletakkan saling berdekatan secara spasial otomatis dikelompokkan bersama oleh otak manusia.
+<br><br>
+<b>Penerapan Praktis:</b> Memberi jarak spasi (*gap*) yang lebih lebar antar kelompok batang pada *grouped bar chart* agar audiens paham batas antar periode waktu.
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-purple">HUKUM 2: SIMILARITY (KESAMAAN)</div>
+<div class="card-title">Atribut Sama = Kelas / Status Sama</div>
+<p class="card-desc">
+Objek yang berbagi karakteristik visual serupa (warna, bentuk, atau orientasi) dipersepsikan berasal dari kelompok yang sama.
+<br><br>
+<b>Penerapan Praktis:</b> Menggunakan warna biru untuk seluruh transaksi sukses dan warna merah untuk seluruh transaksi gagal pada *scatter plot*.
+</p>
+</div>
+</div>
+<div class="slide-num">12 / 20</div>
+</div>
+
+<!-- SLIDE 13: GESTALT 3 & 4 -->
+<div class="slide">
+<div class="slide-tag">🧩 HUKUM GESTALT — BAGIAN 2</div>
+<h1 class="slide-title anim">3. Law of Enclosure &amp; 4. Law of Connection</h1>
+<h2 class="slide-subtitle anim">Kekuatan asosiasi pembatas area dan garis penghubung fisik</h2>
+<div class="grid-2 anim">
+<div class="card-box">
+<div class="badge badge-green">HUKUM 3: ENCLOSURE (PENGURUNGAN)</div>
+<div class="card-title">Batas Fisik = Wilayah Analisis Khusus</div>
+<p class="card-desc">
+Elemen yang dilingkupi oleh kotak batas atau blok warna latar belakang dianggap memiliki relasi eksklusif.
+<br><br>
+<b>Penerapan Praktis:</b> Memberikan kotak blok transparan abu-abu untuk menyorot periode krisis pandemi atau resesi ekonomi pada grafik deret waktu (*line chart*).
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-amber">HUKUM 4: CONNECTION (KETERHUBUNGAN)</div>
+<div class="card-title">Garis Penghubung Mengalahkan Kedekatan</div>
+<p class="card-desc">
+Garis fisik yang menghubungkan dua elemen memiliki kekuatan persepsi pengelompokan yang paling dominan di antara semua prinsip Gestalt.
+<br><br>
+<b>Penerapan Praktis:</b> Digunakan pada diagram simpul jaringan (*Network Graph*), peta rute penerbangan, dan pohon hierarki (*Decision Tree*).
+</p>
+</div>
+</div>
+<div class="slide-num">13 / 20</div>
+</div>
+
+<!-- SLIDE 14: GESTALT 5, 6, & 7 -->
+<div class="slide">
+<div class="slide-tag">🧩 HUKUM GESTALT — BAGIAN 3</div>
+<h1 class="slide-title anim">Continuity, Closure, dan Figure-Ground</h1>
+<h2 class="slide-subtitle anim">Memandu mata mengikuti alur narasi grafik secara stabil tanpa distraksi</h2>
+<div class="grid-3 anim">
+<div class="card-box">
+<div class="badge badge-blue">5. CONTINUITY</div>
+<div class="card-title">Alur Garis Halus</div>
+<p class="card-desc">
+Mata manusia cenderung mengikuti jalur garis yang kontinu dan mulus dibanding garis patah bersudut tajam.<br><br>
+<b>Aplikasi:</b> Garis tren (*trendline*) yang menghubungkan titik-titik data diskrit.
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-purple">6. CLOSURE</div>
+<div class="card-title">Penutupan Bentuk</div>
+<p class="card-desc">
+Otak otomatis melengkapi ruang kosong untuk mempersepsikan bentuk geometris utuh.<br><br>
+<b>Aplikasi:</b> Grafik donat (*Donut Chart*) atau *contour plot* tetap terbaca tanpa memerlukan garis tepi tebal.
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-green">7. FIGURE-GROUND</div>
+<div class="card-title">Kontras Latar Depan</div>
+<p class="card-desc">
+Mata memisahkan objek utama dari kanvas latar belakang berdasarkan kontras kecerahan.<br><br>
+<b>Aplikasi:</b> Gunakan latar belakang putih/abu-abu netral agar grafik data tampak menonjol jernih.
+</p>
+</div>
+</div>
+<div class="slide-num">14 / 20</div>
+</div>
+
+<!-- SLIDE 15: DIVIDER 4 -->
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN 04</div>
+<div class="slide-tag">ERGONOMI WARNA</div>
+<h1 class="slide-title anim">Teori Warna Saintifik &amp; Aksesibilitas</h1>
+<h2 class="slide-subtitle anim">3 tipe palet warna baku, bahaya colormap Rainbow, dan desain ramah buta warna.</h2>
+<div class="slide-num">15 / 20</div>
+</div>
+
+<!-- SLIDE 16: 3 TIPE PALET WARNA BAKU -->
+<div class="slide">
+<div class="slide-tag">🎨 ERGONOMI WARNA DATA</div>
+<h1 class="slide-title anim">3 Tipe Palet Warna Baku dalam Sains Data</h1>
+<h2 class="slide-subtitle anim">Memilih palet warna yang tepat sesuai struktur matematis dataset</h2>
+<div class="grid-3 anim">
+<div class="card-box">
+<div class="badge badge-blue">1. KUALITATIF</div>
+<div class="card-title">Data Nominal / Kategori</div>
+<p class="card-desc">
+Menggunakan rona (*hue*) berbeda dengan tingkat kecerahan seimbang tanpa hierarki urutan.<br><br>
+<b>Contoh:</b> Kategori produk, nama departemen, jenis sistem operasi.<br>
+<b>Palet:</b> Tab10, Set2, Okabe-Ito.
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-purple">2. SEKUENSIAL</div>
+<div class="card-title">Data Kuantitatif 1 Arah</div>
+<p class="card-desc">
+Gradasi intensitas satu warna dari terang (nilai rendah) ke gelap (nilai tinggi).<br><br>
+<b>Contoh:</b> Kepadatan penduduk, tingkat curah hujan, volume penjualan.<br>
+<b>Palet:</b> Viridis, Blues, Purples.
+</p>
+</div>
+<div class="card-box">
+<div class="badge badge-pink">3. DIVERGEN</div>
+<div class="card-title">Memiliki Titik Tengah / 0</div>
+<p class="card-desc">
+Dua warna kontras yang bertemu pada titik tengah netral (putih/abu-abu).<br><br>
+<b>Contoh:</b> Laba vs Rugi keuangan, suhu di atas/bawah beku (0°C).<br>
+<b>Palet:</b> RdBu, Coolwarm, PRGn.
+</p>
+</div>
+</div>
+<div class="slide-num">16 / 20</div>
+</div>
+
+<!-- SLIDE 17: AKSESIBILITAS BUTA WARNA (CVD) -->
+<div class="slide">
+<div class="slide-tag">👁️ AKSESIBILITAS GRAFIS</div>
+<h1 class="slide-title anim">Aksesibilitas Buta Warna &amp; Bahaya Jet Colormap</h1>
+<h2 class="slide-subtitle anim">Sekitar 8% pria dan 0.5% wanita di dunia memiliki defisiensi penglihatan warna</h2>
+<div class="grid-2 anim">
+<div class="card-box" style="border-color:#fca5a5;background:#fff5f5;">
+<div class="card-title" style="color:#b91c1c;">🚫 Mengapa Rainbow / Jet Dilarang?</div>
+<p class="card-desc">
+Colormap Rainbow (Jet) adalah musuh utama visualisasi saintifik:
+</p>
+<ul class="check-list" style="margin-top:8px;">
+<li><b>Tidak Seragam Persepsi:</b> Warna kuning terlihat jauh lebih terang dari warna hijau, menciptakan ilusi batas semu yang tidak ada pada data.</li>
+<li><b>Tidak Ramah Buta Warna:</b> Penderita deuteranopia melihat merah dan hijau sebagai warna cokelat lumpur yang sama persis.</li>
+</ul>
+</div>
+<div class="card-box" style="border-color:#86efac;background:#f0fdf4;">
+<div class="card-title" style="color:#15803d;">✅ Solusi Saintifik: Viridis &amp; Cividis</div>
+<p class="card-desc">
+Gunakan colormap terkalibrasi secara persepsi (*Perceptually Uniform*):
+</p>
+<ul class="check-list" style="margin-top:8px;">
+<li><b>Viridis &amp; Cividis:</b> Kecerahan meningkat secara monoton sempurna dari gelap ke terang, terbaca 100% saat dicetak hitam-putih.</li>
+<li><b>Kombinasi Biru - Oranye:</b> Aman 100% untuk seluruh jenis defisiensi penglihatan warna (*CVD-safe*).</li>
+</ul>
+</div>
+</div>
+<div class="slide-num">17 / 20</div>
+</div>
+
+<!-- SLIDE 18: PRAKTIKUM PYTHON -->
+<div class="slide">
+<div class="slide-tag">💻 LIVE CODING LAB</div>
+<h1 class="slide-title anim">Simulasi Python: Deteksi Anomali Pra-atentif</h1>
+<h2 class="slide-subtitle anim">Membandingkan kecepatan reaksi visual audiens secara terukur</h2>
+<pre><code><span class="code-comment"># Simulasi Atribut Pra-atentif: Dari Serial Search ke Parallel Search</span>
+<span class="code-keyword">import</span> matplotlib.pyplot <span class="code-keyword">as</span> plt
+<span class="code-keyword">import</span> numpy <span class="code-keyword">as</span> np
+
+np.random.seed(<span class="code-num">42</span>)
+x = np.repeat(np.arange(<span class="code-num">10</span>), <span class="code-num">10</span>)
+y = np.tile(np.arange(<span class="code-num">10</span>), <span class="code-num">10</span>)
+
+fig, axes = plt.subplots(<span class="code-num">1</span>, <span class="code-num">2</span>, figsize=(<span class="code-num">10</span>, <span class="code-num">4.5</span>), dpi=<span class="code-num">150</span>)
+<span class="code-comment"># Panel 1: Tanpa Pra-atentif (Semua titik abu-abu, anomali sulit dicari)</span>
+axes[<span class="code-num">0</span>].scatter(x, y, color=<span class="code-str">'#64748b'</span>, s=<span class="code-num">80</span>)
+axes[<span class="code-num">0</span>].set_title(<span class="code-str">"Tanpa Pra-atentif: Butuh Waktu &gt; 3 Detik"</span>)
+
+<span class="code-comment"># Panel 2: Dengan Pra-atentif (1 titik diwarnai merah menyala)</span>
+colors = [<span class="code-str">'#0284c7'</span> <span class="code-keyword">if</span> i != <span class="code-num">54</span> <span class="code-keyword">else</span> <span class="code-str">'#dc2626'</span> <span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(<span class="code-num">100</span>)]
+sizes = [<span class="code-num">80</span> <span class="code-keyword">if</span> i != <span class="code-num">54</span> <span class="code-keyword">else</span> <span class="code-num">250</span> <span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(<span class="code-num">100</span>)]
+axes[<span class="code-num">1</span>].scatter(x, y, color=colors, s=sizes)
+axes[<span class="code-num">1</span>].set_title(<span class="code-str">"Pra-atentif Aktif: Terdeteksi dalam &lt; 250 ms!"</span>)
+plt.show()</code></pre>
+<div class="slide-num">18 / 20</div>
+</div>
+
+<!-- SLIDE 19: KUIS INTERAKTIF -->
+<div class="slide">
+<div class="slide-tag">❓ DISKUSI REFLEKTIF</div>
+<h1 class="slide-title anim">Kuis Pemahaman &amp; Uji Kritis Mahasiswa</h1>
+<h2 class="slide-subtitle anim">Klik setiap pertanyaan untuk membuka kunci jawaban ilmiah</h2>
+<div class="anim">
+<details class="quiz">
+<summary>1. Apa perbedaan mendasar antara Extraneous Load dan Germane Load dalam visualisasi data?</summary>
+<div class="answer">
+<b>Jawaban:</b> Extraneous Load adalah beban mental sia-sia akibat desain visual yang buruk dan membingungkan (tujuan kita: meniadakannya). Sedangkan Germane Load adalah energi otak yang digunakan secara produktif untuk menarik wawasan bisnis dan mengambil keputusan (tujuan kita: memaksimalkannya).
+</div>
+</details>
+
+<details class="quiz">
+<summary>2. Mengapa colormap Rainbow (Jet) sangat dilarang pada visualisasi saintifik?</summary>
+<div class="answer">
+<b>Jawaban:</b> Karena gradasi warna Jet tidak seragam secara persepsi kognitif (*not perceptually uniform*), menciptakan batas semu yang menipu mata pembaca, dan sangat membingungkan bagi penderita defisiensi buta warna merah-hijau.
+</div>
+</details>
+
+<details class="quiz">
+<summary>3. Prinsip Gestalt manakah yang memiliki kekuatan asosiasi pengelompokan paling dominan?</summary>
+<div class="answer">
+<b>Jawaban:</b> <b>Law of Connection (Keterhubungan)</b>. Garis fisik penghubung terbukti lebih kuat menyatukan elemen visual dibanding kedekatan posisi (*proximity*) ataupun kesamaan bentuk (*similarity*).
+</div>
+</details>
+</div>
+<div class="slide-num">19 / 20</div>
+</div>
+
+<!-- SLIDE 20: RANGKUMAN & PENUTUP -->
+<div class="slide cover-slide">
+<div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div style="position:relative">
+<span class="cover-badge">✅ RANGKUMAN &amp; TINDAK LANJUT</span>
+<h1 class="slide-title anim" style="font-size:2.6rem;">Terima Kasih &amp; Selamat Belajar!</h1>
+<h2 class="slide-subtitle anim" style="max-width:760px;margin:0 auto 12px auto;">Desain yang baik menghormati keterbatasan kognisi manusia dan memandu atensi secara elegan.</h2>
+<div class="stat-row anim" style="max-width:760px;margin:16px auto 0 auto;">
+<div class="stat"><b>💻 Praktikum 2</b><small>Lab Gestalt &amp; Viridis</small></div>
+<div class="stat"><b>📖 Modul 3</b><small>Prinsip Tufte &amp; Munzner</small></div>
+<div class="stat"><b>📧 Dosen</b><small>mahendar@uui.ac.id</small></div>
+</div>
+<div class="avatar-box anim" style="margin-top:20px;"><div class="avatar-img">MD</div><div class="author-info"><div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div><div class="author-role">Program Studi S1 Informatika • Universitas Ubudiyah Indonesia</div></div></div>
+</div>
+<div class="slide-num">20 / 20</div>
+</div>
+
+</main>
+
+<!-- Floating Narration & Captions Drawer -->
+<div class="narration-drawer" id="narrationDrawer">
+  <div class="drawer-top">
+    <div class="lecturer-badge">
+      <span>🎙️ AUDIO LECTURE</span>
+      <b>Penjelasan Dosen (Suara AI Ardi — Pak Mahendar)</b>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()" title="Tutup Panel Narasi (C)">✕</button>
+  </div>
+  <div class="caption-text" id="captionText">
+    Memuat transkrip narasi slide...
+  </div>
+  <div class="audio-controls-row">
+    <button class="btn-play-pause" id="btnDrawerPlayPause" onclick="toggleAudio()">▶</button>
+    <input type="range" class="audio-scrub" id="audioScrubber" min="0" max="100" value="0" oninput="scrubAudio(this.value)">
+    <span class="audio-time" id="audioTimeDisplay">00:00 / 00:00</span>
+  </div>
+</div>
+<audio id="slideAudioPlayer" preload="auto"></audio>
+
+<footer>
+<div class="key-hint">Navigasi: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> • Fullscreen: <kbd>F</kbd> • Narasi: <kbd>P</kbd>/<kbd>S</kbd> • Captions: <kbd>C</kbd> • Auto: <kbd>A</kbd></div>
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<div class="nav-buttons">
+<button class="btn-nav secondary" id="btnPrev" onclick="prevSlide()" disabled>&larr; Sebelumnya</button>
+<button class="btn-nav" id="btnNext" onclick="nextSlide()">Selanjutnya &rarr;</button>
+</div>
+</footer>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+const progressBar = document.getElementById('progressBar');
+const slideIndicator = document.getElementById('slideIndicator');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+
+// Timer Logic
+let timerSeconds = 0;
+let timerRunning = true;
+let timerInterval = null;
+const timerEl = document.getElementById('presentationTimer');
+
+function formatTimer(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
+  return `⏱️ ${m}:${s}`;
+}
+
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (timerRunning) {
+      timerSeconds++;
+      timerEl.textContent = formatTimer(timerSeconds);
+    }
+  }, 1000);
+}
+
+function toggleTimer() {
+  timerRunning = !timerRunning;
+  timerEl.classList.toggle('paused', !timerRunning);
+}
+
+function resetTimer() {
+  timerSeconds = 0;
+  timerRunning = true;
+  timerEl.classList.remove('paused');
+  timerEl.textContent = formatTimer(0);
+}
+
+timerEl.addEventListener('click', toggleTimer);
+timerEl.addEventListener('dblclick', resetTimer);
+
+// ================= AUDIO NARRATION ENGINE (ARDI NEURAL VOICE - M2) =================
+const audioTranscripts = ["Selamat datang kembali rekan-rekan mahasiswa pada perkuliahan kedua mata kuliah Visualisasi Data IFR309. Hari ini kita akan membedah topik fundamental yang menjadi fondasi utama desain grafis analitis, yaitu Psikologi Persepsi Visual, Teori Gestalt, dan Ergonomi Warna Saintifik. Kita akan belajar bagaimana memanfaatkan mekanisme kerja otak manusia agar grafik yang kita buat langsung dipahami audiens dalam hitungan milidetik.", "Pada pertemuan kedua ini, capaian pembelajaran kita adalah memahami arsitektur kognitif manusia, menguasai atribut pra-atentif untuk memandu atensi visual audiens, menguasai penerapan tujuh prinsip Gestalt pada layout grafik, serta menerapkan palet warna ilmiah yang aman bagi penyandang defisiensi penglihatan warna atau buta warna.", "Alur pembelajaran hari ini terbagi dalam empat pilar utama. Kita mulai dari Arsitektur Memori dan Beban Kognitif, berlanjut ke Keajaiban Atribut Pra-atentif, mengupas tuntas Tujuh Hukum Gestalt, hingga mendalami Teori Warna Saintifik dan aksesibilitas ramah buta warna beserta implementasi skrip Python di laboratorium.", "Mari kita masuki Bagian Pertama: Arsitektur Pemrosesan Kognitif dan Cognitive Load Theory. Sebelum mendesain grafik, kita wajib memahami keterbatasan biologis otak manusia saat menyerap informasi dari layar komputer.", "Otak manusia memproses stimulus visual melalui tiga tingkatan memori. Pertama, Memori Sensorik dengan respons super cepat di bawah 250 milidetik yang bekerja secara otomatis di alam bawah sadar. Kedua, Memori Kerja yang kapasitasnya sangat terbatas, hanya mampu menampung sekitar empat chunk informasi sekaligus. Ketiga, Memori Jangka Panjang dengan kapasitas tak terbatas untuk menyimpan wawasan dan pengalaman. Tantangan terbesar seorang desainer visual adalah mencegah terjadinya kelebihan beban pada memori kerja audiens.", "Menurut teori John Sweller, beban kognitif terbagi menjadi tiga: Intrinsic Load yaitu kerumitan hakiki dari data itu sendiri. Extraneous Load yaitu beban sia-sia akibat desain visual yang buruk, tata letak acak-acakan, legenda membingungkan, atau garis kisi-kisi tebal. Dan Germane Load yaitu beban konstruktif yang dipakai otak untuk menarik wawasan bisnis. Tujuan utama kita adalah membasmi beban eksternal yang sia-sia, agar seluruh energi otak audiens fokus pada pemahaman wawasan.", "Kini kita beralih ke Bagian Kedua: Keajaiban Atribut Pra-atentif atau Pre-attentive Attributes. Ini adalah jalan pintas persepsi visual tercepat menuju alam bawah sadar manusia.", "Pemrosesan pra-atentif terjadi secara otomatis dalam tempo kurang dari 200 hingga 250 milidetik sebelum otak sadar sempat berpikir. Atribut ini terbagi dalam empat kategori utama: Bentuk fisik seperti panjang batang dan ukuran, Warna meliputi rona hue dan saturasi, Posisi spasial pada sumbu koordinat, serta Gerakan animasi. Dengan memanfaatkan atribut ini, kita bisa membuat satu data penting langsung melompat ke mata audiens tanpa perlu dicari.", "Slide kesembilan ini memuat matriks efektivitas saluran visual. Perhatikan bahwa Posisi Spasial dan Panjang Batang adalah saluran paling akurat bintang lima untuk data kuantitatif angka. Sebaliknya, Rona Warna sangat tidak cocok untuk mengukur besaran angka, namun sangat kuat bintang lima untuk membedakan kategori atau grup kualitatif. Jangan pernah membalik penggunaan kedua saluran ini.", "Ingat baik-baik Aturan Emas Pra-atentif: gunakan maksimal satu atau dua atribut pra-atentif secara bersamaan pada satu grafik. Jika Anda mewarnai titik dengan merah terang, mengubah ukurannya menjadi raksasa, mengubah bentuknya jadi bintang, dan memberinya kedipan sekaligus, efek pra-atentif akan hancur dan berubah menjadi kekacauan visual atau visual noise yang menyiksa audiens.", "Kita melangkah ke Bagian Ketiga: Teori Psikologi Gestalt dalam Tata Letak Visualisasi Data. Teori yang dirintis oleh Wertheimer, Koffka, dan Kohler ini menjelaskan bagaimana otak manusia secara alami menyatukan potongan-potongan visual terpisah menjadi satu kesatuan yang kohesif.", "Dua hukum Gestalt pertama adalah Law of Proximity dan Law of Similarity. Hukum Kedekatan menyatakan bahwa objek yang posisinya saling berdekatan otomatis dianggap satu kelompok, seperti memberi spasi antar kelompok batang pada grouped bar chart. Sedangkan Hukum Kesamaan menyatakan bahwa objek yang memiliki warna atau bentuk serupa dianggap memiliki sifat yang sama, seperti memberi warna biru untuk seluruh transaksi sukses dan merah untuk transaksi gagal.", "Prinsip berikutnya adalah Law of Enclosure dan Law of Connection. Hukum Pengurungan menyatakan bahwa objek yang berada dalam satu kotak pembatas atau blok arsir transparan dianggap satu wilayah analisis eksklusif, sangat efektif untuk menyorot periode krisis ekonomi pada grafik tren. Sementara Hukum Keterhubungan membuktikan bahwa garis fisik penghubung memiliki kekuatan asosiasi paling kuat dibanding kedekatan ruang, seperti pada diagram jaringan simpul.", "Tiga prinsip Gestalt pelengkap lainnya adalah Law of Continuity yaitu kecenderungan mata mengikuti garis halus berkelanjutan, Law of Closure yaitu kemampuan otak melengkapi ruang kosong menjadi bentuk geometris utuh seperti pada donut chart, serta Figure-Ground yaitu kontras tegas antara objek analisis di latar depan dengan kanvas netral di latar belakang.", "Memasuki Bagian Keempat: Teori Warna Saintifik dan Aksesibilitas Buta Warna. Warna adalah elemen paling memikat, namun sekaligus menjadi sumber kesalahan paling fatal jika digunakan secara serampangan.", "Dalam sains data, terdapat tiga tipe palet warna baku: Pertama, Palet Kualitatif untuk data nominal kategori tanpa urutan. Kedua, Palet Sekuensial untuk data kuantitatif satu arah dengan gradasi intensitas dari terang ke gelap. Dan ketiga, Palet Divergen untuk data kuantitatif yang memiliki titik tengah kritis atau nol deviasi, seperti laba versus rugi atau suhu di atas versus di bawah titik beku.", "Perhatikan aksesibilitas defisiensi penglihatan warna. Sekitar 8 persen pria di dunia mengalami buta warna merah-hijau. Karena itu, jangan pernah menggunakan kombinasi merah dan hijau murni sebagai satu-satunya pembeda status baik dan buruk. Hindari pula colormap rainbow atau jet yang menyesatkan persepsi matematis. Selalu gunakan palet saintifik terkalibrasi seperti Viridis, Cividis, atau kombinasi biru-oranye.", "Pada slide kedelapan belas, kita melihat implementasi nyata skrip Python menggunakan Matplotlib dan Seaborn. Melalui manipulasi kode warna terarah, kita dapat membuktikan bagaimana pemrosesan pra-atentif memotong waktu reaksi mata audiens dari beberapa detik menjadi seperempat detik saja dalam mendeteksi anomali data.", "Mari kita uji pemahaman kritis rekan-rekan sekalian melalui tiga pertanyaan reflektif: Bagaimana cara meminimalkan extraneous cognitive load pada dashboard? Mengapa colormap rainbow dilarang keras dalam visualisasi saintifik? Dan hukum Gestalt mana yang paling dominan dalam diagram jaringan? Silakan klik masing-masing pertanyaan untuk memverifikasi pemahaman Anda.", "Demikian perkuliahan kita pada pertemuan kedua ini. Menguasai psikologi persepsi dan teori Gestalt akan membuat grafik Anda tidak hanya indah secara estetika, namun juga sangat tajam dalam menyampaikan wawasan bisnis. Tugas praktikum mandiri minggu ini sudah tersedia di modul lab. Pada pertemuan ketiga minggu depan, kita akan mendalami Prinsip Desain Edward Tufte dan Tamara Munzner. Terima kasih, selamat belajar, dan sukses selalu untuk rekan-rekan mahasiswa sekalian."];
+const audioPlayer = document.getElementById('slideAudioPlayer');
+const btnAudioToggle = document.getElementById('btnAudioToggle');
+const audioBtnLabel = document.getElementById('audioBtnLabel');
+const soundWaveIcon = document.getElementById('soundWaveIcon');
+const narrationDrawer = document.getElementById('narrationDrawer');
+const captionText = document.getElementById('captionText');
+const btnDrawerPlayPause = document.getElementById('btnDrawerPlayPause');
+const audioScrubber = document.getElementById('audioScrubber');
+const audioTimeDisplay = document.getElementById('audioTimeDisplay');
+const chkAutoplay = document.getElementById('chkAutoplay');
+const selAudioSpeed = document.getElementById('selAudioSpeed');
+
+let isAudioPlaying = false;
+let userClosedDrawer = false;
+let currentPlaybackRate = 1.25;
+
+function getAudioUrl(slideIndex) {
+  const num = String(slideIndex + 1).padStart(2, '0');
+  return `/Perkuliahan/audio/visualisasi-data/m2/slide-${num}.mp3`;
+}
+
+function formatAudioTime(seconds) {
+  if (isNaN(seconds)) return '00:00';
+  const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function loadSlideAudio(slideIndex, autoPlayIfEnabled = true) {
+  audioPlayer.src = getAudioUrl(slideIndex);
+  audioPlayer.playbackRate = currentPlaybackRate;
+  captionText.textContent = audioTranscripts[slideIndex] || '';
+  audioScrubber.value = 0;
+  audioTimeDisplay.textContent = `00:00 / 00:00`;
+  
+  if (autoPlayIfEnabled && (chkAutoplay.checked || isAudioPlaying)) {
+    playAudio();
+  } else {
+    pauseAudio();
+  }
+}
+
+function playAudio() {
+  audioPlayer.playbackRate = currentPlaybackRate;
+  audioPlayer.play().then(() => {
+    isAudioPlaying = true;
+    btnAudioToggle.classList.add('playing');
+    soundWaveIcon.classList.remove('paused');
+    audioBtnLabel.textContent = '⏸️ Jeda Narasi';
+    btnDrawerPlayPause.textContent = '⏸';
+    if (!userClosedDrawer) narrationDrawer.classList.add('open');
+  }).catch(() => {
+    isAudioPlaying = false;
+  });
+}
+
+function pauseAudio() {
+  audioPlayer.pause();
+  isAudioPlaying = false;
+  btnAudioToggle.classList.remove('playing');
+  soundWaveIcon.classList.add('paused');
+  audioBtnLabel.textContent = '🎙️ Narasi Dosen';
+  btnDrawerPlayPause.textContent = '▶';
+}
+
+function toggleAudio() {
+  if (isAudioPlaying) {
+    pauseAudio();
+  } else {
+    userClosedDrawer = false;
+    playAudio();
+  }
+}
+
+function closeDrawer() {
+  narrationDrawer.classList.remove('open');
+  userClosedDrawer = true;
+}
+
+function toggleCaptions() {
+  narrationDrawer.classList.toggle('open');
+  userClosedDrawer = !narrationDrawer.classList.contains('open');
+}
+
+function changePlaybackRate(rate) {
+  currentPlaybackRate = parseFloat(rate);
+  audioPlayer.playbackRate = currentPlaybackRate;
+}
+
+function scrubAudio(pct) {
+  if (audioPlayer.duration) {
+    audioPlayer.currentTime = (pct / 100) * audioPlayer.duration;
+  }
+}
+
+audioPlayer.addEventListener('timeupdate', () => {
+  if (audioPlayer.duration) {
+    const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    audioScrubber.value = pct;
+    audioTimeDisplay.textContent = `${formatAudioTime(audioPlayer.currentTime)} / ${formatAudioTime(audioPlayer.duration)}`;
+  }
+});
+
+audioPlayer.addEventListener('ended', () => {
+  pauseAudio();
+});
+
+function updateSlide() {
+  slides.forEach((s, idx) => {
+    s.classList.remove('active');
+    if (idx === currentSlide) {
+      s.classList.add('active');
+      void s.offsetWidth;
+    }
+  });
+  
+  const pct = ((currentSlide + 1) / totalSlides) * 100;
+  progressBar.style.width = pct + '%';
+  slideIndicator.textContent = `SLIDE ${currentSlide + 1} / ${totalSlides}`;
+  
+  btnPrev.disabled = currentSlide === 0;
+  btnNext.disabled = currentSlide === totalSlides - 1;
+  loadSlideAudio(currentSlide, true);
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    currentSlide++;
+    updateSlide();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    updateSlide();
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    nextSlide();
+  } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+    e.preventDefault();
+    prevSlide();
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    currentSlide = 0;
+    updateSlide();
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    currentSlide = totalSlides - 1;
+    updateSlide();
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  } else if (e.key === 't' || e.key === 'T') {
+    toggleTimer();
+  } else if (e.key === 'r' || e.key === 'R') {
+    resetTimer();
+  } else if (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S') {
+    e.preventDefault();
+    toggleAudio();
+  } else if (e.key === 'c' || e.key === 'C') {
+    e.preventDefault();
+    toggleCaptions();
+  } else if (e.key === 'a' || e.key === 'A') {
+    chkAutoplay.checked = !chkAutoplay.checked;
+  }
+});
+
+// Touch swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+});
+document.addEventListener('touchend', (e) => {
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if (diff > 50) prevSlide();
+  else if (diff < -50) nextSlide();
+});
+
+// Initialize
+updateSlide();
+startTimer();
+</script>
+</body>
+</html>

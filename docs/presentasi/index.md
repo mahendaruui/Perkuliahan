@@ -52,6 +52,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
 | :---: | :--- | :---: | :---: |
 | **01** | Hakikat, Sejarah & Epistemologi Visualisasi Data | [Lihat di Web](/presentasi/pertemuan-1-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-visualisasi-data.html){target="_blank"} |
+| **02** | Psikologi Persepsi Visual, Teori Gestalt & Ergonomi Warna | [Lihat di Web](/presentasi/pertemuan-2-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-persepsi-visual-gestalt.html){target="_blank"} |
 
 
 ---
