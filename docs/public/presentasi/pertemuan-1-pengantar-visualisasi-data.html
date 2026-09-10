@@ -118,6 +118,186 @@ h2.slide-subtitle{font-size:.95rem;margin-bottom:18px}
 pre{font-size:.75rem}
 header .brand-sub,.key-hint{display:none}
 }
+
+/* --- AUDIO NARRATION PLAYER STYLES --- */
+.audio-header-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, .25);
+  transition: all .2s ease;
+}
+.audio-header-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.audio-header-btn.playing {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, .3);
+}
+.sound-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 14px;
+}
+.sound-bar {
+  width: 3px;
+  height: 100%;
+  background: #fff;
+  border-radius: 2px;
+  animation: wave 1s ease-in-out infinite alternate;
+}
+.sound-bar:nth-child(2) { animation-delay: 0.2s; height: 60%; }
+.sound-bar:nth-child(3) { animation-delay: 0.4s; height: 80%; }
+@keyframes wave {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+.sound-wave.paused .sound-bar {
+  animation: none;
+  transform: scaleY(0.4);
+}
+.autoplay-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  color: #475569;
+  cursor: pointer;
+  background: #f1f5f9;
+  border: 1px solid var(--border-dark);
+  padding: 4px 10px;
+  border-radius: 8px;
+  user-select: none;
+  font-weight: 600;
+}
+.autoplay-label input {
+  cursor: pointer;
+  accent-color: #0284c7;
+}
+.speed-select {
+  background: #f1f5f9;
+  border: 1px solid var(--border-dark);
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Floating Audio Narration Drawer */
+.narration-drawer {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  width: 90%;
+  max-width: 900px;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 14px 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #f8fafc;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.narration-drawer.open {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.drawer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.lecturer-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+.lecturer-badge span {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: .72rem;
+}
+.drawer-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.drawer-close:hover { color: #fff; }
+.caption-text {
+  font-size: .88rem;
+  line-height: 1.55;
+  color: #e2e8f0;
+  max-height: 65px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.audio-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-play-pause {
+  background: #0284c7;
+  color: #fff;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  transition: all .2s ease;
+}
+.btn-play-pause:hover { background: #0369a1; transform: scale(1.06); }
+.audio-scrub {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #38bdf8;
+}
+.audio-time {
+  font-family: 'Fira Code', monospace;
+  font-size: .75rem;
+  color: #94a3b8;
+  min-width: 80px;
+  text-align: right;
+}
+
 </style>
 </head>
 <body>
@@ -127,6 +307,27 @@ header .brand-sub,.key-hint{display:none}
 <div><div class="brand-text">VISUALISASI DATA <span>(PYTHON)</span></div><div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 1</div></div>
 </div>
 <div class="header-controls">
+
+<button class="audio-header-btn" id="btnAudioToggle" onclick="toggleAudio()" title="Putar/Jeda Narasi Dosen (P/S)">
+  <div class="sound-wave paused" id="soundWaveIcon">
+    <div class="sound-bar"></div>
+    <div class="sound-bar"></div>
+    <div class="sound-bar"></div>
+  </div>
+  <span id="audioBtnLabel">🎙️ Narasi Dosen</span>
+</button>
+
+<label class="autoplay-label" title="Otomatis putar suara saat pindah slide (A)">
+  <input type="checkbox" id="chkAutoplay">
+  <span>Auto-Play</span>
+</label>
+
+<select class="speed-select" id="selAudioSpeed" onchange="changePlaybackRate(this.value)" title="Kecepatan Suara">
+  <option value="1.0">1.0x</option>
+  <option value="1.25" selected>1.25x</option>
+  <option value="1.5">1.5x</option>
+</select>
+
 <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
 <span class="slide-badge" id="slideIndicator">SLIDE 1 / …</span>
 <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
@@ -665,10 +866,31 @@ plt.show()</code></pre>
 <div class="slide-num">20 / 20</div>
 </div>
 
+
+<!-- Floating Narration & Captions Drawer -->
+<div class="narration-drawer" id="narrationDrawer">
+  <div class="drawer-top">
+    <div class="lecturer-badge">
+      <span>🎙️ AUDIO LECTURE</span>
+      <b>Penjelasan Dosen (Suara AI Ardi — Pak Mahendar)</b>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()" title="Tutup Panel Narasi (C)">✕</button>
+  </div>
+  <div class="caption-text" id="captionText">
+    Memuat transkrip narasi slide...
+  </div>
+  <div class="audio-controls-row">
+    <button class="btn-play-pause" id="btnDrawerPlayPause" onclick="toggleAudio()">▶</button>
+    <input type="range" class="audio-scrub" id="audioScrubber" min="0" max="100" value="0" oninput="scrubAudio(this.value)">
+    <span class="audio-time" id="audioTimeDisplay">00:00 / 00:00</span>
+  </div>
+</div>
+<audio id="slideAudioPlayer" preload="auto"></audio>
+
 </main>
 
 <footer>
-<div class="key-hint">Navigasi: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> atau <kbd>Spasi</kbd> • Fullscreen: <kbd>F</kbd> • Timer: <kbd>T</kbd></div>
+<div class="key-hint">Navigasi: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> atau <kbd>Spasi</kbd> • Fullscreen: <kbd>F</kbd> • Narasi: <kbd>P</kbd>/<kbd>S</kbd> • Captions: <kbd>C</kbd> • Auto: <kbd>A</kbd></div>
 <div class="progress-container">
 <div class="progress-bar" id="progressBar"></div>
 </div>
@@ -786,6 +1008,14 @@ document.addEventListener('keydown', (e) => {
     toggleTimer();
   } else if (e.key === 'r' || e.key === 'R') {
     resetTimer();
+  } else if (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S') {
+    e.preventDefault();
+    toggleAudio();
+  } else if (e.key === 'c' || e.key === 'C') {
+    e.preventDefault();
+    toggleCaptions();
+  } else if (e.key === 'a' || e.key === 'A') {
+    chkAutoplay.checked = !chkAutoplay.checked;
   }
 });
 
@@ -801,6 +1031,123 @@ document.addEventListener('touchend', (e) => {
 });
 
 // Initialize
+
+// ================= AUDIO NARRATION ENGINE (ARDI NEURAL VOICE) =================
+const audioTranscripts = ["Halo rekan-rekan mahasiswa sekalian. Selamat datang pada perkuliahan perdana mata kuliah Visualisasi Data dengan kode IFR309, bobot tiga SKS di Universitas Ubudiyah Indonesia. Saya Mahendar Dwi Payana akan mengampu kelas ini. Pada pertemuan pertama, kita akan membedah hakikat, sejarah, serta epistemologi visualisasi data—bagaimana representasi visual mentransformasi data mentah menjadi wawasan kognitif yang berdaya guna dalam pengambilan keputusan strategis. Mari kita mulai bersama.", "Sebelum masuk ke materi inti, mari kita sepakati kontrak perkuliahan dan skema evaluasi resmi portal Siakad. Evaluasi terdiri dari lima komponen: Tugas praktikum sebesar 20 persen, Quiz 5 persen, Ujian Tengah Semester 30 persen, Ujian Akhir Semester berbasis Capstone Project sebesar 40 persen, dan aktivitas partisipatif presensi 5 persen. Batas nilai kelulusan unggul atau Grade A adalah 80 ke atas. Ingat, kehadiran minimal 75 persen adalah syarat mutlak untuk dapat mengikuti UAS, dengan toleransi keterlambatan maksimal 15 menit.", "Ini adalah peta perjalanan belajar kita selama satu semester ke depan. Di minggu-minggu awal, kita mematangkan fondasi persepsi visual, teori Gestalt, serta prinsip Tufte. Selanjutnya, kita beralih ke hands-on data wrangling menggunakan Pandas, Matplotlib Object-Oriented, dan Seaborn. Memasuki paruh kedua semester, kita akan membangun visualisasi web interaktif menggunakan Plotly, peta geospasial Folium, hingga penerapan reduksi dimensi pada Machine Learning. Pada puncaknya, setiap mahasiswa akan membangun aplikasi dashboard web interaktif berbasis Streamlit.", "Kita memasuki Bagian Pertama: Hakikat dan Landasan Kognitif Visualisasi Data. Di sesi ini, kita akan meninjau mengapa visualisasi data bukan sekadar kegiatan seni dekoratif, melainkan rekayasa komputasi untuk memperluas kapasitas berpikir manusia.", "Seringkali ada anggapan keliru bahwa visualisasi data hanya sekadar mempercantik laporan dengan grafik warna-warni. Prof. Ben Shneiderman menegaskan: The purpose of visualization is insight, not pictures. Tujuan utama visualisasi adalah wawasan kognitif, bukan semata gambarnya. Mengapa ini penting? Korteks visual mata dan otak manusia mampu memproses informasi secara paralel hingga kecepatan 20 megabit per detik. Ini jauh melampaui kemampuan otak saat membaca tabel angka atau teks biasa yang harus diproses baris demi baris secara serial.", "Berdasarkan model Card, Mackinlay, dan Shneiderman tahun 1999, visualisasi memperkuat penalaran manusia melalui enam mekanisme utama: pertama, memperluas memori kerja dengan memindahkan beban memori ke layar. Kedua, memangkas waktu pencarian data. Ketiga, mendeteksi pola dan anomali secara instan lewat penglihatan pra-atentif. Keempat, memungkinkan inferensi persepsi langsung. Kelima, mendukung pemantauan dinamis secara real-time. Dan keenam, memfasilitasi eksplorasi interaktif melalui penyaringan data secara fleksibel.", "Slide ketujuh ini menggambarkan alur kerja rekayasa visualisasi data. Proses bermula dari data mentah yang belum terstruktur, lalu dibersihkan menjadi data tabular rapi. Data ini kemudian dipetakan ke saluran-saluran visual seperti panjang batang, koordinat posisi, bentuk, dan warna. Dari representasi grafis inilah lahir wawasan baru yang mudah dipahami manusia, yang pada akhirnya bermuara pada pengambilan keputusan strategis dan kebijakan bisnis yang terukur.", "Selanjutnya, Bagian Kedua: Taksonomi Data dan Skala Pengukuran Variabel menurut Stanley Smith Stevens. Pemilihan jenis grafik yang salah seringkali berakar dari ketidakpahaman terhadap skala pengukuran data ini.", "Terdapat empat skala pengukuran variabel yang wajib kita kuasai. Skala Nominal membedakan label kategori tanpa tingkatan, seperti jenis kelamin atau nama kota, cocok dikodekan dengan rona warna atau bentuk. Skala Ordinal memiliki urutan peringkat namun selisihnya tidak pasti, seperti tingkat kepuasan, cocok diwakili intensitas saturasi warna atau urutan posisi. Skala Interval memiliki jarak terukur namun tanpa nol mutlak, contohnya suhu Celsius. Terakhir, Skala Rasio memiliki nilai nol mutlak seperti pendapatan atau jarak, di mana operasi perkalian dan pembagian berlaku sah.", "Perhatikan peringatan integritas grafis ini dengan sangat seksama. Diagram batang merepresentasikan data berskala Rasio, di mana mata manusia membaca panjang fisik batang sebagai representasi langsung dari besaran nilai. Karena itu, sumbu nilai pada diagram batang wajib dimulai dari angka nol. Memotong sumbu nilai atau truncated baseline adalah bentuk manipulasi visual yang menyesatkan audiens. Sumbu hanya boleh dipotong pada diagram garis atau data skala interval yang bertujuan melihat laju perubahan tren.", "Kini kita beralih ke Bagian Ketiga: Tiga Mahakarya Sejarah Visualisasi Data yang Mengubah Peradaban Manusia. Kita akan melihat bagaimana kekuatan analisis visual menyelamatkan ribuan nyawa dan mengubah cara manusia memandang dunia.", "Mahakarya pertama adalah Peta Kolera Broad Street karya Dr. John Snow tahun 1854 di London. Saat itu para dokter meyakini kolera menular lewat udara busuk atau miasma. Dr. Snow memplot titik-titik kematian pada peta jalanan kota dan menandai lokasi pompa air umum. Hasilnya sangat mencengangkan: kasus kematian terkonsentrasi rapat mengelilingi pompa air Broad Street. Begitu tuas pompa tersebut dilepas, wabah seketika berhenti. Karya monumental ini melahirkan disiplin ilmu Epidemiologi Spasial modern.", "Mahakarya kedua diciptakan oleh Florence Nightingale pada tahun 1858 saat Perang Krimea. Nightingale merancang diagram area kutub atau Coxcomb Chart untuk menunjukkan penyebab kematian prajurit Inggris. Parlemen mengira prajurit tewas akibat luka tembak, namun grafik Nightingale membuktikan bahwa area biru, yaitu kematian akibat penyakit menular di bangsal kotor, membunuh sepuluh kali lipat lebih banyak tentara. Melalui visualisasi ini, sistem sanitasi rumah sakit militer dirombak secara total.", "Karya ketiga dinobatkan oleh Edward Tufte sebagai grafik statistik terbaik yang pernah dibuat manusia: Peta Kampanye Pasukan Napoleon ke Rusia tahun 1869 oleh Charles Joseph Minard. Luar biasanya, grafik 2 dimensi ini menggabungkan enam dimensi variabel sekaligus: ukuran jumlah tentara dari 422 ribu hingga tersisa 10 ribu orang, koordinat geografis lintang bujur, arah pergerakan, suhu cuaca beku hingga minus 30 derajat Celsius, tanggal, dan topografi sungai penyeberangan.", "Kita memasuki Bagian Keempat: Paradigma Analitik Visualisasi Data, yaitu membedakan fase Exploratory Data Analysis atau EDA dengan Explanatory Data Storytelling.", "Seorang praktisi data profesional harus piawai membedakan dua ranah ini. Visualisasi Eksploratif dilakukan di awal untuk mencari pola tersembunyi dan menguji hipotesis. Audiensnya adalah tim data sendiri, dengan puluhan grafik cepat dan palet warna standar. Sebaliknya, Visualisasi Eksplanatif bertujuan mengomunikasikan temuan kunci kepada audiens eksekutif. Di fase ini, grafiknya terkurasi rapi, menggunakan palet abu-abu netral dengan satu warna aksen penunjuk fokus, serta dilengkapi judul yang memuat wawasan konklusif.", "Pada slide ketujuh belas, kita melihat implementasi nyata kode Python Matplotlib. Grafik di sebelah kanan menerapkan teknik visualisasi eksplanatif: lini Cloud Services yang mencapai target 123 persen diberi warna aksen biru terang, sementara empat lini bisnis lainnya diwarnai abu-abu netral. Ditambah garis referensi target 100 persen dan judul yang langsung memuat inti wawasan, audiens dapat menangkap pesan bisnis dalam hitungan detik tanpa harus menebak-nebak data.", "Untuk seluruh kegiatan praktikum di laboratorium, kita menggunakan ekosistem Python modern. Kita menggunakan NumPy dan Pandas untuk manipulasi tabel data masif, Matplotlib dan Seaborn untuk visualisasi statistik statis, serta Plotly, Folium, dan Streamlit untuk visualisasi web interaktif. Silakan pastikan paket-paket pustaka ini sudah terpasang rapi pada komputer atau virtual environment Anda masing-masing.", "Sebelum mengakhiri sesi materi, silakan renungkan tiga pertanyaan reflektif berikut. Mengapa diagram batang dilarang keras memotong sumbu nilai? Apa kontribusi terbesar peta Dr. John Snow bagi epidemiologi modern? Dan kapan seorang data scientist harus bertransisi dari grafik eksploratif ke eksplanatif? Klik masing-masing pertanyaan untuk mengecek argumentasi jawaban Anda.", "Sebagai penutup, ingatlah bahwa visualisasi data adalah jembatan antara lautan data komputasi dan kecerdasan keputusan manusia. Tugas mandiri Anda minggu ini adalah menyiapkan instalasi lab Python dan melakukan audit terhadap salah satu grafik berita media massa. Pada pertemuan kedua, kita akan mendalami psikologi persepsi visual dan hukum-hukum Gestalt. Terima kasih atas perhatian rekan-rekan sekalian, selamat belajar dan sampai jumpa di pertemuan berikutnya."];
+const audioPlayer = document.getElementById('slideAudioPlayer');
+const btnAudioToggle = document.getElementById('btnAudioToggle');
+const audioBtnLabel = document.getElementById('audioBtnLabel');
+const soundWaveIcon = document.getElementById('soundWaveIcon');
+const narrationDrawer = document.getElementById('narrationDrawer');
+const captionText = document.getElementById('captionText');
+const btnDrawerPlayPause = document.getElementById('btnDrawerPlayPause');
+const audioScrubber = document.getElementById('audioScrubber');
+const audioTimeDisplay = document.getElementById('audioTimeDisplay');
+const chkAutoplay = document.getElementById('chkAutoplay');
+const selAudioSpeed = document.getElementById('selAudioSpeed');
+
+let isAudioPlaying = false;
+let userClosedDrawer = false;
+let currentPlaybackRate = 1.25;
+
+function getAudioUrl(slideIndex) {
+  const num = String(slideIndex + 1).padStart(2, '0');
+  return `/Perkuliahan/audio/visualisasi-data/m1/slide-${num}.mp3`;
+}
+
+function formatAudioTime(seconds) {
+  if (isNaN(seconds)) return '00:00';
+  const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function loadSlideAudio(slideIndex, autoPlayIfEnabled = true) {
+  audioPlayer.src = getAudioUrl(slideIndex);
+  audioPlayer.playbackRate = currentPlaybackRate;
+  captionText.textContent = audioTranscripts[slideIndex] || '';
+  audioScrubber.value = 0;
+  audioTimeDisplay.textContent = `00:00 / 00:00`;
+  
+  if (autoPlayIfEnabled && (chkAutoplay.checked || isAudioPlaying)) {
+    playAudio();
+  } else {
+    pauseAudio();
+  }
+}
+
+function playAudio() {
+  audioPlayer.playbackRate = currentPlaybackRate;
+  audioPlayer.play().then(() => {
+    isAudioPlaying = true;
+    btnAudioToggle.classList.add('playing');
+    soundWaveIcon.classList.remove('paused');
+    audioBtnLabel.textContent = '⏸️ Jeda Narasi';
+    btnDrawerPlayPause.textContent = '⏸';
+    if (!userClosedDrawer) narrationDrawer.classList.add('open');
+  }).catch(() => {
+    isAudioPlaying = false;
+  });
+}
+
+function pauseAudio() {
+  audioPlayer.pause();
+  isAudioPlaying = false;
+  btnAudioToggle.classList.remove('playing');
+  soundWaveIcon.classList.add('paused');
+  audioBtnLabel.textContent = '🎙️ Narasi Dosen';
+  btnDrawerPlayPause.textContent = '▶';
+}
+
+function toggleAudio() {
+  if (isAudioPlaying) {
+    pauseAudio();
+  } else {
+    userClosedDrawer = false;
+    playAudio();
+  }
+}
+
+function closeDrawer() {
+  narrationDrawer.classList.remove('open');
+  userClosedDrawer = true;
+}
+
+function toggleCaptions() {
+  narrationDrawer.classList.toggle('open');
+  userClosedDrawer = !narrationDrawer.classList.contains('open');
+}
+
+function changePlaybackRate(rate) {
+  currentPlaybackRate = parseFloat(rate);
+  audioPlayer.playbackRate = currentPlaybackRate;
+}
+
+function scrubAudio(pct) {
+  if (audioPlayer.duration) {
+    audioPlayer.currentTime = (pct / 100) * audioPlayer.duration;
+  }
+}
+
+audioPlayer.addEventListener('timeupdate', () => {
+  if (audioPlayer.duration) {
+    const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    audioScrubber.value = pct;
+    audioTimeDisplay.textContent = `${formatAudioTime(audioPlayer.currentTime)} / ${formatAudioTime(audioPlayer.duration)}`;
+  }
+});
+
+audioPlayer.addEventListener('ended', () => {
+  pauseAudio();
+});
+
+// Hook into updateSlide()
+const originalUpdateSlide = updateSlide;
+updateSlide = function() {
+  originalUpdateSlide();
+  loadSlideAudio(currentSlide, true);
+};
+
 updateSlide();
 startTimer();
 </script>
