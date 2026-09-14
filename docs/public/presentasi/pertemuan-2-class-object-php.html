@@ -113,13 +113,39 @@ details.quiz .answer{margin-top:10px;font-size:.88rem;color:#334155;line-height:
 .instance{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.05)}
 .arrow-down{font-size:1.6rem;color:#4f46e5;font-weight:800;text-align:center;margin:6px 0}
 .output-block{background:#052e16;border:1px solid #166534;border-radius:12px;padding:16px 18px;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.7;color:#bbf7d0;margin-top:12px}
+/* --- Audio Narration UI --- */
+.audio-header-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:700;transition:all .2s ease;box-shadow:0 2px 6px rgba(79,70,229,.25)}
+.audio-header-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(79,70,229,.35)}
+.audio-header-btn.playing{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 2px 6px rgba(5,150,105,.3)}
+.sound-wave{display:flex;align-items:flex-end;gap:2px;height:14px}
+.sound-bar{width:3px;height:100%;background:#fff;border-radius:2px;animation:wave 1s ease-in-out infinite alternate}
+.sound-bar:nth-child(2){animation-delay:.2s;height:60%}
+.sound-bar:nth-child(3){animation-delay:.4s;height:80%}
+@keyframes wave{0%{transform:scaleY(.3)}100%{transform:scaleY(1)}}
+.sound-wave.paused .sound-bar{animation:none;transform:scaleY(.4)}
+.autoplay-label{display:flex;align-items:center;gap:6px;font-size:.8rem;color:#475569;cursor:pointer;background:#f1f5f9;border:1px solid var(--border-dark);padding:4px 10px;border-radius:8px;user-select:none;font-weight:600}
+.autoplay-label input{cursor:pointer;accent-color:#4f46e5}
+.speed-select{background:#f1f5f9;border:1px solid var(--border-dark);color:#0f172a;border-radius:8px;padding:4px 8px;font-size:.8rem;font-weight:700;cursor:pointer;outline:none}
+.narration-drawer{position:absolute;bottom:60px;left:50%;transform:translateX(-50%) translateY(120%);width:90%;max-width:900px;background:rgba(15,23,42,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 20px;box-shadow:0 20px 40px rgba(0,0,0,.45);z-index:90;display:flex;flex-direction:column;gap:10px;color:#f8fafc;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .3s ease;opacity:0;pointer-events:none}
+.narration-drawer.open{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+.drawer-top{display:flex;justify-content:space-between;align-items:center}
+.lecturer-badge{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:#818cf8}
+.lecturer-badge span{background:rgba(129,140,248,.15);border:1px solid rgba(129,140,248,.3);color:#a5b4fc;padding:2px 8px;border-radius:6px;font-size:.72rem}
+.drawer-close{background:transparent;border:none;color:#94a3b8;font-size:1.1rem;cursor:pointer}
+.drawer-close:hover{color:#fff}
+.caption-text{font-size:.88rem;line-height:1.55;color:#e2e8f0;max-height:65px;overflow-y:auto;padding-right:6px}
+.audio-controls-row{display:flex;align-items:center;gap:12px}
+.btn-play-pause{background:#4f46e5;color:#fff;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s ease}
+.btn-play-pause:hover{background:#4338ca;transform:scale(1.06)}
+.audio-scrub{flex:1;height:5px;background:rgba(255,255,255,.2);border-radius:3px;outline:none;cursor:pointer;accent-color:#818cf8}
+.audio-time{font-family:'Fira Code',monospace;font-size:.75rem;color:#94a3b8;min-width:80px;text-align:right}
 @media (max-width:768px){
 .slide{padding:24px 20px;width:96%;height:90%}
 h1.slide-title{font-size:1.6rem}
 h2.slide-subtitle{font-size:.95rem;margin-bottom:18px}
 .grid-2,.grid-3,.grid-4,.stat-row,.roadmap,.timeline{grid-template-columns:1fr}
 pre{font-size:.75rem}
-header .brand-sub,.key-hint{display:none}
+header .brand-sub,.key-hint,.autoplay-label,.speed-select{display:none}
 }
 </style>
 </head>
@@ -130,6 +156,19 @@ header .brand-sub,.key-hint{display:none}
 <div><div class="brand-text">PEMROGRAMAN BERORIENTASI OBJEK <span>(PHP 8+)</span></div><div class="brand-sub">Universitas Ubudiyah Indonesia — Pertemuan 2</div></div>
 </div>
 <div class="header-controls">
+<button class="audio-header-btn" id="btnAudioToggle" onclick="toggleAudio()" title="Putar/Jeda Narasi Dosen (P/S)">
+  <div class="sound-wave paused" id="soundWaveIcon"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+  <span id="audioBtnLabel">🎙️ Narasi Dosen</span>
+</button>
+<label class="autoplay-label" title="Otomatis putar suara saat pindah slide (A)">
+  <input type="checkbox" id="chkAutoplay">
+  <span>Auto-Play</span>
+</label>
+<select class="speed-select" id="selAudioSpeed" onchange="changePlaybackRate(this.value)" title="Kecepatan Suara">
+  <option value="1.0">1.0x</option>
+  <option value="1.25" selected>1.25x</option>
+  <option value="1.5">1.5x</option>
+</select>
 <span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
 <span class="slide-badge" id="slideIndicator">SLIDE 1 / …</span>
 <button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
@@ -668,8 +707,25 @@ header .brand-sub,.key-hint{display:none}
 </div>
 
 </main>
+<!-- Floating Narration & Captions Drawer -->
+<div class="narration-drawer" id="narrationDrawer">
+  <div class="drawer-top">
+    <div class="lecturer-badge">
+      <span>🎙️ AUDIO LECTURE</span>
+      <b>Penjelasan Dosen (Suara AI Ardi — Pak Mahendar)</b>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()" title="Tutup Panel Narasi (C)">✕</button>
+  </div>
+  <div class="caption-text" id="captionText">Memuat transkrip narasi slide...</div>
+  <div class="audio-controls-row">
+    <button class="btn-play-pause" id="btnDrawerPlayPause" onclick="toggleAudio()">▶</button>
+    <input type="range" class="audio-scrub" id="audioScrubber" min="0" max="100" value="0" oninput="scrubAudio(this.value)">
+    <span class="audio-time" id="audioTimeDisplay">00:00 / 00:00</span>
+  </div>
+</div>
+<audio id="slideAudioPlayer" preload="auto"></audio>
 <footer>
-<div class="key-hint">Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> / <kbd>Spasi</kbd> | Fullscreen: <kbd>F</kbd></div>
+<div class="key-hint">Navigasi: <kbd>◀</kbd> <kbd>▶</kbd> / <kbd>Spasi</kbd> | Fullscreen: <kbd>F</kbd> | Narasi: <kbd>P</kbd>/<kbd>S</kbd> | Captions: <kbd>C</kbd> | Auto: <kbd>A</kbd></div>
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 <div class="nav-buttons">
 <button class="btn-nav secondary" id="prevBtn" onclick="prevSlide()">◀ Sebelumnya</button>
@@ -699,6 +755,37 @@ let touchStartX=0,touchEndX=0;
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX});
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;if(touchStartX-touchEndX>50)nextSlide();if(touchEndX-touchStartX>50)prevSlide()});
 document.querySelectorAll('.slide').forEach(s=>{const w=document.createElement('img');w.src='/Perkuliahan/uuilogo.png';w.alt='';w.setAttribute('aria-hidden','true');w.className='slide-watermark';w.onerror=()=>w.remove();s.appendChild(w)});
+// ================= AUDIO NARRATION ENGINE (ARDI NEURAL VOICE) =================
+const audioTranscripts=["Assalamualaikum dan selamat pagi rekan-rekan mahasiswa. Selamat datang kembali di mata kuliah Pemrograman Berorientasi Objek dengan PHP 8 plus. Saya Mahendar Dwi Payana, dosen pengampu kelas ini. Pada pertemuan kedua hari ini, kita akan membahas Class, Object, dan Perilaku di PHP 8 plus. Jika pertemuan pertama kita memahami mengapa OOP itu penting, maka hari ini kita akan benar-benar menulis benda-benda tersebut ke dalam kode. Kita akan berkenalan dengan typed properties, method, instansiasi, variabel this, hingga rahasia cara PHP mengelola memori objek. Mari kita mulai dengan semangat.", "Sebelum masuk ke materi, mari kita lakukan rekap singkat. Pada pertemuan pertama, kita sudah membahas paradigma OOP, empat pilar, fitur modern PHP, dan Composer. Hari ini target capaian pembelajaran kita adalah sub CPMK dua: mendefinisikan Class dan Object, mendeklarasikan typed properties dan method, melakukan instansiasi dengan kata kunci new, menggunakan variabel this, serta memahami cara PHP mengelola memori objek. Agenda kita terbagi empat: blueprint atau cetak biru, perilaku objek, jebakan dan memori, dan yang terakhir praktikum membuat class Produk untuk sistem kasir.", "Mari kita mulai dari konsep paling fundamental. Class adalah cetak biru atau blueprint. Ia mendefinisikan properti sebagai data dan method sebagai perilaku. Pada tahap ini, class belum memakan memori data. Object adalah wujud konkret dari class yang sudah dialokasikan di memori oleh Zend Engine, mesin di balik PHP. Setiap object memiliki salinan datanya sendiri yang disebut state. Analoginya sederhana: class adalah resep kue, dan object adalah kue yang sudah dipanggang. Satu resep class Mahasiswa bisa melahirkan tiga object dengan data berbeda: Ahmad, Rina, dan Budi, masing-masing dengan NIM dan IPK-nya sendiri.", "Sekarang mari kita bedah anatomi sebuah class. Di dalam class Mahasiswa, ada dua jenis penghuni. Pertama, properti atau atribut, yaitu tempat menyimpan data seperti nim, nama, jurusan, dan ipk. Kedua, method atau perilaku, contohnya belajar dan cetakInfo. Perhatikan bahwa kita selalu mengawali file dengan declare strict types sama dengan satu. Ini memaksa PHP menolak tipe data yang salah sejak awal. Perhatikan juga bahwa properti nim dan nama tidak memiliki nilai default. Ini berarti keduanya wajib diisi sebelum dibaca, atau akan terjadi fatal error yang akan kita bahas pada slide dua belas.", "PHP tujuh koma empat memperkenalkan typed properties. Artinya setiap properti wajib jujur soal tipenya. Formatnya: visibility, tipe, lalu nama properti. Misalnya public string nama, atau private float saldo. Memberi nilai default bersifat opsional. Jika properti jurusan diberi default Sistem Informasi, ia aman dibaca kapan saja. Sebaliknya, properti tanpa default wajib diisi manual terlebih dahulu. Keuntungan utamanya adalah keamanan. Jika Anda mencoba mengisi properti ipk yang bertipe float dengan string, PHP akan langsung melempar TypeError. Dengan demikian, integritas data terjaga sejak pintu masuk. Tipe yang sering dipakai antara lain string, int, float, bool, array, dan nullable string.", "Jika properti menyimpan keadaan, maka method melakukan aksi. Method adalah nyawa dari sebuah object. Perhatikan konvensi penulisannya: nama method menggunakan camelCase dan biasanya berupa kata kerja, seperti hitungLuas atau cetakInfo. Parameter dan nilai kembalian juga sebaiknya bertipe jelas. Kata kunci void berarti method tersebut tidak mengembalikan nilai. Di dalam method, kita mengakses data milik object sendiri melalui this, yaitu this panah nama properti. Ingat prinsipnya: method adalah satu-satunya pintu resmi menuju data object. Semua logika dan validasi sebaiknya diletakkan di sini, bukan tercecer di luar class.", "Ada tiga operator akses yang wajib Anda kuasai, dan sering tertukar. Pertama, operator panah, digunakan untuk mengakses properti dan method dari sebuah instance atau object. Contohnya mhs panah nama. Kedua, operator scope resolution atau titik dua ganda, digunakan untuk mengakses member static atau konstanta class. Ini akan kita bahas di pertemuan tiga. Ketiga, operator nullsafe yang diperkenalkan di PHP delapan, ditulis dengan tanda tanya panah. Ia membuat chaining menjadi aman ketika sebuah nilai mungkin bernilai null. Kesalahan favorit pemula adalah menambahkan tanda dolar setelah panah, seperti mhs panah dolar nama. Ingat, setelah panah, tulis nama member tanpa tanda dolar.", "Sekarang saatnya menghidupkan object dengan kata kunci new. Perhatikan kode berikut. Kita membuat dua object dari satu class Mahasiswa yang sama. Object pertama mhs1 diisi data Ahmad Pratama dengan IPK tiga koma delapan lima. Object kedua mhs2 diisi Rina Melati, dan kita mengubah jurusannya menjadi Informatika. Ketika kita panggil method cetakInfo pada mhs1, hasilnya tetap Sistem Informasi. Inilah bukti bahwa state setiap object itu mandiri. Mengubah data pada mhs2 tidak akan menginjak data pada mhs1. Satu class, banyak object, masing-masing dengan datanya sendiri.", "Mari kita bahas variabel khusus this secara lebih dalam. Di dalam sebuah method, this otomatis merujuk kepada object yang sedang memanggil method tersebut. Kita tidak perlu mengirimnya sebagai parameter. Perhatikan class PersegiPanjang. Method hitungLuas mengembalikan this panah panjang dikali this panah lebar. Ketika kita memanggil pp panah hitungLuas, maka this di dalam method merujuk pada object pp. Jika object lain memanggil method yang sama, this akan merujuk ke object itu. Jadi, ganti object-nya, maka isi this pun berganti. Itulah keajaiban reuse dalam OOP.", "Mari kita uji pemahaman dengan latihan menebak. Bayangkan ada dua object, a dan b, dengan ukuran berbeda. Ketika a memanggil hitungLuas, this merujuk pada a, dan hasilnya lima puluh. Ketika b memanggil hitungLuas, this merujuk pada b, dan hasilnya dua puluh satu. Lalu ketika a kembali memanggil hitungKeliling, this kembali merujuk pada a, menghasilkan tiga puluh. Pertanyaannya, kenapa method yang sama bisa menghasilkan angka berbeda? Jawabannya, karena this berganti mengikuti pemanggil. Method-nya hanya satu, tersimpan di class, tetapi datanya banyak, tersebar di tiap object. Inilah inti dari reuse di dalam OOP.", "Kita sudah memahami cara membuat dan menghidupkan object. Namun, ada dua hal yang paling sering menjebak pemula PHP delapan, yaitu error properti yang belum diinisialisasi, dan cara PHP menyimpan object di memori. Mari kita bahas keduanya, karena dua topik ini sangat sering muncul di UTS dan wawancara kerja.", "Mari kita bahas error yang wajib dihafal: uninitialized typed property. Jika Anda mendeklarasikan properti bertipe tanpa nilai default, lalu membacanya sebelum diisi, PHP tidak memberi peringatan biasa. PHP langsung menghentikan eksekusi total dengan fatal error, yang berbunyi: typed property Mahasiswa dollar nama must not be accessed before initialization. Error ini muncul di UTS hampir setiap tahun. Ada tiga solusi. Pertama, isi dulu propertinya, baru dibaca. Kedua, berikan nilai default langsung di class. Ketiga, buat properti menjadi nullable dengan tanda tanya dan nilai default null. Ingat urutannya: new, isi properti, baru panggil method. Jangan dibalik.", "Mari kita rangkum menjadi sebuah checklist inisialisasi yang aman, agar Anda tidak pernah kena error tersebut lagi. Pola pertama, gunakan default value untuk data yang punya nilai wajar awal, misalnya ipk nol koma nol, stok nol, atau jurusan Sistem Informasi. Pola kedua, gunakan nullable untuk data yang memang boleh kosong, misalnya wali, lalu cek dengan operator nullsafe. Pola ketiga, isi properti seusai new. Pola keempat, dan ini yang paling elegan, adalah menggunakan constructor. Pada pertemuan tiga nanti, kita akan mewajibkan pengisian data melalui constructor plus constructor promotion. Dengan begitu, error uninitialized ini akan punah dengan sendirinya.", "Sekarang kita masuk ke rahasia memori. Di PHP, variabel object tidak menyimpan nilai mentah, melainkan menyimpan object identifier atau handle. Jadi, ketika Anda menulis b sama dengan a, yang disalin adalah handle-nya, bukan bendanya. Mari kita lihat contohnya. Kita buat object a dengan nama Budi. Lalu b sama dengan a. Ketika kita mengubah nama melalui b menjadi Siti, ternyata a pun berubah menjadi Siti. Kenapa? Karena a dan b menunjuk ke object yang sama di memori. Analoginya seperti dua remote yang mengendalikan satu televisi. Ubah melalui remote satu, maka yang terlihat di televisi itu juga berubah.", "Lalu bagaimana jika kita benar-benar butuh object kembar yang independen, atau fotokopi yang sesungguhnya? Gunakan kata kunci clone. Ketika kita menulis c sama dengan clone a, PHP membuat duplikat fisik yang terpisah di memori. Sekarang, jika kita mengubah nama melalui c menjadi Andi, maka a tetap Siti. Mari kita bandingkan. Assignment biasa menghasilkan satu object yang dibagi. Clone menghasilkan dua object yang terpisah. Pertanyaan ujian yang paling favorit adalah: berapa object yang tercipta? Hitunglah jumlah new ditambah clone, bukan jumlah variabelnya.", "Sebelum masuk praktikum, mari kita bicara soal disiplin file. Aturan mainnya: satu class, satu file. Simpan class Mahasiswa di file Mahasiswa.php, dan letakkan kode eksekusinya di main.php atau index.php. Nama file harus sama dengan nama class. Class diawali huruf besar atau PascalCase, sedangkan method menggunakan camelCase. Dengan cara ini, proyek Anda tidak akan menjadi sarang require yang berantakan. Nanti pada pertemuan sembilan, require once manual ini akan kita ganti dengan autoloading Composer berbasis PSR empat.", "Teori kita sudah lengkap. Sekarang saatnya praktikum terbimbing. Kita akan membangun sebuah class Produk untuk sistem kasir sederhana. Class ini akan menerapkan semua teori hari ini: typed properties, method dengan validasi, penggunaan this, dan pengelolaan state. Mari kita mulai.", "Ini adalah kerangka class Produk. Ia memiliki empat properti: kode, nama, harga, dan stok. Perhatikan, properti stok diberi nilai default nol sehingga aman dibaca kapan saja. Sedangkan kode, nama, dan harga tidak diberi default, sehingga wajib diisi terlebih dahulu. Perhatikan juga method tambahStok. Di dalamnya ada validasi: jika jumlah lebih besar dari nol, baru stok ditambahkan. Jika tidak, kita tampilkan pesan kesalahan. Inilah pola validasi yang benar. Tolak input yang tidak valid di pintu method, dan jangan biarkan properti diisi langsung tanpa pemeriksaan.", "Selanjutnya, method jual. Ini adalah logika bisnis yang sesungguhnya. Pertama, kita cek apakah jumlah yang dijual valid, yaitu lebih besar dari nol. Kedua, kita cek apakah stok mencukupi. Jika ya, kita kurangi stok, hitung subtotal, dan tampilkan pesan penjualan berhasil. Jika stok tidak cukup, kita tampilkan peringatan dan mengembalikan nilai false. Pada contoh uji, stok awal adalah sepuluh. Jual tiga berhasil, menyisakan tujuh. Lalu jual sepuluh gagal, karena stok hanya tujuh. Terakhir, tambah stok lima, sehingga stok menjadi dua belas. Perhatikan bagaimana setiap perubahan state tercatat dengan rapi di dalam object.", "Saatnya kuis kilat tiga menit. Jawab dulu di dalam hati, baru buka jawabannya. Pertanyaan pertama: jika b sama dengan a, lalu b panah nama diisi Siti, berapa nilai a panah nama? Jawabannya adalah Siti, karena assignment object menyalin handle, bukan bendanya. Pertanyaan kedua: apa arti error must not be accessed before initialization? Itu berarti properti bertipe dibaca sebelum pernah diisi. Solusinya, isi dulu, beri default, atau buat nullable. Pertanyaan ketiga: di dalam method, apa isi this? Jawabannya, referensi ke object yang sedang memanggil method tersebut. Beda pemanggil, beda isi this, beda pula hasilnya.", "Mari kita lakukan latihan berpasangan. Dengan teman sebangku, trace program berikut di kertas, tanpa laptop. Kita mulai dengan object x yang memiliki stok lima. Lalu y sama dengan x, artinya y berbagi handle yang sama. y jual dua, sehingga stok menjadi tiga. Selanjutnya z sama dengan clone x, jadi z adalah fotokopi independen dengan stok tiga. z jual dua, menjadi satu. Pertanyaannya, berapa stok x dan berapa stok z? Jawabannya, x tetap tiga, karena tidak terpengaruh clone, sedangkan z bernilai satu. Waktu lima menit untuk trace, dua menit untuk pembahasan. Yang benar duluan mendapatkan poin partisipasi.", "Ini tugas mandiri Anda. Terapkan pola class Produk ke domain penggajian. Buat file Karyawan.php dengan properti idKaryawan, nama, divisi, gajiPokok, dan jumlahJamLembur yang default-nya nol. Tambahkan empat method: tambahLembur, hitungUangLembur dengan tarif lima puluh ribu rupiah per jam, hitungTotalGaji, dan cetakSlipGaji. Lalu buat main.php yang menginstansiasi minimal dua object karyawan dengan jam lembur berbeda, dan cetak slip gaji keduanya. Kriteria penilaiannya: strict types, typed properties terisi penuh, validasi input, output yang rapi, dan repository GitHub yang terstruktur. Kumpulkan melalui GitHub dan LMS.", "Mari kita lihat posisi kita dalam roadmap satu semester. Pertemuan satu dan dua sudah selesai. Fondasi pembuatan object sudah kokoh. Berikutnya, pada pertemuan tiga, kita akan mengunci pengisian data sejak lahir melalui constructor, method chaining, static members, dan constructor promotion. Setelah itu, kita masuk ke encapsulation, inheritance, polymorphism, interface, hingga UTS. Paruh kedua semester kita akan mengeksplorasi namespace, exception, collection, file handling, SOLID, arsitektur aplikasi, capstone project, dan diakhiri UAS.", "Demikian pertemuan kedua kita. Kesimpulan hari ini: class adalah resep, object adalah kuenya, dan this adalah juru masak yang tahu kue mana yang sedang ia panggang. Pada pertemuan berikutnya, kita akan membahas constructor, method chaining, static members, dan constructor promotion, sehingga error uninitialized property akan punah selamanya. Silakan kerjakan tugas Karyawan dan pastikan environment PHP Anda sudah siap. Terima kasih atas perhatiannya, semoga ilmu hari ini bermanfaat. Wassalamualaikum warahmatullahi wabarakatuh."];
+const audioPlayer=document.getElementById('slideAudioPlayer');
+const btnAudioToggle=document.getElementById('btnAudioToggle');
+const audioBtnLabel=document.getElementById('audioBtnLabel');
+const soundWaveIcon=document.getElementById('soundWaveIcon');
+const narrationDrawer=document.getElementById('narrationDrawer');
+const captionText=document.getElementById('captionText');
+const btnDrawerPlayPause=document.getElementById('btnDrawerPlayPause');
+const audioScrubber=document.getElementById('audioScrubber');
+const audioTimeDisplay=document.getElementById('audioTimeDisplay');
+const chkAutoplay=document.getElementById('chkAutoplay');
+const selAudioSpeed=document.getElementById('selAudioSpeed');
+let isAudioPlaying=false;
+let userClosedDrawer=false;
+let currentPlaybackRate=1.25;
+function getAudioUrl(i){const num=String(i+1).padStart(2,'0');return '/Perkuliahan/audio/pemrograman-oop-php/m2/slide-'+num+'.mp3'}
+function formatAudioTime(sec){if(isNaN(sec))return '00:00';const m=Math.floor(sec/60).toString().padStart(2,'0');const s=Math.floor(sec%60).toString().padStart(2,'0');return m+':'+s}
+function loadSlideAudio(i,autoPlayIfEnabled=true){audioPlayer.src=getAudioUrl(i);audioPlayer.playbackRate=currentPlaybackRate;captionText.textContent=audioTranscripts[i]||'';audioScrubber.value=0;audioTimeDisplay.textContent='00:00 / 00:00';if(autoPlayIfEnabled&&(chkAutoplay.checked||isAudioPlaying)){playAudio()}else{pauseAudio()}}
+function playAudio(){audioPlayer.playbackRate=currentPlaybackRate;audioPlayer.play().then(()=>{isAudioPlaying=true;btnAudioToggle.classList.add('playing');soundWaveIcon.classList.remove('paused');audioBtnLabel.textContent='⏸️ Jeda Narasi';btnDrawerPlayPause.textContent='⏸';if(!userClosedDrawer)narrationDrawer.classList.add('open')}).catch(()=>{isAudioPlaying=false})}
+function pauseAudio(){audioPlayer.pause();isAudioPlaying=false;btnAudioToggle.classList.remove('playing');soundWaveIcon.classList.add('paused');audioBtnLabel.textContent='🎙️ Narasi Dosen';btnDrawerPlayPause.textContent='▶'}
+function toggleAudio(){if(isAudioPlaying){pauseAudio()}else{userClosedDrawer=false;playAudio()}}
+function closeDrawer(){narrationDrawer.classList.remove('open');userClosedDrawer=true}
+function toggleCaptions(){narrationDrawer.classList.toggle('open');userClosedDrawer=!narrationDrawer.classList.contains('open')}
+function changePlaybackRate(rate){currentPlaybackRate=parseFloat(rate);audioPlayer.playbackRate=currentPlaybackRate}
+function scrubAudio(pct){if(audioPlayer.duration){audioPlayer.currentTime=(pct/100)*audioPlayer.duration}}
+audioPlayer.addEventListener('timeupdate',()=>{if(audioPlayer.duration){const pct=(audioPlayer.currentTime/audioPlayer.duration)*100;audioScrubber.value=pct;audioTimeDisplay.textContent=formatAudioTime(audioPlayer.currentTime)+' / '+formatAudioTime(audioPlayer.duration)}});
+audioPlayer.addEventListener('ended',()=>{pauseAudio()});
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;if(e.key==='p'||e.key==='P'||e.key==='s'||e.key==='S'){e.preventDefault();toggleAudio()}else if(e.key==='c'||e.key==='C'){e.preventDefault();toggleCaptions()}else if(e.key==='a'||e.key==='A'){chkAutoplay.checked=!chkAutoplay.checked}});
+const originalUpdateSlide=updateSlide;
+updateSlide=function(){originalUpdateSlide();loadSlideAudio(currentSlide,true)};
 updateSlide();startTimer();
 </script>
 </body>

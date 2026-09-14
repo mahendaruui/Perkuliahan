@@ -17,4 +17,8 @@
 </div>
 
 > [!TIP]
-> **Petunjuk Presentasi:** Klik di dalam area slide di atas, lalu gunakan tombol panah <kbd>◀</kbd> / <kbd>▶</kbd> pada keyboard atau tekan <kbd>F</kbd> untuk presentasi layar penuh.
+> **Petunjuk Presentasi & Audio Narasi:** 
+> * ⌨️ **Navigasi Slide:** Klik area slide, lalu gunakan tombol panah <kbd>◀</kbd> / <kbd>▶</kbd> atau <kbd>Spasi</kbd>. Tekan <kbd>F</kbd> untuk presentasi layar penuh.
+> * 🎙️ **Audio Narasi Dosen (Suara AI Ardi):** Tekan tombol <kbd>P</kbd> atau <kbd>S</kbd> untuk memutar/menjeda narasi suara penjelasan materi slide saat ini.
+> * 🔁 **Mode Auto-Play:** Tekan tombol <kbd>A</kbd> atau centang `Auto-Play` di header slide agar suara otomatis memutar penjelasan setiap kali berpindah slide.
+> * 💬 **Transkrip & Subtitle:** Tekan tombol <kbd>C</kbd> untuk membuka/menutup teks transkrip penjelasan dosen.
