@@ -53,6 +53,8 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | :---: | :--- | :---: | :---: |
 | **01** | Hakikat, Sejarah & Epistemologi Visualisasi Data | [Lihat di Web](/presentasi/pertemuan-1-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-visualisasi-data.html){target="_blank"} |
 | **02** | Psikologi Persepsi Visual, Teori Gestalt & Ergonomi Warna | [Lihat di Web](/presentasi/pertemuan-2-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-persepsi-visual-gestalt.html){target="_blank"} |
+| **03** | Prinsip Desain Edward Tufte & Kerangka Kerja Tamara Munzner | [Lihat di Web](/presentasi/pertemuan-3-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-prinsip-tufte-munzner.html){target="_blank"} |
+| **04** | Data Wrangling & Exploratory Data Analysis dengan Pandas | [Lihat di Web](/presentasi/pertemuan-4-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-data-wrangling-eda-pandas.html){target="_blank"} |
 
 
 ---

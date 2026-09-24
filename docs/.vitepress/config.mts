@@ -68,7 +68,8 @@ export default withMermaid(
             { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
             { text: '⚡ Algoritma & Pemrograman', link: '/presentasi/pertemuan-1-algoritma' },
             { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
-            { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' }
+            { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' },
+            { text: '📊 Visualisasi Data (Python)', link: '/presentasi/pertemuan-1-visualisasi-data' }
           ]
         }
       ],
@@ -127,7 +128,9 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Pertemuan 1: Hakikat & Epistemologi', link: '/presentasi/pertemuan-1-visualisasi-data' },
-              { text: 'Pertemuan 2: Persepsi Visual & Gestalt', link: '/presentasi/pertemuan-2-visualisasi-data' }
+              { text: 'Pertemuan 2: Persepsi Visual & Gestalt', link: '/presentasi/pertemuan-2-visualisasi-data' },
+              { text: 'Pertemuan 3: Prinsip Tufte & Munzner', link: '/presentasi/pertemuan-3-visualisasi-data' },
+              { text: 'Pertemuan 4: Data Wrangling & EDA Pandas', link: '/presentasi/pertemuan-4-visualisasi-data' }
             ]
           }
         ],
