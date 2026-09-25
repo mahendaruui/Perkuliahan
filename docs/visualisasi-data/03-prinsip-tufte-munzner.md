@@ -74,6 +74,36 @@ Visualisasi data harus merepresentasikan kebenaran angka secara geometris tanpa 
 
 ---
 
+### D. Small Multiples (Teknik Multivariat)
+*Small Multiples* (disebut juga *trellis*, *facet*, atau *lattice*) adalah teknik menyusun **banyak grafik kecil dalam satu kisi** untuk membandingkan beberapa kelompok/seri data secara sekaligus. Setiap panel menampilkan satu kelompok dengan **jenis grafik dan skala sumbu yang identik**, sehingga mata dapat membandingkan pola antar panel dalam sekejap.
+
+::: info 🔲 Anatomi Small Multiples
+* **Satu panel = satu kelompok** (satu wilayah, satu kategori, satu periode).
+* **Skala sumbu WAJIB seragam** di seluruh panel (`sharex=True`, `sharey=True` pada Matplotlib).
+* **Grafik konteks** berupa garis/palet redup (mis. abu-abu) sering ditambahkan sebagai pembanding bagi panel lain.
+* Memanfaatkan hukum Gestalt: *Similarity* (bentuk sama) dan *Proximity* (jarak dekat) agar perbandingan terasa intuitif.
+:::
+
+**Kapan digunakan:**
+1. Data multivariat dengan 3+ kelompok/seri yang jika ditumpuk dalam satu grafik akan saling menutupi (*overplotting*).
+2. Membandingkan **bentuk tren** (naik/turun/datar) antar kelompok, bukan sekadar nilai absolutnya.
+3. Menyajikan perkembangan data spasial atau temporal (mis. penjualan per wilayah per bulan).
+
+| Pendekatan | Kondisi Visual | Keterbacaan |
+| :--- | :--- | :--- |
+| **Satu grafik (tumpuk)** | Semua seri bertumpuk → *spaghetti chart* | ❌ Rendah, garis saling menutupi |
+| **Small Multiples** | Kisi panel kecil skala seragam | ✅ Tinggi, pola tiap kelompok langsung terlihat |
+
+::: danger ⚠️ Kesalahan Umum
+1. **Skala sumbu tidak seragam** antar panel — perbandingan menjadi menipu karena panel yang "lebih curam" sebenarnya hanya beda skala.
+2. **Terlalu banyak panel** (puluhan) dalam satu slide — mata tidak sanggup membandingkan, gunakan agregasi atau pilih panel perwakilan.
+3. Menambahkan chartjunk di setiap panel kecil — justru memperparah beban kognitif karena diulang berkali-kali.
+:::
+
+> 💻 Implementasi kode Small Multiples dengan Matplotlib (`plt.subplots(2, 2, sharex=True, sharey=True)`) dibahas pada **Praktikum 3** di bagian bawah modul ini.
+
+---
+
 ## 2. Kerangka Kerja Bertingkat Tamara Munzner (What-Why-How)
 
 Profesor Tamara Munzner (Universitas British Columbia) merumuskan kerangka kerja komprehensif 4 tingkat (*Nested Model*) untuk merancang dan memvalidasi visualisasi data analitis:
