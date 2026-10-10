@@ -1,5 +1,5 @@
 # RENCANA PEMBELAJARAN SEMESTER (RPS)
-## MATA KULIAH: STRUKTUR DATA (IFR205) - OBE CURRICULUM
+## MATA KULIAH: STRUKTUR DATA (PKP205) - OBE CURRICULUM
 
 ---
 
@@ -8,24 +8,24 @@
 | **Komponen** | **Keterangan / Rincian** |
 | :--- | :--- |
 | **Perguruan Tinggi** | Universitas Ubudiyah Indonesia (UUI) |
-| **Fakultas** | Fakultas Sains dan Teknologi |
-| **Program Studi** | S-1 Informatika |
+| **Fakultas** | Fakultas Sosial Sains & Ilmu Pendidikan |
+| **Program Studi** | Pendidikan Komputer |
 | **Nama Mata Kuliah** | **Struktur Data** *(Data Structures & Algorithms)* |
-| **Kode Mata Kuliah** | **IFR205** |
+| **Kode Mata Kuliah** | **PKP205** |
 | **Bahan Kajian (BK)** | **BK12** (Data Structures, Algorithms and Complexity) |
 | **Bobot SKS** | **3 SKS** (2 SKS Teori, 1 SKS Praktikum Laboratorium) |
 | **Semester** | 2 (Genap) |
 | **Mata Kuliah Prasyarat** | Algoritma dan Pemrograman (**IFR206**) |
 | **Bahasa Pengantar Praktikum** | **Golang (Go)** & Pseudocode Standar |
-| **Dosen Pengembang RPS** | Tim Dosen Rumpun Ilmu Komputasi & Rekayasa Perangkat Lunak UUI |
+| **Dosen Pengampu** | SRI SAFIATUDDIN, S.Pd., M.Pd |
 | **Koordinator Rumpun MK** | Mahendar Dwi Payana, S.ST., M.T. |
-| **Ketua Program Studi** | M. Bayu Wibawa, S.Kom., MMSI |
+| **Ketua Program Studi** | Rizki Julia Utama, M.P.d |
 
 ---
 
 ## 📖 DESKRIPSI MATA KULIAH
 
-Mata kuliah **Struktur Data (IFR205)** merupakan mata kuliah inti kompetensi keilmuan informatika yang mempelajari cara pengorganisasian, penyimpanan, dan manipulasi data di dalam memori komputer (*RAM*) secara efisien. Mata kuliah ini menggunakan pendekatan **Outcome-Based Education (OBE)** dengan penekanan kuat pada analisis kompleksitas algoritma (*Big-O Time & Space Complexity*) dan implementasi terapan menggunakan bahasa pemrograman **Golang (Go)**.
+Mata kuliah **Struktur Data (PKP205)** merupakan mata kuliah inti kompetensi keilmuan informatika yang mempelajari cara pengorganisasian, penyimpanan, dan manipulasi data di dalam memori komputer (*RAM*) secara efisien. Mata kuliah ini menggunakan pendekatan **Outcome-Based Education (OBE)** dengan penekanan kuat pada analisis kompleksitas algoritma (*Big-O Time & Space Complexity*) dan implementasi terapan menggunakan bahasa pemrograman **Golang (Go)**.
 
 Golang dipilih sebagai bahasa pengantar praktikum modern karena memiliki sistem pengetikan ketat (*statically typed*), manajemen pointer memori eksplisit (`*` dan `&`), representasi memori *slice* dan *array*, *struct composition*, *garbage collection* berkecepatan tinggi, dan arsitektur konkurensi bawaan (*goroutine & channel*) yang sangat relevan untuk industri *software engineering* dan komputasi awan (*cloud native*).
 
