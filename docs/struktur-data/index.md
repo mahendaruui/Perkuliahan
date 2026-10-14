@@ -1,6 +1,6 @@
-# Struktur Data (PKP205) — Implementasi Golang
+# Struktur Data (IFR205) — Implementasi Golang
 
-Selamat datang di repositori materi perkuliahan **Struktur Data** (Kode MK: **PKP205**, Bobot: **3 SKS**) Program Studi Pendidikan Komputer, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI).
+Selamat datang di repositori materi perkuliahan **Struktur Data** (Kode MK: **IFR205**, Bobot: **3 SKS**) Program Studi S-1 Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia (UUI).
 
 Materi ini diselenggarakan berbasis kurikulum **Outcome-Based Education (OBE)** dengan penekanan pada efisiensi alokasi memori (*Stack & Heap*), notasi *Big-O Complexity*, dan implementasi berbasis bahasa pemrograman performa tinggi **Golang (Go)**.
 
@@ -9,9 +9,7 @@ Materi ini diselenggarakan berbasis kurikulum **Outcome-Based Education (OBE)** 
 ## 🎓 Informasi Mata Kuliah
 
 ::: info METADATA KURIKULUM OBE
-- **Kode Mata Kuliah:** PKP205
-- **Dosen Pengampu:** SRI SAFIATUDDIN, S.Pd., M.Pd
-- **Program Studi:** Pendidikan Komputer
+- **Kode Mata Kuliah:** IFR205
 - **Bahan Kajian (BK):** BK12 (Data Structures, Algorithms and Complexity)
 - **Bobot SKS:** 3 SKS (2 SKS Teori, 1 SKS Praktikum Laboratorium)
 - **Semester:** 2 (Genap)
