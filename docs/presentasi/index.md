@@ -56,6 +56,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **03** | Prinsip Desain Edward Tufte & Kerangka Kerja Tamara Munzner | [Lihat di Web](/presentasi/pertemuan-3-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-prinsip-tufte-munzner.html){target="_blank"} |
 | **04** | Data Wrangling & Exploratory Data Analysis dengan Pandas | [Lihat di Web](/presentasi/pertemuan-4-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-data-wrangling-eda-pandas.html){target="_blank"} |
 | **05** | Matplotlib Fundamental Object-Oriented (Figure, Axes, GridSpec, Twin Axes) | [Lihat di Web](/presentasi/pertemuan-5-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-matplotlib-fundamental.html){target="_blank"} |
+| **06** | Visualisasi Statistik & Distribusi dengan Seaborn | [Lihat di Web](/presentasi/pertemuan-6-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-seaborn-statistik-distribusi.html){target="_blank"} |
 
 
 ---
