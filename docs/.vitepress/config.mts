@@ -132,7 +132,8 @@ export default withMermaid(
               { text: 'Pertemuan 3: Prinsip Tufte & Munzner', link: '/presentasi/pertemuan-3-visualisasi-data' },
               { text: 'Pertemuan 4: Data Wrangling & EDA Pandas', link: '/presentasi/pertemuan-4-visualisasi-data' },
               { text: 'Pertemuan 5: Matplotlib Fundamental OO', link: '/presentasi/pertemuan-5-visualisasi-data' },
-              { text: 'Pertemuan 6: Seaborn Statistik & Distribusi', link: '/presentasi/pertemuan-6-visualisasi-data' }
+              { text: 'Pertemuan 6: Seaborn Statistik & Distribusi', link: '/presentasi/pertemuan-6-visualisasi-data' },
+              { text: 'Pertemuan 7: Visualisasi Relasi & Multivariat', link: '/presentasi/pertemuan-7-visualisasi-data' }
             ]
           }
         ],
