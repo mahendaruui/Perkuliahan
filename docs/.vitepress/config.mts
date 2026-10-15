@@ -135,7 +135,8 @@ export default withMermaid(
               { text: 'Pertemuan 6: Seaborn Statistik & Distribusi', link: '/presentasi/pertemuan-6-visualisasi-data' },
               { text: 'Pertemuan 7: Visualisasi Relasi & Multivariat', link: '/presentasi/pertemuan-7-visualisasi-data' },
               { text: 'Pertemuan 9: Visualisasi Interaktif Plotly', link: '/presentasi/pertemuan-9-visualisasi-data' },
-              { text: 'Pertemuan 10: Pemetaan Geospasial Folium', link: '/presentasi/pertemuan-10-visualisasi-data' }
+              { text: 'Pertemuan 10: Pemetaan Geospasial Folium', link: '/presentasi/pertemuan-10-visualisasi-data' },
+              { text: 'Pertemuan 11: Visualisasi Deret Waktu & Finansial', link: '/presentasi/pertemuan-11-visualisasi-data' }
             ]
           }
         ],
