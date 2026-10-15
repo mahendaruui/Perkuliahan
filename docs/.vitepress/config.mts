@@ -133,7 +133,9 @@ export default withMermaid(
               { text: 'Pertemuan 4: Data Wrangling & EDA Pandas', link: '/presentasi/pertemuan-4-visualisasi-data' },
               { text: 'Pertemuan 5: Matplotlib Fundamental OO', link: '/presentasi/pertemuan-5-visualisasi-data' },
               { text: 'Pertemuan 6: Seaborn Statistik & Distribusi', link: '/presentasi/pertemuan-6-visualisasi-data' },
-              { text: 'Pertemuan 7: Visualisasi Relasi & Multivariat', link: '/presentasi/pertemuan-7-visualisasi-data' }
+              { text: 'Pertemuan 7: Visualisasi Relasi & Multivariat', link: '/presentasi/pertemuan-7-visualisasi-data' },
+              { text: 'Pertemuan 9: Visualisasi Interaktif Plotly', link: '/presentasi/pertemuan-9-visualisasi-data' },
+              { text: 'Pertemuan 10: Pemetaan Geospasial Folium', link: '/presentasi/pertemuan-10-visualisasi-data' }
             ]
           }
         ],

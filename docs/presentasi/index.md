@@ -58,6 +58,8 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **05** | Matplotlib Fundamental Object-Oriented (Figure, Axes, GridSpec, Twin Axes) | [Lihat di Web](/presentasi/pertemuan-5-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-matplotlib-fundamental.html){target="_blank"} |
 | **06** | Visualisasi Statistik & Distribusi dengan Seaborn | [Lihat di Web](/presentasi/pertemuan-6-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-seaborn-statistik-distribusi.html){target="_blank"} |
 | **07** | Visualisasi Korelasi, Matriks & Multivariat | [Lihat di Web](/presentasi/pertemuan-7-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-visualisasi-relasi-multivariat.html){target="_blank"} |
+| **09** | Visualisasi Interaktif & Web-Ready dengan Plotly | [Lihat di Web](/presentasi/pertemuan-9-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-9-plotly-interaktif.html){target="_blank"} |
+| **10** | Visualisasi Data Geospasial & Pemetaan Wilayah (Folium) | [Lihat di Web](/presentasi/pertemuan-10-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-10-geospasial-folium.html){target="_blank"} |
 
 
 ---
