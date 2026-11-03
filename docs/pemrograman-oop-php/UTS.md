@@ -18,7 +18,7 @@ Setiap kelompok membangun **satu aplikasi OOP PHP 8+** sesuai tema yang ditetapk
 | **CPMK-2** | Class, object, constructor, method | Struktur class & instansiasi objek |
 | **CPMK-3** | Encapsulation, inheritance, polymorphism, abstraction | Penerapan 4 pilar pada kode |
 | **CPL-KU1** | Berpikir logis & sistematis | Alur program & relasi antar class |
-| **CPL-KK1** | Merancang & mendokumentasikan aplikasi | UML class diagram & README |
+| **CPL-KK1** | Merancang & mendokumentasikan aplikasi | Dokumentasi desain class & README |
 | **CPL-S1** | Kerja sama & etika akademik | Kontribusi tim & keaslian kode |
 
 **Sub-CPMK 1–7:** konsep OOP · class & object · constructor & method · encapsulation · inheritance · polymorphism · abstraction.
@@ -29,7 +29,7 @@ Setiap kelompok membangun **satu aplikasi OOP PHP 8+** sesuai tema yang ditetapk
 
 ### A. Keanggotaan
 1. Satu kelompok terdiri atas **4–5 mahasiswa**.
-2. Setiap anggota **wajib** memiliki kontribusi kode yang dapat dilacak melalui riwayat commit Git.
+2. Setiap anggota **wajib** memiliki kontribusi yang jelas, dicantumkan pada tabel pembagian tugas di laporan.
 3. Tema ditetapkan oleh dosen (lihat pembagian tema di bawah) dan **tidak boleh ditukar** tanpa persetujuan.
 
 ### B. Teknologi & Batasan
@@ -38,7 +38,7 @@ Setiap kelompok membangun **satu aplikasi OOP PHP 8+** sesuai tema yang ditetapk
 | PHP 8.1+ murni (tanpa framework) | Database (MySQL/PDO) |
 | CLI (`php app.php`) atau HTML sederhana | Composer / Namespace / PSR-4 |
 | Array sebagai penyimpanan in-memory | File I/O (`fopen`, `fwrite`, `json_encode` ke file) |
-| Git & GitHub | Exception handling lanjutan (`try-catch`) |
+| Arsip ZIP (`.zip`) | Exception handling lanjutan (`try-catch`) |
 | `declare(strict_types=1)` | Framework (Laravel, Symfony), library eksternal |
 
 ### C. Ketentuan Teknis Wajib
@@ -247,13 +247,32 @@ Proyek yang **tidak** memiliki abstract class **atau** interface **atau** trait 
 
 | No | Artefak | Keterangan |
 | :--: | :--- | :--- |
-| 1 | **Repository GitHub** | Public / invite dosen. Struktur `src/`, `app.php`, `README.md` |
-| 2 | **Laporan PDF** | 8–12 halaman: latar, UML class diagram, penjelasan 4 pilar OOP, screenshot output, pembagian tugas |
-| 3 | **UML Class Diagram** | Menampilkan relasi inheritance, interface, trait, dan asosiasi |
-| 4 | **Video Demo (3–5 menit)** | Menjalankan program + menjelaskan alur objek |
-| 5 | **Slide Presentasi** | PDF/PPTX, maksimal 8 slide |
+| 1 | **Berkas ZIP (Source Code)** | Folder `src/`, `app.php`, dan `README.md` — dikompres ke dalam satu arsip |
+| 2 | **Laporan PDF** | Memuat **screenshot kode**, **hasil pengujian**, dan **pembahasan** |
+| 3 | **Slide Presentasi** | PDF/PPTX, maksimal 8 slide |
 
-**Format nama berkas:** `UTS_PBO_Kelompok-XX_Judul.zip` (laporan & slide), sedangkan kode di GitHub.
+**Format nama berkas:** `UTS_PBO_Kelompok-XX_Judul.zip` — berisi laporan, slide, dan seluruh source code. Diunggah melalui **Edlink (Sevima)**.
+
+### 📤 Ketentuan Pengumpulan (Edlink / Sevima)
+
+1. Kumpulkan **satu berkas ZIP** melalui menu tugas UTS pada platform **Edlink (Sevima)**.
+2. Struktur di dalam ZIP:
+   ```text
+   UTS_PBO_Kelompok-XX_Judul/
+   ├── Laporan_UTS_Kelompok-XX.pdf
+   ├── Slide_UTS_Kelompok-XX.pdf
+   └── source-code/
+       ├── src/            # seluruh class
+       ├── app.php         # runner program
+       └── README.md       # cara menjalankan
+   ```
+3. Pastikan ZIP **dapat diekstrak** dan program berjalan dengan `php app.php` setelah diekstrak.
+4. Hanya **ketua kelompok** yang mengunggah; seluruh anggota tetap mencantumkan nama pada laporan.
+5. Simpan bukti unggah (screenshot konfirmasi Edlink) sampai nilai keluar.
+
+::: warning ⚠️ Berkas rusak atau tidak dapat diekstrak
+Arsip yang corrupt, kosong, atau tidak berisi source code dianggap **belum mengumpulkan** dan mengikuti ketentuan keterlambatan.
+:::
 
 ---
 
@@ -265,7 +284,7 @@ Proyek yang **tidak** memiliki abstract class **atau** interface **atau** trait 
 | **Kualitas Desain Class** | 20% | Relasi class logis, tanggung jawab tunggal, penamaan konsisten | Ada duplikasi/tanggung jawab bercampur | Desain berantakan (spaghetti) |
 | **Kelengkapan Fitur** | 20% | Semua fitur wajib berjalan sesuai kasus | Sebagian fitur berjalan | Banyak fitur tidak berfungsi |
 | **Kualitas Kode & Dokumentasi** | 15% | `strict_types`, typed properties, README & komentar jelas | Cukup rapi, dokumentasi minim | Tidak konsisten, sulit dibaca |
-| **Presentasi & Demo** | 15% | Menjelaskan alur objek & menjawab pertanyaan teknis | Menjelaskan dasar | Tidak menguasai kode |
+| **Pembahasan & Presentasi** | 15% | Pembahasan analitis & menjawab pertanyaan teknis | Menjelaskan dasar | Tidak menguasai kode |
 
 ::: tip 💡 Tips memperoleh nilai tinggi
 Fokus pada **kualitas desain**, bukan jumlah fitur. Satu sistem dengan 6 class yang relasi OOP-nya tepat dan bersih lebih bernilai daripada 15 class yang saling tumpang tindih tanggung jawab.
@@ -278,10 +297,10 @@ Fokus pada **kualitas desain**, bukan jumlah fitur. Satu sistem dengan 6 class y
 | Pekan | Aktivitas | Output |
 | :---: | :--- | :--- |
 | **8 (UTS)** | Pengumuman tema & pembentukan kelompok | Daftar anggota |
-| **8** | Konsultasi desain class (online/kelas) | Draft UML |
-| **9** | Pengumpulan progres + review desain | Repo awal + UML revisi |
-| **9** | **Batas akhir pengumpulan** | Semua artefak |
-| **10** | Demo & presentasi kelompok | Video/slide |
+| **8** | Konsultasi desain class (online/kelas) | Draft desain class |
+| **9** | Pengumpulan progres + review desain | Berkas progres + desain class revisi |
+| **9** | **Batas akhir pengumpulan** | Arsip ZIP (laporan + source code + slide) |
+| **10** | Presentasi & tanya jawab kelompok | Slide |
 
 ::: warning ⚠️ Keterlambatan
 Pengumpulan melewati batas waktu dikenakan pengurangan **10% per hari** (maksimal 3 hari). Setelah itu dianggap tidak mengumpulkan kecuali ada alasan medis/force majeure yang dibuktikan.
@@ -293,13 +312,12 @@ Pengumpulan melewati batas waktu dikenakan pengurangan **10% per hari** (maksima
 
 1. **Halaman Judul** — judul sistem, nomor kelompok, nama & NIM.
 2. **Latar Belakang & Rumusan Masalah** (1 halaman).
-3. **Desain Sistem**
-   - UML Class Diagram.
-   - Penjelasan peran setiap class, abstract class, interface, dan trait.
-4. **Penerapan 4 Pilar OOP** — tunjukkan potongan kode + penjelasan.
-5. **Skenario Pengujian** — input dan output program.
-6. **Pembagian Tugas** — tabel kontribusi per anggota (kode & laporan).
-7. **Kesimpulan & Kendala.**
+3. **Desain Sistem** — daftar class, abstract class, interface, dan trait beserta perannya masing-masing.
+4. **Screenshot Kode** — tangkapan layar potongan kode inti untuk setiap pilar OOP (encapsulation, inheritance, polymorphism, abstraction), disertai penjelasan singkat.
+5. **Hasil Pengujian** — tangkapan layar output program untuk setiap fitur wajib (minimal 5 skenario).
+6. **Pembahasan** — analisis mengapa desain tersebut dipilih, kendala yang dihadapi, dan alternatif solusi yang dipertimbangkan.
+7. **Pembagian Tugas** — tabel kontribusi per anggota (kode & laporan).
+8. **Kesimpulan & Saran.**
 
 ---
 
@@ -307,7 +325,7 @@ Pengumpulan melewati batas waktu dikenakan pengurangan **10% per hari** (maksima
 
 - Kode harus **asli karya kelompok**. Mengambil kode dari repositori lain tanpa atribusi = **plagiarisme** (nilai 0).
 - Referensi eksternal (dokumentasi PHP, artikel) **boleh**, tetapi wajib dicantumkan di README.
-- Seluruh anggota harus mampu menjelaskan **bagian kodenya sendiri** saat demo. Ketidakmampuan menjelaskan akan mengurangi nilai individu.
+- Seluruh anggota harus mampu menjelaskan **bagian kodenya sendiri** saat presentasi. Ketidakmampuan menjelaskan akan mengurangi nilai individu.
 
 ---
 
@@ -320,9 +338,9 @@ Pengumpulan melewati batas waktu dikenakan pengurangan **10% per hari** (maksima
 - [ ] Polymorphism terlihat pada parameter bertipe interface/abstract.
 - [ ] `declare(strict_types=1)` di semua file.
 - [ ] README berisi cara menjalankan & daftar fitur.
-- [ ] UML class diagram sesuai kode aktual.
-- [ ] Riwayat commit menunjukkan kontribusi setiap anggota.
-- [ ] Laporan PDF, slide, dan video demo lengkap.
+- [ ] Laporan memuat **screenshot kode**, **hasil pengujian**, dan **pembahasan**.
+- [ ] Tabel pembagian tugas mencantumkan kontribusi setiap anggota.
+- [ ] Laporan PDF dan slide presentasi lengkap.
 
 > [!TIP]
-> Simpan tautan repository di README laporan. Pastikan dosen dapat mengakses repository (Public atau diundang sebagai kolaborator) sebelum tenggat.
+> Unggah **satu berkas ZIP** melalui **Edlink (Sevima)** sebelum tenggat. Pastikan arsip berisi laporan, slide, dan seluruh source code, serta dapat diekstrak dan dijalankan tanpa error.
