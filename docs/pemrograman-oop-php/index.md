@@ -35,7 +35,7 @@ Telah tersedia **Buku Ajar Resmi Pemrograman Berorientasi Objek menggunakan PHP 
 - [Minggu 7: Abstraksi, Interface, dan Backed Enum](/pemrograman-oop-php/interface-abstract) — *Template method pattern, multiple interfaces, dan integrasi Backed Enum PHP 8.1+.*
 
 ### 3. Evaluasi Tengah Semester
-- **Minggu 8: Ujian Tengah Semester (UTS)** — *Evaluasi Teoretis dan Uji Praktikum Komprehensif Minggu 1–7.*
+- [Minggu 8: UTS — Tugas Proyek Kelompok (8 Kelompok)](/pemrograman-oop-php/UTS) — *Tugas proyek OOP terapan: 8 tema sistem, rubrik penilaian, dan linimasa.*
 
 ### 4. Ekosistem Modern, Error Handling & I/O
 - [Minggu 9: Manajemen Namespace, Standar PSR-4, dan Composer](/pemrograman-oop-php/namespace) — *namespace isolation, resolusi FQN/aliasing, PSR-4 autoloading, dan optimasi class produksi.*

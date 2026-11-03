@@ -226,6 +226,13 @@ export default withMermaid(
             ]
           },
           {
+            text: 'Evaluasi Tengah Semester',
+            collapsed: false,
+            items: [
+              { text: 'UTS — Tugas Proyek Kelompok (8 Kelompok)', link: '/pemrograman-oop-php/UTS' }
+            ]
+          },
+          {
             text: 'OOP Lanjutan & Libraries',
             collapsed: false,
             items: [
