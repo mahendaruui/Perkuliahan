@@ -30,7 +30,7 @@ features:
     title: Multi Bahasa & Teknologi
     details: Mencakup Java, PHP 8+, React Native, Golang, Web Stack (HTML/CSS/JS/Laravel), dan C++/Python
   - icon: 📚
-    title: 7 Mata Kuliah Lengkap
+    title: 9 Mata Kuliah Lengkap
     details: Tersedia materi pertemuan 1–16, silabus RPS, modul praktikum, dan panduan proyek akhir
   - icon: 💡
     title: Contoh Kode & Studi Kasus
@@ -65,6 +65,8 @@ Setiap mata kuliah telah disusun secara komprehensif mengikuti standar **Rencana
 - **[📊 Kompleksitas Algoritma](/kompleksitas-algoritma/)**: Analisis efisiensi algoritma secara mendalam — Notasi Asimtotik Big-O, Big-Ω (Omega), Big-Θ (Theta), Time Complexity, Space Complexity, Best/Average/Worst Case Analysis, serta teknik optimasi kode.
 
 - **[📊 Visualisasi Data (Python)](/visualisasi-data/)**: Rekayasa visualisasi data berbasis OBE — Teori Gestalt, Prinsip Tufte & Munzner, Data Wrangling Pandas, Visualisasi Statis Matplotlib & Seaborn, Visualisasi Interaktif Plotly, Pemetaan Geospasial Folium, Visualisasi AI/ML, hingga Dashboard Web Streamlit dan Data Storytelling.
+
+- **[🗄️ Big Data (IFR229)](/big-data/)**: Rekayasa sistem data skala besar untuk Kelas RPL — Karakteristik 5V, Arsitektur Terdistribusi & HDFS, Hadoop MapReduce & Hive, Apache Spark & Optimasi ETL, NoSQL & Kafka Streaming, Orkestrasi Airflow & Kualitas Data, Machine Learning Terdistribusi, hingga Capstone dengan Tata Kelola, Keamanan, Privasi, dan Optimasi Biaya.
 
 ---
 

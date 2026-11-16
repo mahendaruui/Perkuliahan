@@ -53,7 +53,8 @@ export default withMermaid(
             {
               text: 'Sains Data & Visualisasi',
               items: [
-                { text: '📊 Visualisasi Data (Python)', link: '/visualisasi-data/' }
+                { text: '📊 Visualisasi Data (Python)', link: '/visualisasi-data/' },
+                { text: '🗄️ Big Data (IFR229)', link: '/big-data/' }
               ]
             }
           ]
@@ -537,6 +538,55 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 16: Evaluasi Akhir Semester (UAS)', link: '/visualisasi-data/16-evaluasi-akhir-semester' }
+            ]
+          }
+        ],
+
+        '/big-data/': [
+          {
+            text: 'Informasi Mata Kuliah',
+            collapsed: false,
+            items: [
+              { text: '🗄️ Silabus & Peta Materi', link: '/big-data/' },
+              { text: '📋 Dokumen RPS OBE', link: '/big-data/RPS' }
+            ]
+          },
+          {
+            text: 'Bagian 1: Fondasi & Arsitektur',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Fondasi & Lanskap Big Data', link: '/big-data/01-pengantar-big-data' },
+              { text: 'Pertemuan 2: Arsitektur Terdistribusi & Penyimpanan', link: '/big-data/02-arsitektur-terdistribusi-penyimpanan' }
+            ]
+          },
+          {
+            text: 'Bagian 2: Pemrosesan Batch',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 3: Hadoop, MapReduce & Hive', link: '/big-data/03-hadoop-mapreduce-hive' },
+              { text: 'Pertemuan 4: Apache Spark & Optimasi ETL', link: '/big-data/04-apache-spark' }
+            ]
+          },
+          {
+            text: 'Bagian 3: NoSQL & Streaming',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 5: NoSQL, Kafka & Event Streaming', link: '/big-data/05-nosql-kafka-streaming' }
+            ]
+          },
+          {
+            text: 'Bagian 4: Operasional & Analitik',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 6: Pipeline, Orkestrasi & Kualitas Data', link: '/big-data/06-pipeline-orkestrasi-kualitas' },
+              { text: 'Pertemuan 7: Analitik & ML Terdistribusi', link: '/big-data/07-analitik-ml-terdistribusi' }
+            ]
+          },
+          {
+            text: 'Bagian 5: Capstone & Tata Kelola',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 8: Proyek Akhir, Tata Kelola & Biaya', link: '/big-data/08-proyek-akhir-tata-kelola' }
             ]
           }
         ]
