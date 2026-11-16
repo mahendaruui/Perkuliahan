@@ -1,5 +1,10 @@
 # Pertemuan 2: Arsitektur Terdistribusi & Penyimpanan Data
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 2](/presentasi/pertemuan-2-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-2-arsitektur-penyimpanan.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 2)
 - **CPMK Terkait:** CPMK 2
 - **CPL Terkait:** CPL01, CPL03, CPL04

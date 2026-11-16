@@ -1,5 +1,10 @@
 # Pertemuan 8: Proyek Akhir, Tata Kelola, Keamanan & Optimasi Biaya
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 8](/presentasi/pertemuan-8-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-8-capstone-tata-kelola.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 8)
 - **CPMK Terkait:** CPMK 5
 - **CPL Terkait:** CPL04, CPL08

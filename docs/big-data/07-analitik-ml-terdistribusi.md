@@ -1,5 +1,10 @@
 # Pertemuan 7: Analitik & Machine Learning Terdistribusi
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 7](/presentasi/pertemuan-7-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-7-ml-terdistribusi.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 7)
 - **CPMK Terkait:** CPMK 4
 - **CPL Terkait:** CPL04, CPL05

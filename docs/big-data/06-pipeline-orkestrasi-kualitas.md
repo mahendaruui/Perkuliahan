@@ -1,5 +1,10 @@
 # Pertemuan 6: Pipeline, Orkestrasi & Kualitas Data
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 6](/presentasi/pertemuan-6-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-6-pipeline-airflow.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 6)
 - **CPMK Terkait:** CPMK 4
 - **CPL Terkait:** CPL04, CPL08

@@ -6,6 +6,10 @@ Mata kuliah ini membekali mahasiswa dengan kemampuan **merancang, membangun, men
 
 > **"Big data is not just about volume — it is about building systems that turn raw events into reliable decisions."**
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Setiap pertemuan dilengkapi **slide presentasi HTML interaktif** dengan navigasi keyboard, timer, transkrip, dan narasi audio. Buka **[Daftar Slide Big Data](/presentasi/)** untuk mengakses kedelapan deck.
+:::
+
 ---
 
 ## 🏛️ Identitas Mata Kuliah

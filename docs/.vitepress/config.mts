@@ -70,7 +70,8 @@ export default withMermaid(
             { text: '⚡ Algoritma & Pemrograman', link: '/presentasi/pertemuan-1-algoritma' },
             { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
             { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' },
-            { text: '📊 Visualisasi Data (Python)', link: '/presentasi/pertemuan-1-visualisasi-data' }
+            { text: '📊 Visualisasi Data (Python)', link: '/presentasi/pertemuan-1-visualisasi-data' },
+            { text: '🗄️ Big Data (IFR229)', link: '/presentasi/pertemuan-1-big-data' }
           ]
         }
       ],
@@ -138,6 +139,20 @@ export default withMermaid(
               { text: 'Pertemuan 9: Visualisasi Interaktif Plotly', link: '/presentasi/pertemuan-9-visualisasi-data' },
               { text: 'Pertemuan 10: Pemetaan Geospasial Folium', link: '/presentasi/pertemuan-10-visualisasi-data' },
               { text: 'Pertemuan 11: Visualisasi Deret Waktu & Finansial', link: '/presentasi/pertemuan-11-visualisasi-data' }
+            ]
+          },
+          {
+            text: '🗄️ Big Data (IFR229)',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Fondasi & Lanskap Big Data', link: '/presentasi/pertemuan-1-big-data' },
+              { text: 'Pertemuan 2: Arsitektur & Penyimpanan', link: '/presentasi/pertemuan-2-big-data' },
+              { text: 'Pertemuan 3: Hadoop, MapReduce & Hive', link: '/presentasi/pertemuan-3-big-data' },
+              { text: 'Pertemuan 4: Apache Spark & Optimasi ETL', link: '/presentasi/pertemuan-4-big-data' },
+              { text: 'Pertemuan 5: NoSQL, Kafka & Streaming', link: '/presentasi/pertemuan-5-big-data' },
+              { text: 'Pertemuan 6: Pipeline, Orkestrasi & Kualitas', link: '/presentasi/pertemuan-6-big-data' },
+              { text: 'Pertemuan 7: Analitik & ML Terdistribusi', link: '/presentasi/pertemuan-7-big-data' },
+              { text: 'Pertemuan 8: Capstone, Tata Kelola & Biaya', link: '/presentasi/pertemuan-8-big-data' }
             ]
           }
         ],

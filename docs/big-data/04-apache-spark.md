@@ -1,5 +1,10 @@
 # Pertemuan 4: Apache Spark & Optimasi ETL
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 4](/presentasi/pertemuan-4-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-4-apache-spark.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 4)
 - **CPMK Terkait:** CPMK 2
 - **CPL Terkait:** CPL01, CPL03, CPL04

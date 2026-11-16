@@ -1,5 +1,10 @@
 # Pertemuan 3: Hadoop — MapReduce, YARN & Hive
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 3](/presentasi/pertemuan-3-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-3-hadoop-mapreduce-hive.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 3)
 - **CPMK Terkait:** CPMK 2
 - **CPL Terkait:** CPL01, CPL03, CPL04

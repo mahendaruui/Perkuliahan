@@ -62,6 +62,21 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **10** | Visualisasi Data Geospasial & Pemetaan Wilayah (Folium) | [Lihat di Web](/presentasi/pertemuan-10-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-10-geospasial-folium.html){target="_blank"} |
 | **11** | Visualisasi Data Deret Waktu (Time Series) & Finansial | [Lihat di Web](/presentasi/pertemuan-11-visualisasi-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-11-time-series.html){target="_blank"} |
 
+---
+
+## 🗄️ Big Data (IFR229) — Kelas RPL
+
+| Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
+| :---: | :--- | :---: | :---: |
+| **01** | Fondasi & Lanskap Big Data | [Lihat di Web](/presentasi/pertemuan-1-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-big-data.html){target="_blank"} |
+| **02** | Arsitektur Terdistribusi & Penyimpanan | [Lihat di Web](/presentasi/pertemuan-2-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-arsitektur-penyimpanan.html){target="_blank"} |
+| **03** | Hadoop: MapReduce, YARN & Hive | [Lihat di Web](/presentasi/pertemuan-3-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-hadoop-mapreduce-hive.html){target="_blank"} |
+| **04** | Apache Spark & Optimasi ETL | [Lihat di Web](/presentasi/pertemuan-4-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-apache-spark.html){target="_blank"} |
+| **05** | NoSQL, Kafka & Event Streaming | [Lihat di Web](/presentasi/pertemuan-5-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-nosql-kafka.html){target="_blank"} |
+| **06** | Pipeline, Orkestrasi & Kualitas Data | [Lihat di Web](/presentasi/pertemuan-6-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-pipeline-airflow.html){target="_blank"} |
+| **07** | Analitik & Machine Learning Terdistribusi | [Lihat di Web](/presentasi/pertemuan-7-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-ml-terdistribusi.html){target="_blank"} |
+| **08** | Proyek Akhir, Tata Kelola & Optimasi Biaya | [Lihat di Web](/presentasi/pertemuan-8-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-8-capstone-tata-kelola.html){target="_blank"} |
+
 
 ---
 

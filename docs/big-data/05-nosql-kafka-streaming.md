@@ -1,5 +1,10 @@
 # Pertemuan 5: NoSQL, Kafka & Event Streaming
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 5](/presentasi/pertemuan-5-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-5-nosql-kafka.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 5)
 - **CPMK Terkait:** CPMK 3
 - **CPL Terkait:** CPL03, CPL04

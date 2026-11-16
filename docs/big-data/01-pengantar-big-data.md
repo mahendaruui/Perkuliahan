@@ -1,5 +1,10 @@
 # Pertemuan 1: Fondasi & Lanskap Big Data
 
+::: tip 🎙️ Slide Presentasi Interaktif
+Buka **[slide presentasi Pertemuan 1](/presentasi/pertemuan-1-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
+Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-1-pengantar-big-data.html)** di tab baru.
+:::
+
 ::: tip CAPAIAN PEMBELAJARAN (SUB-CPMK 1)
 - **CPMK Terkait:** CPMK 1
 - **CPL Terkait:** CPL01 (Pengetahuan), CPL03 (Problem Solving)
