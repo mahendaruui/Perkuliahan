@@ -77,6 +77,21 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 | **07** | Analitik & Machine Learning Terdistribusi | [Lihat di Web](/presentasi/pertemuan-7-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-ml-terdistribusi.html){target="_blank"} |
 | **08** | Proyek Akhir, Tata Kelola & Optimasi Biaya | [Lihat di Web](/presentasi/pertemuan-8-big-data) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-8-capstone-tata-kelola.html){target="_blank"} |
 
+---
+
+## 🏛️ Data Warehouse (IFR237)
+
+| Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
+| :---: | :--- | :---: | :---: |
+| **01** | Data Warehouse & Business Intelligence | [Lihat di Web](/presentasi/pertemuan-1-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-data-warehouse.html){target="_blank"} |
+| **02** | Arsitektur & Pemodelan Konseptual | [Lihat di Web](/presentasi/pertemuan-2-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-arsitektur-pemodelan.html){target="_blank"} |
+| **03** | Fact, Dimension & Star Schema | [Lihat di Web](/presentasi/pertemuan-3-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-fact-dimension-star.html){target="_blank"} |
+| **04** | Snowflake, Galaxy & SCD | [Lihat di Web](/presentasi/pertemuan-4-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-snowflake-scd.html){target="_blank"} |
+| **05** | ETL & Kualitas Data | [Lihat di Web](/presentasi/pertemuan-5-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-etl-kualitas-data.html){target="_blank"} |
+| **06** | OLAP & SQL Analytics | [Lihat di Web](/presentasi/pertemuan-6-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-olap-sql-analytics.html){target="_blank"} |
+| **07** | Implementasi & Optimasi | [Lihat di Web](/presentasi/pertemuan-7-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-implementasi-optimasi.html){target="_blank"} |
+| **08** | Proyek Akhir, Tata Kelola & UAS | [Lihat di Web](/presentasi/pertemuan-8-datawarehouse) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-8-dw-capstone.html){target="_blank"} |
+
 
 ---
 

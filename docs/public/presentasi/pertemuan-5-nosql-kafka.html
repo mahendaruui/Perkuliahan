@@ -266,6 +266,7 @@ WHERE user_id = ? LIMIT 50;</code></pre><div class="card-box" style="border-left
 producer.send("orders.events",
               key=order_id, value=event)</code></pre><pre><code>consumer = KafkaConsumer(
   "orders.events",
+  bootstrap_servers="localhost:9092",
   group_id="order-enricher",
   enable_auto_commit=False,
   value_deserializer=lambda b: json.loads(b.decode()),

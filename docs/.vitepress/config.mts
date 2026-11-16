@@ -54,7 +54,8 @@ export default withMermaid(
               text: 'Sains Data & Visualisasi',
               items: [
                 { text: '📊 Visualisasi Data (Python)', link: '/visualisasi-data/' },
-                { text: '🗄️ Big Data (IFR229)', link: '/big-data/' }
+                { text: '🗄️ Big Data (IFR229)', link: '/big-data/' },
+                { text: '🏛️ Data Warehouse (IFR237)', link: '/datawarehouse/' }
               ]
             }
           ]
@@ -71,7 +72,8 @@ export default withMermaid(
             { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
             { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' },
             { text: '📊 Visualisasi Data (Python)', link: '/presentasi/pertemuan-1-visualisasi-data' },
-            { text: '🗄️ Big Data (IFR229)', link: '/presentasi/pertemuan-1-big-data' }
+            { text: '🗄️ Big Data (IFR229)', link: '/presentasi/pertemuan-1-big-data' },
+            { text: '🏛️ Data Warehouse (IFR237)', link: '/presentasi/pertemuan-1-datawarehouse' }
           ]
         }
       ],
@@ -153,6 +155,20 @@ export default withMermaid(
               { text: 'Pertemuan 6: Pipeline, Orkestrasi & Kualitas', link: '/presentasi/pertemuan-6-big-data' },
               { text: 'Pertemuan 7: Analitik & ML Terdistribusi', link: '/presentasi/pertemuan-7-big-data' },
               { text: 'Pertemuan 8: Capstone, Tata Kelola & Biaya', link: '/presentasi/pertemuan-8-big-data' }
+            ]
+          },
+          {
+            text: '🏛️ Data Warehouse (IFR237)',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Data Warehouse & BI', link: '/presentasi/pertemuan-1-datawarehouse' },
+              { text: 'Pertemuan 2: Arsitektur & Pemodelan', link: '/presentasi/pertemuan-2-datawarehouse' },
+              { text: 'Pertemuan 3: Fact, Dimension & Star', link: '/presentasi/pertemuan-3-datawarehouse' },
+              { text: 'Pertemuan 4: Snowflake, Galaxy & SCD', link: '/presentasi/pertemuan-4-datawarehouse' },
+              { text: 'Pertemuan 5: ETL & Kualitas Data', link: '/presentasi/pertemuan-5-datawarehouse' },
+              { text: 'Pertemuan 6: OLAP & SQL Analytics', link: '/presentasi/pertemuan-6-datawarehouse' },
+              { text: 'Pertemuan 7: Implementasi & Optimasi', link: '/presentasi/pertemuan-7-datawarehouse' },
+              { text: 'Pertemuan 8: Capstone, Tata Kelola & UAS', link: '/presentasi/pertemuan-8-datawarehouse' }
             ]
           }
         ],
@@ -602,6 +618,49 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Pertemuan 8: Proyek Akhir, Tata Kelola & Biaya', link: '/big-data/08-proyek-akhir-tata-kelola' }
+            ]
+          }
+        ],
+
+        '/datawarehouse/': [
+          {
+            text: 'Informasi Mata Kuliah',
+            collapsed: false,
+            items: [
+              { text: '🏛️ Silabus & Peta Materi', link: '/datawarehouse/' },
+              { text: '📋 Dokumen RPS OBE', link: '/datawarehouse/RPS' }
+            ]
+          },
+          {
+            text: 'Bagian 1: Fondasi & Arsitektur',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 1: Data Warehouse & BI', link: '/datawarehouse/01-pengantar-dw-bi' },
+              { text: 'Pertemuan 2: Arsitektur & Pemodelan', link: '/datawarehouse/02-arsitektur-pemodelan' }
+            ]
+          },
+          {
+            text: 'Bagian 2: Pemodelan Dimensional',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 3: Fact, Dimension & Star Schema', link: '/datawarehouse/03-dimensional-modeling' },
+              { text: 'Pertemuan 4: Snowflake, Galaxy & SCD', link: '/datawarehouse/04-snowflake-scd' }
+            ]
+          },
+          {
+            text: 'Bagian 3: Implementasi & Analitik',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 5: ETL & Kualitas Data', link: '/datawarehouse/05-etl-kualitas-data' },
+              { text: 'Pertemuan 6: OLAP & SQL Analytics', link: '/datawarehouse/06-olap-sql-analytics' },
+              { text: 'Pertemuan 7: Implementasi & Optimasi', link: '/datawarehouse/07-implementasi-optimasi' }
+            ]
+          },
+          {
+            text: 'Bagian 4: Capstone & Tata Kelola',
+            collapsed: false,
+            items: [
+              { text: 'Pertemuan 8: Proyek Akhir & UAS', link: '/datawarehouse/08-capstone-tata-kelola' }
             ]
           }
         ]
