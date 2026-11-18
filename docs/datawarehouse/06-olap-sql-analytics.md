@@ -1,5 +1,9 @@
 # Pertemuan 6: OLAP & SQL Analytics
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 6](/datawarehouse/TEORI-RPL#p6)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 6](/presentasi/pertemuan-6-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-6-olap-sql-analytics.html)** di tab baru.
@@ -316,7 +320,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY dw.mv_sales_monthly;
 
 ---
 
-## 7. Praktikum: Delapan Query OLAP
+## 7. Praktik Terbimbing (Pengayaan): Delapan Query OLAP
 
 Gunakan star schema dari Pertemuan 3/4. Jalankan dan simpan hasilnya:
 

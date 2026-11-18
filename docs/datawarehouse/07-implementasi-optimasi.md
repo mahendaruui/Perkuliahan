@@ -1,5 +1,9 @@
 # Pertemuan 7: Implementasi & Optimasi Data Warehouse
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 7](/datawarehouse/TEORI-RPL#p7)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 7](/presentasi/pertemuan-7-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-7-implementasi-optimasi.html)** di tab baru.
@@ -349,7 +353,7 @@ flowchart LR
 
 ---
 
-## 9. Praktikum: Optimasi Terukur
+## 9. Praktik Terbimbing (Pengayaan): Optimasi Terukur
 
 ### 9.1 Baseline
 

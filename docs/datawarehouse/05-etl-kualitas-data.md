@@ -1,5 +1,9 @@
 # Pertemuan 5: ETL & Kualitas Data
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 5](/datawarehouse/TEORI-RPL#p5)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 5](/presentasi/pertemuan-5-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-5-etl-kualitas-data.html)** di tab baru.
@@ -307,7 +311,7 @@ CREATE TABLE etl.run_log (
 
 ---
 
-## 7. Praktikum: ETL Incremental + Quality Checks
+## 7. Praktik Terbimbing (Pengayaan): ETL Incremental + Quality Checks
 
 ### 7.1 Siapkan Data CSV
 

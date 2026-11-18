@@ -1,5 +1,9 @@
 # Pertemuan 2: Arsitektur & Pemodelan Konseptual
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 2](/datawarehouse/TEORI-RPL#p2)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 2](/presentasi/pertemuan-2-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-2-arsitektur-pemodelan.html)** di tab baru.
@@ -262,7 +266,7 @@ Jika `dim_product` di mart sales berbeda dengan mart inventory, analisis lintas 
 
 ---
 
-## 7. Praktikum: Bus Matrix & Grain Statement
+## 7. Praktik Terbimbing (Pengayaan): Bus Matrix & Grain Statement
 
 ### 7.1 Membuat Staging Schema
 

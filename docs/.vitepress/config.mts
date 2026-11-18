@@ -579,7 +579,8 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '🗄️ Silabus & Peta Materi', link: '/big-data/' },
-              { text: '📋 Dokumen RPS OBE', link: '/big-data/RPS' }
+              { text: '📋 Dokumen RPS OBE', link: '/big-data/RPS' },
+              { text: '📘 Buku Teori RPL', link: '/big-data/TEORI-RPL' }
             ]
           },
           {
@@ -628,7 +629,8 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '🏛️ Silabus & Peta Materi', link: '/datawarehouse/' },
-              { text: '📋 Dokumen RPS OBE', link: '/datawarehouse/RPS' }
+              { text: '📋 Dokumen RPS OBE', link: '/datawarehouse/RPS' },
+              { text: '📘 Buku Teori RPL', link: '/datawarehouse/TEORI-RPL' }
             ]
           },
           {

@@ -1,14 +1,18 @@
 # 🏛️ Data Warehouse (IFR237)
 
-Selamat datang di portal pembelajaran mata kuliah **Data Warehouse (`IFR237`)** Program Studi S-1 Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia.
+Selamat datang di portal pembelajaran mata kuliah **Data Warehouse (`IFR237`)** untuk **Kelas RPL (Rekognisi Pembelajaran Lampau)**, Program Studi S-1 Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia.
 
-Mata kuliah ini membekali mahasiswa dengan kemampuan **merancang, membangun, dan mengoperasikan data warehouse** untuk mendukung Business Intelligence: mulai dari memahami kebutuhan bisnis, memodelkan fakta dan dimensi, membangun ETL yang andal, menulis query OLAP, hingga mengoptimasi performa dan tata kelola data.
+Mata kuliah ini membekali mahasiswa dengan kemampuan **memahami dan merancang data warehouse** untuk mendukung Business Intelligence. Penekanan diberikan pada **cara berpikir konseptual**: mengapa data dipisahkan, bagaimana kebutuhan bisnis diterjemahkan menjadi model, dan mengapa suatu rancangan lebih tepat daripada alternatifnya. Praktik SQL dan tools diposisikan sebagai **verifikasi dan pengayaan**, bukan satu-satunya bukti kompetensi.
 
 > **"A data warehouse is a subject-oriented, integrated, time-variant, and nonvolatile collection of data in support of management's decision-making process."**  
 > — **Bill Inmon**
 
 ::: tip 🎙️ Slide Presentasi Interaktif
 Setiap pertemuan dilengkapi **slide presentasi HTML interaktif** dengan navigasi keyboard, timer, transkrip, dan narasi audio. Buka **[Daftar Slide Data Warehouse](/presentasi/)** untuk mengakses kedelapan deck.
+:::
+
+::: info 📘 Buku Teori RPL
+Bacaan utama kelas RPL tersedia di **[Buku Teori Data Warehouse untuk Kelas RPL](/datawarehouse/TEORI-RPL)** — delapan bab teori dengan analogi, studi kasus, dan pertanyaan refleksi.
 :::
 
 ---
@@ -21,12 +25,30 @@ Setiap pertemuan dilengkapi **slide presentasi HTML interaktif** dengan navigasi
 | **Nama Mata Kuliah** | Data Warehouse |
 | **Bobot SKS** | **3 SKS** (2 SKS Teori / 1 SKS Praktikum) |
 | **Semester / Tahun Akademik** | IV (Empat) / **2026 Ganjil** |
+| **Kelas** | **RPL (Rekognisi Pembelajaran Lampau)** |
 | **Program Studi** | S-1 Informatika |
 | **Rumpun Mata Kuliah** | Basis Data & Sains Data |
 | **Dosen Pengampu** | **Mahendar Dwi Payana, S.ST., M.T.** |
 | **Prasyarat** | Basis Data (`IFR222`), Algoritma & Pemrograman, Statistika |
 | **Sifat** | Wajib Program Studi |
 | **Jumlah Pertemuan** | **8 pertemuan** (masing-masing 2×50' teori + 1×170' praktikum) |
+
+---
+
+## 🎓 Pendekatan Pembelajaran Kelas RPL
+
+**RPL (Rekognisi Pembelajaran Lampau)** adalah jalur kuliah yang **mengakui pengalaman kerja, pelatihan nonformal/informal, atau pendidikan formal sebelumnya** sebagai Satuan Kredit Semester (SKS). Karena peserta RPL telah memiliki pengalaman nyata, kelas ini menekankan **pemahaman teori dan penalaran desain** sebelum keterampilan teknis.
+
+| Prinsip | Penerapan di Mata Kuliah Ini |
+| :--- | :--- |
+| **Pengalaman sebagai sumber belajar** | Laporan, dashboard, atau gudang data yang pernah Anda kelola menjadi studi kasus |
+| **Teori sebagai kerangka** | Setiap topik dimulai dari *mengapa* dan *trade-off*, bukan langsung SQL |
+| **Praktik sebagai verifikasi** | Latihan SQL/ETL membuktikan pemahaman; bukan syarat tunggal |
+| **Refleksi terstruktur** | Anda memetakan pengalaman kerja ke CPMK dan menjelaskan keputusan desain |
+| **Fleksibel & kontekstual** | Studi kasus dapat disesuaikan dengan domain kerja Anda |
+| **Etika & integritas** | Karya sendiri dan pengalaman nyata menjadi dasar penilaian |
+
+> **Cara belajar yang dianjurkan:** baca **Buku Teori RPL** → hubungkan dengan pengalaman kerja → gunakan modul dan latihan untuk menguji pemahaman. Yang dinilai utama adalah kemampuan **menjelaskan alasan di balik rancangan**, bukan sekadar query yang berjalan.
 
 ---
 
@@ -135,11 +157,13 @@ Jika laptop tidak sanggup Docker, gunakan **DuckDB** (`pip install duckdb`) deng
 
 | Komponen | Bobot | Keterangan |
 | :--- | :---: | :--- |
-| Partisipasi, kuis & kehadiran | **10%** | Kuis singkat, keaktifan lab |
-| Tugas terstruktur (T1–T5) | **30%** | 5 tugas, masing-masing 6% |
-| Ujian Tengah Semester (UTS) | **25%** | Studi kasus take-home setelah Pertemuan 4 |
-| Proyek Akhir (UAS) | **35%** | Data warehouse end-to-end + demo + laporan |
+| Partisipasi, diskusi & refleksi pengalaman | **15%** | Kehadiran, argumentasi, refleksi pengalaman kerja |
+| Tugas konseptual & studi kasus (T1–T5) | **30%** | 5 tugas, masing-masing 6%; fokus analisis & justifikasi |
+| Ujian Tengah Semester (UTS) | **25%** | Studi kasus teori + rancangan model, take-home |
+| Proyek Akhir (UAS) | **30%** | Rancangan/aplikasi terbatas + presentasi + laporan |
 | **Total** | **100%** | |
+
+> Penekanan penilaian: **pemahaman konsep dan penalaran desain (60%)**, **penerapan teknis (40%)**. Query yang berjalan tanpa penjelasan trade-off belum dianggap kompeten.
 
 Rincian jadwal, rubrik, dan kebijakan tersedia pada halaman **[RPS OBE](/datawarehouse/RPS)**.
 
@@ -159,11 +183,12 @@ Rincian jadwal, rubrik, dan kebijakan tersedia pada halaman **[RPS OBE](/datawar
 
 ## 🧭 Cara Menggunakan Modul
 
-1. **Baca modul sebelum kelas** — pahami tujuan, konsep, dan contoh SQL.
-2. **Jalankan contoh** di PostgreSQL/DuckDB; jangan hanya membaca.
-3. **Kerjakan tugas bertahap** — semuanya menumpuk menjadi proyek akhir.
-4. **Simpan pekerjaan di Git** dengan struktur folder konsisten.
-5. **Gunakan checklist** di akhir modul untuk menilai kesiapan Anda.
+1. **Baca Buku Teori RPL lebih dulu** — pahami *mengapa* data warehouse ada dan *trade-off* desainnya.
+2. **Hubungkan dengan pengalaman kerja** — gunakan laporan/dashboard yang pernah Anda buat atau gunakan.
+3. **Baca modul pertemuan** — modul memperjelas teori dengan istilah, contoh, dan SQL.
+4. **Gunakan latihan sebagai verifikasi** — tidak harus sempurna, tetapi harus dapat Anda jelaskan.
+5. **Tulis refleksi singkat** — keputusan desain apa yang akan Anda ubah setelah mempelajari topik ini.
+6. **Gunakan checklist** di akhir modul untuk menilai kesiapan Anda.
 
 ::: warning Integritas Akademik & Penggunaan AI
 Kode dan laporan harus Anda pahami dan dapat dipertanggungjawabkan. Penggunaan asisten AI diperbolehkan sebagai alat bantu belajar, tetapi wajib dicantumkan pada bagian *Acknowledgements*. Plagiarisme kode maupun laporan dikenakan sanksi sesuai kebijakan akademik.

@@ -1,5 +1,9 @@
 # Pertemuan 5: NoSQL, Kafka & Event Streaming
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 5](/big-data/TEORI-RPL#p5)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 5](/presentasi/pertemuan-5-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-5-nosql-kafka.html)** di tab baru.
@@ -336,7 +340,7 @@ Gunakan Avro/Protobuf + Schema Registry agar perubahan skema terdeteksi sebelum 
 
 ---
 
-## 7. Praktikum
+## 7. Praktik Terbimbing (Pengayaan)
 
 ### 7.1 Menjalankan Kafka (KRaft, satu node)
 

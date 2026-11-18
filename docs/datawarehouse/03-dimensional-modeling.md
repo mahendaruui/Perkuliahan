@@ -1,5 +1,9 @@
 # Pertemuan 3: Fact, Dimension & Star Schema
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 3](/datawarehouse/TEORI-RPL#p3)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 3](/presentasi/pertemuan-3-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-3-fact-dimension-star.html)** di tab baru.

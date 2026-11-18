@@ -1,13 +1,17 @@
 # 🗄️ Big Data (IFR229)
 
-Selamat datang di portal pembelajaran mata kuliah **Big Data (`IFR229`)** untuk **Kelas RPL (Rekayasa Perangkat Lunak)**, Program Studi S-1 Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia.
+Selamat datang di portal pembelajaran mata kuliah **Big Data (`IFR229`)** untuk **Kelas RPL (Rekognisi Pembelajaran Lampau)**, Program Studi S-1 Informatika, Fakultas Sains dan Teknologi, Universitas Ubudiyah Indonesia.
 
-Mata kuliah ini membekali mahasiswa dengan kemampuan **merancang, membangun, menguji, dan mengoperasikan perangkat lunak pengolah data berskala besar**. Penekanan diberikan pada sisi rekayasa perangkat lunak: bagaimana sistem data yang andal dibangun dari komponen terdistribusi (Hadoop, Spark, Kafka, NoSQL, Airflow), diuji, dipantau, diamankan, dan dikelola biayanya.
+Mata kuliah ini membekali mahasiswa dengan kemampuan **memahami, merancang, dan mengevaluasi sistem pengolah data berskala besar**. Penekanan diberikan pada **pemahaman konsep dan penalaran arsitektur**: mengapa suatu pendekatan dipilih, trade-off apa yang muncul, dan bagaimana keputusan teknis memengaruhi biaya, keandalan, serta nilai bisnis. Praktik laboratorium diposisikan sebagai **verifikasi dan pengayaan**, bukan satu-satunya bukti kompetensi.
 
 > **"Big data is not just about volume — it is about building systems that turn raw events into reliable decisions."**
 
 ::: tip 🎙️ Slide Presentasi Interaktif
 Setiap pertemuan dilengkapi **slide presentasi HTML interaktif** dengan navigasi keyboard, timer, transkrip, dan narasi audio. Buka **[Daftar Slide Big Data](/presentasi/)** untuk mengakses kedelapan deck.
+:::
+
+::: info 📘 Buku Teori RPL
+Bacaan utama kelas RPL tersedia di **[Buku Teori Big Data untuk Kelas RPL](/big-data/TEORI-RPL)** — delapan bab teori dengan analogi, studi kasus kerja, dan pertanyaan refleksi. Modul pertemuan melengkapi buku ini dengan contoh teknis.
 :::
 
 ---
@@ -20,12 +24,29 @@ Setiap pertemuan dilengkapi **slide presentasi HTML interaktif** dengan navigasi
 | **Nama Mata Kuliah** | Big Data |
 | **Bobot SKS** | **3 SKS** (2 SKS Teori / 1 SKS Praktikum) |
 | **Semester / Tahun Akademik** | VI (Enam) / **2026 Ganjil** |
-| **Kelas** | **RPL (Rekayasa Perangkat Lunak)** |
+| **Kelas** | **RPL (Rekognisi Pembelajaran Lampau)** |
 | **Rumpun Mata Kuliah** | Sains Data & Sistem Terdistribusi |
 | **Dosen Pengampu** | **Mahendar Dwi Payana, S.ST., M.T.** |
 | **Prasyarat** | Basis Data, Algoritma & Pemrograman, Pemrograman Berorientasi Objek |
 | **Sifat** | Wajib Program Studi |
 | **Jumlah Pertemuan** | **8 pertemuan** (masing-masing 2×50' teori + 1×170' praktikum) |
+
+---
+
+## 🎓 Pendekatan Pembelajaran Kelas RPL
+
+**RPL (Rekognisi Pembelajaran Lampau)** adalah jalur kuliah yang **mengakui pengalaman kerja, pelatihan nonformal/informal, atau pendidikan formal sebelumnya** sebagai Satuan Kredit Semester (SKS). Peserta RPL umumnya telah memiliki pengalaman nyata di industri, sehingga kelas dirancang **theory-first**: konsep dipelajari lebih dulu, lalu dihubungkan dengan praktik dan pengalaman kerja.
+
+| Prinsip | Penerapan di Mata Kuliah Ini |
+| :--- | :--- |
+| **Pengalaman sebagai sumber belajar** | Kasus diambil dari pekerjaan, proyek, atau sistem yang pernah Anda tangani |
+| **Teori sebagai kerangka** | Setiap praktik didahului penjelasan *mengapa*, bukan hanya *bagaimana* |
+| **Praktik sebagai verifikasi** | Lab membantu membuktikan pemahaman; bukan syarat tunggal kelulusan |
+| **Refleksi terstruktur** | Anda memetakan pengalaman kerja ke CPMK dan menjelaskan keputusan teknis |
+| **Fleksibel & kontekstual** | Tugas dapat disesuaikan dengan domain kerja (retail, keuangan, telekomunikasi, pemerintahan, dll.) |
+| **Etika & integritas** | Pengalaman dan karya sendiri menjadi dasar penilaian; AI hanya alat bantu |
+
+> **Cara belajar yang dianjurkan:** baca **Buku Teori RPL** terlebih dahulu → hubungkan dengan pengalaman kerja → baru jalankan praktik untuk menguji pemahaman. Praktik tidak harus sempurna; yang utama adalah Anda mampu **menjelaskan alasan dan trade-off** di baliknya.
 
 ---
 
@@ -131,11 +152,13 @@ Jika laptop tidak sanggup menjalankan banyak container, gunakan **mode lokal** P
 
 | Komponen | Bobot | Keterangan |
 | :--- | :---: | :--- |
-| Partisipasi, kuis & kehadiran | **10%** | Kuis singkat di awal pertemuan, keaktifan lab |
-| Tugas terstruktur (T1–T5) | **30%** | 5 tugas individu/kelompok kecil, masing-masing 6% |
-| Ujian Tengah Semester (UTS) | **25%** | Studi kasus take-home setelah Pertemuan 4 |
-| Proyek Akhir (UAS) | **35%** | Pipeline end-to-end + demo + laporan + tata kelola |
+| Partisipasi, diskusi & refleksi pengalaman | **15%** | Kehadiran, kualitas argumentasi, refleksi pengalaman kerja |
+| Tugas konseptual & studi kasus (T1–T5) | **30%** | 5 tugas, masing-masing 6%; menekankan analisis dan justifikasi |
+| Ujian Tengah Semester (UTS) | **25%** | Studi kasus teori + rancangan, take-home setelah Pertemuan 4 |
+| Proyek Akhir (UAS) | **30%** | Rancangan/aplikasi terbatas + presentasi + laporan + tata kelola |
 | **Total** | **100%** | |
+
+> Penekanan penilaian: **pemahaman konsep dan penalaran (60%)**, **penerapan/praktik (40%)**. Praktik tidak harus menggunakan cluster besar; studi kasus dan justifikasi desain sama pentingnya.
 
 Rincian rubrik, jadwal, dan kebijakan akademik tersedia pada halaman **[RPS OBE](/big-data/RPS)**.
 
@@ -156,11 +179,12 @@ Rincian rubrik, jadwal, dan kebijakan akademik tersedia pada halaman **[RPS OBE]
 
 ## 🧭 Cara Menggunakan Modul
 
-1. **Baca modul sebelum kelas** — setiap modul memuat tujuan, konsep, contoh kode, dan latihan.
-2. **Jalankan contoh kode** di lingkungan lab; jangan hanya membaca.
-3. **Kerjakan latihan bertahap** — latihan dirancang menumpuk menjadi komponen proyek akhir.
-4. **Simpan semua pekerjaan di Git** dengan struktur folder yang konsisten.
-5. **Gunakan checklist evaluasi** di akhir setiap modul untuk menilai kesiapan Anda.
+1. **Baca Buku Teori RPL lebih dulu** — pahami *mengapa* dan *trade-off*-nya sebelum menyentuh alat.
+2. **Hubungkan dengan pengalaman kerja** — gunakan sistem, laporan, atau masalah nyata yang pernah Anda tangani sebagai contoh.
+3. **Baca modul pertemuan** — modul memperjelas teori dengan contoh dan istilah teknis.
+4. **Jalankan praktik sebagai verifikasi** — lab bersifat pengayaan; tidak harus sempurna, tetapi harus dapat Anda jelaskan.
+5. **Tulis refleksi singkat** — apa yang berubah dari cara Anda memahami masalah setelah mempelajari topik ini.
+6. **Gunakan checklist** di akhir setiap modul untuk menilai kesiapan Anda.
 
 ::: warning Integritas Akademik & Penggunaan AI
 Kode dan laporan harus Anda pahami dan dapat pertanggungjawabkan. Penggunaan asisten AI diperbolehkan sebagai alat bantu belajar, tetapi wajib dicantumkan pada bagian *Acknowledgements* dan tidak boleh menggantikan pemahaman konsep. Plagiarisme kode maupun laporan dikenakan sanksi sesuai kebijakan akademik.

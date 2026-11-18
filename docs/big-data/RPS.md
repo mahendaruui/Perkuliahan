@@ -14,7 +14,7 @@
 | **Kode Mata Kuliah** | `IFR229` |
 | **Bobot SKS** | **3 SKS** (2 SKS Teori / 1 SKS Praktikum) |
 | **Semester / Tahun Akademik** | VI (Enam) / **2026 Ganjil** |
-| **Kelas** | **RPL (Rekayasa Perangkat Lunak)** |
+| **Kelas** | **RPL (Rekognisi Pembelajaran Lampau)** |
 | **Rumpun MK** | Sains Data & Sistem Terdistribusi |
 | **Dosen Pengembang RPS** | **Mahendar Dwi Payana, S.ST., M.T.** |
 | **Koordinator RMK** | Desita Ria Yusian TB, S.ST., M.T. |
@@ -22,6 +22,21 @@
 | **Prasyarat** | Basis Data, Algoritma & Pemrograman, Pemrograman Berorientasi Objek |
 | **Jumlah Pertemuan** | **8 pertemuan** |
 | **Beban Waktu** | TM: 2×50' + P: 1×170' per pertemuan |
+
+---
+
+### A.1 PENDEKATAN PEMBELAJARAN KELAS RPL
+
+**RPL (Rekognisi Pembelajaran Lampau)** mengakui pengalaman kerja, pelatihan nonformal/informal, dan pendidikan formal sebelumnya sebagai SKS. Pembelajaran dirancang **theory-first** dan menghargai pengalaman peserta:
+
+1. **Konsep sebelum alat:** setiap pertemuan dimulai dari masalah, prinsip, dan trade-off; tools dipelajari sebagai implementasi.
+2. **Pengalaman sebagai kasus:** mahasiswa menganalisis sistem/laporan nyata dari tempat kerja.
+3. **Praktik sebagai verifikasi:** laboratorium bersifat pengayaan, bukan syarat tunggal kompetensi.
+4. **Refleksi terstruktur:** mahasiswa menjelaskan keputusan teknis dan kaitannya dengan CPMK.
+5. **Penilaian berimbang:** 60% konsep/penalaran, 40% penerapan.
+6. **Fleksibilitas konteks:** studi kasus dapat disesuaikan dengan domain kerja masing-masing.
+
+> **Bacaan wajib:** **[Buku Teori Big Data untuk Kelas RPL](/big-data/TEORI-RPL)** — delapan bab teori dengan analogi, studi kasus kerja, dan pertanyaan refleksi.
 
 ---
 
@@ -64,19 +79,19 @@
 
 | **P** | **Sub-CPMK** | **Bahan Kajian (Materi Pokok)** | **Bentuk & Metode Pembelajaran** | **Estimasi Waktu** | **Kriteria & Bentuk Penilaian** | **Bobot** |
 | :---: | :--- | :--- | :--- | :---: | :--- | :---: |
-| **1** | Sub-CPMK 1 | **Fondasi & Lanskap Big Data:** definisi dan 5V, keterbatasan RDBMS, evolusi data warehouse → Hadoop → lakehouse, lapisan arsitektur data modern, peran data engineer vs software engineer, use case industri. | Kuliah interaktif, diskusi kasus, demonstrasi environment | TM: 2×50'<br>P: 1×170' | Kuis konsep; **T1**: estimasi kapasitas & klasifikasi beban batch/stream | **6%** |
-| **2** | Sub-CPMK 2 | **Arsitektur Terdistribusi & Penyimpanan:** replikasi, partisi, CAP/PACELC, HDFS (NameNode/DataNode/block), object storage, data lake vs warehouse vs lakehouse, Parquet/Avro/ORC, partitioning & medallion architecture. | Kuliah, analisis trade-off, praktikum HDFS/MinIO | TM: 2×50'<br>P: 1×170' | **T2**: rancangan layout penyimpanan 1 TB event + justifikasi format/partisi | **6%** |
-| **3** | Sub-CPMK 3 | **Hadoop: MapReduce, YARN & Hive:** anatomi job MapReduce, shuffle & sort, combiner/partitioner, join pattern, resource management YARN, Hive Metastore, tabel eksternal, partisi/bucket, HiveQL. | Kuliah, live coding, praktikum batch | TM: 2×50'<br>P: 1×170' | **T3**: analitik log dengan MapReduce/Hive + analisis bottleneck | **6%** |
-| **4** | Sub-CPMK 4 | **Apache Spark & Optimasi ETL:** arsitektur driver–executor, lazy evaluation & DAG, RDD vs DataFrame, Catalyst & Tungsten, transformasi/aksi, shuffle, broadcast join, AQE, caching, uji job. | Problem-based learning, live coding PySpark | TM: 2×50'<br>P: 1×170' | **T4**: pipeline ETL PySpark (bronze → silver → gold) + unit test; **UTS take-home dirilis** | **6%** |
-| **5** | Sub-CPMK 5 | **NoSQL, Kafka & Event Streaming:** taksonomi NoSQL, BASE vs ACID, pemodelan dokumen MongoDB, pemodelan query-first Cassandra, topik/partisi/offset Kafka, consumer group, delivery semantics, CDC & outbox. | Kuliah, desain skema, praktikum streaming | TM: 2×50'<br>P: 1×170' | **T5**: producer–consumer idempoten + model data NoSQL; **UTS dikumpulkan** | **6%** |
-| **6** | Sub-CPMK 6 | **Pipeline, Orkestrasi & Kualitas Data:** ETL vs ELT, batch/micro-batch/streaming, DAG Airflow, idempotensi, retry/backfill, dbt & uji data, observabilitas, CI/CD pipeline data. | Workshop, praktikum orkestrasi | TM: 2×50'<br>P: 1×170' | Review UTS; **Milestone proyek 1**: DAG end-to-end & uji kualitas | — |
-| **7** | Sub-CPMK 7 | **Analitik & ML Terdistribusi:** pipeline MLlib, feature engineering skala besar, klasifikasi & rekomendasi ALS, evaluasi model, batch scoring vs serving, versioning & monitoring model (MLOps). | Eksperimen terbimbing, studio proyek | TM: 2×50'<br>P: 1×170' | **Milestone proyek 2**: pipeline ML + evaluasi; laporan kemajuan | — |
-| **8** | Sub-CPMK 8 | **Proyek Akhir, Tata Kelola & Demo:** arsitektur end-to-end, katalog & lineage, keamanan dan privasi (UU PDP No. 27/2022), optimasi biaya, anti-pattern, demo dan pertanggungjawaban. | Presentasi, demo, peer review | TM: 2×50'<br>P: 1×170' | **UAS**: demo pipeline, laporan, audit keamanan/biaya, tanya jawab | **35%** |
+| **1** | Sub-CPMK 1 | **Fondasi & Lanskap Big Data:** definisi dan 5V, keterbatasan RDBMS, evolusi data warehouse → Hadoop → lakehouse, lapisan arsitektur data modern, peran data engineer vs software engineer, use case industri. | Kuliah konseptual, diskusi pengalaman kerja, demonstrasi ringan | TM: 2×50'<br>P: 1×170' | Kuis konsep; **T1**: estimasi kapasitas & klasifikasi beban batch/stream | **6%** |
+| **2** | Sub-CPMK 2 | **Arsitektur Terdistribusi & Penyimpanan:** replikasi, partisi, CAP/PACELC, HDFS (NameNode/DataNode/block), object storage, data lake vs warehouse vs lakehouse, Parquet/Avro/ORC, partitioning & medallion architecture. | Analisis trade-off, studi kasus, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T2**: rancangan layout penyimpanan 1 TB event + justifikasi format/partisi | **6%** |
+| **3** | Sub-CPMK 3 | **Hadoop: MapReduce, YARN & Hive:** anatomi job MapReduce, shuffle & sort, combiner/partitioner, join pattern, resource management YARN, Hive Metastore, tabel eksternal, partisi/bucket, HiveQL. | Kuliah, studi kasus batch, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T3**: analitik log dengan MapReduce/Hive + analisis bottleneck | **6%** |
+| **4** | Sub-CPMK 4 | **Apache Spark & Optimasi ETL:** arsitektur driver–executor, lazy evaluation & DAG, RDD vs DataFrame, Catalyst & Tungsten, transformasi/aksi, shuffle, broadcast join, AQE, caching, uji job. | Case-based learning, simulasi konseptual, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T4**: pipeline ETL PySpark (bronze → silver → gold) + unit test; **UTS take-home dirilis** | **6%** |
+| **5** | Sub-CPMK 5 | **NoSQL, Kafka & Event Streaming:** taksonomi NoSQL, BASE vs ACID, pemodelan dokumen MongoDB, pemodelan query-first Cassandra, topik/partisi/offset Kafka, consumer group, delivery semantics, CDC & outbox. | Kuliah, desain skema, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T5**: producer–consumer idempoten + model data NoSQL; **UTS dikumpulkan** | **6%** |
+| **6** | Sub-CPMK 6 | **Pipeline, Orkestrasi & Kualitas Data:** ETL vs ELT, batch/micro-batch/streaming, DAG Airflow, idempotensi, retry/backfill, dbt & uji data, observabilitas, CI/CD pipeline data. | Workshop konseptual, studi kasus pipeline, praktik pengayaan | TM: 2×50'<br>P: 1×170' | Review UTS; **Milestone proyek 1**: DAG end-to-end & uji kualitas | — |
+| **7** | Sub-CPMK 7 | **Analitik & ML Terdistribusi:** pipeline MLlib, feature engineering skala besar, klasifikasi & rekomendasi ALS, evaluasi model, batch scoring vs serving, versioning & monitoring model (MLOps). | Diskusi kasus ML, eksperimen terbimbing (opsional) | TM: 2×50'<br>P: 1×170' | **Milestone proyek 2**: pipeline ML + evaluasi; laporan kemajuan | — |
+| **8** | Sub-CPMK 8 | **Proyek Akhir, Tata Kelola & Demo:** arsitektur end-to-end, katalog & lineage, keamanan dan privasi (UU PDP No. 27/2022), optimasi biaya, anti-pattern, demo dan pertanggungjawaban. | Presentasi, demo, peer review | TM: 2×50'<br>P: 1×170' | **UAS**: presentasi rancangan + demo terbatas + laporan + tanya jawab | **30%** |
 | | | | **Ujian Tengah Semester (take-home)** | 120 menit | Studi kasus: desain + implementasi + justifikasi | **25%** |
-| | | | **Partisipasi, kuis & kehadiran** | Sepanjang semester | Kehadiran ≥ 75%, kuis, kontribusi lab | **10%** |
+| | | | **Partisipasi, diskusi & refleksi** | Sepanjang semester | Kehadiran, argumentasi, refleksi pengalaman kerja | **15%** |
 | | | | **TOTAL BOBOT** | | | **100%** |
 
-> **Catatan:** T1–T5 masing-masing berbobot 6% (total 30%). UTS bersifat *take-home* dan dikumpulkan pada Pertemuan 5. Proyek akhir dikerjakan berkelompok (3–4 orang) dengan penilaian individu melalui tanya jawab dan kontribusi Git.
+> **Catatan:** T1–T5 masing-masing berbobot 6% (total 30%). UTS bersifat *take-home* dan dikumpulkan pada Pertemuan 5. Proyek akhir dikerjakan berkelompok (3–4 orang) dengan penilaian individu melalui tanya jawab dan kontribusi Git. **Penekanan penilaian: 60% konsep/penalaran, 40% penerapan.** Praktik laboratorium tidak harus menggunakan cluster besar; studi kasus dan justifikasi desain dinilai setara.
 
 ---
 

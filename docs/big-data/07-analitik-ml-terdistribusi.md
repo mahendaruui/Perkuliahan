@@ -1,5 +1,9 @@
 # Pertemuan 7: Analitik & Machine Learning Terdistribusi
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 7](/big-data/TEORI-RPL#p7)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 7](/presentasi/pertemuan-7-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-7-ml-terdistribusi.html)** di tab baru.
@@ -383,7 +387,7 @@ Pola umum: **Spark untuk ETL & feature engineering → export ke Parquet → lat
 
 ---
 
-## 10. Praktikum: Churn Pipeline End-to-End
+## 10. Praktik Terbimbing (Pengayaan): Churn Pipeline End-to-End
 
 1. Siapkan dataset fitur pelanggan (minimal 50.000 baris, gabungkan data dari Pertemuan 4).
 2. Definisikan label churn secara eksplisit dan jelaskan **cutoff waktu** untuk menghindari leakage.

@@ -1,5 +1,9 @@
 # Pertemuan 8: Proyek Akhir, Tata Kelola, Keamanan & Optimasi Biaya
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 8](/big-data/TEORI-RPL#p8)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 8](/presentasi/pertemuan-8-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-8-capstone-tata-kelola.html)** di tab baru.

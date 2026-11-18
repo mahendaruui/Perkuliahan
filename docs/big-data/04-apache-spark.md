@@ -1,5 +1,9 @@
 # Pertemuan 4: Apache Spark & Optimasi ETL
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 4](/big-data/TEORI-RPL#p4)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 4](/presentasi/pertemuan-4-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-4-apache-spark.html)** di tab baru.
@@ -412,7 +416,7 @@ Di CI (GitHub Actions), gunakan Spark lokal dan Java 17:
 
 ---
 
-## 7. Praktikum: Pipeline Bronze → Silver → Gold
+## 7. Praktik Terbimbing (Pengayaan): Pipeline Bronze → Silver → Gold
 
 1. Gunakan dataset dari Pertemuan 1.
 2. Bangun `jobs/etl.py` dengan tiga fungsi: `clean_events`, `build_daily_city`, `write_gold`.

@@ -1,5 +1,9 @@
 # Pertemuan 3: Hadoop — MapReduce, YARN & Hive
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 3](/big-data/TEORI-RPL#p3)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 3](/presentasi/pertemuan-3-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-3-hadoop-mapreduce-hive.html)** di tab baru.
@@ -381,7 +385,7 @@ Dengan salting: (Jakarta-0, 800.000) ... (Jakarta-9, 800.000) → 10 reducer
 
 ---
 
-## 8. Praktikum
+## 8. Praktik Terbimbing (Pengayaan)
 
 ### 8.1 Word Count Lokal
 

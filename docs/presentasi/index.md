@@ -64,7 +64,9 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 
 ---
 
-## 🗄️ Big Data (IFR229) — Kelas RPL
+## 🗄️ Big Data (IFR229) — Kelas RPL (Rekognisi Pembelajaran Lampau)
+
+> 📘 **Buku Teori:** [Big Data untuk Kelas RPL](/big-data/TEORI-RPL) — bacaan konseptual sebelum menyimak slide.
 
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
 | :---: | :--- | :---: | :---: |
@@ -79,7 +81,9 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 
 ---
 
-## 🏛️ Data Warehouse (IFR237)
+## 🏛️ Data Warehouse (IFR237) — Kelas RPL (Rekognisi Pembelajaran Lampau)
+
+> 📘 **Buku Teori:** [Data Warehouse untuk Kelas RPL](/datawarehouse/TEORI-RPL) — bacaan konseptual sebelum menyimak slide.
 
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
 | :---: | :--- | :---: | :---: |

@@ -112,7 +112,7 @@ def cover(
     stats: list[tuple[str, str]],
     badge: str | None = None,
 ) -> tuple[str, str]:
-    badge = badge or f"🗄️ IFR229 · 3 SKS (T=2, P=1) · PERTEMUAN {num} / 8"
+    badge = badge or f"🗄️ IFR229 · 3 SKS · KELAS RPL · PERTEMUAN {num} / 8"
     stat_html = "".join(f"<div class='stat'><b>{a}</b><small>{b}</small></div>" for a, b in stats)
     html_slide = f"""
 <div class="slide active cover-slide">

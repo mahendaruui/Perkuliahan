@@ -66,9 +66,9 @@ Setiap mata kuliah telah disusun secara komprehensif mengikuti standar **Rencana
 
 - **[📊 Visualisasi Data (Python)](/visualisasi-data/)**: Rekayasa visualisasi data berbasis OBE — Teori Gestalt, Prinsip Tufte & Munzner, Data Wrangling Pandas, Visualisasi Statis Matplotlib & Seaborn, Visualisasi Interaktif Plotly, Pemetaan Geospasial Folium, Visualisasi AI/ML, hingga Dashboard Web Streamlit dan Data Storytelling.
 
-- **[🗄️ Big Data (IFR229)](/big-data/)**: Rekayasa sistem data skala besar untuk Kelas RPL — Karakteristik 5V, Arsitektur Terdistribusi & HDFS, Hadoop MapReduce & Hive, Apache Spark & Optimasi ETL, NoSQL & Kafka Streaming, Orkestrasi Airflow & Kualitas Data, Machine Learning Terdistribusi, hingga Capstone dengan Tata Kelola, Keamanan, Privasi, dan Optimasi Biaya.
+- **[🗄️ Big Data (IFR229)](/big-data/)**: Rekayasa sistem data skala besar untuk **Kelas RPL (Rekognisi Pembelajaran Lampau)** — Karakteristik 5V, Arsitektur Terdistribusi & HDFS, Hadoop MapReduce & Hive, Apache Spark & Optimasi ETL, NoSQL & Kafka Streaming, Orkestrasi Airflow & Kualitas Data, Machine Learning Terdistribusi, hingga Capstone dengan Tata Kelola, Keamanan, Privasi, dan Optimasi Biaya. Disertai **Buku Teori RPL** dengan analogi dan studi kasus kerja.
 
-- **[🏛️ Data Warehouse (IFR237)](/datawarehouse/)**: Perancangan dan implementasi data warehouse untuk Business Intelligence — OLTP vs OLAP, Arsitektur Inmon & Kimball, Bus Matrix, Dimensional Modeling, Star/Snowflake, SCD, ETL & Kualitas Data, OLAP & SQL Analytics, Optimasi Performa dengan Index/Partisi/Materialized View, dbt, hingga Capstone dan Tata Kelola.
+- **[🏛️ Data Warehouse (IFR237)](/datawarehouse/)**: Perancangan dan implementasi data warehouse untuk Business Intelligence pada **Kelas RPL (Rekognisi Pembelajaran Lampau)** — OLTP vs OLAP, Arsitektur Inmon & Kimball, Bus Matrix, Dimensional Modeling, Star/Snowflake, SCD, ETL & Kualitas Data, OLAP & SQL Analytics, Optimasi Performa, dbt, hingga Capstone dan Tata Kelola. Disertai **Buku Teori RPL** dengan analogi dan refleksi pengalaman kerja.
 
 ---
 

@@ -14,6 +14,7 @@
 | **Kode Mata Kuliah** | `IFR237` |
 | **Bobot SKS** | **3 SKS** (2 SKS Teori / 1 SKS Praktikum) |
 | **Semester / Tahun Akademik** | IV (Empat) / **2026 Ganjil** |
+| **Kelas** | **RPL (Rekognisi Pembelajaran Lampau)** |
 | **Program Studi** | S-1 Informatika |
 | **Rumpun MK** | Basis Data & Sains Data |
 | **Dosen Pengembang RPS** | **Mahendar Dwi Payana, S.ST., M.T.** |
@@ -22,6 +23,21 @@
 | **Prasyarat** | Basis Data (`IFR222`), Algoritma & Pemrograman, Statistika |
 | **Jumlah Pertemuan** | **8 pertemuan** |
 | **Beban Waktu** | TM: 2×50' + P: 1×170' per pertemuan |
+
+---
+
+### A.1 PENDEKATAN PEMBELAJARAN KELAS RPL
+
+**RPL (Rekognisi Pembelajaran Lampau)** mengakui pengalaman kerja, pelatihan nonformal/informal, dan pendidikan formal sebelumnya sebagai SKS. Pembelajaran dirancang **theory-first** dan menghargai pengalaman peserta:
+
+1. **Konsep sebelum SQL:** setiap topik dimulai dari masalah bisnis, prinsip, dan trade-off desain.
+2. **Pengalaman sebagai kasus:** laporan/dashboard nyata dari tempat kerja dianalisis.
+3. **Praktik sebagai verifikasi:** latihan SQL/ETL bersifat pengayaan, bukan syarat tunggal.
+4. **Refleksi terstruktur:** mahasiswa menjelaskan alasan di balik grain, model, dan SCD.
+5. **Penilaian berimbang:** 60% konsep/penalaran desain, 40% penerapan teknis.
+6. **Fleksibilitas konteks:** studi kasus dapat disesuaikan dengan domain kerja.
+
+> **Bacaan wajib:** **[Buku Teori Data Warehouse untuk Kelas RPL](/datawarehouse/TEORI-RPL)** — delapan bab teori dengan analogi, studi kasus, dan pertanyaan refleksi.
 
 ---
 
@@ -64,19 +80,19 @@
 
 | **P** | **Sub-CPMK** | **Bahan Kajian (Materi Pokok)** | **Bentuk & Metode Pembelajaran** | **Estimasi Waktu** | **Kriteria & Bentuk Penilaian** | **Bobot** |
 | :---: | :--- | :--- | :--- | :---: | :--- | :---: |
-| **1** | Sub-CPMK 1 | **Fondasi DW & BI:** definisi Inmon, OLTP vs OLAP, mengapa DW dipisahkan, komponen BI, data mart/ODS/lake, evolusi platform, use case industri, pengenalan tools. | Kuliah interaktif, diskusi kasus, demo environment | TM: 2×50'<br>P: 1×170' | Kuis konsep; **T1**: analisis kasus OLTP→OLAP & profil data | **6%** |
-| **2** | Sub-CPMK 2 | **Arsitektur & Pemodelan Konseptual:** Inmon top-down vs Kimball bottom-up, staging & presentation layer, bus matrix, requirement gathering, 4 langkah Kimball, deklarasi grain. | Problem-based learning, workshop bus matrix | TM: 2×50'<br>P: 1×170' | **T2**: bus matrix + grain statement + pertanyaan bisnis | **6%** |
-| **3** | Sub-CPMK 3 | **Dimensional Modeling:** fact table & jenisnya, dimension table, surrogate vs natural key, star schema, additivity, degenerate/junk/role-playing dimension, DDL PostgreSQL. | Kuliah, perancangan skema, praktikum DDL | TM: 2×50'<br>P: 1×170' | **T3**: star schema retail + data sampel + query validasi | **6%** |
-| **4** | Sub-CPMK 4 | **Snowflake, Galaxy & SCD:** normalisasi dimensi, star vs snowflake, conformed dimension, galaxy schema, SCD Tipe 0–6, late-arriving dimension, bridge table. | Studi kasus, live coding SCD2 | TM: 2×50'<br>P: 1×170' | **T4**: implementasi SCD2 + query point-in-time; **UTS take-home dirilis** | **6%** |
-| **5** | Sub-CPMK 5 | **ETL & Kualitas Data:** full vs incremental, CDC, staging, transformasi, deduplikasi, upsert/merge, reject table, rekonsiliasi, orkestrasi, logging & retry. | Workshop ETL, praktikum data quality | TM: 2×50'<br>P: 1×170' | **T5**: ETL incremental + 5 quality checks; **UTS dikumpulkan** | **6%** |
-| **6** | Sub-CPMK 6 | **OLAP & SQL Analytics:** kubus, roll-up, drill-down, slice/dice, pivot, GROUPING SETS/CUBE/ROLLUP, window functions, YTD, moving average, share of total. | Praktikum SQL intensif, studi kasus BI | TM: 2×50'<br>P: 1×170' | Review UTS; **Milestone proyek 1**: 8 query OLAP + insight | — |
-| **7** | Sub-CPMK 7 | **Implementasi & Optimasi:** physical design, index, partisi, materialized view, columnar/cloud DW, dbt models & tests, EXPLAIN ANALYZE, tuning workflow, biaya. | Workshop tuning, praktikum dbt | TM: 2×50'<br>P: 1×170' | **Milestone proyek 2**: optimasi terbukti + model dbt + dokumentasi | — |
-| **8** | Sub-CPMK 8 | **Capstone, Tata Kelola & UAS:** integrasi end-to-end, metadata & lineage, ownership, keamanan & privasi (UU PDP), retensi, biaya, anti-pattern, demo dan pertanggungjawaban. | Presentasi, demo, peer review | TM: 2×50'<br>P: 1×170' | **UAS**: demo DW, dashboard/query, laporan, tanya jawab | **35%** |
+| **1** | Sub-CPMK 1 | **Fondasi DW & BI:** definisi Inmon, OLTP vs OLAP, mengapa DW dipisahkan, komponen BI, data mart/ODS/lake, evolusi platform, use case industri, pengenalan tools. | Kuliah konseptual, diskusi pengalaman kerja, demonstrasi ringan | TM: 2×50'<br>P: 1×170' | Kuis konsep; **T1**: analisis kasus OLTP→OLAP & profil data | **6%** |
+| **2** | Sub-CPMK 2 | **Arsitektur & Pemodelan Konseptual:** Inmon top-down vs Kimball bottom-up, staging & presentation layer, bus matrix, requirement gathering, 4 langkah Kimball, deklarasi grain. | Case-based learning, workshop bus matrix | TM: 2×50'<br>P: 1×170' | **T2**: bus matrix + grain statement + pertanyaan bisnis | **6%** |
+| **3** | Sub-CPMK 3 | **Dimensional Modeling:** fact table & jenisnya, dimension table, surrogate vs natural key, star schema, additivity, degenerate/junk/role-playing dimension, DDL PostgreSQL. | Kuliah, perancangan konseptual, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T3**: star schema retail + data sampel + query validasi | **6%** |
+| **4** | Sub-CPMK 4 | **Snowflake, Galaxy & SCD:** normalisasi dimensi, star vs snowflake, conformed dimension, galaxy schema, SCD Tipe 0–6, late-arriving dimension, bridge table. | Studi kasus, simulasi SCD, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T4**: implementasi SCD2 + query point-in-time; **UTS take-home dirilis** | **6%** |
+| **5** | Sub-CPMK 5 | **ETL & Kualitas Data:** full vs incremental, CDC, staging, transformasi, deduplikasi, upsert/merge, reject table, rekonsiliasi, orkestrasi, logging & retry. | Workshop konseptual, analisis kualitas data, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **T5**: ETL incremental + 5 quality checks; **UTS dikumpulkan** | **6%** |
+| **6** | Sub-CPMK 6 | **OLAP & SQL Analytics:** kubus, roll-up, drill-down, slice/dice, pivot, GROUPING SETS/CUBE/ROLLUP, window functions, YTD, moving average, share of total. | Diskusi kasus BI, latihan query terarah | TM: 2×50'<br>P: 1×170' | Review UTS; **Milestone proyek 1**: 8 query OLAP + insight | — |
+| **7** | Sub-CPMK 7 | **Implementasi & Optimasi:** physical design, index, partisi, materialized view, columnar/cloud DW, dbt models & tests, EXPLAIN ANALYZE, tuning workflow, biaya. | Studi kasus performa, demonstrasi, praktik pengayaan | TM: 2×50'<br>P: 1×170' | **Milestone proyek 2**: optimasi terbukti + model dbt + dokumentasi | — |
+| **8** | Sub-CPMK 8 | **Capstone, Tata Kelola & UAS:** integrasi end-to-end, metadata & lineage, ownership, keamanan & privasi (UU PDP), retensi, biaya, anti-pattern, demo dan pertanggungjawaban. | Presentasi, demo, peer review | TM: 2×50'<br>P: 1×170' | **UAS**: presentasi rancangan + demo terbatas + laporan + tanya jawab | **30%** |
 | | | | **Ujian Tengah Semester (take-home)** | 120 menit | Studi kasus: desain + implementasi + justifikasi | **25%** |
-| | | | **Partisipasi, kuis & kehadiran** | Sepanjang semester | Kehadiran ≥ 75%, kuis, kontribusi lab | **10%** |
+| | | | **Partisipasi, diskusi & refleksi** | Sepanjang semester | Kehadiran, argumentasi, refleksi pengalaman kerja | **15%** |
 | | | | **TOTAL BOBOT** | | | **100%** |
 
-> **Catatan:** T1–T5 masing-masing 6% (total 30%). UTS bersifat *take-home* dan dikumpulkan pada Pertemuan 5. Proyek akhir dikerjakan berkelompok (3–4 orang) dengan penilaian individu melalui tanya jawab dan kontribusi Git.
+> **Catatan:** T1–T5 masing-masing 6% (total 30%). UTS bersifat *take-home* dan dikumpulkan pada Pertemuan 5. Proyek akhir dikerjakan berkelompok (3–4 orang) dengan penilaian individu melalui tanya jawab dan kontribusi Git. **Penekanan penilaian: 60% konsep/penalaran desain, 40% penerapan teknis.** Query yang berjalan tanpa penjelasan trade-off belum dianggap kompeten.
 
 ---
 

@@ -1,5 +1,9 @@
 # Pertemuan 1: Data Warehouse & Business Intelligence
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 1](/datawarehouse/TEORI-RPL#p1)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 1](/presentasi/pertemuan-1-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-1-pengantar-data-warehouse.html)** di tab baru.
@@ -145,7 +149,7 @@ Tren penting:
 
 ---
 
-## 7. Praktikum: Menyiapkan Environment & Melihat Perbedaan OLTP/OLAP
+## 7. Praktik Terbimbing (Pengayaan): Menyiapkan Environment & Melihat Perbedaan OLTP/OLAP
 
 ### 7.1 Menjalankan PostgreSQL
 

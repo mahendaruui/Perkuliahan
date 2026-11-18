@@ -1,5 +1,9 @@
 # Pertemuan 4: Snowflake, Galaxy & Slowly Changing Dimensions
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Data Warehouse — Pertemuan 4](/datawarehouse/TEORI-RPL#p4)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 4](/presentasi/pertemuan-4-datawarehouse)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-4-snowflake-scd.html)** di tab baru.
@@ -315,7 +319,7 @@ Saat dimensi asli tiba, update atribut dan set `is_inferred = FALSE` tanpa mengu
 
 ---
 
-## 6. Praktikum: SCD2 End-to-End
+## 6. Praktik Terbimbing (Pengayaan): SCD2 End-to-End
 
 ### 6.1 Skenario
 

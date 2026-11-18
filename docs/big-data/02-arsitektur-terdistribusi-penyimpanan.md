@@ -1,5 +1,9 @@
 # Pertemuan 2: Arsitektur Terdistribusi & Penyimpanan Data
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 2](/big-data/TEORI-RPL#p2)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 2](/presentasi/pertemuan-2-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-2-arsitektur-penyimpanan.html)** di tab baru.
@@ -266,7 +270,7 @@ Aturan penamaan: **lowercase, tanpa spasi, gunakan `=` untuk partisi Hive-style*
 
 ---
 
-## 7. Praktikum: JSON → Parquet Berpartisi
+## 7. Praktik Terbimbing (Pengayaan): JSON → Parquet Berpartisi
 
 ### 7.1 Konversi dengan PySpark
 

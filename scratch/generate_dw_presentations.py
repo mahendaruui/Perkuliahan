@@ -41,7 +41,7 @@ def dw_cover(num: int, title: str, subtitle: str, stats: list[tuple[str, str]]) 
         title,
         subtitle,
         stats,
-        badge=f"🏛️ IFR237 · 3 SKS (T=2, P=1) · PERTEMUAN {num} / 8",
+        badge=f"🏛️ IFR237 · 3 SKS · KELAS RPL · PERTEMUAN {num} / 8",
     )
 
 

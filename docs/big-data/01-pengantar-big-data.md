@@ -1,5 +1,9 @@
 # Pertemuan 1: Fondasi & Lanskap Big Data
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 1](/big-data/TEORI-RPL#p1)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 1](/presentasi/pertemuan-1-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-1-pengantar-big-data.html)** di tab baru.
@@ -157,20 +161,17 @@ flowchart LR
 
 ---
 
-## 6. Peran Rekayasa Perangkat Lunak (Kelas RPL)
+## 6. Peran Profesional dalam Ekosistem Big Data (Kelas RPL)
 
-Big Data bukan hanya milik data scientist. Di kelas RPL, fokus Anda adalah **membangun perangkat lunak yang membuat data dapat dipercaya dan berguna**:
+Big Data bukan hanya milik data scientist. Di kelas RPL, peserta datang dengan latar belakang beragam — analis, staf IT, operasional, administrasi data, atau manajer — dan pengalaman itu menjadi bekal untuk memahami peran berikut:
 
-| Tanggung Jawab | Contoh Konkret |
-| :--- | :--- |
-| **Kontrak data** | Menetapkan skema event, versioning, validasi di batas sistem |
-| **Integrasi** | Menghubungkan API/database ke Kafka/S3 dengan retry dan idempotensi |
-| **Kualitas kode** | Modul pipeline terpisah, konfigurasi terpusat, tanpa hardcoded credential |
-| **Pengujian** | Unit test transformasi, integration test dengan data sampel |
-| **Observabilitas** | Log terstruktur, metrik jumlah record gagal, alert keterlambatan data |
-| **Keamanan** | Secret management, least privilege, masking PII |
-| **Biaya** | Memilih format kompresi, partisi, dan ukuran cluster secara sadar |
-| **Dokumentasi** | README, diagram alur, runbook operasional |
+| Peran | Tanggung Jawab Utama | Pengalaman yang Relevan |
+| :--- | :--- | :--- |
+| **Data Engineer** | Membangun & mengoperasikan pipeline | Integrasi sistem, SQL, otomasi laporan |
+| **Data Analyst** | Menerjemahkan data menjadi insight | Laporan, dashboard, analisis bisnis |
+| **Software Engineer** | API, aplikasi, integrasi layanan | Pengembangan aplikasi, testing |
+| **ML Engineer** | Model & serving | Analitik, statistik, pemrograman |
+| **Data Steward/Owner** | Kualitas, definisi, tata kelola | Kepemilikan proses bisnis |
 
 ### Peran dalam Tim Data
 
@@ -183,7 +184,9 @@ flowchart LR
     MLE --> BIZ
 ```
 
-Di banyak organisasi, **software engineer** merangkap **data engineer** — terutama pada tim produk yang kecil. Kemampuan membaca log, mendesain skema, dan menulis pipeline yang teruji adalah nilai jual utama.
+Di banyak organisasi, satu orang memegang beberapa peran sekaligus. Yang penting bukan jabatannya, tetapi kemampuan **membaca masalah, memilih pendekatan, dan menjelaskan trade-off**. Pengalaman kerja Anda di salah satu peran di atas adalah modal untuk memahami materi ini, bukan kekurangan.
+
+> **Refleksi RPL:** peran mana yang paling dekat dengan pekerjaan Anda? Kompetensi apa yang sudah Anda miliki, dan kompetensi apa yang ingin Anda kuatkan melalui mata kuliah ini?
 
 ---
 
@@ -225,7 +228,7 @@ Dengan replikasi 3×    = 0,37 TB × 3              ≈ 1,1 TB
 
 ---
 
-## 9. Praktikum: Menyiapkan Environment & Dataset Sintetis
+## 9. Praktik Terbimbing (Pengayaan): Menyiapkan Environment & Dataset Sintetis
 
 ### 9.1 Verifikasi Tools
 

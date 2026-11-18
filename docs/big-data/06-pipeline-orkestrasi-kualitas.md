@@ -1,5 +1,9 @@
 # Pertemuan 6: Pipeline, Orkestrasi & Kualitas Data
 
+::: info 🎓 Bacaan Teori Wajib (Kelas RPL)
+Baca **[Buku Teori Big Data — Pertemuan 6](/big-data/TEORI-RPL#p6)** sebelum praktik. Latihan teknis di modul ini adalah **pengayaan/verifikasi**; fokus utama adalah pemahaman konsep dan kemampuan menjelaskan trade-off.
+:::
+
 ::: tip 🎙️ Slide Presentasi Interaktif
 Buka **[slide presentasi Pertemuan 6](/presentasi/pertemuan-6-big-data)** — dilengkapi navigasi keyboard, timer, transkrip, dan narasi audio.
 Untuk presentasi layar penuh, buka **[HTML interaktif](/Perkuliahan/presentasi/pertemuan-6-pipeline-airflow.html)** di tab baru.
@@ -376,7 +380,7 @@ jobs:
 
 ---
 
-## 7. Praktikum: Airflow Lokal
+## 7. Praktik Terbimbing (Pengayaan): Airflow Lokal
 
 ### 7.1 Menjalankan Airflow dengan Docker Compose
 
