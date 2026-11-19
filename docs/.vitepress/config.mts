@@ -61,10 +61,6 @@ export default withMermaid(
           ]
         },
         {
-          text: '📖 Buku Ajar (Flipbook)',
-          link: '/pemrograman-oop-php/buku-ajar'
-        },
-        {
           text: '📽️ Slide Presentasi',
           items: [
             { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
@@ -223,13 +219,6 @@ export default withMermaid(
           }
         ],
         '/pemrograman-oop-php/': [
-          {
-            text: '📖 Buku Ajar Digital',
-            collapsed: false,
-            items: [
-              { text: '📖 Flipbook Buku Ajar (3D)', link: '/pemrograman-oop-php/buku-ajar' }
-            ]
-          },
           {
             text: 'Pendahuluan',
             collapsed: false,

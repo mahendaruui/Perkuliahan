@@ -2,12 +2,6 @@
 
 Selamat datang di repositori materi perkuliahan **Pemrograman Berorientasi Objek (Object-Oriented Programming - OOP) menggunakan Bahasa Pemrograman PHP 8+**. Mata kuliah ini dirancang untuk membekali mahasiswa dengan penguasaan paradigma rekayasa perangkat lunak modern, empat pilar utama OOP, *clean code*, prinsip desain **SOLID**, dan arsitektur aplikasi berbasis **Model-Service-Repository**.
 
-::: tip 📖 BUKU AJAR DIGITAL INTERAKTIF (FLIPBOOK 3D)
-Telah tersedia **Buku Ajar Resmi Pemrograman Berorientasi Objek menggunakan PHP 8+ (86 Halaman, 14 BAB)** dengan fitur pembaca digital interaktif (*3D Page-Turn Flipbook*), daftar isi cerdas, dan unduhan berkas resmi.
-
-👉 **[Buka Pembaca Flipbook Buku Ajar 3D](/pemrograman-oop-php/buku-ajar)**
-:::
-
 ---
 
 ## 📋 Informasi Mata Kuliah
