@@ -220,6 +220,13 @@ export default withMermaid(
         ],
         '/pemrograman-oop-php/': [
           {
+            text: 'Ruang Praktik',
+            collapsed: false,
+            items: [
+              { text: '🧩 Kanvas: Dasar OOP PHP', link: '/pemrograman-oop-php/canvas' }
+            ]
+          },
+          {
             text: 'Pendahuluan',
             collapsed: false,
             items: [

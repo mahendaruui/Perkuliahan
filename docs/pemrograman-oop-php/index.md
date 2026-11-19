@@ -2,6 +2,12 @@
 
 Selamat datang di repositori materi perkuliahan **Pemrograman Berorientasi Objek (Object-Oriented Programming - OOP) menggunakan Bahasa Pemrograman PHP 8+**. Mata kuliah ini dirancang untuk membekali mahasiswa dengan penguasaan paradigma rekayasa perangkat lunak modern, empat pilar utama OOP, *clean code*, prinsip desain **SOLID**, dan arsitektur aplikasi berbasis **Model-Service-Repository**.
 
+::: tip 🧩 Kanvas Interaktif — Dasar OOP PHP
+Pelajari dasar object dan empat pilar OOP secara visual: dari `class` dan `object`, `$this`, constructor, encapsulation, inheritance, polymorphism, sampai abstraction — lengkap dengan animasi dan potongan kode PHP.
+
+[**Buka Kanvas OOP PHP →**](/pemrograman-oop-php/canvas)
+:::
+
 ---
 
 ## 📋 Informasi Mata Kuliah
