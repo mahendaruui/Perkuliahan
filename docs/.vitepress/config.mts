@@ -512,6 +512,13 @@ export default withMermaid(
         ],
         '/visualisasi-data/': [
           {
+            text: 'Ruang Praktik',
+            collapsed: false,
+            items: [
+              { text: '🎨 Kanvas: Dari Data ke Insight', link: '/visualisasi-data/canvas' }
+            ]
+          },
+          {
             text: 'Informasi Mata Kuliah',
             collapsed: false,
             items: [

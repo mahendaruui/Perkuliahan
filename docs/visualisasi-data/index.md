@@ -4,6 +4,12 @@ Selamat datang di portal pembelajaran resmi mata kuliah **Visualisasi Data (`IFR
 
 Mata kuliah ini dirancang dengan pendekatan **Outcome-Based Education (OBE)** untuk membekali mahasiswa dengan penguasaan teori persepsi visual manusia, prinsip desain grafis analitis, rekayasa eksplorasi data (*Exploratory Data Analysis*), pembuatan visualisasi statis dan interaktif, pemetaan geospasial, visualisasi model Machine Learning, hingga pembangunan aplikasi dashboard analitik berbasis web (*Streamlit*) dan komunikasi data bisnis (*Data Storytelling*).
 
+::: tip 🎨 Kanvas Interaktif — Dari Data ke Insight
+Ingin melihat langsung bagaimana angka berubah menjadi bentuk? Buka kanvas interaktif 10 langkah untuk mempelajari *encoding* visual, *marks & channels*, distribusi, tren, korelasi, *data-ink*, dan *data storytelling* — lengkap dengan animasi dan penjelasan tiap langkah.
+
+[**Buka Kanvas Visual →**](/visualisasi-data/canvas)
+:::
+
 ---
 
 ## 🏛️ Identitas Mata Kuliah
