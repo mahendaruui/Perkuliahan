@@ -578,6 +578,13 @@ export default withMermaid(
 
         '/big-data/': [
           {
+            text: 'Ruang Praktik',
+            collapsed: false,
+            items: [
+              { text: '🕸️ Kanvas: Alur Big Data', link: '/big-data/canvas' }
+            ]
+          },
+          {
             text: 'Informasi Mata Kuliah',
             collapsed: false,
             items: [
