@@ -515,7 +515,9 @@ const canvasWrap = ref<HTMLElement | null>(null)
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 const reducedMotion = ref(false)
 const isFullscreen = ref(false)
-const openModules = ref<Record<string, boolean>>({ m1: true, m2: true, m3: true })
+const openModules = ref<Record<string, boolean>>(
+  Object.fromEntries(moduleDefs.map((mod) => [mod.id, true])),
+)
 
 const step = computed(() => steps[current.value])
 const progressPct = computed(() => Math.round(((current.value + 1) / steps.length) * 100))
