@@ -582,7 +582,8 @@ export default withMermaid(
             text: 'Ruang Praktik',
             collapsed: false,
             items: [
-              { text: '🕸️ Kanvas: Alur Big Data', link: '/big-data/canvas' }
+              { text: '🕸️ Kanvas: Alur Big Data', link: '/big-data/canvas' },
+              { text: '🧊 Kanvas 3D: Fondasi & Arsitektur', link: '/big-data/canvas-foundation' }
             ]
           },
           {

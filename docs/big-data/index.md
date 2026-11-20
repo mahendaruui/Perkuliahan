@@ -10,6 +10,12 @@ Lihat pipeline big data sebagai flowchart hidup: sumber data, ingestion, storage
 [**Buka Kanvas Alur Big Data →**](/big-data/canvas)
 :::
 
+::: tip 🧊 Kanvas 3D — Fondasi & Arsitektur
+Ikuti cerita data dalam **9 tahap 3D**: dari satu server yang mulai penuh, scale-out, blok, distribusi, replikasi, HDFS, CAP, object storage, hingga arsitektur end-to-end.
+
+[**Buka Kanvas 3D Fondasi & Arsitektur →**](/big-data/canvas-foundation)
+:::
+
 > **"Big data is not just about volume — it is about building systems that turn raw events into reliable decisions."**
 
 ::: tip 🎙️ Slide Presentasi Interaktif
