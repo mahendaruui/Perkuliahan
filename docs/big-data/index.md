@@ -16,6 +16,13 @@ Ikuti cerita data dalam **9 tahap 3D**: dari satu server yang mulai penuh, scale
 [**Buka Kanvas 3D Fondasi & Arsitektur →**](/big-data/canvas-foundation)
 :::
 
+::: tip 🏭 Kanvas 3D — Bagian 2: Pemrosesan Batch
+Dua cerita 3D untuk pemrosesan batch:
+
+- [**Hadoop, MapReduce & YARN**](/big-data/canvas-hadoop) — satu berkas, seribu pekerja: split, map, combiner, shuffle, reduce, skew, YARN, Hive.
+- [**Apache Spark & Optimasi ETL**](/big-data/canvas-spark) — dari disk yang lelah ke memori yang gesit: DAG, Catalyst, shuffle, medallion, tuning.
+:::
+
 > **"Big data is not just about volume — it is about building systems that turn raw events into reliable decisions."**
 
 ::: tip 🎙️ Slide Presentasi Interaktif
