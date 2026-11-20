@@ -223,7 +223,8 @@ export default withMermaid(
             text: 'Ruang Praktik',
             collapsed: false,
             items: [
-              { text: '🧩 Kanvas: Dasar OOP PHP', link: '/pemrograman-oop-php/canvas' }
+              { text: '🧩 Kanvas: Dasar OOP PHP', link: '/pemrograman-oop-php/canvas' },
+              { text: '🧊 Kanvas 3D: Inheritance & Trait', link: '/pemrograman-oop-php/canvas-inheritance' }
             ]
           },
           {

@@ -9,6 +9,12 @@ Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:
 5. Mengatasi keterbatasan *Single Inheritance* di PHP menggunakan **Trait (*Horizontal Code Reuse*)**, mengelola resolusi konflik (**`insteadof`** dan **`as`**), serta memanfaatkan konstanta di dalam Trait (**PHP 8.2+**).
 6. Menganalisis kelemahan desain hierarki (*Fragile Base Class Problem*) dan menerapkan prinsip *"Favor Composition over Inheritance"*.
 
+::: tip 🧊 Kanvas 3D — Inheritance & Trait
+Pelajari alur pewarisan dan trait secara visual dalam **8 tahap 3D**: relasi is-a, `extends`, `parent::__construct`, overriding, `final`, trait, konflik `insteadof`/`as`, dan komposisi.
+
+[**Buka Kanvas 3D Inheritance & Trait →**](/pemrograman-oop-php/canvas-inheritance)
+:::
+
 > [!TIP]
 > 📽️ **Slide Presentasi Perkuliahan:** Anda dapat melihat dan memutar [Slide Interaktif Pertemuan 5 PHP](/presentasi/pertemuan-5-php) atau [Buka Layar Penuh (Tab Baru)](/Perkuliahan/presentasi/pertemuan-5-inheritance-trait-php.html){target="_blank"}.
 
