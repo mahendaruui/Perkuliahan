@@ -29,12 +29,10 @@
         <kbd>⌘K</kbd>
       </button>
 
-      <a class="dv-credit" :href="withBase('/visualisasi-data/')">
-        <span class="dv-credit__x" aria-hidden="true">
-          <svg viewBox="0 0 18 18"><path d="M4 12.5 9 4l5 8.5M6.4 10h5.2" /></svg>
-        </span>
-        <span class="dv-credit__text"><small>kembali ke</small><b>Modul Visualisasi</b></span>
-      </a>
+      <div class="dv-credit" role="note" title="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T." aria-label="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T.">
+        <span class="dv-credit__x" aria-hidden="true">MDP</span>
+        <span class="dv-credit__text"><small>Dosen Pengampu</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
+      </div>
     </header>
 
     <div v-if="drawerOpen" class="dv-drawer-backdrop" @click="drawerOpen = false"></div>
@@ -4115,6 +4113,30 @@ onBeforeUnmount(() => {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* identity credit */
+.dv-credit__x {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+@media (min-width: 860px) {
+  .dv-credit__text {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .dv-credit {
+    display: flex;
+    margin-left: 8px;
+  }
+  .dv-credit__text {
+    display: none;
   }
 }
 </style>
