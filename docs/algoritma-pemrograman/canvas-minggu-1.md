@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Minggu 1: Pengenalan Algoritma & Pemrograman"
-description: "Cerita isometrik 2.5D: hakikat algoritma, lima syarat Knuth, aksioma Wirth, flowchart ISO 5807, pseudocode, dan kompilasi vs interpretasi."
+title: "Kanvas Flowchart — Minggu 1: Pengenalan Algoritma & Pemrograman"
+description: "Flowchart ISO 5807: instruksi ambigu, sejarah algoritma, lima syarat Knuth, aksioma Wirth, siklus pemrograman, pseudocode, dan kompilasi vs interpretasi."
 layout: false
 ---
 

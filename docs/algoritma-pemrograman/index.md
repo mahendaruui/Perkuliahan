@@ -47,22 +47,22 @@ flowchart TD
 
 ---
 
-::: tip 🧊 Kanvas 2.5D — Minggu 1: Logika Sebelum Kode
-Ikuti cerita **11 tahap isometrik 2.5D**: dari instruksi yang ambigu, sejarah Al-Khwarizmi–Lovelace–Turing, lima syarat Knuth, aksioma Wirth, siklus pemecahan masalah, tujuh simbol flowchart ISO 5807, studi kasus tarif parkir, pseudocode, kompilasi vs interpretasi, hingga implementasi C++ dan Python.
+::: tip 🔀 Kanvas Flowchart — Minggu 1: Logika Sebelum Kode
+Ikuti cerita **11 tahap flowchart ISO 5807**: dari instruksi yang ambigu, sejarah Al-Khwarizmi–Lovelace–Turing, lima syarat Knuth, aksioma Wirth, siklus pemecahan masalah, tujuh simbol flowchart ISO 5807, studi kasus tarif parkir, pseudocode, kompilasi vs interpretasi, hingga implementasi C++ dan Python.
 
-[**Buka Kanvas 2.5D Minggu 1 →**](/algoritma-pemrograman/canvas-minggu-1)
+[**Buka Kanvas Flowchart Minggu 1 →**](/algoritma-pemrograman/canvas-minggu-1)
 :::
 
-::: tip 🧊 Kanvas 2.5D — Minggu 2: Variabel, Tipe Data & Memori RAM
-Ikuti cerita **10 tahap isometrik 2.5D**: dari pola bit mentah `0/1`, lima segmen RAM (Stack–Heap–BSS–Data–Text), anatomi variabel & konstanta, Two's Complement, bahaya integer overflow, impresisi IEEE 754, static vs dynamic typing, hingga type casting aman.
+::: tip 🔀 Kanvas Flowchart — Minggu 2: Variabel, Tipe Data & Memori RAM
+Ikuti cerita **10 tahap flowchart ISO 5807**: dari pola bit mentah `0/1`, lima segmen RAM (Stack–Heap–BSS–Data–Text), anatomi variabel & konstanta, Two's Complement, bahaya integer overflow, impresisi IEEE 754, static vs dynamic typing, hingga type casting aman.
 
-[**Buka Kanvas 2.5D Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
+[**Buka Kanvas Flowchart Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
 :::
 
-::: tip 🧊 Kanvas 2.5D — Minggu 3: Operator, Boolean & Bitwise
-Ikuti cerita **10 tahap isometrik 2.5D**: dari presedensi ALU, lima keluarga operator, Aljabar Boolean, Hukum De Morgan, short-circuit guard, pergeseran bit (`<<` / `>>`), hingga pola bitmasking izin akses.
+::: tip 🔀 Kanvas Flowchart — Minggu 3: Operator, Boolean & Bitwise
+Ikuti cerita **10 tahap flowchart ISO 5807**: dari presedensi ALU, lima keluarga operator, Aljabar Boolean, Hukum De Morgan, short-circuit guard, pergeseran bit (`<<` / `>>`), hingga pola bitmasking izin akses.
 
-[**Buka Kanvas 2.5D Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
+[**Buka Kanvas Flowchart Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
 :::
 
 ::: tip 🔀 Kanvas Flowchart — Minggu 4: Percabangan & Guard Clauses

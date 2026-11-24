@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Minggu 3: Operator, Aljabar Boolean & Bitwise"
-description: "Cerita isometrik 2.5D: klasifikasi operator, Aljabar Boolean, Hukum De Morgan, short-circuit evaluation, presedensi, bit shift, dan bitmasking."
+title: "Kanvas Flowchart — Minggu 3: Operator, Boolean & Bitwise"
+description: "Flowchart interaktif: lima keluarga operator, Aljabar Boolean, Hukum De Morgan, short-circuit, presedensi, bitwise, bit shift, dan bitmasking."
 layout: false
 ---
 

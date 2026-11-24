@@ -1,9 +1,9 @@
 # 📘 Minggu 03: Operator, Aljabar Boolean & Manipulasi Bitwise
 
-::: tip 🧊 Versi kanvas 2.5D
-Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **10 tahap** dari klasifikasi operator ALU, Aljabar Boolean, Hukum De Morgan, short-circuit evaluation, presedensi, bit shift, hingga bitmasking.
+::: tip 🔀 Versi kanvas flowchart
+Materi minggu ini juga tersedia sebagai **flowchart interaktif**: 10 tahap dari klasifikasi operator ALU, Aljabar Boolean, Hukum De Morgan, short-circuit, presedensi, bit shift, hingga bitmasking.
 
-[**Buka Kanvas 2.5D Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
+[**Buka Kanvas Flowchart Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
 :::
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 2)

@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Minggu 2: Variabel, Tipe Data & Dekonstruksi Memori"
-description: "Cerita isometrik 2.5D: segmen memori RAM, anatomi variabel & konstanta, Two's Complement, integer overflow, IEEE 754, dan type casting."
+title: "Kanvas Flowchart — Minggu 2: Variabel, Tipe Data & Memori RAM"
+description: "Flowchart interaktif: segmen memori RAM, anatomi variabel, Two’s Complement, overflow, IEEE 754, static vs dynamic typing, dan type casting."
 layout: false
 ---
 

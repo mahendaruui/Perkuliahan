@@ -1,9 +1,9 @@
 # 📘 Minggu 02: Variabel, Tipe Data & Dekonstruksi Memori Komputer
 
-::: tip 🧊 Versi kanvas 2.5D
-Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **10 tahap** dari pola bit di RAM, lima segmen memori, Two's Complement, overflow, IEEE 754, hingga type casting.
+::: tip 🔀 Versi kanvas flowchart
+Materi minggu ini juga tersedia sebagai **flowchart interaktif**: 10 tahap dari pola bit di RAM, lima segmen memori, Two’s Complement, overflow, IEEE 754, hingga type casting.
 
-[**Buka Kanvas 2.5D Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
+[**Buka Kanvas Flowchart Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
 :::
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 2)

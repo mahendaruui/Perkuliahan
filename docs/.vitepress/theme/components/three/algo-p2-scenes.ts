@@ -4,168 +4,201 @@ import { PALETTE } from './iso-kit'
 const P = PALETTE
 
 /* ------------------------------------------------------------------ */
-/* Minggu 2 — Variabel, Tipe Data & Dekonstruksi Memori Komputer       */
+/* Minggu 2 — Flowchart: Variabel, Tipe Data & Memori RAM             */
 /* ------------------------------------------------------------------ */
 
 export const algoP2Scenes: IsoScene[] = [
-  // 1. RAM hanya menyimpan bit 0 dan 1
+  // 1. RAM hanya menyimpan bit
   {
     nodes: [
-      { id: 'bits', type: 'bitreg', x: -3.4, y: 0.4, sub: '01000001', label: '8-bit RAM (01000001)', color: P.process },
-      { id: 'cpu', type: 'chip', x: -0.6, y: 0.0, label: 'Decoder Tipe' },
-      { id: 'asInt', type: 'valuebox', x: 2.6, y: -2.2, sub: '65', label: 'Hasil int', color: P.process },
-      { id: 'asChar', type: 'valuebox', x: 3.2, y: 1.4, sub: "'A'", label: 'Hasil char', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'Program berjalan' },
+      { id: 'io', type: 'io', x: 0, y: -1.1, label: 'RAM: 0100 1010 1100 ...' },
+      { id: 'dec', type: 'decision', x: 0, y: -0.05, label: 'Ada tipe data?' },
+      { id: 'raw', type: 'process', x: -1.6, y: 1.05, label: 'Semua bit mentah', status: 'failed' },
+      { id: 'rawEnd', type: 'end', x: -1.6, y: 2.05, label: 'Salah baca', status: 'failed' },
+      { id: 'typed', type: 'process', x: 1.6, y: 1.05, label: 'Variabel memberi makna', color: P.green },
+      { id: 'typedEnd', type: 'end', x: 1.6, y: 2.05, label: 'Nilai terbaca', color: P.green },
     ],
     links: [
-      { from: 'bits', to: 'cpu', color: P.ink2, packets: 2, label: '1 byte' },
-      { from: 'cpu', to: 'asInt', color: P.process, packets: 1, label: 'angka' },
-      { from: 'cpu', to: 'asChar', color: P.output, packets: 1, label: 'ASCII' },
+      { from: 'start', to: 'io', color: P.ink2, packets: 1 },
+      { from: 'io', to: 'dec', color: P.process, packets: 1 },
+      { from: 'dec', to: 'raw', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
+      { from: 'raw', to: 'rawEnd', color: P.danger, packets: 1 },
+      { from: 'dec', to: 'typed', color: P.greenDark, packets: 2, label: 'YA' },
+      { from: 'typed', to: 'typedEnd', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 2. Lima segmen memori program
+  // 2. Lima segmen memori
   {
     nodes: [
-      { id: 'stack', type: 'container', x: -4.2, y: 2.1, label: 'Stack ↓ (Lokal)', color: P.process },
-      { id: 'heap', type: 'ram', x: -2.1, y: 1.05, sub: 'Dinamis', label: 'Heap ↑', color: P.violet },
-      { id: 'bss', type: 'ram', x: 0.0, y: 0.0, sub: '= 0', label: 'BSS (Belum Init)', color: P.raw },
-      { id: 'data', type: 'ram', x: 2.1, y: -1.05, sub: 'Global', label: 'Data (Terisi)', color: P.output },
-      { id: 'text', type: 'shield', x: 4.2, y: -2.1, label: 'Text (Read-Only)', color: P.greenDark },
+      { id: 'stack', type: 'process', x: 0, y: -1.5, label: 'Stack', sub: 'alamat tinggi · lokal', color: P.blueSoft },
+      { id: 'heap', type: 'process', x: 0, y: -0.75, label: 'Heap', sub: 'alokasi dinamis', color: P.violet },
+      { id: 'bss', type: 'process', x: 0, y: 0.0, label: 'BSS', sub: 'global = 0', color: P.raw },
+      { id: 'data', type: 'process', x: 0, y: 0.75, label: 'Data', sub: 'global terisi', color: P.output },
+      { id: 'text', type: 'process', x: 0, y: 1.5, label: 'Text', sub: 'alamat rendah · read-only', color: P.green },
+    ],
+    links: [],
+  },
+
+  // 3. Anatomi variabel & konstanta
+  {
+    nodes: [
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'int umur = 21' },
+      { id: 'tipe', type: 'process', x: -1.7, y: -1.0, label: 'Tipe: int', sub: '4 byte', color: P.process },
+      { id: 'nama', type: 'process', x: 1.7, y: -1.0, label: 'Nama: umur', sub: 'identifier', color: P.violet },
+      { id: 'nilai', type: 'process', x: 0, y: 0.0, label: 'Nilai: 21', sub: 'isi memori', color: P.output },
+      { id: 'alamat', type: 'process', x: 0, y: 0.9, label: 'Alamat: 0x7FF', sub: 'lokasi byte', color: P.raw },
+      { id: 'dec', type: 'decision', x: 0, y: 1.75, label: 'const?' },
+      { id: 'ro', type: 'end', x: -1.6, y: 1.75, label: 'read-only', color: P.green },
+      { id: 'rw', type: 'end', x: 1.6, y: 1.75, label: 'bisa diubah', color: P.blueSoft },
     ],
     links: [
-      { from: 'stack', to: 'heap', color: P.process, dashed: true, packets: 1, label: 'dinamis' },
-      { from: 'heap', to: 'bss', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'bss', to: 'data', color: P.output, dashed: true, packets: 1 },
-      { from: 'data', to: 'text', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'start', to: 'tipe', color: P.ink2, packets: 1 },
+      { from: 'start', to: 'nama', color: P.ink2, packets: 1 },
+      { from: 'tipe', to: 'nilai', color: P.process, packets: 1 },
+      { from: 'nama', to: 'nilai', color: P.violet, packets: 1 },
+      { from: 'nilai', to: 'alamat', color: P.ink2, packets: 1 },
+      { from: 'alamat', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'ro', color: P.greenDark, packets: 1, label: 'YA' },
+      { from: 'dec', to: 'rw', color: P.ink2, packets: 1, label: 'TIDAK' },
     ],
   },
 
-  // 3. Empat atribut variabel & konstanta
+  // 4. Tipe data primitif
   {
     nodes: [
-      { id: 'name', type: 'valuebox', x: -3.6, y: 0.8, sub: 'umur', label: '1. Identifier', color: P.raw },
-      { id: 'type', type: 'gate', x: -1.2, y: 0.2, sub: 'int 4B', label: '2. Data Type', color: P.process },
-      { id: 'addr', type: 'ram', x: 1.2, y: -0.4, sub: '0x7ffe', label: '3. Alamat RAM', color: P.violet },
-      { id: 'val', type: 'valuebox', x: 3.6, y: -1.2, sub: '21', label: '4. Nilai Data', color: P.output },
-      { id: 'constLock', type: 'shield', x: 4.2, y: 2.4, label: 'Kunci const / Final', color: P.greenDark },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: 'Pilih tipe data' },
+      { id: 'd1', type: 'decision', x: 0, y: -1.0, label: 'Butuh desimal?' },
+      { id: 'f', type: 'end', x: 1.6, y: -1.0, label: 'float / double', sub: '4 / 8 byte', color: P.green },
+      { id: 'd2', type: 'decision', x: 0, y: 0.0, label: 'Butuh teks?' },
+      { id: 'c', type: 'end', x: -1.6, y: 0.0, label: 'char', sub: '1 byte', color: P.green },
+      { id: 'i', type: 'end', x: 0, y: 1.1, label: 'int / bool', sub: '4 / 1 byte', color: P.green },
     ],
     links: [
-      { from: 'name', to: 'type', color: P.ink2, packets: 1 },
-      { from: 'type', to: 'addr', color: P.process, packets: 1 },
-      { from: 'addr', to: 'val', color: P.output, packets: 2 },
-      { from: 'constLock', to: 'val', color: P.greenDark, dashed: true, packets: 1, label: 'immutable' },
-    ],
-  },
-
-  // 4. Tipe primitif & ukuran byte
-  {
-    nodes: [
-      { id: 'bool', type: 'block', x: -4.8, y: 2.4, label: 'bool · 1B', color: P.raw, scale: 0.9 },
-      { id: 'char', type: 'block', x: -3.0, y: 1.5, label: 'char · 1B', color: P.raw, scale: 0.9 },
-      { id: 'int', type: 'ram', x: -1.0, y: 0.5, sub: '4B', label: 'int · 32-bit', color: P.process },
-      { id: 'float', type: 'ram', x: 1.0, y: -0.5, sub: '4B', label: 'float · IEEE', color: P.violet },
-      { id: 'll', type: 'ram', x: 3.2, y: -1.6, sub: '8B', label: 'long long · 64-bit', color: P.output },
-      { id: 'dbl', type: 'ram', x: 5.4, y: -2.7, sub: '8B', label: 'double · 15-17d', color: P.green },
-    ],
-    links: [
-      { from: 'bool', to: 'char', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'char', to: 'int', color: P.process, packets: 1 },
-      { from: 'int', to: 'float', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'float', to: 'll', color: P.output, packets: 1 },
-      { from: 'll', to: 'dbl', color: P.greenDark, dashed: true, packets: 1 },
+      { from: 'start', to: 'd1', color: P.ink2, packets: 1 },
+      { from: 'd1', to: 'f', color: P.greenDark, packets: 1, label: 'YA' },
+      { from: 'd1', to: 'd2', color: P.ink2, packets: 1, label: 'TIDAK' },
+      { from: 'd2', to: 'c', color: P.greenDark, packets: 1, label: 'YA' },
+      { from: 'd2', to: 'i', color: P.greenDark, packets: 1, label: 'TIDAK' },
     ],
   },
 
   // 5. Two's Complement
   {
     nodes: [
-      { id: 'pos', type: 'bitreg', x: -3.6, y: 1.2, sub: '00101101', label: '+45 (Asli)', color: P.process },
-      { id: 'inv', type: 'gate', x: -1.0, y: 0.3, sub: '~', label: '1. Invert Bit', color: P.violet },
-      { id: 'plus1', type: 'gate', x: 1.4, y: -0.5, sub: '+ 1', label: '2. Tambah 1', color: P.output },
-      { id: 'neg', type: 'bitreg', x: 3.8, y: -1.4, sub: '11010011', label: '−45 (MSB=1)', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.8, label: '5 = 0000 0101' },
+      { id: 'invert', type: 'process', x: 0, y: -0.9, label: 'Balik semua bit', sub: '1111 1010', color: P.violet },
+      { id: 'add', type: 'process', x: 0, y: 0.0, label: 'Tambah 1', sub: '1111 1011', color: P.process },
+      { id: 'read', type: 'process', x: 0, y: 0.9, label: 'Baca sebagai negatif', sub: '−5', color: P.output },
+      { id: 'end', type: 'end', x: 0, y: 1.8, label: "Two's Complement", color: P.green },
     ],
     links: [
-      { from: 'pos', to: 'inv', color: P.process, packets: 1 },
-      { from: 'inv', to: 'plus1', color: P.violet, packets: 1 },
-      { from: 'plus1', to: 'neg', color: P.output, packets: 2, label: 'MSB = 1' },
+      { from: 'start', to: 'invert', color: P.ink2, packets: 1 },
+      { from: 'invert', to: 'add', color: P.violet, packets: 1 },
+      { from: 'add', to: 'read', color: P.process, packets: 1 },
+      { from: 'read', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 6. Integer Overflow
+  // 6. Integer overflow
   {
     nodes: [
-      { id: 'max', type: 'valuebox', x: -3.6, y: 1.2, sub: '2147483647', label: 'INT_MAX (32-bit)', color: P.process },
-      { id: 'add', type: 'gate', x: -1.0, y: 0.3, sub: '+ 1', label: 'Tambah 1', color: P.output },
-      { id: 'boom', type: 'gauge', x: 1.4, y: -0.5, label: 'Batas Bit Jebol!' },
-      { id: 'min', type: 'valuebox', x: 3.8, y: -1.4, sub: '-2147483648', label: 'Wrap ke INT_MIN', status: 'failed', color: P.danger },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: 'Mulai' },
+      { id: 'val', type: 'process', x: 0, y: -1.15, label: 'int8 = 127', sub: '0111 1111', color: P.raw },
+      { id: 'dec', type: 'decision', x: 0, y: -0.2, label: '127 + 1 masih muat?' },
+      { id: 'yes', type: 'process', x: 1.6, y: -0.2, label: 'Overflow', sub: 'wrap / undefined', status: 'failed' },
+      { id: 'no', type: 'process', x: -1.6, y: -0.2, label: 'Masih aman', color: P.green },
+      { id: 'endY', type: 'end', x: 1.6, y: 0.9, label: '−128 atau UB', status: 'failed' },
+      { id: 'endN', type: 'end', x: -1.6, y: 0.9, label: '128', color: P.green },
     ],
     links: [
-      { from: 'max', to: 'add', color: P.process, packets: 1 },
-      { from: 'add', to: 'boom', color: P.danger, packets: 2, label: 'bit tanda terbalik' },
-      { from: 'boom', to: 'min', color: P.dangerDark, dashed: true, packets: 2 },
+      { from: 'start', to: 'val', color: P.ink2, packets: 1 },
+      { from: 'val', to: 'dec', color: P.process, packets: 1 },
+      { from: 'dec', to: 'yes', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
+      { from: 'dec', to: 'no', color: P.greenDark, packets: 1, label: 'YA' },
+      { from: 'yes', to: 'endY', color: P.danger, packets: 1 },
+      { from: 'no', to: 'endN', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 7. IEEE 754 Floating-Point Imprecision
+  // 7. IEEE 754
   {
     nodes: [
-      { id: 'dec', type: 'valuebox', x: -3.5, y: 0.6, sub: '0.1 + 0.2', label: 'Desimal Basis-10', color: P.raw },
-      { id: 'ieee', type: 'chip', x: -0.4, y: 0.0, label: 'Konversi IEEE 754' },
-      { id: 'exactErr', type: 'valuebox', x: 2.6, y: -2.2, sub: '== 0.3 ?', label: 'FALSE (0.30000004)', status: 'failed', color: P.danger },
-      { id: 'eps', type: 'shield', x: 3.0, y: 1.4, label: 'Aman: |a−b| < 1e-9', color: P.greenDark },
+      { id: 'io', type: 'io', x: 0, y: -1.6, label: 'Hitung 0.1 + 0.2' },
+      { id: 'bin', type: 'process', x: 0, y: -0.8, label: 'Konversi ke biner', sub: 'pecahan berulang', color: P.process },
+      { id: 'round', type: 'process', x: 0, y: 0.05, label: 'Bulatkan mantissa', sub: '23 bit', color: P.violet },
+      { id: 'res', type: 'process', x: 0, y: 0.9, label: 'Hasil floating point', sub: '0.30000000000000004', color: P.raw },
+      { id: 'dec', type: 'decision', x: 0, y: 1.75, label: 'Tepat 0.3?' },
+      { id: 'eps', type: 'process', x: 1.6, y: 1.75, label: 'Pakai epsilon', sub: 'abs(a−b) < 1e-9', color: P.green },
+      { id: 'end', type: 'end', x: 0, y: 2.55, label: 'Perbandingan aman', color: P.green },
     ],
     links: [
-      { from: 'dec', to: 'ieee', color: P.process, packets: 1 },
-      { from: 'ieee', to: 'exactErr', color: P.danger, dashed: true, packets: 1, label: 'pembulatan biner' },
-      { from: 'ieee', to: 'eps', color: P.greenDark, packets: 2, label: 'pakai epsilon', lift: 44 },
+      { from: 'io', to: 'bin', color: P.ink2, packets: 1 },
+      { from: 'bin', to: 'round', color: P.process, packets: 1 },
+      { from: 'round', to: 'res', color: P.violet, packets: 1 },
+      { from: 'res', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'eps', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
+      { from: 'eps', to: 'end', color: P.greenDark, packets: 1 },
+      { from: 'dec', to: 'end', color: P.greenDark, packets: 1, label: 'YA' },
     ],
   },
 
-  // 8. Static vs Dynamic Typing
+  // 8. Static vs dynamic typing
   {
     nodes: [
-      { id: 'cpp', type: 'code', x: -3.6, y: -1.4, label: 'C++ (Compile-Time)', color: P.process },
-      { id: 'stack', type: 'ram', x: -0.2, y: -2.2, sub: '4 Byte', label: 'Ukuran Tetap (Stack)', color: P.process },
-      { id: 'py', type: 'code', x: -0.8, y: 2.2, label: 'Python (Runtime)', color: P.green },
-      { id: 'heapObj', type: 'container', x: 2.2, y: 1.6, label: 'Objek Dinamis (Heap)', color: P.output },
-      { id: 'bignum', type: 'valuebox', x: 4.8, y: 0.4, sub: '2^63 + 1', label: 'Bignum Bebas Overflow', color: P.green },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: 'Deklarasi variabel' },
+      { id: 'dec', type: 'decision', x: 0, y: -1.0, label: 'Kapan tipe dicek?' },
+      { id: 'cpp', type: 'process', x: -1.7, y: 0.15, label: 'C++ · statis', sub: 'compile time', color: P.process },
+      { id: 'py', type: 'process', x: 1.7, y: 0.15, label: 'Python · dinamis', sub: 'runtime', color: P.green },
+      { id: 'join', type: 'connector', x: 0, y: 1.25, label: 'A' },
+      { id: 'end', type: 'end', x: 0, y: 2.0, label: 'Program berjalan', color: P.green },
     ],
     links: [
-      { from: 'cpp', to: 'stack', color: P.process, packets: 1, label: 'terkunci' },
-      { from: 'py', to: 'heapObj', color: P.greenDark, packets: 1, label: 'dinamis' },
-      { from: 'heapObj', to: 'bignum', color: P.output, dashed: true, packets: 2, label: 'otomatis membesar' },
+      { from: 'start', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'cpp', color: P.process, packets: 1, label: 'COMPILE' },
+      { from: 'dec', to: 'py', color: P.greenDark, packets: 1, label: 'RUNTIME' },
+      { from: 'cpp', to: 'join', color: P.process, packets: 1 },
+      { from: 'py', to: 'join', color: P.greenDark, packets: 1 },
+      { from: 'join', to: 'end', color: P.ink2, packets: 1 },
     ],
   },
 
-  // 9. Type Casting
+  // 9. Type casting
   {
     nodes: [
-      { id: 'div', type: 'valuebox', x: -3.6, y: 0.4, sub: '275 / 3', label: 'Dua Integer', color: P.raw },
-      { id: 'trunc', type: 'funnel', x: -0.2, y: -1.8, label: 'Potong Desimal', color: P.danger },
-      { id: 'resBad', type: 'valuebox', x: 2.8, y: -2.1, sub: '91', label: 'Hilang .6667', status: 'failed', color: P.danger },
-      { id: 'cast', type: 'gate', x: -0.2, y: 1.8, sub: 'static_cast', label: 'Explicit Cast', color: P.process },
-      { id: 'resOk', type: 'valuebox', x: 2.8, y: 1.9, sub: '91.6667', label: 'Presisi Terjaga', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'int a = 5, b = 2' },
+      { id: 'dec', type: 'decision', x: 0, y: -0.9, label: 'Butuh hasil desimal?' },
+      { id: 'no', type: 'process', x: 1.6, y: -0.9, label: 'a / b = 2', sub: 'integer division', status: 'failed' },
+      { id: 'yes', type: 'process', x: -1.6, y: -0.9, label: 'float(a) / b', sub: '= 2.5', color: P.green },
+      { id: 'endNo', type: 'end', x: 1.6, y: 0.3, label: 'Data hilang', status: 'failed' },
+      { id: 'endYes', type: 'end', x: -1.6, y: 0.3, label: 'Presisi aman', color: P.green },
     ],
     links: [
-      { from: 'div', to: 'trunc', color: P.danger, dashed: true, packets: 1, label: 'implisit int' },
-      { from: 'trunc', to: 'resBad', color: P.danger, packets: 1 },
-      { from: 'div', to: 'cast', color: P.process, packets: 2, label: 'eksplisit' },
-      { from: 'cast', to: 'resOk', color: P.output, packets: 2 },
+      { from: 'start', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'no', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
+      { from: 'dec', to: 'yes', color: P.greenDark, packets: 2, label: 'YA' },
+      { from: 'no', to: 'endNo', color: P.danger, packets: 1 },
+      { from: 'yes', to: 'endYes', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 10. Inspeksi Memori Dual-Stack
+  // 10. Inspeksi ukuran di dua bahasa
   {
     nodes: [
-      { id: 'cpp', type: 'code', x: -3.6, y: -1.2, label: 'C++: sizeof() & &var', color: P.process },
-      { id: 'py', type: 'code', x: -0.8, y: 2.4, label: 'Python: getsizeof() & id()', color: P.green },
-      { id: 'ram', type: 'ram', x: 1.2, y: -0.2, sub: '0x1000', label: 'Alamat & Byte RAM', color: P.violet },
-      { id: 'out', type: 'valuebox', x: 4.0, y: -0.8, sub: '4B / 28B', label: 'Terukur Eksak', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -2.1, label: 'Cek ukuran tipe' },
+      { id: 'io1', type: 'io', x: 0, y: -1.3, label: 'C++: sizeof(int)' },
+      { id: 'p1', type: 'process', x: 0, y: -0.45, label: '4 byte', sub: 'nilai langsung', color: P.process },
+      { id: 'io2', type: 'io', x: 0, y: 0.4, label: 'Python: sys.getsizeof(int)' },
+      { id: 'p2', type: 'process', x: 0, y: 1.25, label: '28 byte', sub: 'objek + header', color: P.violet },
+      { id: 'end', type: 'end', x: 0, y: 2.1, label: 'Pahami overhead', color: P.green },
     ],
     links: [
-      { from: 'cpp', to: 'ram', color: P.process, packets: 1 },
-      { from: 'py', to: 'ram', color: P.greenDark, packets: 1 },
-      { from: 'ram', to: 'out', color: P.output, packets: 2, label: 'byte & hex' },
+      { from: 'start', to: 'io1', color: P.ink2, packets: 1 },
+      { from: 'io1', to: 'p1', color: P.process, packets: 1 },
+      { from: 'p1', to: 'io2', color: P.ink2, packets: 1 },
+      { from: 'io2', to: 'p2', color: P.violet, packets: 1 },
+      { from: 'p2', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 ]

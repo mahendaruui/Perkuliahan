@@ -276,7 +276,7 @@ export default withMermaid(
               { text: 'Daftar Materi', link: '/algoritma-pemrograman/' },
               { text: 'RPS (Rencana Pembelajaran)', link: '/algoritma-pemrograman/RPS' },
               { text: 'Minggu 1 — Pengenalan Algoritma & Pemrograman', link: '/algoritma-pemrograman/pengenalan' },
-              { text: '🧊 Kanvas 2.5D: P1 — Pengenalan Algoritma', link: '/algoritma-pemrograman/canvas-minggu-1' }
+              { text: '🔀 Kanvas Flowchart: P1 — Pengenalan Algoritma', link: '/algoritma-pemrograman/canvas-minggu-1' }
             ]
           },
           {
@@ -284,9 +284,9 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 2 — Variabel dan Tipe Data', link: '/algoritma-pemrograman/variabel-tipe-data' },
-              { text: '🧊 Kanvas 2.5D: P2 — Variabel & Memori', link: '/algoritma-pemrograman/canvas-minggu-2' },
+              { text: '🔀 Kanvas Flowchart: P2 — Variabel & Memori', link: '/algoritma-pemrograman/canvas-minggu-2' },
               { text: 'Minggu 3 — Operator & Ekspresi', link: '/algoritma-pemrograman/operator' },
-              { text: '🧊 Kanvas 2.5D: P3 — Operator & Bitwise', link: '/algoritma-pemrograman/canvas-minggu-3' }
+              { text: '🔀 Kanvas Flowchart: P3 — Operator & Bitwise', link: '/algoritma-pemrograman/canvas-minggu-3' }
             ]
           },
           {

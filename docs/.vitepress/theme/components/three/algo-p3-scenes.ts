@@ -4,168 +4,202 @@ import { PALETTE } from './iso-kit'
 const P = PALETTE
 
 /* ------------------------------------------------------------------ */
-/* Minggu 3 — Operator, Aljabar Boolean & Manipulasi Bitwise           */
+/* Minggu 3 — Flowchart: Operator, Aljabar Boolean & Bitwise          */
 /* ------------------------------------------------------------------ */
 
 export const algoP3Scenes: IsoScene[] = [
-  // 1. Ambiguitas tanpa aturan presedensi
+  // 1. Ekspresi ambigu tanpa aturan urutan
   {
     nodes: [
-      { id: 'expr', type: 'valuebox', x: -3.8, y: 0.4, sub: '2 + 3 * 4', label: 'Ekspresi Input', color: P.raw },
-      { id: 'alu', type: 'chip', x: -0.8, y: 0.0, label: 'Evaluasi ALU' },
-      { id: 'bad', type: 'valuebox', x: 3.6, y: 1.6, sub: '20', label: 'Salah (Kiri→Kanan)', status: 'failed', color: P.danger },
-      { id: 'good', type: 'valuebox', x: 2.4, y: -2.6, sub: '14', label: 'Benar (Presedensi *)', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'Ekspresi: 2 + 3 * 4' },
+      { id: 'dec', type: 'decision', x: 0, y: -0.9, label: 'Hitung kiri ke kanan?' },
+      { id: 'left', type: 'process', x: -1.6, y: -0.9, label: '(2+3)*4 = 20', status: 'failed' },
+      { id: 'right', type: 'process', x: 1.6, y: -0.9, label: '2+(3*4) = 14', color: P.green },
+      { id: 'endL', type: 'end', x: -1.6, y: 0.3, label: 'Salah', status: 'failed' },
+      { id: 'endR', type: 'end', x: 1.6, y: 0.3, label: 'Benar', color: P.green },
     ],
     links: [
-      { from: 'expr', to: 'alu', color: P.process, packets: 2 },
-      { from: 'alu', to: 'bad', color: P.danger, dashed: true, packets: 1, label: 'tanpa aturan' },
-      { from: 'alu', to: 'good', color: P.output, packets: 2, label: '* dulu baru +' },
+      { from: 'start', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'left', color: P.danger, dashed: true, packets: 1, label: 'YA' },
+      { from: 'dec', to: 'right', color: P.greenDark, packets: 2, label: 'TIDAK' },
+      { from: 'left', to: 'endL', color: P.danger, packets: 1 },
+      { from: 'right', to: 'endR', color: P.greenDark, packets: 1 },
     ],
   },
 
   // 2. Lima keluarga operator
   {
     nodes: [
-      { id: 'arit', type: 'gate', x: -4.4, y: 2.2, sub: '+ - * / %', label: '1. Aritmatika', color: P.process },
-      { id: 'rel', type: 'gate', x: -2.2, y: 1.1, sub: '== != > <', label: '2. Relasional', color: P.violet },
-      { id: 'log', type: 'gate', x: 0.0, y: 0.0, sub: '&& || !', label: '3. Logika Boolean', color: P.green },
-      { id: 'bit', type: 'bitreg', x: 2.2, y: -1.1, sub: '01011010', label: '4. Bitwise (& | ^ <<)', color: P.output },
-      { id: 'ass', type: 'ram', x: 4.5, y: -2.25, sub: '= += -=', label: '5. Assignment', color: P.rawDark },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'Ekspresi' },
+      { id: 'p1', type: 'process', x: -2.4, y: -0.6, label: 'Aritmatika', sub: '+ − * / %', color: P.blueSoft },
+      { id: 'p2', type: 'process', x: -1.2, y: -0.6, label: 'Relasional', sub: '== != > <', color: P.green },
+      { id: 'p3', type: 'process', x: 0, y: -0.6, label: 'Logika', sub: '&& || !', color: P.violet },
+      { id: 'p4', type: 'process', x: 1.2, y: -0.6, label: 'Bitwise', sub: '& | ^ ~', color: P.output },
+      { id: 'p5', type: 'process', x: 2.4, y: -0.6, label: 'Assignment', sub: '= += −=', color: P.raw },
+      { id: 'end', type: 'end', x: 0, y: 0.8, label: 'Satu ekspresi', color: P.green },
     ],
     links: [
-      { from: 'arit', to: 'rel', color: P.process, dashed: true, packets: 1 },
-      { from: 'rel', to: 'log', color: P.greenDark, dashed: true, packets: 1 },
-      { from: 'log', to: 'bit', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'bit', to: 'ass', color: P.output, dashed: true, packets: 1 },
+      { from: 'start', to: 'p1', color: P.ink2, packets: 1 },
+      { from: 'p1', to: 'p2', color: P.ink2, packets: 1 },
+      { from: 'p2', to: 'p3', color: P.ink2, packets: 1 },
+      { from: 'p3', to: 'p4', color: P.ink2, packets: 1 },
+      { from: 'p4', to: 'p5', color: P.ink2, packets: 1 },
+      { from: 'p5', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 
   // 3. Aljabar Boolean
   {
     nodes: [
-      { id: 'a', type: 'valuebox', x: -3.8, y: -1.8, sub: 'A: TRUE', label: 'Input A', color: P.raw },
-      { id: 'b', type: 'valuebox', x: -2.4, y: 2.2, sub: 'B: FALSE', label: 'Input B', color: P.raw },
-      { id: 'andG', type: 'gate', x: -0.2, y: -2.5, sub: 'AND (&&)', label: 'Semua Benar', color: P.process },
-      { id: 'orG', type: 'gate', x: 0.3, y: 0.3, sub: 'OR (||)', label: 'Salah Satu Benar', color: P.violet },
-      { id: 'xorG', type: 'gate', x: 1.4, y: 3.0, sub: 'XOR (^)', label: 'Harus Berbeda', color: P.teal },
-      { id: 'res', type: 'valuebox', x: 4.0, y: 0.0, sub: 'T / F', label: 'Hasil Boolean', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'A = TRUE · B = FALSE' },
+      { id: 'p1', type: 'process', x: -2.4, y: -0.5, label: 'AND (A && B)', sub: 'FALSE', color: P.blueSoft },
+      { id: 'p2', type: 'process', x: -0.8, y: -0.5, label: 'OR (A || B)', sub: 'TRUE', color: P.green },
+      { id: 'p3', type: 'process', x: 0.8, y: -0.5, label: 'XOR (A ^ B)', sub: 'TRUE', color: P.violet },
+      { id: 'p4', type: 'process', x: 2.4, y: -0.5, label: 'NOT (!A)', sub: 'FALSE', color: P.output },
+      { id: 'end', type: 'end', x: 0, y: 0.9, label: 'Nilai boolean', color: P.green },
     ],
     links: [
-      { from: 'a', to: 'andG', color: P.process, packets: 1 },
-      { from: 'b', to: 'orG', color: P.violet, packets: 1 },
-      { from: 'b', to: 'xorG', color: P.teal, packets: 1 },
-      { from: 'andG', to: 'res', color: P.process, packets: 1 },
-      { from: 'orG', to: 'res', color: P.violet, packets: 1 },
-      { from: 'xorG', to: 'res', color: P.teal, packets: 1 },
+      { from: 'start', to: 'p1', color: P.ink2, packets: 1 },
+      { from: 'p1', to: 'p2', color: P.ink2, packets: 1 },
+      { from: 'p2', to: 'p3', color: P.ink2, packets: 1 },
+      { from: 'p3', to: 'p4', color: P.ink2, packets: 1 },
+      { from: 'p4', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 
   // 4. Hukum De Morgan
   {
     nodes: [
-      { id: 'in', type: 'valuebox', x: -3.8, y: 1.4, sub: '!(A && B)', label: 'Bentuk Awal', status: 'failed', color: P.danger },
-      { id: 'law', type: 'gate', x: -1.2, y: 0.4, sub: 'De Morgan', label: 'Sebar Negasi !', color: P.process },
-      { id: 'flip', type: 'symbol', x: 1.3, y: -0.5, status: 'decision', label: 'Balik && ↔ ||', color: P.violet },
-      { id: 'out', type: 'valuebox', x: 3.8, y: -1.5, sub: '!A || !B', label: 'Bentuk Setara', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: '!(A && B)' },
+      { id: 'dec', type: 'decision', x: 0, y: -1.0, label: 'Bentuk mana yang setara?' },
+      { id: 'ok', type: 'process', x: -1.6, y: 0.2, label: '!A || !B', sub: 'setara', color: P.green },
+      { id: 'bad', type: 'process', x: 1.6, y: 0.2, label: '!A && !B', sub: 'tidak setara', status: 'failed' },
+      { id: 'endOk', type: 'end', x: -1.6, y: 1.4, label: 'Benar', color: P.green },
+      { id: 'endBad', type: 'end', x: 1.6, y: 1.4, label: 'Salah', status: 'failed' },
     ],
     links: [
-      { from: 'in', to: 'law', color: P.danger, packets: 1, label: 'negasi masuk' },
-      { from: 'law', to: 'flip', color: P.process, packets: 1 },
-      { from: 'flip', to: 'out', color: P.output, packets: 2, label: 'ekuivalen' },
+      { from: 'start', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'ok', color: P.greenDark, packets: 2, label: 'BENAR' },
+      { from: 'dec', to: 'bad', color: P.danger, dashed: true, packets: 1, label: 'SALAH' },
+      { from: 'ok', to: 'endOk', color: P.greenDark, packets: 1 },
+      { from: 'bad', to: 'endBad', color: P.danger, packets: 1 },
     ],
   },
 
-  // 5. Short-Circuit Evaluation
+  // 5. Short-circuit evaluation
   {
     nodes: [
-      { id: 'left', type: 'shield', x: -3.6, y: 0.4, label: 'pembagi != 0 (FALSE)', color: P.process },
-      { id: 'gate', type: 'wall', x: -0.4, y: 0.0, label: 'Short-Circuit Stop' },
-      { id: 'right', type: 'gate', x: 3.2, y: 1.4, sub: 'total / 0', label: 'Dilewati CPU', status: 'failed', color: P.danger },
-      { id: 'safe', type: 'valuebox', x: 2.2, y: -2.2, sub: 'AMAN', label: 'Bebas Zero Division', color: P.green },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: 'if (b != 0 && a / b > 2)' },
+      { id: 'dec', type: 'decision', x: 0, y: -1.0, label: 'b != 0?' },
+      { id: 'skip', type: 'process', x: -1.7, y: 0.15, label: 'Short-circuit', sub: 'a / b dilewati', color: P.green },
+      { id: 'eval', type: 'process', x: 1.7, y: 0.15, label: 'Evaluasi a / b', color: P.process },
+      { id: 'join', type: 'connector', x: 0, y: 1.25, label: 'A' },
+      { id: 'end', type: 'end', x: 0, y: 2.0, label: 'Tidak crash', color: P.green },
     ],
     links: [
-      { from: 'left', to: 'gate', color: P.process, packets: 2, label: 'false' },
-      { from: 'gate', to: 'right', color: P.danger, dashed: true, packets: 0, label: 'dilewati' },
-      { from: 'gate', to: 'safe', color: P.greenDark, packets: 2, label: 'short-circuit' },
+      { from: 'start', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'skip', color: P.greenDark, packets: 1, label: 'TIDAK' },
+      { from: 'dec', to: 'eval', color: P.process, packets: 1, label: 'YA' },
+      { from: 'skip', to: 'join', color: P.greenDark, packets: 1 },
+      { from: 'eval', to: 'join', color: P.process, packets: 1 },
+      { from: 'join', to: 'end', color: P.ink2, packets: 1 },
     ],
   },
 
-  // 6. Hierarki Presedensi
+  // 6. Presedensi operator
   {
     nodes: [
-      { id: 'p1', type: 'gate', x: -4.4, y: 2.2, sub: '1. () ! ++', label: 'Tertinggi', color: P.output },
-      { id: 'p2', type: 'gate', x: -2.2, y: 1.1, sub: '2. * / %', label: 'Multiplikasi', color: P.process },
-      { id: 'p3', type: 'gate', x: 0.0, y: 0.0, sub: '3. + − > ==', label: 'Adisi & Relasi', color: P.violet },
-      { id: 'p4', type: 'gate', x: 2.2, y: -1.1, sub: '4. && || ?:', label: 'Logika & Ternary', color: P.green },
-      { id: 'p5', type: 'gate', x: 4.5, y: -2.25, sub: '5. = +=', label: 'Terendah (Assign)', color: P.rawDark },
+      { id: 'start', type: 'start', x: 0, y: -2.1, label: 'Ekspresi 2 + 3 * 4' },
+      { id: 'l1', type: 'process', x: 0, y: -1.35, label: '1 · Kurung ( )' },
+      { id: 'l2', type: 'process', x: 0, y: -0.6, label: '2 · Unary ! ~ ++' },
+      { id: 'l3', type: 'process', x: 0, y: 0.15, label: '3 · * / %', sub: 'aritmatika', color: P.process },
+      { id: 'l4', type: 'process', x: 0, y: 0.9, label: '4 · < > && ||', sub: 'relasional & logika', color: P.violet },
+      { id: 'l5', type: 'process', x: 0, y: 1.65, label: '5 · Assignment =', color: P.raw },
+      { id: 'end', type: 'end', x: 0, y: 2.4, label: 'Hasil 14', color: P.green },
     ],
     links: [
-      { from: 'p1', to: 'p2', color: P.output, packets: 1 },
-      { from: 'p2', to: 'p3', color: P.process, packets: 1 },
-      { from: 'p3', to: 'p4', color: P.violet, packets: 1 },
-      { from: 'p4', to: 'p5', color: P.greenDark, packets: 1 },
+      { from: 'start', to: 'l1', color: P.ink2, packets: 1 },
+      { from: 'l1', to: 'l2', color: P.ink2, packets: 1 },
+      { from: 'l2', to: 'l3', color: P.process, packets: 1 },
+      { from: 'l3', to: 'l4', color: P.violet, packets: 1 },
+      { from: 'l4', to: 'l5', color: P.ink2, packets: 1 },
+      { from: 'l5', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 7. Operasi Bitwise
+  // 7. Operator bitwise
   {
     nodes: [
-      { id: 'x', type: 'bitreg', x: -3.6, y: -1.5, sub: '00101010', label: '42 (00101010)', color: P.process },
-      { id: 'y', type: 'bitreg', x: -2.2, y: 2.1, sub: '00011011', label: '27 (00011011)', color: P.violet },
-      { id: 'alu', type: 'gate', x: 0.4, y: 0.2, sub: 'BIT &', label: 'AND Per Bit', color: P.process },
-      { id: 'z', type: 'bitreg', x: 3.4, y: -0.3, sub: '00001010', label: 'Hasil: 10 (00001010)', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: '12 & 10', sub: '0000 1100 · 0000 1010' },
+      { id: 'p1', type: 'process', x: -2.4, y: -0.5, label: 'AND (&)', sub: '0000 1000 = 8', color: P.blueSoft },
+      { id: 'p2', type: 'process', x: -0.8, y: -0.5, label: 'OR (|)', sub: '0000 1110 = 14', color: P.green },
+      { id: 'p3', type: 'process', x: 0.8, y: -0.5, label: 'XOR (^)', sub: '0000 0110 = 6', color: P.violet },
+      { id: 'p4', type: 'process', x: 2.4, y: -0.5, label: 'NOT (~)', sub: '1111 0011', color: P.output },
     ],
     links: [
-      { from: 'x', to: 'alu', color: P.process, packets: 2 },
-      { from: 'y', to: 'alu', color: P.violet, packets: 2 },
-      { from: 'alu', to: 'z', color: P.output, packets: 2, label: 'per bit' },
+      { from: 'start', to: 'p1', color: P.process, packets: 1 },
+      { from: 'start', to: 'p2', color: P.process, packets: 1 },
+      { from: 'start', to: 'p3', color: P.process, packets: 1 },
+      { from: 'start', to: 'p4', color: P.process, packets: 1 },
     ],
   },
 
-  // 8. Bit Shift
+  // 8. Bit shift
   {
     nodes: [
-      { id: 'v', type: 'bitreg', x: -3.5, y: 0.4, sub: '00000111', label: 'Nilai 7 (00000111)', color: P.raw },
-      { id: 'shl', type: 'gate', x: -0.4, y: -1.9, sub: '<< 2 (×4)', label: 'Geser Kiri', color: P.process },
-      { id: 'shr', type: 'gate', x: 0.2, y: 2.1, sub: '>> 3 (÷8)', label: 'Geser Kanan (32)', color: P.violet },
-      { id: 'out', type: 'valuebox', x: 3.4, y: -0.1, sub: '28  |  4', label: 'Hasil Shift Kilat', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -1.9, label: 'x = 5', sub: '0000 0101' },
+      { id: 'p1', type: 'process', x: 0, y: -0.95, label: 'x << 1', sub: '0000 1010 = 10', color: P.blueSoft },
+      { id: 'p2', type: 'process', x: 0, y: 0.0, label: 'x << 2', sub: '0001 0100 = 20', color: P.violet },
+      { id: 'p3', type: 'process', x: 0, y: 0.95, label: 'x >> 1', sub: '0000 0010 = 2', color: P.output },
+      { id: 'end', type: 'end', x: 0, y: 1.9, label: '×2 / ÷2 per geser', color: P.green },
     ],
     links: [
-      { from: 'v', to: 'shl', color: P.process, packets: 2, label: 'geser kiri' },
-      { from: 'shl', to: 'out', color: P.output, packets: 2 },
-      { from: 'shr', to: 'out', color: P.violet, packets: 2, label: 'geser kanan' },
+      { from: 'start', to: 'p1', color: P.ink2, packets: 1 },
+      { from: 'p1', to: 'p2', color: P.process, packets: 1 },
+      { from: 'p2', to: 'p3', color: P.violet, packets: 1 },
+      { from: 'p3', to: 'end', color: P.greenDark, packets: 1 },
     ],
   },
 
-  // 9. Bitmasking Izin Akses
+  // 9. Bitmasking izin akses
   {
     nodes: [
-      { id: 'byte', type: 'bitreg', x: -3.6, y: 0.4, sub: '00000011', label: 'userPerm (1 Byte)', color: P.process },
-      { id: 'set', type: 'gate', x: -0.4, y: -2.0, sub: '| (Set)', label: 'Nyalakan Bit', color: P.green },
-      { id: 'clr', type: 'gate', x: 1.8, y: -1.0, sub: '&~ (Clear)', label: 'Cabut Bit', color: P.danger },
-      { id: 'tgl', type: 'gate', x: -0.2, y: 2.2, sub: '^ (Toggle)', label: 'Balik Bit', color: P.violet },
-      { id: 'chk', type: 'shield', x: 3.6, y: 2.6, label: 'Cek Izin (&)', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -2.1, label: 'Flags izin = 0000' },
+      { id: 'set', type: 'process', x: 0, y: -1.2, label: 'SET WRITE', sub: 'flags |= 0100', color: P.process },
+      { id: 'dec', type: 'decision', x: 0, y: -0.2, label: 'READ aktif?', sub: 'flags & 0001' },
+      { id: 'yes', type: 'process', x: -1.6, y: 0.9, label: 'Akses diberi', color: P.green },
+      { id: 'no', type: 'process', x: 1.6, y: 0.9, label: 'Akses ditolak', status: 'failed' },
+      { id: 'end', type: 'end', x: 0, y: 2.0, label: 'Dekode izin', color: P.green },
     ],
     links: [
-      { from: 'byte', to: 'set', color: P.greenDark, packets: 1 },
-      { from: 'set', to: 'clr', color: P.danger, packets: 1 },
-      { from: 'byte', to: 'tgl', color: P.violet, dashed: true, packets: 1 },
-      { from: 'clr', to: 'chk', color: P.output, packets: 2 },
+      { from: 'start', to: 'set', color: P.ink2, packets: 1 },
+      { from: 'set', to: 'dec', color: P.process, packets: 1 },
+      { from: 'dec', to: 'yes', color: P.greenDark, packets: 2, label: 'ADA' },
+      { from: 'dec', to: 'no', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
+      { from: 'yes', to: 'end', color: P.greenDark, packets: 1 },
+      { from: 'no', to: 'end', color: P.danger, packets: 1 },
     ],
   },
 
-  // 10. Implementasi Dual-Stack
+  // 10. Implementasi dual-stack
   {
     nodes: [
-      { id: 'cpp', type: 'code', x: -3.6, y: -1.2, label: 'C++: bitset<8>', color: P.process },
-      { id: 'py', type: 'code', x: -0.8, y: 2.4, label: 'Python: f"{p:08b}"', color: P.green },
-      { id: 'mask', type: 'bitreg', x: 1.2, y: -0.2, sub: '00000101', label: 'R + X Aktif (5)', color: P.output },
-      { id: 'out', type: 'valuebox', x: 4.0, y: -0.8, sub: '00000101', label: 'Output Identik', color: P.output },
+      { id: 'start', type: 'start', x: 0, y: -2.0, label: 'Uji perilaku' },
+      { id: 'cpp', type: 'process', x: -1.5, y: -0.9, label: 'C++', sub: 'short-circuit & mask', color: P.process },
+      { id: 'py', type: 'process', x: 1.5, y: -0.9, label: 'Python', sub: 'short-circuit & int', color: P.green },
+      { id: 'join', type: 'connector', x: 0, y: 0.2, label: 'A' },
+      { id: 'dec', type: 'decision', x: 0, y: 1.0, label: 'Output sama?' },
+      { id: 'end', type: 'end', x: 0, y: 1.9, label: 'Lulus', color: P.green },
+      { id: 'fail', type: 'end', x: 0, y: 2.8, label: 'Perbaiki', status: 'failed' },
     ],
     links: [
-      { from: 'cpp', to: 'mask', color: P.process, packets: 1 },
-      { from: 'py', to: 'mask', color: P.greenDark, packets: 1 },
-      { from: 'mask', to: 'out', color: P.output, packets: 2, label: 'R + X aktif' },
+      { from: 'start', to: 'cpp', color: P.process, packets: 1, label: 'compile' },
+      { from: 'start', to: 'py', color: P.greenDark, packets: 1, label: 'interpret' },
+      { from: 'cpp', to: 'join', color: P.process, packets: 1 },
+      { from: 'py', to: 'join', color: P.greenDark, packets: 1 },
+      { from: 'join', to: 'dec', color: P.ink2, packets: 1 },
+      { from: 'dec', to: 'end', color: P.greenDark, packets: 2, label: 'YA' },
+      { from: 'dec', to: 'fail', color: P.danger, dashed: true, packets: 1, label: 'TIDAK' },
     ],
   },
 ]
