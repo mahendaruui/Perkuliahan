@@ -9,7 +9,6 @@ const algoP1: Story = {
     brandSub: 'P1 · Minggu 1',
     href: '/algoritma-pemrograman/canvas-minggu-1',
     moduleHref: '/algoritma-pemrograman/',
-    slideHref: '/presentasi/pertemuan-1-algoritma',
     crumb: 'Minggu 1 · Pengenalan',
     title: 'Logika Sebelum Kode',
     subtitle: 'Algoritma, lima syarat Knuth, flowchart ISO 5807, pseudocode, dan cara mesin mengeksekusi.',

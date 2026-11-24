@@ -122,15 +122,11 @@ Penilaian mengacu pada standar kurikulum OBE Universitas Ubudiyah Indonesia yang
 
 | **Nilai Angka** | **Nilai Huruf** | **Bobot Mutu** | **Kualifikasi Kompetensi** |
 | :---: | :---: | :---: | :--- |
-| **85.00 – 100.00** | **A** | **4.00** | Istimewa / Sangat Kompeten |
-| **80.00 – 84.99** | **A-** | **3.75** | Sangat Baik |
-| **75.00 – 79.99** | **B+** | **3.50** | Baik Sekali |
-| **70.00 – 74.99** | **B** | **3.00** | Baik / Kompeten |
-| **65.00 – 69.99** | **B-** | **2.75** | Cukup Baik |
-| **60.00 – 64.99** | **C+** | **2.50** | Cukup |
-| **55.00 – 59.99** | **C** | **2.00** | Lulus Standar Minimum |
-| **45.00 – 54.99** | **D** | **1.00** | Kurang (Wajib Mengulang) |
-| **0.00 – 44.99** | **E** | **0.00** | Gagal / Tidak Lulus |
+| **80.00 – 100.00** | **A** | **4.00** | Istimewa / Sangat Memuaskan (Lulus) |
+| **60.00 – 79.99** | **B** | **3.00** | Baik / Kompeten (Lulus) |
+| **40.00 – 59.99** | **C** | **2.00** | Cukup / Batas Lulus Standar Minimum |
+| **20.00 – 39.99** | **D** | **1.00** | Kurang (Wajib Mengulang) |
+| **0.00 – 19.99** | **E** | **0.00** | Gagal / Tidak Lulus |
 
 ---
 

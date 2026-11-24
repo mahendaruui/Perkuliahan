@@ -68,7 +68,7 @@ flowchart TD
    ::: info 📐 Formula Penilaian Akademik
    > **`Nilai Akhir = (30% × Tugas) + (35% × UTS) + (35% × UAS)`**
    >
-   > *Standar Huruf Mutu:* A (≥ 85), B (70 - 84), C (55 - 69), D (40 - 54), E (< 40).
+   > *Standar Huruf Mutu (UUI):* A (≥ 80), B (60 – 79.99), C (40 – 59.99), D (20 – 39.99), E (< 20).
    :::
 3. **Pengurutan Terpadu (*Sorting Module*):** Menu untuk mengurutkan daftar mahasiswa berdasarkan `Nilai Akhir` dari nilai tertinggi ke terendah (*Descending*) menggunakan **Insertion Sort** atau **Bubble Sort**.
 4. **Pencarian Cepat (*Searching Module*):** Menu pencarian data mahasiswa berdasarkan `NIM` menggunakan **Binary Search `O(log n)`** (Lakukan sorting NIM terlebih dahulu).

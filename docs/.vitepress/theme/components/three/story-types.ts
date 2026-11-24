@@ -44,7 +44,8 @@ export interface StoryMeta {
   href: string
   /** Course index URL behind the "Modul" nav item. */
   moduleHref: string
-  slideHref: string
+  /** Optional slide URL behind the "Slide" nav item. */
+  slideHref?: string
   crumb: string
   title: string
   subtitle: string

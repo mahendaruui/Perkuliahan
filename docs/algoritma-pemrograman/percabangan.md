@@ -3,10 +3,13 @@
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami landasan teoritis struktur kontrol seleksi berdasarkan **Teorema Böhm-Jacopini**.
-2. Merancang dan mengimplementasikan seluruh pola percabangan: **Tunggal (`if`)**, **Ganda (`if-else`)**, **Majemuk (`if-else-if`)**, **Bersarang (*Nested-If*)**, dan **`switch-case`**.
+2. Merancang dan mengimplementasikan percabangan **Tunggal (`if`)**, **Ganda (`if-else`)**, **Majemuk (`if-else-if`)**, **Bersarang (*Nested-If*)**, serta **Operator Ternary (`? :` / `a if cond else b`)**.
 3. Menyelesaikan ambiguitas logika klasik: **The Dangling Else Problem**.
-4. Menganalisis optimasi tingkat kompilator: **Jump Table pada `switch-case`** vs **Linear Evaluation pada `if-else-if`**.
-5. Menerapkan pola **Defensive Programming & Guard Clauses** untuk mengeliminasi piramida kode bersarang (*Arrow Anti-Pattern*).
+4. Menerapkan pola **Defensive Programming & Guard Clauses** untuk mengeliminasi piramida kode bersarang (*Arrow Anti-Pattern*).
+
+::: tip 📌 Keterkaitan dengan Minggu 5
+Struktur pemilihan diskrit **`switch-case`** (*jump table*, *fall-through behavior*, dan desain menu navigasi CLI) dibahas secara khusus pada modul **[Minggu 05: Percabangan Lanjut (`switch-case`) & Navigasi Menu CLI](./switch-case.md)**.
+:::
 
 ---
 
@@ -47,7 +50,7 @@ flowchart TD
     --> P2["2. <b>Percabangan Ganda (Two-way / IF-ELSE)</b><br>Memilih tepat satu dari dua alternatif cabang tindakan."]
     --> P3["3. <b>Percabangan Majemuk (Multi-way / IF-ELSE-IF-ELSE)</b><br>Mengevaluasi kondisi bertingkat secara berurutan. Kondisi pertama yang TRUE akan dieksekusi."]
     --> P4["4. <b>Percabangan Bersarang (Nested-IF)</b><br>Struktur percabangan di dalam percabangan lain untuk keputusan bersyarat bertahap."]
-    --> P5["5. <b>Struktur Pemilihan Diskrit (SWITCH-CASE)</b><br>Mencocokkan nilai variabel ordinal (int, char, enum) dengan label konstanta."]
+    --> P5["5. <b>Operator Ternary (Conditional Expression)</b><br>Bentuk ringkas ekspresi IF-ELSE yang langsung mengembalikan satu nilai."]
 
     style P1 fill:#eff6ff,stroke:#2563eb,stroke-width:1px
     style P2 fill:#fdf4ff,stroke:#c084fc,stroke-width:1px
@@ -71,14 +74,27 @@ else
 
 ---
 
-## 3. Komparasi Kinerja: `switch-case` vs `if-else-if`
+## 3. Operator Ternary (*Conditional Expression*)
 
-| Dimensi Komparasi | `if-else-if` Bertingkat | `switch-case` Pemilihan |
-| :--- | :--- | :--- |
-| **Karakteristik Kondisi** | Ekspresi boolean arbitrer (`x > 10 && y < 5`, nilai `float`, rentang). | Hanya nilai konstanta diskrit integral (`int`, `char`, `enum`). |
-| **Mekanisme Eksekusi Mesin** | Linear Search: Memeriksa kondisi satu per satu dari atas ke bawah (`O(n)`). | **Jump Table / Binary Decision Tree (`O(1)`)**: CPU langsung melompat ke alamat memori instruksi terkait. |
-| **Kecepatan pada Banyak Kasus (> 5)** | Melambat seiring bertambahnya jumlah cabang. | Sangat konsisten dan cepat berkat optimasi tabel lompatan (*Jump Table*). |
-| **Pernyataan `break`** | Tidak dibutuhkan. | **Wajib disertakan** untuk mencegah *fallthrough* (eksekusi bocor ke case bawahnya). |
+**Operator Ternary** adalah satu-satunya operator yang membutuhkan **3 operan** sekaligus (`kondisi`, `nilai_benar`, `nilai_salah`) untuk melakukan penugasan nilai kondisional secara ringkas dalam satu baris ekspresi:
+
+::: code-group
+```cpp [C++]
+// Sintaks: kondisi ? nilai_jika_true : nilai_jika_false
+double nilaiAkhir = 82.5;
+string status = (nilaiAkhir >= 60.0) ? "LULUS" : "TIDAK LULUS";
+```
+
+```python [Python 3]
+# Sintaks: nilai_jika_true if kondisi else nilai_jika_false
+nilai_akhir = 82.5
+status = "LULUS" if nilai_akhir >= 60.0 else "TIDAK LULUS"
+```
+:::
+
+::: warning ⚠️ Kapan Tidak Menggunakan Operator Ternary?
+Hindari menumpuk operator ternary secara bersarang (*nested ternary*) karena menurunkan keterbacaan kode secara drastis. Gunakan hanya untuk pemilihan dua nilai sederhana yang bebas efek samping.
+:::
 
 ---
 
@@ -236,7 +252,7 @@ if __name__ == "__main__":
 
 ::: tip 💡 Rangkuman Konsep Kunci
 1. **Teorema Böhm-Jacopini:** Percabangan (*Selection*) adalah salah satu dari 3 pilar utama pengendali logika komputasi universal.
-2. **Jump Table `switch-case`:** Manfaatkan `switch-case` untuk pencocokan nilai diskrit berperingkat banyak karena dieksekusi dalam `O(1)`.
+2. **Operator Ternary:** Gunakan untuk pemilihan dua nilai sederhana dalam satu baris; hindari *nested ternary*.
 3. **Pemberian Tanda Kurung:** Gunakan selalu kurung kurawal `{}` untuk menghindari masalah *Dangling Else*.
 4. **Guard Clauses:** Terapkan teknik *Early Return* di awal fungsi untuk menyaring kondisi salah/invalid, menjaga alur kode utama tetap linier dan bersih.
 :::

@@ -5,17 +5,7 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 ---
 
 
-## ⚡ Algoritma dan Pemrograman (IFR206)
-
-| Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
-| :---: | :--- | :---: | :---: |
-| **01** | Kontrak Kuliah, Pengenalan Algoritma & Notasi Standar | [Lihat di Web](/presentasi/pertemuan-1-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-1-pengantar-algoritma.html){target="_blank"} |
-| **02** | Variabel, Tipe Data & Alokasi Memori | [Lihat di Web](/presentasi/pertemuan-2-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-2-variabel-tipe-data-algoritma.html){target="_blank"} |
-| **03** | Operator, Ekspresi & Precedence (Prioritas) | [Lihat di Web](/presentasi/pertemuan-3-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-3-operator-ekspresi-algoritma.html){target="_blank"} |
-| **04** | Struktur Kontrol Percabangan (Branching) | [Lihat di Web](/presentasi/pertemuan-4-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-4-percabangan-algoritma.html){target="_blank"} |
-| **05** | Struktur Kontrol Perulangan (Looping) | [Lihat di Web](/presentasi/pertemuan-5-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-5-perulangan-algoritma.html){target="_blank"} |
-| **06** | Struktur Data Larik (Array 1 Dimensi) | [Lihat di Web](/presentasi/pertemuan-6-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-6-array-algoritma.html){target="_blank"} |
-| **07** | Array Multidimensi & Manipulasi String | [Lihat di Web](/presentasi/pertemuan-7-algoritma) | [🚀 Buka Slide](/Perkuliahan/presentasi/pertemuan-7-matriks-string-algoritma.html){target="_blank"} |
+> 🧊 **Catatan:** Presentasi mata kuliah **Algoritma dan Pemrograman (IFR206)** kini menggunakan [Kanvas 2.5D Interaktif](/algoritma-pemrograman/canvas-minggu-1).
 
 ---
 ## ☕ Pemrograman Berorientasi Objek (Java)

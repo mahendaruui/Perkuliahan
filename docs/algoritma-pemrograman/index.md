@@ -30,12 +30,12 @@ Bahan ajar ini dirancang secara komprehensif berbasis kurikulum **Outcome-Based 
 
 ```mermaid
 flowchart TD
-    M1["🌱 <b>FASE 1: Fondasi Logika & Arsitektur Komputasi</b><br>• Minggu 1: Hakikat Algoritma, Kriteria Knuth & Flowchart ISO<br>• Minggu 2: Sistem Memori RAM, Tipe Data Primitif & Type Casting<br>• Minggu 3: Aljabar Boolean, Hierarki Operator & Bitmasking"]
-    --> M2["⚙️ <b>FASE 2: Struktur Kontrol Alur Eksekusi Program</b><br>• Minggu 4: Percabangan Kondisional, Switch-Case & Defensive Code<br>• Minggu 5-6: Perulangan Counted/Uncounted, Invariant Loop & Trace Tables"]
-    --> M3["📦 <b>FASE 3: Struktur Data Statis & Pemrosesan Teks</b><br>• Minggu 7: Larik 1D, Alokasi Kontigu RAM & Two-Pointer Method<br>• Minggu 9: Array 2D Matriks (Row-Major) & String Manipulation"]
+    M1["🌱 <b>FASE 1: Fondasi Logika & Arsitektur Komputasi</b><br>• Minggu 1: Kontrak Kuliah, Hakikat Algoritma, Knuth & Flowchart ISO<br>• Minggu 2: Sistem Memori RAM, Tipe Data Primitif, Konstanta & Casting<br>• Minggu 3: Aljabar Boolean, Hierarki Operator & Bitmasking"]
+    --> M2["⚙️ <b>FASE 2: Struktur Kontrol Alur Eksekusi Program</b><br>• Minggu 4: Percabangan Kondisional (If-Else, Ternary) & Guard Clauses<br>• Minggu 5: Percabangan Lanjut (Switch-Case), Fall-Through & Menu CLI<br>• Minggu 6: Perulangan Counted/Uncounted, Akumulator & Trace Tables"]
+    --> M3["📦 <b>FASE 3: Struktur Data Statis & Evaluasi Tengah Semester</b><br>• Minggu 7: Larik 1D, Alokasi Kontigu RAM & Two-Pointer Method<br>• Minggu 8: Evaluasi Tengah Semester (UTS) — Teori & Live Coding<br>• Minggu 9: Array 2D Matriks (Row-Major) & Manipulasi String"]
     --> M4["🧩 <b>FASE 4: Dekomposisi Modular & Pemecahan Masalah Rekursif</b><br>• Minggu 10: Pemrograman Modular, Pass by Value/Ref & Stack Frame<br>• Minggu 11: Prinsip Rekursi, Call Stack Trace & Tower of Hanoi"]
-    --> M5["⚡ <b>FASE 5: Algoritma Pencarian, Pengurutan & Kompleksitas Asimtotik</b><br>• Minggu 12: Searching (Linear O(n) vs Binary Search O(log n))<br>• Minggu 13-14: Sorting (Bubble, Selection, Insertion Sort & Komparasi Big-O)"]
-    --> M6["🏆 <b>FASE 6: Evaluasi Terpadu & Capstone Mini-Project</b><br>• Minggu 16: Evaluasi UAS Berbasis 4 Pilar OBE & Sistem Terintegrasi"]
+    --> M5["⚡ <b>FASE 5: Algoritma Pencarian, Pengurutan & Kompleksitas Asimtotik</b><br>• Minggu 12: Searching (Linear O(n) vs Binary Search O(log n))<br>• Minggu 13: Sorting I (Bubble & Selection Sort, Swap & Trace Table)<br>• Minggu 14: Sorting II (Insertion Sort, Komparasi 3 Metode & Big-O)"]
+    --> M6["🏆 <b>FASE 6: Evaluasi Terpadu & Capstone Mini-Project</b><br>• Minggu 15: Integrasi Proyek Mini & Kaidah Clean Code<br>• Minggu 16: Evaluasi UAS Berbasis 4 Pilar OBE & Sistem Terintegrasi"]
 
     style M1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px
     style M2 fill:#fefce8,stroke:#ca8a04,stroke-width:2px
@@ -57,25 +57,28 @@ Ikuti cerita **11 tahap isometrik 2.5D**: dari instruksi yang ambigu, sejarah Al
 
 ### 🔹 Bagian 1: Fondasi Logika, Notasi & Arsitektur Memori
 * **[Rencana Pembelajaran Semester (RPS)](./RPS.md)** — Dokumen Lengkap Rencana Pembelajaran Semester Berbasis Kurikulum OBE
-* **[Minggu 01: Pengenalan Algoritma & Notasi Standar](./pengenalan.md)** — Hakikat Algoritma, Kriteria Donald Knuth, Hubungan Wirth, Flowchart ISO 5807 & Pseudocode Terstruktur *(Sub-CPMK 1)*
-* **[Minggu 02: Variabel, Tipe Data & Alokasi Memori](./variabel-tipe-data.md)** — Dekonstruksi Layout Memori RAM (Stack vs Heap), Tipe Data Primitif, IEEE 754, Two's Complement, Overflow & Type Casting *(Sub-CPMK 2)*
+* **[Minggu 01: Kontrak Kuliah, Pengenalan Algoritma & Notasi Standar](./pengenalan.md)** — Kontrak Kuliah, Kriteria Donald Knuth, Hubungan Wirth, Flowchart ISO 5807 & Pseudocode Terstruktur *(Sub-CPMK 1)*
+* **[Minggu 02: Variabel, Tipe Data & Alokasi Memori](./variabel-tipe-data.md)** — Dekonstruksi Layout Memori RAM (Stack vs Heap), Tipe Data Primitif, Konstanta, IEEE 754, Two's Complement, Overflow & Type Casting *(Sub-CPMK 2)*
 * **[Minggu 03: Operator & Ekspresi Logika](./operator.md)** — Aljabar Boolean, Hukum De Morgan, Presedensi Operator, Short-Circuit Evaluation & Bitwise Bitmasking *(Sub-CPMK 2)*
 
 ### 🔹 Bagian 2: Struktur Kontrol Alur Eksekusi
-* **[Minggu 04: Struktur Kontrol Percabangan (Branching)](./percabangan.md)** — Teorema Bohm-Jacopini, `if-else-if`, Nested-If, Dangling Else, Optimasi `switch-case` Jump Table & Defensive Programming *(Sub-CPMK 3)*
-* **[Minggu 05-06: Struktur Kontrol Perulangan (Looping & Iterasi)](./perulangan.md)** — Counted (`for`) vs Uncounted Loop (`while`, `do-while`), Loop Invariant, Terminasi, Trace Tables & Nested Loops *(Sub-CPMK 3)*
+* **[Minggu 04: Struktur Kontrol Percabangan (Branching)](./percabangan.md)** — Teorema Bohm-Jacopini, `if-else-if`, Nested-If, Operator Ternary, Dangling Else & Guard Clauses *(Sub-CPMK 3)*
+* **[Minggu 05: Percabangan Lanjut (`switch-case`) & Navigasi Menu CLI](./switch-case.md)** — Struktur Pemilihan Diskrit (`switch-case` / `match-case`), *Fall-Through Behavior*, `break` & Desain Menu CLI Interaktif *(Sub-CPMK 3)*
+* **[Minggu 06: Struktur Kontrol Perulangan (Looping & Iterasi)](./perulangan.md)** — Counted (`for`) vs Uncounted Loop (`while`, `do-while`), Counter & Akumulator, `break`/`continue`, Loop Invariant, Trace Tables & Nested Loops *(Sub-CPMK 3)*
 
-### 🔹 Bagian 3: Struktur Data Dasar & Pemrosesan Teks
+### 🔹 Bagian 3: Struktur Data Dasar, UTS & Pemrosesan Teks
 * **[Minggu 07: Struktur Data Larik (Array 1 Dimensi)](./array.md)** — Alokasi Memori Kontigu, Rumus Pengalamatan Elemen, Traversal, Two-Pointer Technique, In-Place Reversal & Buffer Overflow *(Sub-CPMK 4)*
+* **[Minggu 08: Evaluasi Tengah Semester (UTS)](./UTS.md)** — Kisi-Kisi Teori & Trace Table, Rubrik, serta Paket Latihan Live Coding Mandiri Minggu 1–7 *(Evaluasi Tengah Semester — 30%)*
 * **[Minggu 09: Array Multidimensi & Manipulasi String](./string.md)** — Matriks 2D (Row-Major vs Column-Major), Aljabar Matriks, Representasi ASCII/UTF-8, Null-terminated Strings vs Dynamic String *(Sub-CPMK 4)*
 
 ### 🔹 Bagian 4: Modularitas & Pemecahan Masalah Rekursif
-* **[Minggu 10: Pemrograman Modular: Fungsi & Prosedur](./fungsi-prosedur.md)** — Prinsip Single Responsibility & DRY, Fungsi vs Prosedur, Pass by Value/Reference/Pointer, Scope & Call Stack Activation Record *(Sub-CPMK 5)*
+* **[Minggu 10: Pemrograman Modular: Fungsi & Prosedur](./fungsi-prosedur.md)** — Prinsip Single Responsibility & DRY, Header/Prototipe, Fungsi vs Prosedur, Pass by Value/Reference/Pointer, Scope & Call Stack Activation Record *(Sub-CPMK 5)*
 * **[Minggu 11: Teknik Rekursi & Call Stack Memory](./rekursi.md)** — Induksi Matematika, Base Case, Recursive Step, Call Stack Trace, Menara Hanoi (Tower of Hanoi) & Konversi Rekursif ke Iteratif *(Sub-CPMK 5)*
 
 ### 🔹 Bagian 5: Algoritma Pencarian, Pengurutan & Analisis Big-O
 * **[Minggu 12: Algoritma Pencarian (Searching Algorithm)](./algoritma-pencarian.md)** — Linear Search O(n) vs Binary Search O(log n), Penurunan Matematis log₂(n), Divide & Conquer, serta Pencegahan Integer Overflow *(Sub-CPMK 6)*
-* **[Minggu 13-14: Algoritma Pengurutan (Sorting Algorithm)](./algoritma-pengurutan.md)** — Bubble Sort (Early Exit), Selection Sort, Insertion Sort, Penurunan Deret Aritmatika n(n-1)/2, Kestabilan Sorting & Pengantar O(n log n) *(Sub-CPMK 6)*
+* **[Minggu 13: Algoritma Pengurutan Sederhana (Sorting I)](./algoritma-pengurutan.md)** — Bubble Sort (Early Exit) & Selection Sort, Mekanisme Swap, Visualisasi Pass & Trace Table Ascending/Descending *(Sub-CPMK 6)*
+* **[Minggu 14: Algoritma Pengurutan Lanjut (Sorting II) & Pengantar Big-O](./sorting-lanjut-big-o.md)** — Insertion Sort, Eksperimen Komparasi 3 Metode Sorting (Perbandingan & Swap), serta Pengantar Time & Space Complexity Big-O *(Sub-CPMK 6)*
 
 ### 🔹 Bagian 6: Integrasi Proyek & Evaluasi Capstone
 * **[Minggu 15: Integrasi Proyek Mini, Clean Code & Studi Kasus](./proyek-mini.md)** — Arsitektur Rekayasa Perangkat Lunak, Penerapan Clean Code (SRP & DRY), Diagram Use Case & Aplikasi Konsol Terpadu *(Sub-CPMK 7)*

@@ -29,14 +29,26 @@ flowchart TD
     style TextSeg fill:#f8fafc,stroke:#475569,stroke-width:2px
 ```
 
-### Variabel sebagai Abstraksi Alamat Memori
-**Variabel** pada hakikatnya adalah nama simbolik yang diberikan programmer untuk merujuk pada alamat memori fisik heksadesimal tertentu di RAM.
+### Variabel & Konstanta sebagai Abstraksi Alamat Memori
+**Variabel** pada hakikatnya adalah nama simbolik yang diberikan programmer untuk merujuk pada alamat memori fisik heksadesimal tertentu di RAM yang nilainya dapat berubah selama eksekusi. Sebaliknya, **Konstanta** adalah pengenal yang nilainya tetap (*immutable*) sejak diinisialisasi—penting untuk mencegah *magic numbers* dan perubahan tidak sengaja pada parameter bisnis (misalnya `PAJAK_PPN` atau `PI`).
 
-::: info 🔍 Anatomi 4 Atribut Variabel
+::: info 🔍 Anatomi 4 Atribut Variabel & Deklarasi Konstanta
 1. **Identifier (Nama):** Label simbolik untuk kemudahan manusia (contoh: `umurMahasiswa`).
 2. **Data Type (Tipe Data):** Menentukan jumlah alokasi byte dan interpretasi bit biner.
 3. **Memory Address (Alamat Fisik):** Nomor indeks heksadesimal unik di RAM (contoh: `0x7ffee4b6a8`).
 4. **Value (Nilai Data):** Pola bit biner aktual yang tersimpan di dalam sel memori tersebut.
+
+```cpp
+// Deklarasi & Inisialisasi Variabel vs Konstanta (C++)
+int jumlahMahasiswa = 35;            // Variabel: nilai boleh berubah
+const double PAJAK_PPN = 0.11;       // Konstanta runtime: tidak boleh diubah ulang
+constexpr int MAKS_KAPASITAS = 100;  // Konstanta compile-time
+```
+```python
+# Konvensi Konstanta di Python (PEP 8 + typing.Final)
+from typing import Final
+PAJAK_PPN: Final[float] = 0.11
+```
 :::
 
 ---

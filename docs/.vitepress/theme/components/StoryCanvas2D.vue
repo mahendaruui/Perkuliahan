@@ -19,7 +19,7 @@
       <nav class="dv-nav" aria-label="Navigasi kanvas">
         <button class="dv-nav__item is-active" type="button">Belajar</button>
         <a class="dv-nav__item" :href="withBase(meta.moduleHref)">Modul</a>
-        <a class="dv-nav__item" :href="withBase(meta.slideHref)">Slide</a>
+        <a v-if="meta.slideHref" class="dv-nav__item" :href="withBase(meta.slideHref)">Slide</a>
       </nav>
 
       <button class="dv-search" type="button" aria-label="Cari tahap dan konsep" :aria-expanded="searchOpen" @click="openSearch">

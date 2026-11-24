@@ -64,7 +64,6 @@ export default withMermaid(
           text: '📽️ Slide Presentasi',
           items: [
             { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' },
-            { text: '⚡ Algoritma & Pemrograman', link: '/presentasi/pertemuan-1-algoritma' },
             { text: '🐘 Pemrograman OOP (PHP)', link: '/presentasi/pertemuan-1-php' },
             { text: '☕ Pemrograman OOP (Java)', link: '/presentasi/pertemuan-1-java' },
             { text: '📊 Visualisasi Data (Python)', link: '/presentasi/pertemuan-1-visualisasi-data' },
@@ -81,19 +80,6 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '📋 Daftar Seluruh Slide', link: '/presentasi/' }
-            ]
-          },
-          {
-            text: '⚡ Algoritma & Pemrograman',
-            collapsed: false,
-            items: [
-              { text: 'Pertemuan 1: Kontrak & Pengantar', link: '/presentasi/pertemuan-1-algoritma' },
-              { text: 'Pertemuan 2: Variabel & Tipe Data', link: '/presentasi/pertemuan-2-algoritma' },
-              { text: 'Pertemuan 3: Operator & Ekspresi', link: '/presentasi/pertemuan-3-algoritma' },
-              { text: 'Pertemuan 4: Struktur Percabangan', link: '/presentasi/pertemuan-4-algoritma' },
-              { text: 'Pertemuan 5: Struktur Perulangan', link: '/presentasi/pertemuan-5-algoritma' },
-              { text: 'Pertemuan 6: Larik (Array 1D)', link: '/presentasi/pertemuan-6-algoritma' },
-              { text: 'Pertemuan 7: Matriks 2D & String', link: '/presentasi/pertemuan-7-algoritma' }
             ]
           },
           {
@@ -305,16 +291,18 @@ export default withMermaid(
             text: 'Struktur Kontrol Alur',
             collapsed: false,
             items: [
-              { text: 'Minggu 4 — Percabangan (If-Else, Switch)', link: '/algoritma-pemrograman/percabangan' },
-              { text: 'Minggu 5 — Perulangan (For, While, Do-While)', link: '/algoritma-pemrograman/perulangan' }
+              { text: 'Minggu 4 — Percabangan (If-Else, Ternary)', link: '/algoritma-pemrograman/percabangan' },
+              { text: 'Minggu 5 — Switch-Case & Menu CLI', link: '/algoritma-pemrograman/switch-case' },
+              { text: 'Minggu 6 — Perulangan (For, While, Do-While)', link: '/algoritma-pemrograman/perulangan' }
             ]
           },
           {
-            text: 'Struktur Data Dasar',
+            text: 'Struktur Data Dasar & UTS',
             collapsed: false,
             items: [
-              { text: 'Minggu 7 — Array (Larik)', link: '/algoritma-pemrograman/array' },
-              { text: 'Minggu 9 — String & Operasi Teks', link: '/algoritma-pemrograman/string' }
+              { text: 'Minggu 7 — Array (Larik 1D)', link: '/algoritma-pemrograman/array' },
+              { text: 'Minggu 8 — Evaluasi Tengah Semester (UTS)', link: '/algoritma-pemrograman/UTS' },
+              { text: 'Minggu 9 — Matriks 2D & String', link: '/algoritma-pemrograman/string' }
             ]
           },
           {
@@ -330,7 +318,8 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 12 — Algoritma Pencarian (Searching)', link: '/algoritma-pemrograman/algoritma-pencarian' },
-              { text: 'Minggu 13-14 — Algoritma Pengurutan (Sorting)', link: '/algoritma-pemrograman/algoritma-pengurutan' }
+              { text: 'Minggu 13 — Sorting I (Bubble & Selection)', link: '/algoritma-pemrograman/algoritma-pengurutan' },
+              { text: 'Minggu 14 — Sorting II (Insertion & Big-O)', link: '/algoritma-pemrograman/sorting-lanjut-big-o' }
             ]
           },
           {

@@ -8,11 +8,18 @@ Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **11 tahap*
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 1)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
-1. Menjelaskan hakikat, definisi formal, dan landasan historis-epistemologis algoritma dalam sains komputasi.
-2. Menganalisis dan menguji keterpenuhan **5 Karakteristik Fundamental Algoritma (Donald Knuth)** pada suatu rancangan solusi.
-3. Membedakan secara analitis antara algoritma, struktur data, dan program komputer berdasarkan persamaan klasik Niklaus Wirth.
-4. Merancang diagram alir formal (**Flowchart Standar ISO 5807**) dan **Pseudocode Terstruktur** untuk menyelesaikan masalah komputasi sekuensial.
-5. Memahami perbedaan paradigma eksekusi bahasa pemrograman: Kompilasi (*Compiled Language - C++*) vs Interpretasi (*Interpreted Language - Python*).
+1. Memahami **Kontrak Kuliah**, tata tertib laboratorium, komponen evaluasi OBE, dan skala huruf mutu (**A ≥ 80**) sebagaimana tercantum pada [RPS](./RPS.md).
+2. Menjelaskan hakikat, definisi formal, dan landasan historis-epistemologis algoritma dalam sains komputasi.
+3. Menganalisis dan menguji keterpenuhan **5 Karakteristik Fundamental Algoritma (Donald Knuth)** pada suatu rancangan solusi.
+4. Membedakan secara analitis antara algoritma, struktur data, dan program komputer berdasarkan persamaan klasik Niklaus Wirth.
+5. Merancang diagram alir formal (**Flowchart Standar ISO 5807**) dan **Pseudocode Terstruktur** untuk menyelesaikan masalah komputasi sekuensial.
+6. Memahami perbedaan paradigma eksekusi bahasa pemrograman: Kompilasi (*Compiled Language - C++*) vs Interpretasi (*Interpreted Language - Python*).
+
+::: info 📋 Ringkasan Kontrak Kuliah & Aturan Akademik
+- **Kehadiran Minimal:** **75%** dari total pertemuan sebagai syarat mengikuti Evaluasi Akhir Semester (UAS).
+- **Integritas Kode (CPL08):** Seluruh tugas praktikum dan ujian coding wajib dikerjakan secara mandiri dan bebas plagiarisme.
+- **Lingkungan Praktikum:** Dual-stack **C++ (C++17/C++20)** dan **Python 3 (3.10+)**; lihat rincian bobot evaluasi dan konversi nilai (**A ≥ 80**) di [Rencana Pembelajaran Semester (RPS)](./RPS.md).
+:::
 
 ---
 

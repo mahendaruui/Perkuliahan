@@ -111,12 +111,12 @@ struct Mahasiswa {
     char gradeMutu;
 };
 
-// 2. Modul Penentuan Huruf Mutu
+// 2. Modul Penentuan Huruf Mutu (Skala SIAKAD UUI: A >= 80)
 char konversiGrade(double na) {
-    if (na >= 85.0) return 'A';
-    if (na >= 70.0) return 'B';
-    if (na >= 55.0) return 'C';
-    if (na >= 40.0) return 'D';
+    if (na >= 80.0) return 'A';
+    if (na >= 60.0) return 'B';
+    if (na >= 40.0) return 'C';
+    if (na >= 20.0) return 'D';
     return 'E';
 }
 
@@ -263,14 +263,14 @@ class Mahasiswa:
 
 
 def konversi_grade(na: float) -> str:
-    """Konversi nilai angka ke huruf mutu standar OBE."""
-    if na >= 85.0:
+    """Konversi nilai angka ke huruf mutu standar SIAKAD UUI (A >= 80)."""
+    if na >= 80.0:
         return 'A'
-    if na >= 70.0:
+    if na >= 60.0:
         return 'B'
-    if na >= 55.0:
-        return 'C'
     if na >= 40.0:
+        return 'C'
+    if na >= 20.0:
         return 'D'
     return 'E'
 

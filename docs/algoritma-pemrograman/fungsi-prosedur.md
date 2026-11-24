@@ -49,6 +49,11 @@ flowchart TD
 | **Penempatan dalam Kode** | Dapat diletakkan langsung di dalam ekspresi aritmatika (misal: `z = hitungLuas(p, l) + 10;`). | Dipanggil sebagai satu pernyataan instruksi mandiri (misal: `tampilkanMenu();`). |
 | **Efek Samping (*Side Effects*)** | Idealnya berstatus *Pure Function* (bebas efek samping, luaran murni ditentukan masukan). | Sering kali memicu efek samping (mengubah variabel global atau memodifikasi I/O). |
 
+### Deklarasi Header (Prototipe) & Parameter Formal vs Aktual
+- **Prototipe / Header Fungsi (C++):** Deklarasi tanda tangan fungsi (*return type*, nama, dan tipe parameter) sebelum `main()`, sedangkan definisi tubuh fungsinya dapat ditulis setelah `main()` (misal: `double hitungRata(int total, int n);`).
+- **Parameter Formal:** Variabel lokal di definisi fungsi yang menerima nilai/referensi (contoh: `int a, int b` pada `void tukarByValue(int a, int b)`).
+- **Parameter Aktual (*Argumen*):** Nilai atau variabel nyata yang dikirim saat fungsi dipanggil (contoh: `x, y` pada `tukarByValue(x, y);`).
+
 ---
 
 ## 3. Parameter Passing: By Value vs By Reference vs By Pointer

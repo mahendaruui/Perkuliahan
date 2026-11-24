@@ -1,13 +1,13 @@
-# 📘 Minggu 05-06: Struktur Kontrol Perulangan, Invariant Loop & Trace Tables
+# 📘 Minggu 06: Struktur Kontrol Perulangan (Looping), Invariant & Trace Tables
 
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami siklus hidup iterasi, membedakan antara **Counted Loop (`for`)** dan **Uncounted Loop (`while`, `do-while`)**.
-2. Membuktikan kebenaran algoritma iteratif menggunakan konsep **Loop Invariant**.
-3. Mengontrol terminasi iterasi secara terstruktur menggunakan **`break`** dan **`continue`**, serta mengidentifikasi penyebab **Infinite Loop**.
-4. Menganalisis kompleksitas waktu geometris pada perulangan bersarang (**Nested Loops: `O(n)`, `O(n²)`, `O(n³)`**).
+2. Mengelola **Loop Counter**, **Variabel Akumulator**, serta kontrol terminasi **`break`** dan **`continue`**, serta mengidentifikasi penyebab **Infinite Loop**.
+3. Membuktikan kebenaran algoritma iteratif menggunakan konsep **Loop Invariant**.
+4. Menganalisis kompleksitas waktu geometris pada perulangan bersarang (**Nested Loops: `O(n)`, `O(n²)`, `O(n³)`**) untuk pola bintang/matriks.
 5. Menyusun **Tabel Penelusuran (*Trace Table / Dry Run*)** formal untuk memverifikasi transisi status variabel langkah-demi-langkah.
-6. Mengimplementasikan algoritma iterasi bilangan prima (optimasi `√n`) dan deret menggunakan C++ dan Python 3.
+6. Mengimplementasikan deret angka, faktorial, validasi input berulang, dan uji bilangan prima (`O(√n)`) menggunakan C++ dan Python 3.
 
 ---
 
@@ -48,6 +48,27 @@ Dalam ilmu komputer teoretis, **Loop Invariant** adalah properti atau relasi mat
 | **`for` loop** | **Counted Loop:** Evaluasi kondisi di awal (*Pre-test*). Counter terintegrasi rapi. | Jumlah putaran iterasi sudah diketahui secara pasti (misal: traversal N elemen array). | **0 Kali** (Jika kondisi awal false) |
 | **`while` loop** | **Uncounted Loop:** Evaluasi kondisi di awal (*Pre-test*). | Jumlah iterasi bergantung pada kejadian dinamis (membaca stream file, sensor, validasi input). | **0 Kali** (Jika kondisi awal false) |
 | **`do-while` loop** | **Post-tested Loop:** Evaluasi kondisi dikerjakan di bagian akhir. | Blok program **harus dijalankan minimal 1 kali** sebelum validasi (misal: menampilkan menu aplikasi). | **1 Kali** (Pasti dieksekusi sekali) |
+
+### Pola Penting dalam Perulangan: Counter, Akumulator, `break`, dan `continue`
+- **Loop Counter:** Variabel pencacah yang menghitung berapa kali blok perulangan berjalan atau jumlah item yang memenuhi syarat (misal `jumlahLulus++`).
+- **Akumulator:** Variabel penampung hasil penjumlahan atau perkalian kumulatif lintas iterasi (misal `totalNilai += nilai` atau `faktorial *= i`, wajib diinisialisasi sebelum loop dimulai).
+- **`break`:** Menghentikan perulangan seketika dan melompat keluar dari blok loop (sering dipakai setelah target ditemukan atau input valid diterima).
+- **`continue`:** Melewati sisa instruksi pada iterasi saat ini dan langsung melompat ke evaluasi iterasi berikutnya (misal melewati data anomali/negatif).
+- **Validasi Input Berulang (`do-while` / `while True`):** Meminta masukan ulang selama data berada di luar rentang yang diizinkan.
+
+```cpp
+// Contoh Validasi Input Berulang & Akumulator Faktorial (C++)
+int n;
+do {
+    cout << "Masukkan N (0 - 12): ";
+    cin >> n;
+} while (n < 0 || n > 12);
+
+long long faktorial = 1; // Akumulator perkalian diawali 1
+for (int i = 2; i <= n; i++) {
+    faktorial *= i;
+}
+```
 
 ---
 
@@ -226,7 +247,7 @@ if __name__ == "__main__":
 4. **Optimasi `√n`:** Batasi pemeriksaan pembagi pada algoritma bilangan prima hingga `√n` untuk memangkas waktu eksekusi dari `O(n)` menjadi `O(√n)`.
 :::
 
-### 📝 Tugas Praktikum 5 (Mandiri)
+### 📝 Tugas Praktikum 6 (Mandiri)
 1. **Analisis Trace Table Algoritma Euclid:** Susunlah Trace Table lengkap untuk mencari Faktor Persekutuan Terbesar (**FPB / GCD**) antara angka A = 252 dan B = 105 menggunakan algoritma pembagian modulo berulang Euclid:
    ```text
    while B != 0:
