@@ -84,6 +84,8 @@ const NODE_HEIGHT: Record<string, number> = {
   source: 0.9,
   bucket: 1.4,
   wall: 2.4,
+  code: 1.4,
+  symbol: 0.5,
   tag: 0,
 }
 
@@ -710,23 +712,50 @@ function drawTube(c: CanvasRenderingContext2D, n: IsoNode) {
 }
 
 function drawRobot(c: CanvasRenderingContext2D, n: IsoNode) {
-  shadow(c, 54, 28)
-  cuboid(c, 54, 28, 28, PALETTE.ink2, PALETTE.ink2, shade(PALETTE.ink2, -12), 0, 1.2)
-  c.strokeStyle = PALETTE.output
-  c.lineWidth = 4
-  c.lineCap = 'round'
+  shadow(c, 50, 26)
+  // body
+  cuboid(c, 46, 24, 22, PALETTE.ink2, PALETTE.ink2, shade(PALETTE.ink2, -12), 0, 1.2)
+  c.fillStyle = PALETTE.process
+  c.fillRect(-9, -17, 14, 8)
+  c.strokeStyle = PALETTE.ink
+  c.lineWidth = 1
+  c.strokeRect(-9, -17, 14, 8)
+  // head
+  c.save()
+  c.translate(0, -22)
+  cuboid(c, 30, 16, 18, PALETTE.cream, PALETTE.paper, shade(PALETTE.paper, -8), 0, 1.1)
+  c.fillStyle = PALETTE.ink
+  c.fillRect(-9, -13, 4.4, 4.4)
+  c.fillRect(4.2, -13, 4.4, 4.4)
+  c.fillStyle = PALETTE.output
+  c.fillRect(-4, -6.5, 9, 2.6)
+  c.restore()
+  // antenna
+  c.strokeStyle = PALETTE.ink
+  c.lineWidth = 1.5
   c.beginPath()
-  c.moveTo(0, -28)
-  c.lineTo(16, -50)
-  c.lineTo(30, -34)
+  c.moveTo(0, -40)
+  c.lineTo(0, -47)
   c.stroke()
   c.beginPath()
-  c.arc(30, -34, 5, 0, Math.PI * 2)
-  c.fillStyle = PALETTE.process
+  c.arc(0, -49.5, 3, 0, Math.PI * 2)
+  c.fillStyle = PALETTE.danger
   c.fill()
   c.strokeStyle = PALETTE.ink
-  c.lineWidth = 1.2
+  c.lineWidth = 1
   c.stroke()
+  // arm with a small block
+  c.strokeStyle = PALETTE.output
+  c.lineWidth = 3.4
+  c.lineCap = 'round'
+  c.beginPath()
+  c.moveTo(20, -24)
+  c.lineTo(30, -34)
+  c.stroke()
+  c.save()
+  c.translate(33, -40)
+  cuboid(c, 12, 7, 10, PALETTE.blueSoft, PALETTE.processDark, PALETTE.process, 0, 0.9)
+  c.restore()
 }
 
 function drawSource(c: CanvasRenderingContext2D, n: IsoNode) {
@@ -797,6 +826,110 @@ function drawTag(c: CanvasRenderingContext2D, n: IsoNode) {
   pill(c, n.label ?? '', 0, 0, n.fill ?? PALETTE.cream, n.color ?? PALETTE.ink, 700, 11)
 }
 
+function drawCode(c: CanvasRenderingContext2D, n: IsoNode) {
+  const col = n.color ?? PALETTE.process
+  shadow(c, 96, 40)
+  c.save()
+  c.translate(0, -54)
+  rr(c, -48, -36, 96, 70, 8)
+  c.fillStyle = PALETTE.ink
+  c.fill()
+  rr(c, -43, -31, 86, 60, 5)
+  c.fillStyle = '#2f2b27'
+  c.fill()
+  ;['#e0804f', '#e6b94f', '#b2d491'].forEach((dot, i) => {
+    c.beginPath()
+    c.arc(-35 + i * 8, -25, 2.4, 0, Math.PI * 2)
+    c.fillStyle = dot
+    c.fill()
+  })
+  const lines: Array<[string, number, number]> = [
+    [col, -15, 28],
+    [PALETTE.raw, -9, 18],
+    [PALETTE.output, -3, 34],
+    [PALETTE.green, 3, 22],
+    [PALETTE.violet, 9, 16],
+  ]
+  lines.forEach(([color, y, w]) => {
+    rr(c, -34, y - 1.7, w, 3.4, 1.7)
+    c.fillStyle = color
+    c.fill()
+  })
+  c.fillStyle = PALETTE.ink2
+  c.fillRect(-7, 34, 14, 6)
+  c.fillRect(-17, 40, 34, 4)
+  c.restore()
+}
+
+function drawSymbol(c: CanvasRenderingContext2D, n: IsoNode) {
+  const status = n.status ?? 'process'
+  const col =
+    n.color ??
+    (status === 'start'
+      ? PALETTE.green
+      : status === 'decision'
+        ? PALETTE.output
+        : status === 'io'
+          ? PALETTE.process
+          : status === 'prep'
+            ? PALETTE.violet
+            : PALETTE.teal)
+  shadow(c, 66, 34)
+  cuboid(c, 66, 34, 10, PALETTE.cream, PALETTE.paper, '#e8ddd0', 0, 1.2)
+  c.save()
+  c.transform(0.7, 0.35, -0.7, 0.35, 0, -10.4)
+  c.fillStyle = col
+  c.strokeStyle = PALETTE.ink
+  c.lineWidth = 1.4
+  const w = 24
+  const h = 11
+  if (status === 'start') {
+    rr(c, -w, -h, w * 2, h * 2, h * 2)
+    c.fill()
+    c.stroke()
+  } else if (status === 'io') {
+    c.beginPath()
+    c.moveTo(-w + 7, -h)
+    c.lineTo(w + 7, -h)
+    c.lineTo(w - 7, h)
+    c.lineTo(-w - 7, h)
+    c.closePath()
+    c.fill()
+    c.stroke()
+  } else if (status === 'decision') {
+    c.beginPath()
+    c.moveTo(0, -h - 4)
+    c.lineTo(w + 5, 0)
+    c.lineTo(0, h + 4)
+    c.lineTo(-w - 5, 0)
+    c.closePath()
+    c.fill()
+    c.stroke()
+  } else if (status === 'prep') {
+    c.beginPath()
+    for (let i = 0; i < 6; i++) {
+      const a = (Math.PI / 3) * i - Math.PI / 6
+      const x = Math.cos(a) * (w + 2)
+      const y = Math.sin(a) * (h + 3)
+      i === 0 ? c.moveTo(x, y) : c.lineTo(x, y)
+    }
+    c.closePath()
+    c.fill()
+    c.stroke()
+  } else if (status === 'connector') {
+    c.beginPath()
+    c.arc(0, 0, 12, 0, Math.PI * 2)
+    c.fill()
+    c.stroke()
+  } else {
+    c.beginPath()
+    c.rect(-w, -h, w * 2, h * 2)
+    c.fill()
+    c.stroke()
+  }
+  c.restore()
+}
+
 const RENDERERS: Record<string, (c: CanvasRenderingContext2D, n: IsoNode, t: number) => void> = {
   server: drawServer,
   disk: drawDisk,
@@ -822,6 +955,8 @@ const RENDERERS: Record<string, (c: CanvasRenderingContext2D, n: IsoNode, t: num
   source: drawSource,
   bucket: drawBucket,
   wall: drawWall,
+  code: drawCode,
+  symbol: drawSymbol,
   tag: drawTag,
 }
 
@@ -851,6 +986,8 @@ const NODE_EXTENT: Record<string, { w: number; up: number }> = {
   source: { w: 58, up: 44 },
   bucket: { w: 58, up: 78 },
   wall: { w: 10, up: 112 },
+  code: { w: 100, up: 116 },
+  symbol: { w: 68, up: 32 },
   tag: { w: 90, up: 18 },
 }
 

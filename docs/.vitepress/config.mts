@@ -289,7 +289,8 @@ export default withMermaid(
             items: [
               { text: 'Daftar Materi', link: '/algoritma-pemrograman/' },
               { text: 'RPS (Rencana Pembelajaran)', link: '/algoritma-pemrograman/RPS' },
-              { text: 'Minggu 1 — Pengenalan Algoritma & Pemrograman', link: '/algoritma-pemrograman/pengenalan' }
+              { text: 'Minggu 1 — Pengenalan Algoritma & Pemrograman', link: '/algoritma-pemrograman/pengenalan' },
+              { text: '🧊 Kanvas 2.5D: P1 — Pengenalan Algoritma', link: '/algoritma-pemrograman/canvas-minggu-1' }
             ]
           },
           {

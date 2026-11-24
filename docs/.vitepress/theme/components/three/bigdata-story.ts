@@ -1,64 +1,26 @@
 /* Shared story data for the Big Data 2.5D canvases. */
 
 export type StoryVariant = 'foundation' | 'hadoop' | 'spark'
-export type StoryTone = 'sand' | 'blue' | 'green' | 'amber' | 'violet' | 'red'
+export type {
+  Story,
+  StoryGoal,
+  StoryLegendItem,
+  StoryMeta,
+  StoryModule,
+  StoryStep,
+  StoryTone,
+} from './story-types'
 
-export interface StoryStep {
-  id: string
-  short: string
-  title: string
-  phase: string
-  tone: StoryTone
-  body: string
-  idea: string
-  panelTitle: string
-  panelMetric: string
-  nodeCount: string
-  dataCount: string
-  linkCount: string
-  focus: string
-}
-
-export interface StoryGoal {
-  text: string
-  at: number
-}
-
-export interface StoryModule {
-  id: string
-  title: string
-  color: string
-  items: number[]
-}
-
-export interface StoryMeta {
-  brand: string
-  brandSub: string
-  href: string
-  slideHref: string
-  crumb: string
-  title: string
-  subtitle: string
-  duration: string
-  level: string
-  longTitle: boolean
-  footnote: string
-  searchHint: string
-}
-
-export interface Story {
-  meta: StoryMeta
-  steps: StoryStep[]
-  goals: StoryGoal[]
-  modules: StoryModule[]
-}
+import type { Story } from './story-types'
 
 
 const foundationStory: Story = {
   meta: {
     brand: 'Big Data',
+    course: 'Big Data',
     brandSub: 'Fondasi · Bagian 1',
     href: '/big-data/canvas-foundation',
+    moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-1-big-data',
     crumb: 'Bagian 1 · Fondasi',
     title: 'Fondasi & Arsitektur',
@@ -225,8 +187,10 @@ const foundationStory: Story = {
 const hadoopStory: Story = {
   meta: {
     brand: 'Hadoop',
+    course: 'Big Data',
     brandSub: 'Batch · Bagian 2',
     href: '/big-data/canvas-hadoop',
+    moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-3-big-data',
     crumb: 'Bagian 2 · Hadoop',
     title: 'Satu Berkas, Seribu Pekerja',
@@ -438,8 +402,10 @@ const hadoopStory: Story = {
 const sparkStory: Story = {
   meta: {
     brand: 'Spark',
+    course: 'Big Data',
     brandSub: 'Batch · Bagian 2',
     href: '/big-data/canvas-spark',
+    moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-4-big-data',
     crumb: 'Bagian 2 · Spark',
     title: 'Dari Disk yang Lelah ke Memori yang Gesit',

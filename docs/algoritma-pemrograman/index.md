@@ -47,6 +47,12 @@ flowchart TD
 
 ---
 
+::: tip 🧊 Kanvas 2.5D — Minggu 1: Logika Sebelum Kode
+Ikuti cerita **11 tahap isometrik 2.5D**: dari instruksi yang ambigu, sejarah Al-Khwarizmi–Lovelace–Turing, lima syarat Knuth, aksioma Wirth, siklus pemecahan masalah, tujuh simbol flowchart ISO 5807, studi kasus tarif parkir, pseudocode, kompilasi vs interpretasi, hingga implementasi C++ dan Python.
+
+[**Buka Kanvas 2.5D Minggu 1 →**](/algoritma-pemrograman/canvas-minggu-1)
+:::
+
 ## 📚 Silabus & Modul Perkuliahan Mingguan
 
 ### 🔹 Bagian 1: Fondasi Logika, Notasi & Arsitektur Memori

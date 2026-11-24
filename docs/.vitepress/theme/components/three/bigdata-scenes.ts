@@ -480,9 +480,9 @@ const spark: IsoScene[] = [
   },
 ]
 
-const allScenes: Record<StoryVariant, IsoScene[]> = { foundation, hadoop, spark }
+export const storyScenes: Record<StoryVariant, IsoScene[]> = { foundation, hadoop, spark }
 
 export function sceneFor(variant: StoryVariant, index: number): IsoScene {
-  const list = allScenes[variant]
+  const list = storyScenes[variant]
   return list[Math.min(index, list.length - 1)] ?? { nodes: [] }
 }

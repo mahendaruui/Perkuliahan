@@ -1,5 +1,11 @@
 # 📘 Minggu 01: Pengenalan Algoritma, Logika Komputasi & Notasi Standar
 
+::: tip 🧊 Versi kanvas 2.5D
+Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **11 tahap** dari instruksi ambigu sampai implementasi C++ dan Python.
+
+[**Buka Kanvas 2.5D Minggu 1 →**](/algoritma-pemrograman/canvas-minggu-1)
+:::
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 1)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Menjelaskan hakikat, definisi formal, dan landasan historis-epistemologis algoritma dalam sains komputasi.
