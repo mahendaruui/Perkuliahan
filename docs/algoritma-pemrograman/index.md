@@ -53,6 +53,12 @@ Ikuti cerita **11 tahap isometrik 2.5D**: dari instruksi yang ambigu, sejarah Al
 [**Buka Kanvas 2.5D Minggu 1 →**](/algoritma-pemrograman/canvas-minggu-1)
 :::
 
+::: tip 🧊 Kanvas 2.5D — Minggu 2: Variabel, Tipe Data & Memori RAM
+Ikuti cerita **10 tahap isometrik 2.5D**: dari pola bit mentah `0/1`, lima segmen RAM (Stack–Heap–BSS–Data–Text), anatomi variabel & konstanta, Two's Complement, bahaya integer overflow, impresisi IEEE 754, static vs dynamic typing, hingga type casting aman.
+
+[**Buka Kanvas 2.5D Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
+:::
+
 ## 📚 Silabus & Modul Perkuliahan Mingguan
 
 ### 🔹 Bagian 1: Fondasi Logika, Notasi & Arsitektur Memori

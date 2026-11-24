@@ -1,5 +1,11 @@
 # 📘 Minggu 02: Variabel, Tipe Data & Dekonstruksi Memori Komputer
 
+::: tip 🧊 Versi kanvas 2.5D
+Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **10 tahap** dari pola bit di RAM, lima segmen memori, Two's Complement, overflow, IEEE 754, hingga type casting.
+
+[**Buka Kanvas 2.5D Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
+:::
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 2)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami arsitektur memori program komputer (**Stack, Heap, Data, BSS, Text Segment**) dan peran variabel sebagai pemetaan alamat fisik RAM.

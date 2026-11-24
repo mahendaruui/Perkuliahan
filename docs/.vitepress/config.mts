@@ -284,6 +284,7 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 2 — Variabel dan Tipe Data', link: '/algoritma-pemrograman/variabel-tipe-data' },
+              { text: '🧊 Kanvas 2.5D: P2 — Variabel & Memori', link: '/algoritma-pemrograman/canvas-minggu-2' },
               { text: 'Minggu 3 — Operator & Ekspresi', link: '/algoritma-pemrograman/operator' }
             ]
           },
