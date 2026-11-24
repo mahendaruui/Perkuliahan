@@ -1,11 +1,11 @@
 ---
-title: Kanvas 3D — Hadoop, MapReduce & YARN
-description: "Cerita 3D pemrosesan batch Hadoop: satu file raksasa, split, map, combiner, shuffle, reduce, skew, YARN, Hive, dan hasil analitik."
+title: "Kanvas 2.5D — Hadoop, MapReduce, YARN & Hive"
+description: "Cerita isometrik 2.5D low-poly untuk Big Data."
 layout: false
 ---
 
 <script setup>
-import HadoopMapReduceThree from '../.vitepress/theme/components/HadoopMapReduceThree.vue'
+import BigDataStory2D from '../.vitepress/theme/components/BigDataStory2D.vue'
 </script>
 
-<HadoopMapReduceThree />
+<BigDataStory2D variant="hadoop" />

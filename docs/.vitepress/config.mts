@@ -583,9 +583,9 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '🕸️ Kanvas: Alur Big Data', link: '/big-data/canvas' },
-              { text: '🧊 Kanvas 3D: Fondasi & Arsitektur', link: '/big-data/canvas-foundation' },
-              { text: '🏭 Kanvas 3D: Hadoop, MapReduce & YARN', link: '/big-data/canvas-hadoop' },
-              { text: '⚡ Kanvas 3D: Spark & Optimasi ETL', link: '/big-data/canvas-spark' }
+              { text: '🧊 Kanvas 2.5D: Fondasi & Arsitektur', link: '/big-data/canvas-foundation' },
+              { text: '🏭 Kanvas 2.5D: Hadoop, MapReduce & YARN', link: '/big-data/canvas-hadoop' },
+              { text: '⚡ Kanvas 2.5D: Spark & Optimasi ETL', link: '/big-data/canvas-spark' }
             ]
           },
           {

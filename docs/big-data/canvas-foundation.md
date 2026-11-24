@@ -1,11 +1,11 @@
 ---
-title: Kanvas 3D — Fondasi & Arsitektur Big Data
-description: "Cerita 3D fondasi big data: batas satu server, scale-out, blok, distribusi, replikasi, HDFS, CAP, object storage, dan arsitektur data."
+title: "Kanvas 2.5D — Fondasi & Arsitektur"
+description: "Cerita isometrik 2.5D low-poly untuk Big Data."
 layout: false
 ---
 
 <script setup>
-import BigDataFoundationThree from '../.vitepress/theme/components/BigDataFoundationThree.vue'
+import BigDataStory2D from '../.vitepress/theme/components/BigDataStory2D.vue'
 </script>
 
-<BigDataFoundationThree />
+<BigDataStory2D variant="foundation" />

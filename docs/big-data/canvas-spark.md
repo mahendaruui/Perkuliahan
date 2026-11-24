@@ -1,11 +1,11 @@
 ---
-title: Kanvas 3D — Apache Spark & Optimasi ETL
-description: "Cerita 3D Spark ETL: in-memory, DAG, Catalyst, narrow vs wide, medallion bronze-silver-gold, tuning partisi, skew, small files, dan rilis."
+title: "Kanvas 2.5D — Apache Spark & Optimasi ETL"
+description: "Cerita isometrik 2.5D low-poly untuk Big Data."
 layout: false
 ---
 
 <script setup>
-import SparkEtlThree from '../.vitepress/theme/components/SparkEtlThree.vue'
+import BigDataStory2D from '../.vitepress/theme/components/BigDataStory2D.vue'
 </script>
 
-<SparkEtlThree />
+<BigDataStory2D variant="spark" />

@@ -10,14 +10,14 @@ Lihat pipeline big data sebagai flowchart hidup: sumber data, ingestion, storage
 [**Buka Kanvas Alur Big Data →**](/big-data/canvas)
 :::
 
-::: tip 🧊 Kanvas 3D — Fondasi & Arsitektur
-Ikuti cerita data dalam **9 tahap 3D**: dari satu server yang mulai penuh, scale-out, blok, distribusi, replikasi, HDFS, CAP, object storage, hingga arsitektur end-to-end.
+::: tip 🧊 Kanvas 2.5D — Fondasi & Arsitektur
+Ikuti cerita data dalam **9 tahap isometrik 2.5D**: dari satu server yang mulai penuh, scale-out, blok, distribusi, replikasi, HDFS, CAP, object storage, hingga arsitektur end-to-end.
 
-[**Buka Kanvas 3D Fondasi & Arsitektur →**](/big-data/canvas-foundation)
+[**Buka Kanvas 2.5D Fondasi & Arsitektur →**](/big-data/canvas-foundation)
 :::
 
-::: tip 🏭 Kanvas 3D — Bagian 2: Pemrosesan Batch
-Dua cerita 3D untuk pemrosesan batch:
+::: tip 🏭 Kanvas 2.5D — Bagian 2: Pemrosesan Batch
+Dua cerita isometrik 2.5D untuk pemrosesan batch:
 
 - [**Hadoop, MapReduce & YARN**](/big-data/canvas-hadoop) — satu berkas, seribu pekerja: split, map, combiner, shuffle, reduce, skew, YARN, Hive.
 - [**Apache Spark & Optimasi ETL**](/big-data/canvas-spark) — dari disk yang lelah ke memori yang gesit: DAG, Catalyst, shuffle, medallion, tuning.
