@@ -87,6 +87,10 @@ const NODE_HEIGHT: Record<string, number> = {
   code: 1.4,
   symbol: 0.5,
   tag: 0,
+  ram: 0.7,
+  bitreg: 0.5,
+  gate: 0.9,
+  valuebox: 1.4,
 }
 
 export function isoPoint(x: number, y: number, z = 0) {
@@ -930,6 +934,90 @@ function drawSymbol(c: CanvasRenderingContext2D, n: IsoNode) {
   c.restore()
 }
 
+function drawRam(c: CanvasRenderingContext2D, n: IsoNode) {
+  const col = n.color ?? PALETTE.process
+  shadow(c, 78, 34)
+  // Dark PCB stick
+  cuboid(c, 78, 30, 10, '#3e4a47', '#293230', '#313c39', 0, 1.3)
+  // Gold contact pins along front edge
+  for (let i = 0; i < 9; i++) {
+    c.fillStyle = PALETTE.output
+    c.fillRect(-30 + i * 7.2, -3, 3.6, 3)
+  }
+  // 4 memory IC chips on top
+  for (let i = 0; i < 4; i++) {
+    c.save()
+    c.translate(-22 + i * 14.5, -10)
+    cuboid(c, 11, 14, 10, shade(col, 16), shade(col, -18), col, 0, 1)
+    c.restore()
+  }
+  if (n.sub) {
+    pill(c, n.sub, 0, -28, PALETTE.cream, PALETTE.ink, 700, 9.5)
+  }
+}
+
+function drawBitReg(c: CanvasRenderingContext2D, n: IsoNode) {
+  const col = n.color ?? PALETTE.process
+  const bits = (n.sub && /^[01]{4,8}$/.test(n.sub) ? n.sub : '01011010').padStart(8, '0').slice(-8)
+  shadow(c, 92, 34)
+  cuboid(c, 92, 30, 8, PALETTE.ink2, PALETTE.ink2, shade(PALETTE.ink2, -14), 0, 1.2)
+  for (let i = 0; i < 8; i++) {
+    const isOne = bits[i] === '1'
+    const bx = -33 + i * 9.4
+    const h = isOne ? 16 : 5
+    const bcol = isOne ? col : PALETTE.raw
+    c.save()
+    c.translate(bx, -8)
+    cuboid(c, 7.2, 12, h, shade(bcol, 18), shade(bcol, -18), bcol, 0, 0.9)
+    c.restore()
+  }
+}
+
+function drawGate(c: CanvasRenderingContext2D, n: IsoNode) {
+  const col = n.color ?? PALETTE.process
+  const failed = n.status === 'failed'
+  const topCol = failed ? PALETTE.redSoft : shade(col, 24)
+  shadow(c, 60, 34)
+  cuboid(c, 60, 34, 28, topCol, shade(col, -20), col, 0, 1.4)
+  // Crisp symbol badge on front-top area
+  const sym = n.sub ?? 'ALU'
+  pill(c, sym, 0, -28, PALETTE.cream, failed ? PALETTE.dangerDark : PALETTE.ink, 800, 11)
+}
+
+function drawValueBox(c: CanvasRenderingContext2D, n: IsoNode) {
+  const col = n.color ?? PALETTE.output
+  const failed = n.status === 'failed'
+  const accent = failed ? PALETTE.danger : col
+  shadow(c, 96, 40)
+  c.save()
+  c.translate(0, -54)
+  rr(c, -48, -36, 96, 68, 8)
+  c.fillStyle = PALETTE.ink
+  c.fill()
+  rr(c, -44, -33, 88, 62, 6)
+  c.fillStyle = PALETTE.cream
+  c.fill()
+  c.strokeStyle = PALETTE.ink
+  c.lineWidth = 1.2
+  c.stroke()
+  // Header accent strip
+  rr(c, -40, -29, 80, 10, 3)
+  c.fillStyle = accent
+  c.fill()
+  // Value text inside card
+  const valText = n.sub ?? n.label ?? ''
+  c.fillStyle = failed ? PALETTE.dangerDark : PALETTE.ink
+  c.font = `800 ${valText.length > 9 ? 11 : valText.length > 6 ? 13 : 16}px "Fira Code", "JetBrains Mono", monospace`
+  c.textAlign = 'center'
+  c.textBaseline = 'middle'
+  c.fillText(valText, 0, 4)
+  // Stand base
+  c.fillStyle = PALETTE.ink2
+  c.fillRect(-7, 32, 14, 6)
+  c.fillRect(-17, 38, 34, 4)
+  c.restore()
+}
+
 const RENDERERS: Record<string, (c: CanvasRenderingContext2D, n: IsoNode, t: number) => void> = {
   server: drawServer,
   disk: drawDisk,
@@ -958,6 +1046,10 @@ const RENDERERS: Record<string, (c: CanvasRenderingContext2D, n: IsoNode, t: num
   code: drawCode,
   symbol: drawSymbol,
   tag: drawTag,
+  ram: drawRam,
+  bitreg: drawBitReg,
+  gate: drawGate,
+  valuebox: drawValueBox,
 }
 
 /** Visual footprint used for fitting and link anchors (design px, above anchor). */
@@ -989,6 +1081,10 @@ const NODE_EXTENT: Record<string, { w: number; up: number }> = {
   code: { w: 100, up: 116 },
   symbol: { w: 68, up: 32 },
   tag: { w: 90, up: 18 },
+  ram: { w: 80, up: 44 },
+  bitreg: { w: 94, up: 36 },
+  gate: { w: 64, up: 52 },
+  valuebox: { w: 100, up: 108 },
 }
 
 export function nodeLabelAnchor(node: IsoNode) {

@@ -1,5 +1,11 @@
 # 📘 Minggu 04: Struktur Kontrol Percabangan & Defensive Programming
 
+::: tip 🧊 Versi kanvas 2.5D
+Materi minggu ini juga tersedia sebagai cerita isometrik interaktif: **8 tahap** dari Teorema Böhm-Jacopini, percabangan `if-else-if` & `nested-if`, jebakan *Dangling Else*, operator ternary, hingga *Guard Clauses*.
+
+[**Buka Kanvas 2.5D Minggu 4 →**](/algoritma-pemrograman/canvas-minggu-4)
+:::
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami landasan teoritis struktur kontrol seleksi berdasarkan **Teorema Böhm-Jacopini**.

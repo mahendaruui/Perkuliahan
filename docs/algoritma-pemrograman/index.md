@@ -59,6 +59,18 @@ Ikuti cerita **10 tahap isometrik 2.5D**: dari pola bit mentah `0/1`, lima segme
 [**Buka Kanvas 2.5D Minggu 2 →**](/algoritma-pemrograman/canvas-minggu-2)
 :::
 
+::: tip 🧊 Kanvas 2.5D — Minggu 3: Operator, Boolean & Bitwise
+Ikuti cerita **10 tahap isometrik 2.5D**: dari presedensi ALU, lima keluarga operator, Aljabar Boolean, Hukum De Morgan, short-circuit guard, pergeseran bit (`<<` / `>>`), hingga pola bitmasking izin akses.
+
+[**Buka Kanvas 2.5D Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
+:::
+
+::: tip 🧊 Kanvas 2.5D — Minggu 4: Percabangan & Guard Clauses
+Ikuti cerita **8 tahap isometrik 2.5D**: dari Teorema Böhm-Jacopini, percabangan `if-else-if` dan `nested-if`, jebakan *Dangling Else*, operator ternary, *Arrow Anti-Pattern*, hingga pola *Guard Clauses* pada studi kasus kredit bank.
+
+[**Buka Kanvas 2.5D Minggu 4 →**](/algoritma-pemrograman/canvas-minggu-4)
+:::
+
 ## 📚 Silabus & Modul Perkuliahan Mingguan
 
 ### 🔹 Bagian 1: Fondasi Logika, Notasi & Arsitektur Memori
