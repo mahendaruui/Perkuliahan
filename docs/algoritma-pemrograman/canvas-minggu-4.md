@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Minggu 4: Struktur Kontrol Percabangan & Guard Clauses"
-description: "Cerita isometrik 2.5D: Teorema Böhm-Jacopini, percabangan if-else-if & nested-if, Dangling Else, operator ternary, dan Guard Clauses."
+title: "Kanvas Flowchart — Minggu 4: Struktur Kontrol Percabangan & Guard Clauses"
+description: "Kanvas flowchart interaktif ISO 5807: Teorema Böhm-Jacopini, percabangan if-else-if & nested-if, Dangling Else, operator ternary, dan Guard Clauses."
 layout: false
 ---
 

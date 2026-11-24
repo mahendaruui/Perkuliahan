@@ -46,6 +46,8 @@ export interface StoryMeta {
   moduleHref: string
   /** Optional slide URL behind the "Slide" nav item. */
   slideHref?: string
+  /** Optional renderer mode: 'iso' (default 2.5D) or 'flowchart' (2D ISO 5807). */
+  renderMode?: 'iso' | 'flowchart'
   crumb: string
   title: string
   subtitle: string

@@ -294,7 +294,7 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: 'Minggu 4 — Percabangan (If-Else, Ternary)', link: '/algoritma-pemrograman/percabangan' },
-              { text: '🧊 Kanvas 2.5D: P4 — Percabangan & Guard Clauses', link: '/algoritma-pemrograman/canvas-minggu-4' },
+              { text: '🔀 Kanvas Flowchart: P4 — Percabangan & Guard Clauses', link: '/algoritma-pemrograman/canvas-minggu-4' },
               { text: 'Minggu 5 — Switch-Case & Menu CLI', link: '/algoritma-pemrograman/switch-case' },
               { text: 'Minggu 6 — Perulangan (For, While, Do-While)', link: '/algoritma-pemrograman/perulangan' }
             ]

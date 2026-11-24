@@ -149,14 +149,14 @@
           </div>
 
           <div class="three-caption" aria-hidden="true">
-            <span class="three-caption__eyebrow">2.5D · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
+            <span class="three-caption__eyebrow">{{ meta.renderMode === 'flowchart' ? 'FLOWCHART' : '2.5D' }} · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
             <strong>{{ step.panelTitle }}</strong>
           </div>
           <div class="three-hint" aria-hidden="true">geser memindah · scroll zoom · double-click reset</div>
 
           <div v-if="threeLoading" class="three-loading">
             <span class="three-loader"></span>
-            <span>Menyiapkan kanvas 2.5D…</span>
+            <span>{{ meta.renderMode === 'flowchart' ? 'Menyiapkan kanvas flowchart…' : 'Menyiapkan kanvas 2.5D…' }}</span>
           </div>
           <div v-if="threeError" class="three-fallback">{{ threeError }}</div>
 
@@ -285,6 +285,7 @@ import { withBase } from 'vitepress'
 import type { Story } from './three/story-types'
 import type { IsoScene } from './three/iso-kit'
 import { drawScene } from './three/iso-kit'
+import { drawFlowchartScene } from './three/flowchart-kit'
 
 const props = defineProps<{ story: Story; scenes: IsoScene[] }>()
 
@@ -498,7 +499,11 @@ function drawCanvas(time: number) {
     ctx.translate(-width / 2, -height / 2)
   }
   const scene = props.scenes[Math.min(current.value, props.scenes.length - 1)] ?? { nodes: [] }
-  drawScene(ctx, scene, time, width, height, { intro })
+  if (meta.value.renderMode === 'flowchart') {
+    drawFlowchartScene(ctx, scene, time, width, height, { intro })
+  } else {
+    drawScene(ctx, scene, time, width, height, { intro })
+  }
   ctx.restore()
 }
 

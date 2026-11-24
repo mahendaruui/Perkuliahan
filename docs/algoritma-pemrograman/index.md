@@ -65,10 +65,10 @@ Ikuti cerita **10 tahap isometrik 2.5D**: dari presedensi ALU, lima keluarga ope
 [**Buka Kanvas 2.5D Minggu 3 →**](/algoritma-pemrograman/canvas-minggu-3)
 :::
 
-::: tip 🧊 Kanvas 2.5D — Minggu 4: Percabangan & Guard Clauses
-Ikuti cerita **8 tahap isometrik 2.5D**: dari Teorema Böhm-Jacopini, percabangan `if-else-if` dan `nested-if`, jebakan *Dangling Else*, operator ternary, *Arrow Anti-Pattern*, hingga pola *Guard Clauses* pada studi kasus kredit bank.
+::: tip 🔀 Kanvas Flowchart — Minggu 4: Percabangan & Guard Clauses
+Ikuti **8 tahap flowchart interaktif ISO 5807**: dari Teorema Böhm-Jacopini, percabangan `if-else-if` dan `nested-if`, jebakan *Dangling Else*, operator ternary, *Arrow Anti-Pattern*, hingga pola *Guard Clauses* pada studi kasus kredit bank.
 
-[**Buka Kanvas 2.5D Minggu 4 →**](/algoritma-pemrograman/canvas-minggu-4)
+[**Buka Kanvas Flowchart Minggu 4 →**](/algoritma-pemrograman/canvas-minggu-4)
 :::
 
 ## 📚 Silabus & Modul Perkuliahan Mingguan
