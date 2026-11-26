@@ -505,7 +505,8 @@ export default withMermaid(
             text: 'Ruang Praktik',
             collapsed: false,
             items: [
-              { text: '🎨 Kanvas: Dari Data ke Insight', link: '/visualisasi-data/canvas' }
+              { text: '🎨 Kanvas: Dari Data ke Insight', link: '/visualisasi-data/canvas' },
+              { text: '📈 Kanvas P11: Time Series & OHLC', link: '/visualisasi-data/canvas-minggu-11' }
             ]
           },
           {

@@ -10,6 +10,12 @@ Ingin melihat langsung bagaimana angka berubah menjadi bentuk? Buka kanvas inter
 [**Buka Kanvas Visual →**](/visualisasi-data/canvas)
 :::
 
+::: tip 📈 Kanvas Interaktif — Minggu 11: Time Series & Finansial
+Pelajari **8 tahap visualisasi deret waktu**: komponen tren/musiman/siklus/residu, model Aditif vs Multiplikatif, resampling, pemulusan SMA 7/30 + pita ±1σ, dekomposisi Statsmodels, hingga Candlestick OHLC + Volume & Bollinger Bands.
+
+[**Buka Kanvas Minggu 11 →**](/visualisasi-data/canvas-minggu-11)
+:::
+
 ---
 
 ## 🏛️ Identitas Mata Kuliah

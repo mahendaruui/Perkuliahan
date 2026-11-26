@@ -1,5 +1,11 @@
 # 📘 Modul 11: Visualisasi Data Deret Waktu (Time Series) & Finansial
 
+::: tip 📈 Versi kanvas interaktif
+Materi minggu ini tersedia sebagai **kanvas visual interaktif 8 tahap**: dari sinyal vs derau, 4 komponen deret waktu, model Aditif vs Multiplikatif, resampling, pemulusan SMA 7/30, dekomposisi Statsmodels, hingga anatomi & dashboard Candlestick OHLC.
+
+[**Buka Kanvas Interaktif Minggu 11 →**](/visualisasi-data/canvas-minggu-11)
+:::
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah mempelajari modul ini, mahasiswa diharapkan mampu:
 1. Memahami 4 komponen fundamental data deret waktu: **Tren (*Trend*)**, **Musiman (*Seasonality*)**, **Siklus (*Cycle*)**, dan **Residu (*Residual/Noise*)**.
