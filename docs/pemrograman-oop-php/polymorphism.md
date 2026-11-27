@@ -1,5 +1,11 @@
 # Minggu 6: Polymorphism (Polimorfisme) & Dynamic Dispatch di PHP 8+
 
+::: tip 🎭 Versi kanvas interaktif
+Materi minggu ini tersedia sebagai **kanvas visual interaktif 8 tahap**: dari filosofi *What vs How*, taksonomi Cardelli-Wegner, Dynamic Method Dispatch Zend Engine, Polymorphic Type Hinting, Koleksi Polimorfik, `extends` vs `implements`, `instanceof`, hingga Open/Closed Principle.
+
+[**Buka Kanvas Interaktif Minggu 6 →**](/pemrograman-oop-php/canvas-minggu-6)
+:::
+
 ## 🎯 Capaian Pembelajaran (Sub-CPMK 3)
 Setelah menyelesaikan materi pada bab ini, mahasiswa diharapkan mampu:
 1. Memahami filosofi fundamental **Polymorphism (Polimorfisme)**, taksonomi teori tipe Cardelli & Wegner, serta prinsip *"Satu Antarmuka, Banyak Perilaku"*.

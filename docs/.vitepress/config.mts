@@ -210,7 +210,8 @@ export default withMermaid(
             collapsed: false,
             items: [
               { text: '🧩 Kanvas: Dasar OOP PHP', link: '/pemrograman-oop-php/canvas' },
-              { text: '🧊 Kanvas 3D: Inheritance & Trait', link: '/pemrograman-oop-php/canvas-inheritance' }
+              { text: '🧊 Kanvas 3D: Inheritance & Trait', link: '/pemrograman-oop-php/canvas-inheritance' },
+              { text: '🎭 Kanvas P6: Polymorphism PHP', link: '/pemrograman-oop-php/canvas-minggu-6' }
             ]
           },
           {

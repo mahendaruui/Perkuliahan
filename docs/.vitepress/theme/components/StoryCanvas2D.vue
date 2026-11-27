@@ -149,14 +149,14 @@
           </div>
 
           <div class="three-caption" aria-hidden="true">
-            <span class="three-caption__eyebrow">{{ meta.renderMode === 'flowchart' ? 'FLOWCHART' : meta.renderMode === 'timeseries' ? 'TIME SERIES' : '2.5D' }} · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
+            <span class="three-caption__eyebrow">{{ meta.renderMode === 'flowchart' ? 'FLOWCHART' : meta.renderMode === 'timeseries' ? 'TIME SERIES' : meta.renderMode === 'oop' ? 'OOP PHP' : '2.5D' }} · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
             <strong>{{ step.panelTitle }}</strong>
           </div>
           <div class="three-hint" aria-hidden="true">geser memindah · scroll zoom · double-click reset</div>
 
           <div v-if="threeLoading" class="three-loading">
             <span class="three-loader"></span>
-            <span>{{ meta.renderMode === 'flowchart' ? 'Menyiapkan kanvas flowchart…' : meta.renderMode === 'timeseries' ? 'Menyiapkan kanvas time series…' : 'Menyiapkan kanvas 2.5D…' }}</span>
+            <span>{{ meta.renderMode === 'flowchart' ? 'Menyiapkan kanvas flowchart…' : meta.renderMode === 'timeseries' ? 'Menyiapkan kanvas time series…' : meta.renderMode === 'oop' ? 'Menyiapkan kanvas OOP…' : 'Menyiapkan kanvas 2.5D…' }}</span>
           </div>
           <div v-if="threeError" class="three-fallback">{{ threeError }}</div>
 
@@ -287,6 +287,7 @@ import type { IsoScene } from './three/iso-kit'
 import { drawScene } from './three/iso-kit'
 import { drawFlowchartScene } from './three/flowchart-kit'
 import { drawTimeSeriesScene } from './three/timeseries-kit'
+import { drawOopScene } from './three/oop-kit'
 
 const props = defineProps<{ story: Story; scenes: IsoScene[] }>()
 
@@ -504,6 +505,8 @@ function drawCanvas(time: number) {
     drawFlowchartScene(ctx, scene, time, width, height, { intro })
   } else if (meta.value.renderMode === 'timeseries') {
     drawTimeSeriesScene(ctx, scene, time, width, height, { intro })
+  } else if (meta.value.renderMode === 'oop') {
+    drawOopScene(ctx, scene, time, width, height, { intro })
   } else {
     drawScene(ctx, scene, time, width, height, { intro })
   }

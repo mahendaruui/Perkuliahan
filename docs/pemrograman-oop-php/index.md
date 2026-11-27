@@ -5,7 +5,7 @@ Selamat datang di repositori materi perkuliahan **Pemrograman Berorientasi Objek
 ::: tip 🧩 Kanvas Interaktif — Dasar OOP PHP
 Pelajari dasar object dan empat pilar OOP secara visual: dari `class` dan `object`, `$this`, constructor, encapsulation, inheritance, polymorphism, sampai abstraction — lengkap dengan animasi dan potongan kode PHP.
 
-[**Buka Kanvas OOP PHP →**](/pemrograman-oop-php/canvas)
+[**Buka Kanvas OOP PHP →**](/pemrograman-oop-php/canvas) · [**Kanvas Minggu 6: Polymorphism →**](/pemrograman-oop-php/canvas-minggu-6)
 :::
 
 ---
