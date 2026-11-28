@@ -599,9 +599,9 @@ export function drawOopScene(
 ) {
   c.clearRect(0, 0, w, h)
   const bg = c.createRadialGradient(w * 0.5, h * 0.45, 20, w * 0.5, h * 0.45, Math.max(w, h) * 0.72)
-  bg.addColorStop(0, 'rgba(255,250,242,.92)')
-  bg.addColorStop(0.55, 'rgba(250,240,227,.55)')
-  bg.addColorStop(1, 'rgba(240,226,209,0)')
+  bg.addColorStop(0, 'rgba(255,255,255,.72)')
+  bg.addColorStop(0.55, 'rgba(252,251,249,.35)')
+  bg.addColorStop(1, 'rgba(252,251,249,0)')
   c.fillStyle = bg
   c.fillRect(0, 0, w, h)
 

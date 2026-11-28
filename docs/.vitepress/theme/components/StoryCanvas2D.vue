@@ -1,19 +1,14 @@
 <template>
-  <div class="dv-root" :class="{ 'is-drawer': drawerOpen }">
+  <div class="dv-root dv-swiss" :class="{ 'is-drawer': drawerOpen }">
     <header class="dv-topbar">
       <button class="dv-menu-btn" type="button" aria-label="Buka daftar tahap" :aria-expanded="drawerOpen" @click="drawerOpen = true">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h9" /></svg>
       </button>
 
-      <a class="dv-brand" :href="withBase(meta.href)" :aria-label="'Kanvas 2.5D ' + meta.title + ' — mulai dari tahap pertama'" @click.prevent="goTo(0)">
-        <svg class="dv-logo" viewBox="0 0 34 34" aria-hidden="true">
-          <rect x="2.4" y="5.5" width="29.2" height="23" rx="6" fill="#fbf7f1" stroke="#1d1b18" stroke-width="1.8" />
-          <path d="M17 7.2 27 13l-10 5.8L7 13Z" fill="#b2d491" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M7 13v8l10 5.8V18.8Z" fill="#e7ddf5" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M27 13v8l-10 5.8V18.8Z" fill="#fcdcbd" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-        </svg>
+      <a class="dv-brand" :href="withBase(meta.href)" :aria-label="'Kanvas UUI ' + meta.title + ' — mulai dari tahap pertama'" @click.prevent="goTo(0)">
+        <span class="dv-logo dv-logo--uui" aria-hidden="true"><img :src="withBase('/uuifav.png')" alt="Logo UUI" /></span>
         <span class="dv-brand__name">Kanvas <span>{{ meta.brand }}</span></span>
-        <span class="dv-brand__sub">{{ meta.brandSub }}</span>
+        <span class="dv-brand__sub">UUI · {{ meta.brandSub }}</span>
       </a>
 
       <nav class="dv-nav" aria-label="Navigasi kanvas">
@@ -28,9 +23,9 @@
         <kbd>⌘K</kbd>
       </button>
 
-      <div class="dv-credit" role="note" title="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T." aria-label="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T.">
-        <span class="dv-credit__x" aria-hidden="true">MDP</span>
-        <span class="dv-credit__text"><small>Dosen Pengampu</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
+      <div class="dv-credit" role="note" title="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T." aria-label="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T.">
+        <span class="dv-credit__x" aria-hidden="true">UUI</span>
+        <span class="dv-credit__text"><small>Universitas Ubudiyah Indonesia</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
       </div>
     </header>
 
@@ -149,7 +144,7 @@
           </div>
 
           <div class="three-caption" aria-hidden="true">
-            <span class="three-caption__eyebrow">{{ meta.renderMode === 'flowchart' ? 'FLOWCHART' : meta.renderMode === 'timeseries' ? 'TIME SERIES' : meta.renderMode === 'oop' ? 'OOP PHP' : '2.5D' }} · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
+            <span class="three-caption__eyebrow"><img class="three-caption__logo" :src="withBase('/uuifav.png')" alt="" />UUI · {{ meta.renderMode === 'flowchart' ? 'FLOWCHART' : meta.renderMode === 'timeseries' ? 'TIME SERIES' : meta.renderMode === 'oop' ? 'OOP PHP' : '2.5D' }} · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
             <strong>{{ step.panelTitle }}</strong>
           </div>
           <div class="three-hint" aria-hidden="true">geser memindah · scroll zoom · double-click reset</div>

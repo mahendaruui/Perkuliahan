@@ -1,57 +1,379 @@
-:root {
-  /* Custom Brand Colors - UUI-like Red */
-  --vp-c-brand-1: #b91c1c;
-  --vp-c-brand-2: #dc2626;
-  --vp-c-brand-3: #ef4444;
+/* Swiss Editorial + Universitas Ubudiyah Indonesia (UUI) VitePress Portal Theme */
 
-  --vp-c-brand-soft: rgba(185, 28, 28, 0.14);
+:root {
+  --vp-font-family-base: "Inter", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --vp-font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* UUI Signal Crimson + Editorial Neutrals */
+  --vp-c-brand-1: #c41e22;
+  --vp-c-brand-2: #991519;
+  --vp-c-brand-3: #dc2626;
+  --vp-c-brand-soft: rgba(196, 30, 34, 0.1);
+
+  --vp-c-bg: #f6f5f0;
+  --vp-c-bg-alt: #eeece5;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #eeece5;
+  --vp-nav-bg-color: #ffffff;
+  --vp-sidebar-bg-color: #efede6;
+
+  --vp-c-border: #d5d2ca;
+  --vp-c-divider: #d5d2ca;
+  --vp-c-gutter: #111111;
+
+  --vp-c-text-1: #111111;
+  --vp-c-text-2: #3d3b37;
+  --vp-c-text-3: #68655e;
+
+  --vp-button-brand-border: #111111;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-brand-bg: #c41e22;
+  --vp-button-brand-hover-border: #111111;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-hover-bg: #991519;
+
+  --vp-button-alt-border: #111111;
+  --vp-button-alt-text: #111111;
+  --vp-button-alt-bg: #ffffff;
+  --vp-button-alt-hover-border: #111111;
+  --vp-button-alt-hover-bg: #eeece5;
 }
 
 .dark {
   --vp-c-brand-1: #f87171;
   --vp-c-brand-2: #ef4444;
-  --vp-c-brand-3: #dc2626;
-  
+  --vp-c-brand-3: #c41e22;
   --vp-c-brand-soft: rgba(248, 113, 113, 0.14);
+
+  --vp-c-bg: #121211;
+  --vp-c-bg-alt: #181816;
+  --vp-c-bg-elv: #1c1c1a;
+  --vp-c-bg-soft: #1d1d1b;
+  --vp-nav-bg-color: #161614;
+  --vp-sidebar-bg-color: #181816;
+
+  --vp-c-border: #2f2e2b;
+  --vp-c-divider: #2f2e2b;
+  --vp-c-gutter: #363532;
+
+  --vp-c-text-1: #f4f3ee;
+  --vp-c-text-2: #cfccc4;
+  --vp-c-text-3: #96938a;
 }
 
-/* Make the hero text stand out */
-.VPHero .name {
-  background: -webkit-linear-gradient(120deg, var(--vp-c-brand-1) 30%, var(--vp-c-brand-3));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* ---------------- Unified Swiss Editorial Navbar (Home & Modules) ---------------- */
+.VPNav {
+  background-color: var(--vp-nav-bg-color) !important;
+  border-bottom: 1.5px solid #111111 !important;
 }
 
-/* Button styling refinement */
-.VPButton.brand {
-  border-color: var(--vp-c-brand-1);
-  background-color: var(--vp-c-brand-1);
+@media (min-width: 960px) {
+  .VPNav {
+    z-index: 35 !important;
+  }
 }
 
-.VPButton.brand:hover {
-  border-color: var(--vp-c-brand-2);
-  background-color: var(--vp-c-brand-2);
+.dark .VPNav {
+  border-bottom-color: #363532 !important;
 }
 
-/* Sidebar polish */
+.VPNavBar,
+.VPNavBar:not(.home),
+.VPNavBar.home,
+.VPNavBar.has-sidebar .wrapper,
+.VPNavBar.has-sidebar .content-body,
+.VPNavBar.has-sidebar .title,
+.VPNavBar:not(.home.top) .content-body {
+  background-color: transparent !important;
+  border-bottom: 0 !important;
+}
+
+.VPNavBar .divider,
+.VPNavBar .divider-line,
+.VPSidebar .curtain {
+  display: none !important;
+}
+
+.VPNavBarTitle.has-sidebar .title {
+  border-bottom-color: transparent !important;
+}
+
+.VPNavBarTitle .logo {
+  height: 30px !important;
+  width: 30px !important;
+  object-fit: contain;
+  padding: 3px;
+  margin-right: 10px !important;
+  background: #ffffff;
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0 #c41e22;
+}
+
+.dark .VPNavBarTitle .logo {
+  border-color: #4a4842;
+}
+
+.VPNavBarTitle .title span {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.025em;
+}
+
+/* Swiss Search Button inside Navbar */
+.VPNavBarSearch .DocSearch-Button {
+  height: 34px;
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background-color: #f4f3ee;
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  border-color: #c41e22;
+  background-color: #ffffff;
+}
+
+.VPNavBarSearch .DocSearch-Button-Key {
+  border: 1px solid #b9b5ab;
+  border-radius: 2px;
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--vp-font-family-mono);
+}
+
+.dark .VPNavBarSearch .DocSearch-Button {
+  border-color: #3a3935;
+  background-color: #1d1d1b;
+}
+
+.dark .VPNavBarSearch .DocSearch-Button-Key {
+  border-color: #3a3935;
+  background: #161614;
+  color: #f4f3ee;
+}
+
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+.VPNavBarMenuLink.active,
+.VPNavBarMenuGroup.active .button {
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+
+.VPMenu {
+  border: 1.5px solid #111111 !important;
+  border-radius: 2px !important;
+  box-shadow: 3px 3px 0 #111111 !important;
+}
+
+.dark .VPMenu {
+  border-color: #3a3935 !important;
+  box-shadow: 3px 3px 0 #000000 !important;
+}
+
+/* ---------------- Sidebar (Starts Cleanly Below Navbar Hairline) ---------------- */
+@media (min-width: 960px) {
+  .VPSidebar {
+    top: calc(var(--vp-nav-height) + 1.5px) !important;
+    padding-top: 22px !important;
+    border-right: 1px solid var(--vp-c-divider);
+  }
+}
+
 .VPSidebarItem.is-active > .item > .link > .text {
   color: var(--vp-c-brand-1);
+  font-weight: 700;
 }
 
-/* Custom scrollbar for better look */
+.VPSidebarItem.level-1.is-active > .item,
+.VPSidebarItem.level-2.is-active > .item {
+  border-left: 2.5px solid var(--vp-c-brand-1);
+  padding-left: 8px;
+}
+
+/* ---------------- Swiss Editorial Landing Page ---------------- */
+.VPHome {
+  background-image:
+    linear-gradient(to right, rgba(17, 17, 17, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.dark .VPHome {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.VPHero .name {
+  color: #111111 !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.dark .VPHero .name {
+  color: #f4f3ee !important;
+}
+
+.VPHero .text {
+  color: var(--vp-c-brand-1);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.VPHero .tagline {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--vp-c-text-2);
+}
+
+.VPHero .image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 12px !important;
+}
+
+.VPHero .image-bg {
+  display: none !important;
+}
+
+.VPHero .image-container {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  height: auto !important;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 26px 32px;
+  background: #ffffff;
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  box-shadow: 5px 5px 0 #c41e22;
+  transform: none !important;
+}
+
+.VPHero .image-src {
+  position: static !important;
+  transform: none !important;
+  width: 100%;
+  max-width: 310px !important;
+  max-height: none !important;
+  height: auto;
+  display: block;
+}
+
+.VPButton {
+  border-radius: 2px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+}
+
+.VPButton.brand {
+  box-shadow: 2.5px 2.5px 0 #111111;
+}
+
+.VPButton.brand:active {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: none;
+}
+
+.VPButton.alt {
+  box-shadow: 2px 2px 0 #d5d2ca;
+}
+
+/* Feature Grid Cards */
+.VPFeature {
+  border: 1px solid #111111 !important;
+  border-radius: 2px !important;
+  background-color: #ffffff !important;
+  box-shadow: 2.5px 2.5px 0 #e5e3dc;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.VPFeature:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #c41e22;
+}
+
+.dark .VPFeature {
+  border-color: #363532 !important;
+  background-color: #1a1a18 !important;
+  box-shadow: none;
+}
+
+/* ---------------- Markdown Typography & Swiss Containers ---------------- */
+.vp-doc h1,
+.vp-doc h2 {
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+.vp-doc h1 {
+  padding-bottom: 12px;
+  border-bottom: 2px solid #111111;
+}
+
+.dark .vp-doc h1 {
+  border-bottom-color: #3a3935;
+}
+
+.vp-doc h2 {
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc .custom-block {
+  border-radius: 2px;
+  border-width: 1px;
+  border-left-width: 3.5px;
+}
+
+.vp-doc .custom-block.tip {
+  border-color: #111111;
+  border-left-color: #c41e22;
+  background-color: #ffffff;
+}
+
+.dark .vp-doc .custom-block.tip {
+  border-color: #3a3935;
+  border-left-color: #f87171;
+  background-color: #1c1c1a;
+}
+
+.vp-doc table {
+  border-collapse: collapse;
+}
+
+.vp-doc th {
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1; 
-  border-radius: 4px;
+  background: #c8c5bc;
+  border-radius: 2px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #475569; 
+  background: #44433e;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; 
+  background: #8f8c83;
 }

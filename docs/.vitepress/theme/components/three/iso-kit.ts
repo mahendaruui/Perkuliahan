@@ -6,24 +6,24 @@
 export const ISO = { ux: 44, uy: 22, uz: 30 }
 
 export const PALETTE = {
-  ink: '#34302b',
-  ink2: '#5c564e',
-  cream: '#fbf7f1',
-  paper: '#f4ebe0',
-  raw: '#b7b1c2',
-  rawDark: '#8f887e',
+  ink: '#111111',
+  ink2: '#2c2b27',
+  cream: '#ffffff',
+  paper: '#f4f3ee',
+  raw: '#b7b5c0',
+  rawDark: '#75726a',
   process: '#7fb4e3',
-  processDark: '#4c86ba',
+  processDark: '#2f6ca8',
   output: '#e6b94f',
   outputDark: '#b9872e',
-  danger: '#e0804f',
-  dangerDark: '#b85435',
+  danger: '#dc654f',
+  dangerDark: '#c41e22',
   violet: '#cdbce6',
-  green: '#b2d491',
-  greenDark: '#6b9b58',
-  blueSoft: '#c9dff2',
+  green: '#a6d49f',
+  greenDark: '#15803d',
+  blueSoft: '#d6e6f7',
   goldSoft: '#f4dfa2',
-  redSoft: '#f0bba5',
+  redSoft: '#fdecec',
   teal: '#8dcfc5',
 }
 
@@ -1204,11 +1204,11 @@ export function drawScene(
   opts: { intro?: number } = {},
 ) {
   c.clearRect(0, 0, w, h)
-  // warm paper backdrop
+  // Swiss gallery spotlight fading into drafting grid
   const bg = c.createRadialGradient(w * 0.5, h * 0.42, 20, w * 0.5, h * 0.42, Math.max(w, h) * 0.72)
-  bg.addColorStop(0, 'rgba(255,250,242,.9)')
-  bg.addColorStop(0.55, 'rgba(250,240,227,.55)')
-  bg.addColorStop(1, 'rgba(240,226,209,0)')
+  bg.addColorStop(0, 'rgba(255,255,255,.72)')
+  bg.addColorStop(0.55, 'rgba(252,251,249,.35)')
+  bg.addColorStop(1, 'rgba(252,251,249,0)')
   c.fillStyle = bg
   c.fillRect(0, 0, w, h)
 

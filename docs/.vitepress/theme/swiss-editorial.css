@@ -1,0 +1,674 @@
+/* Shared Swiss Editorial + Universitas Ubudiyah Indonesia (UUI) overrides across ALL canvases */
+
+.dv-root.dv-swiss {
+  --paper: #f4f3ee;
+  --paper-2: #eceae3;
+  --sheet: #ffffff;
+  --card: #ffffff;
+  --cream: #ffffff;
+  --line: #d4d1c8;
+  --line-soft: #e6e4dc;
+  --line-strong: #141414;
+  --ink: #111111;
+  --ink-2: #242320;
+  --muted: #56544e;
+  --muted-2: #75726a;
+  --uui-red: #c41e22;
+  --uui-red-dark: #991519;
+  --uui-red-soft: #fdecec;
+  --green: #dff0e4;
+  --green-2: #15803d;
+  --green-3: #15803d;
+  --green-dark: #15803d;
+  --green-tile: #edf7f0;
+  --green-tile-line: #b7dfc4;
+  --violet: #f2eef9;
+  --violet-tile: #f8f7f3;
+  --violet-tile-line: #141414;
+  --radius: 2px;
+  --pop-shadow: 2px 2px 0 #111111;
+  --card-shadow: none;
+  background: var(--paper);
+  font-family: "Inter", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.dv-root.dv-swiss::after {
+  display: none;
+}
+
+/* ---------------- Topbar + Official UUI Crest ---------------- */
+.dv-root.dv-swiss .dv-topbar {
+  border-bottom: 1.5px solid #111111;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.dv-root.dv-swiss .dv-menu-btn {
+  border: 1.3px solid #111111;
+  border-radius: 2px;
+  background: #f4f3ee;
+}
+
+.dv-root.dv-swiss .dv-brand {
+  gap: 10px;
+}
+
+.dv-root.dv-swiss .dv-logo--uui {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  padding: 3px;
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 2px 2px 0 var(--uui-red);
+  filter: none;
+}
+
+.dv-root.dv-swiss .dv-logo--uui img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dv-root.dv-swiss .dv-brand__name {
+  font-size: 18.5px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #111111;
+}
+
+.dv-root.dv-swiss .dv-brand__name span {
+  padding: 0;
+  background: none;
+  color: var(--uui-red);
+}
+
+.dv-root.dv-swiss .dv-brand__sub {
+  padding-left: 10px;
+  border-left: 1.5px solid #d4d1c8;
+  color: var(--muted);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dv-root.dv-swiss .dv-nav__item {
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dv-root.dv-swiss .dv-nav__item:hover {
+  background: var(--paper-2);
+}
+
+.dv-root.dv-swiss .dv-nav__item.is-active {
+  border-color: #111111;
+  background: var(--uui-red);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dv-root.dv-swiss .dv-search {
+  border: 1px solid #b9b5ab;
+  border-radius: 2px;
+  background: #f4f3ee;
+  box-shadow: none;
+}
+
+.dv-root.dv-swiss .dv-search:hover {
+  border-color: #111111;
+  background: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-search kbd,
+.dv-root.dv-swiss .dv-palette kbd,
+.dv-root.dv-swiss .dv-guide__hint kbd {
+  border: 1px solid #b9b5ab;
+  border-radius: 2px;
+  background: #ffffff;
+  color: #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-credit__x {
+  width: auto;
+  min-width: 34px;
+  height: 28px;
+  padding: 0 7px;
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: var(--uui-red);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.dv-root.dv-swiss .dv-credit__text small {
+  color: var(--uui-red);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dv-root.dv-swiss .dv-credit__text b span {
+  background: none;
+}
+
+/* ---------------- Sidebar & Curriculum Tree ---------------- */
+.dv-root.dv-swiss .dv-tree-root {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dv-root.dv-swiss .dv-tree-root__meta,
+.dv-root.dv-swiss .dv-mod__count,
+.dv-root.dv-swiss .dv-progress__pct,
+.dv-root.dv-swiss .dv-progress__foot,
+.dv-root.dv-swiss .dv-lesson__num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-mod__lessons::before,
+.dv-root.dv-swiss .dv-lesson::before {
+  border-color: #c2bfb6;
+}
+
+.dv-root.dv-swiss .dv-lesson button {
+  border-radius: 2px;
+}
+
+.dv-root.dv-swiss .dv-lesson button:hover {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.dv-root.dv-swiss .dv-lesson.is-current button {
+  border-color: #111111;
+  background: var(--uui-red);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dv-root.dv-swiss .dv-lesson.is-current .dv-lesson__mark {
+  color: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-lesson.is-done .dv-lesson__mark svg {
+  stroke: var(--green-dark);
+}
+
+.dv-root.dv-swiss .dv-progress {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-bar {
+  height: 7px;
+  border: 1px solid #111111;
+  border-radius: 0;
+  background: #f4f3ee;
+}
+
+.dv-root.dv-swiss .dv-bar span {
+  border-right: 1px solid #111111;
+  border-radius: 0;
+  background: var(--uui-red);
+}
+
+/* ---------------- Main Swiss Sheet & Drafting Stage ---------------- */
+.dv-root.dv-swiss .dv-sheet {
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-crumb {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dv-root.dv-swiss .dv-title {
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: #111111;
+}
+
+.dv-root.dv-swiss .dv-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.dv-root.dv-swiss .dv-tag {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  box-shadow: 1.5px 1.5px 0 #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-tag--sand {
+  background: #f4f3ee;
+}
+
+.dv-root.dv-swiss .dv-tag--mint {
+  background: #e9f5ed;
+}
+
+.dv-root.dv-swiss .dv-tag--violet {
+  background: var(--uui-red-soft);
+  color: var(--uui-red-dark);
+}
+
+.dv-root.dv-swiss .dv-stage {
+  border: 1px solid #d4d1c8;
+  border-radius: 2px;
+  background-color: #fcfbf9;
+  background-image:
+    linear-gradient(to right, rgba(17, 17, 17, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.dv-root.dv-swiss .dv-stage:fullscreen {
+  background-color: #fcfbf9;
+}
+
+.dv-root.dv-swiss .dv-stage__hud {
+  right: 258px;
+  gap: 6px;
+}
+
+.dv-root.dv-swiss .dv-chip {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 2px 2px 0 rgba(17, 17, 17, 0.08);
+}
+
+.dv-root.dv-swiss .dv-chip::before {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  border-radius: 0;
+  background: var(--uui-red);
+}
+
+.dv-root.dv-swiss .dv-chip[data-level="good"]::before {
+  background: #15803d;
+}
+
+.dv-root.dv-swiss .dv-chip[data-level="warn"]::before {
+  background: #d97706;
+}
+
+.dv-root.dv-swiss .dv-chip__label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-chip__value {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-tool {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 1.5px 1.5px 0 #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-tool:hover {
+  background: #f4f3ee;
+}
+
+.dv-root.dv-swiss .dv-tool.is-on {
+  border-color: #111111;
+  background: var(--uui-red);
+  color: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-stage__legend {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-lg {
+  border-radius: 1px;
+  border: 1.2px solid #111111;
+}
+
+.dv-root.dv-swiss .three-caption {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dv-root.dv-swiss .three-caption__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--uui-red);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .three-caption__logo {
+  display: block;
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  flex: none;
+}
+
+.dv-root.dv-swiss .dv-stage__uui {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.dv-root.dv-swiss .dv-stage__uui img {
+  display: block;
+  width: 11px;
+  height: 11px;
+  object-fit: contain;
+}
+
+.dv-root.dv-swiss .three-hint {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .three-loading {
+  background: rgba(252, 251, 249, 0.88);
+}
+
+.dv-root.dv-swiss .three-loader {
+  border-color: #d4d1c8;
+  border-top-color: var(--uui-red);
+}
+
+/* ---------------- Timeline Rail ---------------- */
+.dv-root.dv-swiss .dv-timeline {
+  border: 1px solid #d4d1c8;
+  border-radius: 2px;
+  background: #f9f8f4;
+  box-shadow: none;
+}
+
+.dv-root.dv-swiss .dv-eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.06em;
+}
+
+.dv-root.dv-swiss .dv-timeline__count {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-timeline__rail {
+  background: #c8c5bc;
+}
+
+.dv-root.dv-swiss .dv-timeline__rail span {
+  background: var(--uui-red);
+}
+
+.dv-root.dv-swiss .dv-timeline__dot {
+  border: 1.5px solid #75726a;
+  border-radius: 2px;
+  background: #ffffff;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-timeline__steps li.is-done .dv-timeline__dot {
+  border-color: #15803d;
+  background: #e9f5ed;
+  color: #14532d;
+}
+
+.dv-root.dv-swiss .dv-timeline__steps li.is-current .dv-timeline__dot {
+  border: 1.5px solid #111111;
+  background: var(--uui-red);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+}
+
+/* ---------------- Right Editorial Guide Rail ---------------- */
+.dv-root.dv-swiss .dv-rail {
+  gap: 9px;
+}
+
+.dv-root.dv-swiss .dv-card {
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.dv-root.dv-swiss .dv-guide {
+  padding: 11px 14px 10px;
+}
+
+.dv-root.dv-swiss .dv-chapter {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  box-shadow: 1.5px 1.5px 0 #111111;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-guide__title {
+  margin: 7px 0 6px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.dv-root.dv-swiss .dv-guide__body p {
+  margin-bottom: 6px;
+  font-size: 11.7px;
+  line-height: 1.46;
+}
+
+.dv-root.dv-swiss .dv-guide__body code {
+  padding: 1px 4px;
+  border: 1px solid #dcd9d0;
+  border-radius: 2px;
+  background: #f4f3ee;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+}
+
+.dv-root.dv-swiss .dv-guide__body .term {
+  background: linear-gradient(transparent 60%, rgba(196, 30, 34, 0.16) 60%);
+  color: #111111;
+}
+
+.dv-root.dv-swiss .dv-callout {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #111111;
+  border-left: 3.5px solid var(--uui-red);
+  border-radius: 2px;
+  background: #faf9f6;
+}
+
+.dv-root.dv-swiss .dv-callout p {
+  font-size: 11.3px;
+  line-height: 1.44;
+}
+
+.dv-root.dv-swiss .dv-callout__icon {
+  border: 1px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-callout__title {
+  color: var(--uui-red);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-guide__nav {
+  margin-top: 9px;
+}
+
+.dv-root.dv-swiss .dv-guide__hint {
+  margin-top: 6px;
+}
+
+.dv-root.dv-swiss .dv-goals {
+  padding: 10px 14px;
+}
+
+.dv-root.dv-swiss .dv-goals ul {
+  margin-top: 5px;
+}
+
+.dv-root.dv-swiss .dv-goals li {
+  padding: 2px 0;
+  font-size: 10.6px;
+  line-height: 1.34;
+}
+
+.dv-root.dv-swiss .dv-btn-ghost {
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dv-root.dv-swiss .dv-btn-pop {
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: var(--uui-red);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dv-root.dv-swiss .dv-check {
+  border: 1.5px solid #75726a;
+  border-radius: 1px;
+  background: #ffffff;
+}
+
+.dv-root.dv-swiss .dv-check.is-on {
+  border-color: #111111;
+  background: var(--uui-red);
+  color: #ffffff;
+}
+
+/* ---------------- Search Palette ---------------- */
+.dv-root.dv-swiss .dv-palette {
+  background: rgba(17, 17, 17, 0.48);
+}
+
+.dv-root.dv-swiss .dv-palette__dialog {
+  border: 1.5px solid #111111;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 4px 4px 0 #111111;
+}
+
+.dv-root.dv-swiss .dv-palette__item {
+  border-radius: 2px;
+}
+
+.dv-root.dv-swiss .dv-palette__item:hover,
+.dv-root.dv-swiss .dv-palette__item:focus-visible {
+  border-color: #111111;
+  background: #f4f3ee;
+}
+
+.dv-root.dv-swiss .dv-palette__num {
+  border-radius: 2px;
+  background: #f4f3ee;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.dv-root.dv-swiss .dv-palette__chip {
+  border-radius: 2px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ---------------- Responsive HUD & UUI Badge ---------------- */
+@media (max-width: 1400px) and (min-width: 1181px) {
+  .dv-root.dv-swiss .dv-body {
+    grid-template-columns: 232px minmax(0, 1fr) 324px;
+  }
+  .dv-root.dv-swiss .dv-sidebar {
+    padding: 18px 10px 12px 16px;
+  }
+  .dv-root.dv-swiss .dv-stage__hud {
+    right: 228px;
+    gap: 4px;
+  }
+  .dv-root.dv-swiss .dv-chip {
+    min-width: 0;
+    padding: 4px 7px 5px 8px;
+  }
+  .dv-root.dv-swiss .dv-chip__value {
+    font-size: 12.5px;
+  }
+  .dv-root.dv-swiss .dv-stage__tools {
+    gap: 5px;
+  }
+  .dv-root.dv-swiss .dv-tool {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 10.5px;
+  }
+  .dv-root.dv-swiss .dv-tool--icon {
+    width: 28px;
+    padding: 0;
+  }
+  .dv-root.dv-swiss .dv-stage__legend {
+    gap: 10px;
+    font-size: 9.8px;
+  }
+  .dv-root.dv-swiss .three-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dv-root.dv-swiss .dv-stage__hud {
+    right: 12px;
+  }
+  .dv-root.dv-swiss .dv-stage__uui {
+    right: 120px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dv-root.dv-swiss .dv-stage__uui {
+    display: none;
+  }
+}

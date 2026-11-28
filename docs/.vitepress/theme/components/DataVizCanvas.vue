@@ -1,20 +1,14 @@
 <template>
-  <div class="dv-root" :class="{ 'is-drawer': drawerOpen }">
+  <div class="dv-root dv-swiss" :class="{ 'is-drawer': drawerOpen }">
     <header class="dv-topbar">
       <button class="dv-menu-btn" type="button" aria-label="Buka daftar langkah" :aria-expanded="drawerOpen" @click="drawerOpen = true">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h9" /></svg>
       </button>
 
       <a class="dv-brand" :href="withBase('/visualisasi-data/canvas')" aria-label="Kanvas Visual — mulai dari langkah pertama" @click.prevent="goTo(0)">
-        <svg class="dv-logo" viewBox="0 0 34 34" aria-hidden="true">
-          <rect x="2.4" y="5.5" width="29.2" height="23" rx="6" fill="#fbf7f1" stroke="#1d1b18" stroke-width="1.8" />
-          <path d="M7.4 23.6v-8l4.2-2.2v8Z" fill="#b2d491" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M13.9 23.6V11l4.3-2.2v12.6Z" fill="#e7ddf5" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M20.5 23.6V14l4.8-2.4v9.8Z" fill="#fcdcbd" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M7 24.2h19" stroke="#1d1b18" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
+        <span class="dv-logo dv-logo--uui" aria-hidden="true"><img :src="withBase('/uuifav.png')" alt="Logo UUI" /></span>
         <span class="dv-brand__name">Kanvas <span>Visual</span></span>
-        <span class="dv-brand__sub">IFR309</span>
+        <span class="dv-brand__sub">UUI · IFR309</span>
       </a>
 
       <nav class="dv-nav" aria-label="Navigasi kanvas">
@@ -29,9 +23,9 @@
         <kbd>⌘K</kbd>
       </button>
 
-      <div class="dv-credit" role="note" title="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T." aria-label="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T.">
-        <span class="dv-credit__x" aria-hidden="true">MDP</span>
-        <span class="dv-credit__text"><small>Dosen Pengampu</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
+      <div class="dv-credit" role="note" title="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T." aria-label="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T.">
+        <span class="dv-credit__x" aria-hidden="true">UUI</span>
+        <span class="dv-credit__text"><small>Universitas Ubudiyah Indonesia</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
       </div>
     </header>
 
@@ -153,6 +147,10 @@
             <span><i class="dv-lg dv-lg--data"></i> data</span>
             <span><i class="dv-lg dv-lg--insight"></i> insight</span>
             <span><i class="dv-lg dv-lg--noise"></i> noise</span>
+          </div>
+                  <div class="dv-stage__uui" aria-hidden="true">
+            <img :src="withBase('/uuifav.png')" alt="" />
+            <span>UUI · FST</span>
           </div>
         </div>
 
@@ -627,18 +625,18 @@ function goToResult(index: number) {
 const DW = 1000
 const DH = 560
 const C = {
-  ink: '#1d1b18',
-  ink2: '#34302b',
+  ink: '#111111',
+  ink2: '#242320',
   muted: '#6f6961',
   muted2: '#8b847a',
   line: '#ddd3c5',
   lineSoft: '#e6ddd0',
   lineStrong: '#c6bbac',
-  paper: '#f4ebe0',
+  paper: '#f4f3ee',
   paper2: '#f7efe4',
   sheet: '#f9f2e8',
   card: '#f8f0e6',
-  cream: '#fbf7f1',
+  cream: '#ffffff',
   white: '#fffcf7',
   green: '#cfe3b2',
   green2: '#b2d491',
@@ -833,9 +831,9 @@ function drawPerspectiveFloor(
 
   // Let the far edge dissolve into the paper instead of ending in a hard line.
   const fade = c.createLinearGradient(0, horizon - 14, 0, horizon + (h - horizon) * 0.48)
-  fade.addColorStop(0, 'rgba(250, 243, 233, 0.98)')
-  fade.addColorStop(0.35, 'rgba(250, 243, 233, 0.66)')
-  fade.addColorStop(1, 'rgba(250, 243, 233, 0)')
+  fade.addColorStop(0, 'rgba(252, 251, 249, 0.98)')
+  fade.addColorStop(0.35, 'rgba(252, 251, 249, 0.66)')
+  fade.addColorStop(1, 'rgba(252, 251, 249, 0)')
   c.fillStyle = fade
   c.fillRect(0, 0, w, h)
 }

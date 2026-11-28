@@ -353,20 +353,20 @@ export function drawFlowchartScene(
   opts: { intro?: number } = {},
 ) {
   c.clearRect(0, 0, w, h)
-  // Warm paper backdrop matching StoryCanvas2D
+  // Swiss gallery spotlight fading into drafting grid
   const bg = c.createRadialGradient(w * 0.5, h * 0.45, 20, w * 0.5, h * 0.45, Math.max(w, h) * 0.72)
-  bg.addColorStop(0, 'rgba(255,250,242,.92)')
-  bg.addColorStop(0.55, 'rgba(250,240,227,.55)')
-  bg.addColorStop(1, 'rgba(240,226,209,0)')
+  bg.addColorStop(0, 'rgba(255,255,255,.72)')
+  bg.addColorStop(0.55, 'rgba(252,251,249,.35)')
+  bg.addColorStop(1, 'rgba(252,251,249,0)')
   c.fillStyle = bg
   c.fillRect(0, 0, w, h)
 
   const { minX, maxX, minY, maxY } = measureFlow(scene)
   const bw = Math.max(180, maxX - minX)
   const bh = Math.max(140, maxY - minY)
-  // Leave breathing room below top HUD chips and above bottom caption pill
-  const padTop = h > 340 ? 48 : 20
-  const padBottom = h > 340 ? 58 : 24
+  // Leave breathing room below single-row HUD chips and above bottom caption pill
+  const padTop = h > 260 ? 12 : 8
+  const padBottom = h > 280 ? 52 : 26
   const s = clamp(Math.min((w - 56) / bw, (h - padTop - padBottom) / bh), 0.44, 1.24)
   const cx = (minX + maxX) / 2
   const cy = (minY + maxY) / 2

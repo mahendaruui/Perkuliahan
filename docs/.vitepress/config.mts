@@ -25,7 +25,7 @@ export default withMermaid(
 
     themeConfig: {
       // Logo
-      logo: '/uuilogo.png',
+      logo: '/uuifav.png',
       siteTitle: 'Bahan Ajar UUI',
 
       nav: [

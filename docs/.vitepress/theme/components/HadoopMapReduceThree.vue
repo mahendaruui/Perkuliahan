@@ -1,19 +1,14 @@
 <template>
-  <div class="dv-root" :class="{ 'is-drawer': drawerOpen }">
+  <div class="dv-root dv-swiss" :class="{ 'is-drawer': drawerOpen }">
     <header class="dv-topbar">
       <button class="dv-menu-btn" type="button" aria-label="Buka daftar tahap" :aria-expanded="drawerOpen" @click="drawerOpen = true">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h9" /></svg>
       </button>
 
       <a class="dv-brand" :href="withBase('/big-data/canvas-hadoop')" aria-label="Kanvas 3D Hadoop, MapReduce & YARN — mulai dari tahap pertama" @click.prevent="goTo(0)">
-        <svg class="dv-logo" viewBox="0 0 34 34" aria-hidden="true">
-          <rect x="2.4" y="5.5" width="29.2" height="23" rx="6" fill="#fbf7f1" stroke="#1d1b18" stroke-width="1.8" />
-          <path d="M17 7.2 27 13l-10 5.8L7 13Z" fill="#b2d491" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M7 13v8l10 5.8V18.8Z" fill="#e7ddf5" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-          <path d="M27 13v8l-10 5.8V18.8Z" fill="#fcdcbd" stroke="#1d1b18" stroke-width="1.2" stroke-linejoin="round" />
-        </svg>
+        <span class="dv-logo dv-logo--uui" aria-hidden="true"><img :src="withBase('/uuifav.png')" alt="Logo UUI" /></span>
         <span class="dv-brand__name">Kanvas <span>Hadoop</span></span>
-        <span class="dv-brand__sub">Batch · Bagian 2</span>
+        <span class="dv-brand__sub">UUI · Batch · Bagian 2</span>
       </a>
 
       <nav class="dv-nav" aria-label="Navigasi kanvas">
@@ -28,9 +23,9 @@
         <kbd>⌘K</kbd>
       </button>
 
-      <div class="dv-credit" role="note" title="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T." aria-label="Dosen Pengampu: Mahendar Dwi Payana, S.ST., M.T.">
-        <span class="dv-credit__x" aria-hidden="true">MDP</span>
-        <span class="dv-credit__text"><small>Dosen Pengampu</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
+      <div class="dv-credit" role="note" title="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T." aria-label="Universitas Ubudiyah Indonesia — Mahendar Dwi Payana, S.ST., M.T.">
+        <span class="dv-credit__x" aria-hidden="true">UUI</span>
+        <span class="dv-credit__text"><small>Universitas Ubudiyah Indonesia</small><b>Mahendar Dwi Payana, S.ST., M.T.</b></span>
       </div>
     </header>
 
@@ -149,7 +144,7 @@
           </div>
 
           <div class="three-caption" aria-hidden="true">
-            <span class="three-caption__eyebrow">3D · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
+            <span class="three-caption__eyebrow"><img class="three-caption__logo" :src="withBase('/uuifav.png')" alt="" />UUI · 3D · TAHAP {{ current + 1 }} / {{ steps.length }}</span>
             <strong>{{ step.panelTitle }}</strong>
           </div>
           <div class="three-hint" aria-hidden="true">drag memutar · scroll zoom · double-click reset</div>
@@ -646,11 +641,11 @@ function goToResult(index: number) {
 /* ------------------------------------------------------------------ */
 
 const COLORS = {
-  ink: 0x1d1b18,
-  ink2: 0x34302b,
+  ink: 0x111111,
+  ink2: 0x242320,
   muted: 0x6f6961,
-  paper: 0xf4ebe0,
-  cream: 0xfbf7f1,
+  paper: 0xf4f3ee,
+  cream: 0xffffff,
   green: 0xcfe3b2,
   green2: 0xb2d491,
   green3: 0x7fc278,
@@ -3323,7 +3318,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: rgba(250, 243, 233, 0.8);
+  background: rgba(252, 251, 249, 0.8);
   color: var(--muted);
   font-size: 11px;
   font-weight: 600;
@@ -3350,7 +3345,7 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(250, 243, 233, 0.94);
+  background: rgba(252, 251, 249, 0.94);
   color: var(--ink-2);
   text-align: center;
   font-size: 12px;
