@@ -57,6 +57,8 @@ Halaman ini memuat daftar slide presentasi interaktif berbasis web untuk perkuli
 ## 🗄️ Big Data (IFR229) — Kelas RPL (Rekognisi Pembelajaran Lampau)
 
 > 📘 **Buku Teori:** [Big Data untuk Kelas RPL](/big-data/TEORI-RPL) — bacaan konseptual sebelum menyimak slide.
+>
+> 🎞️ **Deck Pengantar:** [Pengantar Big Data & Analitik](/presentasi/pengantar-big-data-dan-analitik) — 19 slide dari buku *Big Data dan Analitik* (Rudy C. Tarumingkeng, 2025): 5V, siklus data, infrastruktur, spektrum analitik, aplikasi, tantangan, dan studi kasus.
 
 | Pertemuan | Judul Materi | Tampilan Web | Layar Penuh (Tab Baru) |
 | :---: | :--- | :---: | :---: |

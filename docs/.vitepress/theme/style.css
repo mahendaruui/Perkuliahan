@@ -123,6 +123,8 @@
 /* Swiss Search Button inside Navbar */
 .VPNavBarSearch .DocSearch-Button {
   height: 34px;
+  padding: 0 7px 0 11px;
+  gap: 8px;
   border: 1px solid #111111;
   border-radius: 2px;
   background-color: #f4f3ee;
@@ -133,7 +135,29 @@
   background-color: #ffffff;
 }
 
-.VPNavBarSearch .DocSearch-Button-Key {
+.VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+  top: 0 !important;
+  margin-right: 7px;
+  width: 14px;
+  height: 14px;
+  color: #242320;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Placeholder {
+  margin-top: 0;
+  padding: 0 4px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #56544e;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 22px;
+  padding: 0 6px;
   border: 1px solid #b9b5ab;
   border-radius: 2px;
   background: #ffffff;
@@ -141,14 +165,48 @@
   font-family: var(--vp-font-family-mono);
 }
 
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key,
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  height: auto;
+  line-height: 1;
+  color: #111111;
+  font-family: var(--vp-font-family-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key:first-child::after {
+  font-family: var(--vp-font-family-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #111111;
+}
+
 .dark .VPNavBarSearch .DocSearch-Button {
   border-color: #3a3935;
   background-color: #1d1d1b;
 }
 
-.dark .VPNavBarSearch .DocSearch-Button-Key {
+.dark .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+  color: #cfccc4;
+}
+
+.dark .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
   border-color: #3a3935;
   background: #161614;
+  color: #f4f3ee;
+}
+
+.dark .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key,
+.dark .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key,
+.dark .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Key:first-child::after {
   color: #f4f3ee;
 }
 

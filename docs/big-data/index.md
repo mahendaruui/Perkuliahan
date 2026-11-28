@@ -4,6 +4,12 @@ Selamat datang di portal pembelajaran mata kuliah **Big Data (`IFR229`)** untuk 
 
 Mata kuliah ini membekali mahasiswa dengan kemampuan **memahami, merancang, dan mengevaluasi sistem pengolah data berskala besar**. Penekanan diberikan pada **pemahaman konsep dan penalaran arsitektur**: mengapa suatu pendekatan dipilih, trade-off apa yang muncul, dan bagaimana keputusan teknis memengaruhi biaya, keandalan, serta nilai bisnis. Praktik laboratorium diposisikan sebagai **verifikasi dan pengayaan**, bukan satu-satunya bukti kompetensi.
 
+::: tip 🎞️ Deck Pengantar — Big Data & Analitik
+Ringkasan **19 slide** dari buku *Big Data dan Analitik: Menyongsong Era Big Data* (Prof. Ir. Rudy C. Tarumingkeng, 2025): 5V, sumber data, siklus hidup, infrastruktur, spektrum analitik, aplikasi lintas sektor, tantangan etis, hingga studi kasus.
+
+[**Buka Deck Pengantar →**](/presentasi/pengantar-big-data-dan-analitik)
+:::
+
 ::: tip 🕸️ Kanvas Interaktif — Alur Big Data
 Lihat pipeline big data sebagai flowchart hidup: sumber data, ingestion, storage terdistribusi, MapReduce, Spark, Kafka, lakehouse, Airflow, dan serving — dengan koneksi yang beranimasi di setiap langkah.
 

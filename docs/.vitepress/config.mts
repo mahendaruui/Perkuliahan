@@ -589,7 +589,8 @@ export default withMermaid(
             items: [
               { text: '🗄️ Silabus & Peta Materi', link: '/big-data/' },
               { text: '📋 Dokumen RPS OBE', link: '/big-data/RPS' },
-              { text: '📘 Buku Teori RPL', link: '/big-data/TEORI-RPL' }
+              { text: '📘 Buku Teori RPL', link: '/big-data/TEORI-RPL' },
+              { text: '🎞️ Deck Pengantar Big Data & Analitik', link: '/presentasi/pengantar-big-data-dan-analitik' }
             ]
           },
           {

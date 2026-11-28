@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengantar Big Data &amp; Analitik | Big Data IFR229</title>
+<meta name="description" content="Deck pengantar Big Data dan Analitik: 5V, sumber data, siklus hidup, infrastruktur, spektrum analitik, aplikasi lintas sektor, tantangan etis, dan masa depan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0284c7;--primary-hover:#0369a1;--primary-light:#e0f2fe;--secondary:#4f46e5;
+  --bg-page:#f8fafc;--card-bg:#fff;--text-main:#0f172a;--text-muted:#64748b;
+  --border:#e2e8f0;--border-dark:#cbd5e1;--accent-green:#059669;--accent-amber:#d97706;--accent-purple:#9333ea;--accent-pink:#db2777;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background-color:var(--bg-page);color:var(--text-main);overflow:hidden;height:100vh;width:100vw;display:flex;flex-direction:column;user-select:none}
+header{padding:12px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{height:32px;width:auto;border-radius:4px}
+.brand-text{font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:#0f172a}
+.brand-text span{color:var(--primary)}
+.brand-sub{font-size:.75rem;color:var(--text-muted);font-weight:500}
+.header-controls{display:flex;align-items:center;gap:10px}
+.btn-icon{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:all .2s ease;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-icon:hover{background:#f1f5f9;border-color:#94a3b8}
+.timer-badge{background:#f1f5f9;border:1px solid var(--border-dark);color:#0f172a;padding:4px 12px;border-radius:20px;font-size:.82rem;font-weight:700;font-family:'Fira Code',monospace;display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;transition:all .2s ease}
+.timer-badge:hover{background:#e2e8f0;border-color:#94a3b8}
+.timer-badge.paused{color:#e11d48;border-color:#fda4af;background:#fff1f2}
+.slide-badge{background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:4px 10px;border-radius:20px;font-size:.8rem;font-weight:700;font-family:'Fira Code',monospace}
+.audio-header-btn{background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 2px 6px rgba(2,132,199,.25);transition:all .2s ease}
+.audio-header-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.audio-header-btn.playing{background:linear-gradient(135deg,#059669 0%,#047857 100%);box-shadow:0 0 0 3px rgba(16,185,129,.3)}
+.sound-wave{display:inline-flex;align-items:center;gap:2px;height:14px}
+.sound-bar{width:3px;height:100%;background:#fff;border-radius:2px;animation:wave 1s ease-in-out infinite alternate}
+.sound-bar:nth-child(2){animation-delay:.2s;height:60%}
+.sound-bar:nth-child(3){animation-delay:.4s;height:80%}
+@keyframes wave{0%{transform:scaleY(.3)}100%{transform:scaleY(1)}}
+.sound-wave.paused .sound-bar{animation:none;transform:scaleY(.4)}
+.autoplay-label{display:flex;align-items:center;gap:6px;font-size:.8rem;color:#475569;cursor:pointer;background:#f1f5f9;border:1px solid var(--border-dark);padding:4px 10px;border-radius:8px;user-select:none;font-weight:600}
+.autoplay-label input{cursor:pointer;accent-color:#0284c7}
+.speed-select{background:#f1f5f9;border:1px solid var(--border-dark);color:#0f172a;border-radius:8px;padding:4px 8px;font-size:.8rem;font-weight:700;cursor:pointer;outline:none}
+main{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px}
+main::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 10%,rgba(2,132,199,.08),transparent 60%),radial-gradient(600px 300px at 85% 90%,rgba(79,70,229,.08),transparent 60%);pointer-events:none}
+.slide{position:absolute;width:92%;max-width:1200px;height:86%;background:#fff;border:1px solid var(--border);border-radius:20px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:scale(.95) translateY(20px);pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 40px -15px rgba(0,0,0,.07),0 0 1px 1px rgba(0,0,0,.03);overflow-y:auto}
+.slide.active{opacity:1;transform:scale(1) translateY(0);pointer-events:auto;z-index:10}
+.slide.active .anim{animation:rise .55s cubic-bezier(.16,1,.3,1) both}
+.slide.active .anim:nth-child(2){animation-delay:.06s}.slide.active .anim:nth-child(3){animation-delay:.12s}.slide.active .anim:nth-child(4){animation-delay:.18s}.slide.active .anim:nth-child(5){animation-delay:.24s}.slide.active .anim:nth-child(6){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.slide-tag{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+h1.slide-title{font-size:2.3rem;font-weight:800;line-height:1.2;letter-spacing:-.03em;margin-bottom:14px;color:#0f172a}
+h2.slide-subtitle{font-size:1.1rem;font-weight:500;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.card-box{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:all .3s ease}
+.card-box:hover{border-color:#38bdf8;box-shadow:0 10px 25px -5px rgba(2,132,199,.08);transform:translateY(-2px)}
+.card-icon{font-size:2rem;margin-bottom:10px}
+.card-title{font-size:1.08rem;font-weight:700;color:#0f172a;margin-bottom:6px}
+.card-desc{font-size:.88rem;color:#475569;line-height:1.6}
+.card-desc code,.pill-code{font-family:'Fira Code',monospace;font-size:.82em;background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:1px 6px;border-radius:6px}
+.badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:700;margin-bottom:8px}
+.badge-blue{background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd}
+.badge-green{background:#d1fae5;color:#047857;border:1px solid #a7f3d0}
+.badge-purple{background:#f3e8ff;color:#7e22ce;border:1px solid #e9d5ff}
+.badge-amber{background:#fef3c7;color:#b45309;border:1px solid #fde68a}
+.badge-pink{background:#fce7f3;color:#be185d;border:1px solid #fbcfe8}
+.badge-red{background:#fee2e2;color:#b91c1c;border:1px solid #fecaca}
+.custom-table{width:100%;border-collapse:collapse;margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.custom-table th{background:#f1f5f9;color:#0f172a;padding:10px 14px;font-size:.88rem;text-align:left;font-weight:700;border-bottom:2px solid var(--border-dark)}
+.custom-table td{padding:10px 14px;font-size:.85rem;color:#334155;border-bottom:1px solid var(--border);background:#fff}
+.custom-table tr:hover td{background:#f8fafc}
+pre{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:16px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.6;color:#f8fafc;margin-top:10px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.code-keyword{color:#fb7185;font-weight:600}.code-class{color:#38bdf8;font-weight:600}.code-func{color:#c084fc}.code-str{color:#4ade80}.code-var{color:#fde047}.code-num{color:#fb923c}.code-comment{color:#94a3b8;font-style:italic}
+footer{padding:14px 24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 -1px 3px rgba(0,0,0,.03)}
+.progress-container{flex:1;max-width:400px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin:0 20px}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#0284c7,#38bdf8,#6366f1);transition:width .3s ease}
+.nav-buttons{display:flex;gap:12px}
+.btn-nav{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s ease;box-shadow:0 2px 4px rgba(2,132,199,.2)}
+.btn-nav:hover{background:var(--primary-hover);transform:scale(1.02)}
+.btn-nav.secondary{background:#fff;border:1px solid var(--border-dark);color:var(--text-main);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn-nav.secondary:hover{background:#f8fafc}
+.btn-nav:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.key-hint{font-size:.75rem;color:var(--text-muted);font-family:'Fira Code',monospace}
+.cover-slide{text-align:center;align-items:center;justify-content:center}
+.cover-badge{background:#e0f2fe;border:1px solid #bae6fd;color:#0369a1;padding:6px 16px;border-radius:30px;font-weight:700;font-size:.9rem;margin-bottom:20px;display:inline-block}
+.avatar-box{margin-top:24px;display:flex;align-items:center;gap:16px;background:#f8fafc;padding:10px 22px;border-radius:50px;border:1px solid var(--border-dark);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.avatar-img{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0284c7);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.15rem}
+.author-info{text-align:left}.author-name{font-weight:700;font-size:.95rem;color:#0f172a}.author-role{font-size:.78rem;color:var(--text-muted)}
+.hero-orbs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+.orb-1{width:340px;height:340px;background:#bae6fd;top:-90px;left:-70px}
+.orb-2{width:300px;height:300px;background:#c7d2fe;bottom:-100px;right:-50px}
+.orb-3{width:180px;height:180px;background:#fbcfe8;top:30%;right:12%}
+.divider-slide{background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 45%,#312e81 100%);border:none;color:#fff;text-align:left;justify-content:center}
+.divider-slide h1.slide-title{color:#fff;font-size:2.6rem}
+.divider-slide h2.slide-subtitle{color:#bae6fd}
+.divider-slide .slide-tag{color:#7dd3fc}
+.divider-num{font-family:'Fira Code',monospace;font-size:.85rem;color:#7dd3fc;letter-spacing:.2em;margin-bottom:10px}
+.slide-num{position:absolute;bottom:14px;right:20px;font-family:'Fira Code',monospace;font-size:.72rem;color:#94a3b8}
+.divider-slide .slide-num{color:#7dd3fc}
+.slide-watermark{position:absolute;right:22px;bottom:42px;width:105px;height:auto;opacity:.08;pointer-events:none;user-select:none;z-index:5}
+.divider-slide .slide-watermark{opacity:.16;filter:brightness(0) invert(1)}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.stat{background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.stat b{font-size:1.6rem;display:block;letter-spacing:-.02em;color:#0f172a}
+.stat small{color:var(--text-muted);font-weight:600}
+details.quiz{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:10px}
+details.quiz summary{cursor:pointer;font-weight:700;font-size:.92rem;color:#0f172a}
+details.quiz .answer{margin-top:10px;font-size:.88rem;color:#334155;line-height:1.6;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px}
+.callout{border-radius:12px;padding:14px 18px;font-size:.88rem;line-height:1.6;margin-top:14px}
+.callout-blue{background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1}
+.callout-green{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.callout-amber{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.callout-red{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.formula{background:linear-gradient(135deg,#0c4a6e,#0369a1 60%,#312e81);color:#fff;border-radius:14px;padding:20px;text-align:center;font-size:1.05rem;font-weight:800;letter-spacing:-.01em;margin-top:14px;line-height:1.9}
+.formula small{display:block;font-weight:500;font-size:.8rem;color:#bae6fd;margin-top:8px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.rm-item{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:.78rem}
+.rm-item b{display:block;font-size:.8rem;margin-bottom:4px;color:#0f172a}
+.rm-item.done{border-left:4px solid var(--primary);background:#f0f9ff}
+.rm-item.next{border:2px solid var(--primary);background:#e0f2fe}
+.check-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:#334155}
+.check-list li{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.output-block{background:#052e16;border:1px solid #166534;border-radius:12px;padding:14px 16px;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.7;color:#bbf7d0;margin-top:10px}
+.steps{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.step{display:flex;gap:14px;align-items:flex-start;background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.step .no{flex:0 0 34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem}
+.step .txt b{font-size:.92rem;color:#0f172a}
+.step .txt p{font-size:.83rem;color:#475569;margin-top:3px;line-height:1.55}
+/* candle */
+.candle-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:10px}
+.candle{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px}
+.candle h6{font-size:.82rem;font-weight:800;margin-bottom:8px}
+.candle .fig{height:150px;position:relative}
+.candle .wick{position:absolute;width:2px;left:50%;transform:translateX(-50%);background:#64748b}
+.candle .body{position:absolute;width:32px;left:50%;transform:translateX(-50%);border-radius:3px}
+.candle .lbl{position:absolute;font-size:.62rem;font-family:'Fira Code',monospace;color:#475569;left:calc(50% + 24px);white-space:nowrap}
+/* wave */
+.wave{height:130px;margin-top:12px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.wave svg{width:100%;height:100%;display:block}
+/* decomp */
+.decomp{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.decomp .dp{background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 9px}
+.decomp .dp h6{font-size:.66rem;font-weight:800;color:#0f172a;margin-bottom:3px}
+.decomp .dp svg{width:100%;height:32px;display:block}
+.narration-drawer{position:absolute;bottom:60px;left:50%;transform:translateX(-50%) translateY(120%);width:90%;max-width:900px;background:rgba(15,23,42,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 20px;box-shadow:0 20px 40px rgba(0,0,0,.45);z-index:90;display:flex;flex-direction:column;gap:10px;color:#f8fafc;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .3s ease;opacity:0;pointer-events:none}
+.narration-drawer.open{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+.drawer-top{display:flex;justify-content:space-between;align-items:center}
+.lecturer-badge{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:#38bdf8}
+.lecturer-badge span{background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);color:#38bdf8;padding:2px 8px;border-radius:6px;font-size:.72rem}
+.drawer-close{background:transparent;border:none;color:#94a3b8;font-size:1.1rem;cursor:pointer}
+.drawer-close:hover{color:#fff}
+.caption-text{font-size:.88rem;line-height:1.55;color:#e2e8f0;max-height:65px;overflow-y:auto;padding-right:6px}
+.audio-controls-row{display:flex;align-items:center;gap:12px}
+.btn-play-pause{background:#0284c7;color:#fff;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s ease}
+.btn-play-pause:hover{background:#0369a1;transform:scale(1.06)}
+.audio-scrub{flex:1;height:5px;background:rgba(255,255,255,.2);border-radius:3px;outline:none;cursor:pointer;accent-color:#38bdf8}
+.audio-time{font-family:'Fira Code',monospace;font-size:.75rem;color:#94a3b8;min-width:80px;text-align:right}
+@media (max-width:768px){
+.slide{padding:24px 20px;width:96%;height:90%}
+h1.slide-title{font-size:1.6rem}
+h2.slide-subtitle{font-size:.95rem;margin-bottom:18px}
+.grid-2,.grid-3,.grid-4,.stat-row,.roadmap,.candle-row{grid-template-columns:1fr}
+pre{font-size:.75rem}
+header .brand-sub,.key-hint,.autoplay-label,.speed-select{display:none}
+}
+
+/* Big Data deck: compact density on short viewports */
+@media (max-height: 820px){
+  .slide{padding:28px 36px}
+  h1.slide-title{font-size:1.95rem;margin-bottom:9px}
+  h2.slide-subtitle{font-size:.95rem;margin-bottom:14px}
+  .card-box{padding:13px 15px}
+  .card-title{font-size:.98rem;margin-bottom:4px}
+  .card-desc{font-size:.8rem;line-height:1.5}
+  .custom-table th,.custom-table td{padding:6px 9px;font-size:.76rem}
+  pre{font-size:.73rem;padding:11px;line-height:1.45}
+  .step{padding:9px 12px}
+  .step .txt p{font-size:.77rem}
+  .steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+  .step{height:100%}
+  .step .no{flex:0 0 28px;height:28px;font-size:.78rem}
+  details.quiz{padding:10px 12px;margin-top:7px}
+  details.quiz summary{font-size:.86rem}
+  .callout{padding:9px 13px;font-size:.8rem}
+  .check-list li{padding:7px 11px;font-size:.8rem}
+  .grid-2,.grid-3,.grid-4{gap:12px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">
+<img src="/Perkuliahan/uuilogo.png" alt="UUI Logo" class="brand-logo" onerror="this.style.display='none'">
+<div><div class="brand-text">BIG DATA <span>(IFR229)</span></div><div class="brand-sub">Universitas Ubudiyah Indonesia — Deck Pengantar</div></div>
+</div>
+<div class="header-controls">
+<span class="timer-badge" id="presentationTimer" title="Timer Presentasi (Klik: Jeda/Lanjut, Dobel Klik: Reset)">⏱️ 00:00</span>
+<span class="slide-badge" id="slideIndicator">SLIDE 1 / …</span>
+<button class="btn-icon" onclick="toggleFullscreen()" title="Fullscreen (F)">⛶ Fullscreen</button>
+</div>
+</header>
+<main>
+
+<div class="slide active cover-slide">
+<div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div style="position:relative">
+<span class="cover-badge">📚 DECK PENGANTAR · BIG DATA &amp; ANALITIK · IFR229</span>
+<h1 class="slide-title anim" style="font-size:2.55rem;max-width:980px;">Pengantar Big Data &amp; Analitik</h1>
+<h2 class="slide-subtitle anim" style="max-width:860px;margin:0 auto 12px auto;">Menyongsong era data besar: dari 5V dan siklus data hingga analitik, aplikasi, dan tantangan etis.</h2>
+<div class="stat-row anim" style="max-width:840px;margin:16px auto 0 auto;"><div class="stat"><b>5V</b><small>Karakteristik data</small></div><div class="stat"><b>5 Tahap</b><small>Siklus hidup data</small></div><div class="stat"><b>4 Spektrum</b><small>Analitik &amp; keputusan</small></div></div>
+<div class="avatar-box anim" style="margin-top:16px;"><div class="avatar-img">MD</div><div class="author-info"><div class="author-name">Mahendar Dwi Payana, S.ST., M.T.</div><div class="author-role">Dosen Pengampu · S1 Informatika · FST UUI</div></div></div>
+<div class="callout callout-blue anim" style="max-width:880px;margin:12px auto 0 auto;font-size:.76rem;line-height:1.55;">Disusun dari buku <b>Big Data dan Analitik: Menyongsong Era Big Data</b> — Prof. Ir. Rudy C. Tarumingkeng, PhD (2025), serta ringkasan slide “Pengantar Big Data dan Analitik”.</div>
+</div>
+<div class="slide-num">01 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🎯 Capaian &amp; Peta Deck</div>
+<h1 class="slide-title anim">Setelah Sesi Ini, Anda Mampu…</h1>
+<h2 class="slide-subtitle anim">Enam kompetensi pengantar yang menjadi fondasi pertemuan-pertemuan berikutnya.</h2>
+<div class="grid-2 anim">
+<ul class="check-list anim">
+<li><span>✔️</span>Menjelaskan definisi big data dan batas sistem konvensional</li>
+<li><span>✔️</span>Membedakan 5V beserta implikasi teknisnya</li>
+<li><span>✔️</span>Mengenali tiga format sumber data dan konsekuensinya</li>
+<li><span>✔️</span>Memetakan siklus hidup dan lapisan infrastruktur</li>
+<li><span>✔️</span>Memilih spektrum analitik sesuai pertanyaan bisnis</li>
+<li><span>✔️</span>Menilai tantangan privasi, etika, dan kualitas data</li>
+</ul>
+<div class="card-box" style="border-left:4px solid #0284c7">
+<div class="card-title">🗺️ Alur Deck (19 Slide)</div>
+<div class="card-desc">1️⃣ Konteks &amp; definisi<br>2️⃣ 5V &amp; sumber data<br>3️⃣ Siklus &amp; infrastruktur<br>4️⃣ Arsitektur platform<br>5️⃣ Spektrum analitik &amp; aplikasi<br>6️⃣ Tantangan, masa depan, kesimpulan</div>
+</div>
+</div>
+</div>
+<div class="slide-num">02 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🌐 Konteks</div>
+<h1 class="slide-title anim">Mengapa Big Data Muncul Sekarang?</h1>
+<h2 class="slide-subtitle anim">Gelombang digital membuat data tumbuh lebih cepat daripada kapasitas sistem konvensional.</h2>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-icon">📱</div><div class="card-title">Media sosial &amp; konten pengguna</div><div class="card-desc">Teks, foto, video, komentar, dan interaksi yang dihasilkan setiap detik.</div></div>
+<div class="card-box"><div class="card-icon">📡</div><div class="card-title">IoT &amp; sensor</div><div class="card-desc">Mesin, kendaraan, kota, dan perangkat wearable mengirim data terus-menerus.</div></div>
+<div class="card-box"><div class="card-icon">🛒</div><div class="card-title">Transaksi digital</div><div class="card-desc">E-commerce, fintech, dan pembayaran meninggalkan jejak bernilai tinggi.</div></div>
+<div class="card-box"><div class="card-icon">🧾</div><div class="card-title">Log &amp; jejak sistem</div><div class="card-desc">Klik, API, keamanan, dan observability menghasilkan data operasional.</div></div>
+<div class="card-box"><div class="card-icon">🏥</div><div class="card-title">Citra &amp; media</div><div class="card-desc">Radiologi, CCTV, rekaman audio, dan dokumen digital yang kaya konteks.</div></div>
+<div class="card-box"><div class="card-icon">🏛️</div><div class="card-title">Data publik</div><div class="card-desc">Kependudukan, survei, kebijakan, dan layanan publik yang saling terhubung.</div></div>
+</div>
+<div class="callout callout-blue anim">💡 Data menjadi aset strategis hanya jika dapat <b>dipercaya</b> dan diubah menjadi <b>keputusan</b>.</div>
+</div>
+<div class="slide-num">03 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">📖 Definisi</div>
+<h1 class="slide-title anim">Apa Itu Big Data?</h1>
+<h2 class="slide-subtitle anim">Bukan sekadar “banyak”, tetapi data yang melampaui kapasitas alat, proses, dan waktu yang tersedia.</h2>
+<div class="formula anim">Big Data = data yang volumenya, kecepatannya, dan keragamannya melampaui kemampuan sistem tradisional untuk menyimpan, mengolah, dan menganalisisnya.<small>Definisi bersifat relatif terhadap konteks organisasi dan teknologi saat ini.</small></div>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-title">📦 Bukan ambang angka</div><div class="card-desc">10 TB bisa kecil bagi satu organisasi, tetapi besar bagi organisasi lain.</div></div>
+<div class="card-box"><div class="card-title">⚙️ Bukan hanya teknologi</div><div class="card-desc">Mencakup proses, orang, kualitas, dan tata kelola — bukan alat semata.</div></div>
+<div class="card-box"><div class="card-title">🎯 Bukan tujuan</div><div class="card-desc">Nilai hanya muncul saat data dipakai untuk keputusan yang lebih baik.</div></div>
+</div>
+<div class="callout callout-amber anim">⚠️ Pertanyaan yang tepat bukan “berapa besar datanya?”, tetapi “pola akses dan SLA apa yang harus dipenuhi?”</div>
+</div>
+<div class="slide-num">04 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">📊 Karakteristik</div>
+<h1 class="slide-title anim">Lima V yang Wajib Dikenali</h1>
+<h2 class="slide-subtitle anim">Setiap V menuntut keputusan rekayasa dan tata kelola yang berbeda.</h2>
+<table class="custom-table anim">
+<thead><tr><th>Karakteristik</th><th>Pertanyaan kunci</th><th>Contoh</th><th>Implikasi</th></tr></thead>
+<tbody>
+<tr><td><b>Volume</b></td><td>Seberapa besar?</td><td>Transaksi, arsip, log</td><td>Storage terdistribusi, partisi, kompresi</td></tr>
+<tr><td><b>Velocity</b></td><td>Seberapa cepat?</td><td>Klik iklan, sensor, transaksi</td><td>Streaming, buffer, backpressure</td></tr>
+<tr><td><b>Variety</b></td><td>Seberapa beragam?</td><td>Tabel, JSON, teks, video</td><td>Data lake, schema-on-read, metadata</td></tr>
+<tr><td><b>Veracity</b></td><td>Seberapa tepercaya?</td><td>Noise sensor, duplikat, missing</td><td>Validasi, deduplikasi, quality gate</td></tr>
+<tr><td><b>Value</b></td><td>Apa nilainya?</td><td>Dashboard, model, keputusan</td><td>Metrik bisnis, evaluasi dampak</td></tr>
+</tbody>
+</table>
+<div class="callout callout-blue anim">💡 5V adalah <b>checklist diagnosis</b>. Tidak semua organisasi perlu streaming; tidak semua data layak disimpan.</div>
+</div>
+<div class="slide-num">05 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🗂️ Sumber Data</div>
+<h1 class="slide-title anim">Tiga Format, Tiga Strategi</h1>
+<h2 class="slide-subtitle anim">Semakin tidak terstruktur, semakin besar peran metadata, kualitas, dan tata kelola.</h2>
+<div class="grid-3 anim">
+<div class="card-box" style="border-left:4px solid #059669"><div class="card-icon">📋</div><div class="card-title">Terstruktur</div><div class="card-desc">Tabel relasional dengan skema ketat. Contoh: transaksi, inventaris, pelanggan. Alat: SQL, warehouse.</div></div>
+<div class="card-box" style="border-left:4px solid #0284c7"><div class="card-icon">🧾</div><div class="card-title">Semi-terstruktur</div><div class="card-desc">Organisasi fleksibel tanpa skema relasional penuh. Contoh: JSON, XML, CSV, log. Alat: document store, parser, lake.</div></div>
+<div class="card-box" style="border-left:4px solid #9333ea"><div class="card-icon">🎥</div><div class="card-title">Tidak terstruktur</div><div class="card-desc">Teks bebas, gambar, audio, video. Contoh: media sosial, CCTV, EMR. Alat: object storage + AI/ML.</div></div>
+</div>
+<div class="callout callout-green anim">✅ Nilai tidak ditentukan oleh format, tetapi oleh kemampuan <b>menghubungkan</b> data dari ketiga dunia.</div>
+</div>
+<div class="slide-num">06 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">⚖️ Perbandingan</div>
+<h1 class="slide-title anim">Data Tradisional vs Ekosistem Big Data</h1>
+<h2 class="slide-subtitle anim">Bukan soal mengganti RDBMS, tetapi memilih alat sesuai pola akses dan skala.</h2>
+<table class="custom-table anim">
+<thead><tr><th>Aspek</th><th>Data Tradisional</th><th>Ekosistem Big Data</th></tr></thead>
+<tbody>
+<tr><td>Arsitektur</td><td>Server tunggal / scale-up</td><td>Klaster terdistribusi / scale-out</td></tr>
+<tr><td>Struktur</td><td>Skema ketat (schema-on-write)</td><td>Fleksibel (schema-on-read)</td></tr>
+<tr><td>Skala</td><td>GB–TB</td><td>TB–PB, elastis</td></tr>
+<tr><td>Pemrosesan</td><td>Batch periodik; OLTP/OLAP bercampur</td><td>Batch + streaming; beban dipisah</td></tr>
+<tr><td>Biaya &amp; risiko</td><td>Lisensi, hardware, single point of failure</td><td>Open source/cloud, replikasi, biaya operasional</td></tr>
+</tbody>
+</table>
+<div class="callout callout-amber anim">⚠️ RDBMS tetap unggul untuk transaksi yang butuh konsistensi kuat. Big data <b>menambah</b> kemampuan, bukan menghapus yang lama.</div>
+</div>
+<div class="slide-num">07 / 19</div>
+</div>
+
+
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN I — DARI DATA MENTAH KE INFRASTRUKTUR</div>
+<h1 class="slide-title">Siklus Hidup &amp; Fondasi Teknologi</h1>
+<h2 class="slide-subtitle">Data yang baik tidak lahir dari alat yang mahal, tetapi dari proses yang disiplin.</h2>
+</div>
+<div class="slide-num">08 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🔄 Siklus Hidup</div>
+<h1 class="slide-title anim">Lima Tahap yang Menentukan Kualitas Keputusan</h1>
+<h2 class="slide-subtitle anim">Kesalahan di tahap awal tidak bisa diperbaiki oleh model yang canggih.</h2>
+<div class="steps anim">
+<div class="step"><div class="no">1</div><div class="txt"><b>Akuisisi data</b><p>Sensor, aplikasi, API, batch/stream. Pastikan kontrak data, izin, dan consent.</p></div></div>
+<div class="step"><div class="no">2</div><div class="txt"><b>Penyimpanan</b><p>Data lake, warehouse, atau object storage. Pilih format, partisi, dan retensi.</p></div></div>
+<div class="step"><div class="no">3</div><div class="txt"><b>Pengolahan &amp; transformasi</b><p>Cleansing, integrasi, deduplikasi, ETL/ELT menuju lapisan data yang siap pakai.</p></div></div>
+<div class="step"><div class="no">4</div><div class="txt"><b>Analisis</b><p>Statistik, data mining, machine learning, dan validasi hasil terhadap pertanyaan bisnis.</p></div></div>
+<div class="step"><div class="no">5</div><div class="txt"><b>Visualisasi &amp; keputusan</b><p>Dashboard, narasi, aksi, dan umpan balik yang memperbaiki siklus berikutnya.</p></div></div>
+</div>
+<div class="callout callout-green anim" style="margin-top:10px;">✅ Siklus ini <b>berulang</b>; kualitas data adalah proses berkelanjutan, bukan proyek sekali jalan.</div>
+</div>
+<div class="slide-num">09 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🧱 Infrastruktur</div>
+<h1 class="slide-title anim">Fondasi Teknologi Big Data</h1>
+<h2 class="slide-subtitle anim">Empat kemampuan inti yang membedakan platform big data dari sistem tradisional.</h2>
+<div class="grid-2 anim">
+<div class="card-box" style="border-left:4px solid #0284c7"><div class="card-icon">🧮</div><div class="card-title">Komputasi terdistribusi</div><div class="card-desc">Pemrosesan paralel lintas node dengan toleransi kegagalan dan pembagian kerja.</div></div>
+<div class="card-box" style="border-left:4px solid #059669"><div class="card-icon">🐘</div><div class="card-title">Hadoop &amp; Apache Spark</div><div class="card-desc">HDFS/MapReduce untuk batch; Spark in-memory untuk iterasi, SQL, dan ML.</div></div>
+<div class="card-box" style="border-left:4px solid #9333ea"><div class="card-icon">☁️</div><div class="card-title">Cloud computing</div><div class="card-desc">Kapasitas elastis, object storage, dan layanan terkelola dengan biaya variabel.</div></div>
+<div class="card-box" style="border-left:4px solid #d97706"><div class="card-icon">🗃️</div><div class="card-title">Data lake, warehouse &amp; NoSQL</div><div class="card-desc">Fleksibel untuk data mentah; terstruktur untuk BI; akses cepat untuk aplikasi.</div></div>
+</div>
+<div class="callout callout-blue anim">💡 Pilih <b>kombinasi</b>, bukan satu pemenang: lake untuk mentah, warehouse untuk BI, NoSQL untuk akses aplikasi.</div>
+</div>
+<div class="slide-num">10 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🏗️ Arsitektur</div>
+<h1 class="slide-title anim">Enam Lapisan Platform Data Modern</h1>
+<h2 class="slide-subtitle anim">Setiap lapisan punya tanggung jawab, alat, dan risiko operasional sendiri.</h2>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-title">📥 1. Ingestion</div><div class="card-desc">Batch connector, CDC, dan event streaming dari sumber ke platform.</div></div>
+<div class="card-box"><div class="card-title">💾 2. Storage</div><div class="card-desc">Bronze → Silver → Gold; object storage dan format kolumnar.</div></div>
+<div class="card-box"><div class="card-title">⚙️ 3. Processing</div><div class="card-desc">Spark, Hive, stream processor: transformasi, join, agregasi, ML.</div></div>
+<div class="card-box"><div class="card-title">📤 4. Serving</div><div class="card-desc">Warehouse, cache, API, dan dashboard untuk konsumen data.</div></div>
+<div class="card-box"><div class="card-title">🔁 5. Orchestration</div><div class="card-desc">Jadwal, dependensi, retry, backfill, dan alert pipeline.</div></div>
+<div class="card-box"><div class="card-title">🛡️ 6. Governance</div><div class="card-desc">Katalog, lineage, kualitas, privasi, keamanan, dan biaya.</div></div>
+</div>
+<div class="callout callout-amber anim">⚠️ Sebagian besar kegagalan produksi terjadi di <b>sambungan antar-lapisan</b>, bukan di dalam satu alat.</div>
+</div>
+<div class="slide-num">11 / 19</div>
+</div>
+
+
+<div class="slide divider-slide">
+<div class="divider-num">BAGIAN II — ANALITIK &amp; NILAI</div>
+<h1 class="slide-title">Dari Data ke Keputusan</h1>
+<h2 class="slide-subtitle">Spektrum analitik, metode, aplikasi, dan pelajaran dari studi kasus.</h2>
+</div>
+<div class="slide-num">12 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">📈 Spektrum Analitik</div>
+<h1 class="slide-title anim">Empat Pertanyaan, Empat Jenis Analitik</h1>
+<h2 class="slide-subtitle anim">Nilai meningkat dari melaporkan masa lalu menuju mengarahkan tindakan.</h2>
+<div class="grid-2 anim">
+<div class="card-box" style="border-left:4px solid #0284c7"><div class="card-title">📊 Deskriptif — Apa yang terjadi?</div><div class="card-desc">Dashboard, KPI, tren historis, dan ringkasan performa.</div></div>
+<div class="card-box" style="border-left:4px solid #d97706"><div class="card-title">🔍 Diagnostik — Mengapa terjadi?</div><div class="card-desc">EDA, drill-down, korelasi, dan analisis akar masalah.</div></div>
+<div class="card-box" style="border-left:4px solid #9333ea"><div class="card-title">🔮 Prediktif — Apa yang akan terjadi?</div><div class="card-desc">Regresi, time series, klasifikasi, churn, dan peramalan permintaan.</div></div>
+<div class="card-box" style="border-left:4px solid #059669"><div class="card-title">🧭 Preskriptif — Apa yang sebaiknya dilakukan?</div><div class="card-desc">Optimasi, simulasi, rekomendasi, dan penetapan harga dinamis.</div></div>
+</div>
+<div class="callout callout-blue anim">💡 Semakin ke kanan, semakin tinggi kebutuhan kualitas data, model, dan tata kelola.</div>
+</div>
+<div class="slide-num">13 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🧪 Metode</div>
+<h1 class="slide-title anim">Dari EDA ke AI: Alat dalam Kotak Perkakas</h1>
+<h2 class="slide-subtitle anim">Tidak ada metode terbaik secara universal; pilih berdasarkan pertanyaan dan data.</h2>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-title">🔎 Data mining &amp; EDA</div><div class="card-desc">Menemukan pola, anomali, dan hipotesis awal sebelum pemodelan.</div></div>
+<div class="card-box"><div class="card-title">📐 Statistik</div><div class="card-desc">Mean, median, varians, distribusi, dan inferensi untuk merangkum data.</div></div>
+<div class="card-box"><div class="card-title">🤖 Machine learning</div><div class="card-desc">Supervised, unsupervised, dan reinforcement learning.</div></div>
+<div class="card-box"><div class="card-title">🧠 Deep learning &amp; AI</div><div class="card-desc">Citra, teks, suara, dan pola kompleks dengan neural networks.</div></div>
+<div class="card-box"><div class="card-title">📊 Visualisasi</div><div class="card-desc">Tableau, Power BI, D3.js: mengomunikasikan temuan secara efektif.</div></div>
+<div class="card-box"><div class="card-title">⚙️ Optimasi</div><div class="card-desc">Simulasi dan rekomendasi untuk keputusan preskriptif.</div></div>
+</div>
+<div class="callout callout-green anim">✅ Mulai dari pertanyaan dan kualitas data; model canggih tidak menyelamatkan data yang salah.</div>
+</div>
+<div class="slide-num">14 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🌍 Aplikasi</div>
+<h1 class="slide-title anim">Nilai Big Data di Lima Sektor</h1>
+<h2 class="slide-subtitle anim">Pola yang sama: data beragam → analitik → keputusan yang lebih cepat dan tepat.</h2>
+<table class="custom-table anim">
+<thead><tr><th>Sektor</th><th>Sumber data</th><th>Nilai utama</th></tr></thead>
+<tbody>
+<tr><td><b>Bisnis &amp; pemasaran</b></td><td>Klik, transaksi, media sosial</td><td>Segmentasi, personalisasi, optimasi kampanye</td></tr>
+<tr><td><b>Kesehatan</b></td><td>EMR, wearable, genomik</td><td>Diagnosis dini, terapi presisi, efisiensi operasional</td></tr>
+<tr><td><b>Pemerintahan</b></td><td>Sensor kota, kependudukan, survei</td><td>Smart city, kebijakan responsif, layanan publik</td></tr>
+<tr><td><b>Keuangan</b></td><td>Transaksi, perilaku, riwayat kredit</td><td>Anti-fraud, skor kredit, manajemen risiko</td></tr>
+<tr><td><b>Pendidikan</b></td><td>LMS, interaksi, hasil evaluasi</td><td>Pembelajaran adaptif, evaluasi kurikulum</td></tr>
+</tbody>
+</table>
+<div class="callout callout-amber anim">⚠️ Setiap sektor membawa risiko privasi dan regulasi yang berbeda; nilai tidak boleh melebihi kepercayaan.</div>
+</div>
+<div class="slide-num">15 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🔬 Studi Kasus</div>
+<h1 class="slide-title anim">Empat Implementasi Nyata</h1>
+<h2 class="slide-subtitle anim">Konteks → implementasi → hasil, seperti dirangkum dalam Bab 8.</h2>
+<div class="grid-2 anim">
+<div class="card-box" style="border-left:4px solid #0284c7"><div class="card-title">🛒 E-commerce</div><div class="card-desc">Klik &amp; transaksi real-time → segmentasi + ML → konversi naik, biaya akuisisi turun.</div></div>
+<div class="card-box" style="border-left:4px solid #059669"><div class="card-title">🏥 Rumah sakit</div><div class="card-desc">EMR + wearable + sensor → analitik pola penyakit → diagnosis dini, operasi lebih efisien.</div></div>
+<div class="card-box" style="border-left:4px solid #d97706"><div class="card-title">🏙️ Smart city</div><div class="card-desc">Sensor lalu lintas + CCTV + transportasi → rute &amp; jadwal → kemacetan turun, kebijakan responsif.</div></div>
+<div class="card-box" style="border-left:4px solid #9333ea"><div class="card-title">🏦 Bank</div><div class="card-desc">Transaksi + perilaku + riwayat kredit → ML fraud &amp; risk → kerugian turun, kredit lebih aman.</div></div>
+</div>
+<div class="callout callout-blue anim">💡 Keberhasilan bukan pada modelnya saja, tetapi pada <b>integrasi data, kualitas, dan perubahan proses</b>.</div>
+</div>
+<div class="slide-num">16 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">⚠️ Tantangan &amp; Etika</div>
+<h1 class="slide-title anim">Enam Dinding yang Harus Dikelola</h1>
+<h2 class="slide-subtitle anim">Tantangan big data bersifat teknis, organisasi, dan sosial sekaligus.</h2>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-title">📈 Skalabilitas &amp; performa</div><div class="card-desc">Overhead query, keterbatasan infrastruktur, tuning berkelanjutan.</div></div>
+<div class="card-box"><div class="card-title">🔗 Integrasi data</div><div class="card-desc">Heterogenitas format, duplikasi, dan standar antar-sistem.</div></div>
+<div class="card-box"><div class="card-title">🔐 Keamanan &amp; privasi</div><div class="card-desc">Enkripsi, kontrol akses, deteksi intrusi, dan perlindungan PII.</div></div>
+<div class="card-box"><div class="card-title">⚖️ Etika &amp; regulasi</div><div class="card-desc">Consent, transparansi, akuntabilitas, dan kepatuhan GDPR.</div></div>
+<div class="card-box"><div class="card-title">✅ Kualitas data</div><div class="card-desc">Lengkap, konsisten, valid, dan relevan sepanjang waktu.</div></div>
+<div class="card-box"><div class="card-title">🛡️ Tata kelola</div><div class="card-desc">Kepemilikan, lineage, audit trail, dan kendali biaya.</div></div>
+</div>
+<div class="callout callout-red anim">⚠️ Kepercayaan adalah aset paling rapuh: satu kebocoran atau bias model dapat menghapus nilai analitik.</div>
+</div>
+<div class="slide-num">17 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">🚀 Masa Depan</div>
+<h1 class="slide-title anim">Tren yang Membentuk Era Data Berikutnya</h1>
+<h2 class="slide-subtitle anim">Teknologi baru memperluas kemampuan, tetapi regulasi dan kepercayaan ikut menentukan adopsi.</h2>
+<div class="grid-3 anim">
+<div class="card-box"><div class="card-icon">🤖</div><div class="card-title">AI &amp; machine learning</div><div class="card-desc">Deep learning, reinforcement, dan transfer learning yang makin akurat.</div></div>
+<div class="card-box"><div class="card-icon">📡</div><div class="card-title">Internet of Things</div><div class="card-desc">Data sensor kontinu untuk monitoring dan prediksi real-time.</div></div>
+<div class="card-box"><div class="card-icon">⚡</div><div class="card-title">Edge computing</div><div class="card-desc">Memproses data dekat sumber untuk latensi rendah dan efisiensi jaringan.</div></div>
+<div class="card-box"><div class="card-icon">🧪</div><div class="card-title">Quantum computing</div><div class="card-desc">Potensi besar untuk optimasi dan pemodelan kompleks (masih berkembang).</div></div>
+<div class="card-box"><div class="card-icon">📦</div><div class="card-title">Container &amp; microservices</div><div class="card-desc">Platform fleksibel, skalabel, dan mudah dioperasikan.</div></div>
+<div class="card-box"><div class="card-icon">🌐</div><div class="card-title">Regulasi &amp; interoperabilitas</div><div class="card-desc">Standar data, privasi, dan kolaborasi lintas organisasi.</div></div>
+</div>
+<div class="callout callout-green anim">✅ Masa depan bukan hanya model yang lebih besar, tetapi sistem yang lebih <b>dipercaya</b> dan berkelanjutan.</div>
+</div>
+<div class="slide-num">18 / 19</div>
+</div>
+
+
+<div class="slide">
+<div class="slide-tag">✅ Kesimpulan</div>
+<h1 class="slide-title anim">Data Bukan Sekadar Angka, Melainkan Kompas Keputusan</h1>
+<h2 class="slide-subtitle anim">Lima hal yang perlu dibawa dari sesi ini.</h2>
+<div class="grid-2 anim">
+<ul class="check-list anim">
+<li><span>1️⃣</span>Big data = kapasitas + kecepatan + keragaman + kepercayaan + nilai.</li>
+<li><span>2️⃣</span>5V adalah checklist diagnosis, bukan ambang angka.</li>
+<li><span>3️⃣</span>Siklus hidup dan kualitas data menentukan nilai akhir.</li>
+<li><span>4️⃣</span>Spektrum analitik bergerak dari melaporkan ke mengarahkan.</li>
+<li><span>5️⃣</span>Tantangan utama sering organisasi dan etika, bukan algoritma.</li>
+</ul>
+<div class="card-box" style="border-left:4px solid #0284c7">
+<div class="card-title">📚 Sumber</div>
+<div class="card-desc"><b>Big Data dan Analitik: Menyongsong Era Big Data</b><br>Prof. Ir. Rudy C. Tarumingkeng, PhD · 2025<br><br>Ringkasan slide: <i>Pengantar Big Data dan Analitik</i>.<br><br><b>Diskusi:</b> data apa yang paling bernilai di organisasi Anda, dan risiko apa yang menyertainya?</div>
+</div>
+</div>
+<div class="callout callout-blue anim">💬 “Data bukan sekadar angka, melainkan kompas keputusan strategis.”</div>
+</div>
+<div class="slide-num">19 / 19</div>
+</div>
+
+</main>
+<footer>
+<div class="key-hint">Navigasi: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> • Fullscreen: <kbd>F</kbd> • Timer: <kbd>T</kbd> • Reset: <kbd>R</kbd></div>
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+<div class="nav-buttons">
+<button class="btn-nav secondary" id="btnPrev" onclick="prevSlide()" disabled>&larr; Sebelumnya</button>
+<button class="btn-nav" id="btnNext" onclick="nextSlide()">Selanjutnya &rarr;</button>
+</div>
+</footer>
+<script>
+let currentSlide=0;
+const slides=document.querySelectorAll('.slide');
+const totalSlides=slides.length;
+const progressBar=document.getElementById('progressBar');
+const slideIndicator=document.getElementById('slideIndicator');
+const btnPrev=document.getElementById('btnPrev');
+const btnNext=document.getElementById('btnNext');
+let timerSeconds=0,timerRunning=true,timerInterval=null;
+const timerEl=document.getElementById('presentationTimer');
+function formatTimer(sec){const m=Math.floor(sec/60).toString().padStart(2,'0');const s=(sec%60).toString().padStart(2,'0');return '⏱️ '+m+':'+s}
+function startTimer(){if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(()=>{if(timerRunning){timerSeconds++;timerEl.textContent=formatTimer(timerSeconds)}},1000)}
+function toggleTimer(){timerRunning=!timerRunning;timerEl.classList.toggle('paused',!timerRunning)}
+function resetTimer(){timerSeconds=0;timerRunning=true;timerEl.classList.remove('paused');timerEl.textContent=formatTimer(0)}
+timerEl.addEventListener('click',toggleTimer);
+timerEl.addEventListener('dblclick',resetTimer);
+document.querySelectorAll('.slide').forEach(s=>{const w=document.createElement('img');w.src='/Perkuliahan/uuilogo.png';w.alt='';w.setAttribute('aria-hidden','true');w.className='slide-watermark';w.onerror=()=>w.remove();s.appendChild(w)});
+function updateSlide(){
+  slides.forEach((s,idx)=>{s.classList.remove('active');if(idx===currentSlide){s.classList.add('active');void s.offsetWidth;}});
+  progressBar.style.width=((currentSlide+1)/totalSlides*100)+'%';
+  slideIndicator.textContent='SLIDE '+(currentSlide+1)+' / '+totalSlides;
+  btnPrev.disabled=currentSlide===0;
+  btnNext.disabled=currentSlide===totalSlides-1;
+  try{const u=new URL(location.href);u.searchParams.set('slide',String(currentSlide+1));history.replaceState({},'',u)}catch(e){}
+}
+function nextSlide(){if(currentSlide<totalSlides-1){currentSlide++;updateSlide()}}
+function prevSlide(){if(currentSlide>0){currentSlide--;updateSlide()}}
+function toggleFullscreen(){if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{})}else{document.exitFullscreen().catch(()=>{})}}
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();nextSlide()}
+  else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prevSlide()}
+  else if(e.key==='Home'){e.preventDefault();currentSlide=0;updateSlide()}
+  else if(e.key==='End'){e.preventDefault();currentSlide=totalSlides-1;updateSlide()}
+  else if(e.key==='f'||e.key==='F'){toggleFullscreen()}
+  else if(e.key==='t'||e.key==='T'){toggleTimer()}
+  else if(e.key==='r'||e.key==='R'){resetTimer()}
+});
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const diff=e.changedTouches[0].clientX-touchStartX;if(diff>50)prevSlide();else if(diff<-50)nextSlide()});
+const startParam=parseInt(new URLSearchParams(location.search).get('slide')||'1',10);
+if(startParam>=1&&startParam<=totalSlides)currentSlide=startParam-1;
+updateSlide();
+startTimer();
+</script>
+</body>
+</html>
