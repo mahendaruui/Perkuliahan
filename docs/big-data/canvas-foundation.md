@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Fondasi & Arsitektur"
-description: "Cerita isometrik 2.5D low-poly untuk Big Data."
+title: "Kanvas 2D — Fondasi & Arsitektur"
+description: "Diagram alur interaktif 2D untuk fondasi dan arsitektur Big Data."
 layout: false
 ---
 

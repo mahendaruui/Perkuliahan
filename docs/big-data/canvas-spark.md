@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Apache Spark & Optimasi ETL"
-description: "Cerita isometrik 2.5D low-poly untuk Big Data."
+title: "Kanvas 2D — Apache Spark & Optimasi ETL"
+description: "Diagram alur interaktif 2D untuk Apache Spark dan optimasi ETL."
 layout: false
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: "Kanvas 2.5D — Hadoop, MapReduce, YARN & Hive"
-description: "Cerita isometrik 2.5D low-poly untuk Big Data."
+title: "Kanvas 2D — Hadoop, MapReduce, YARN & Hive"
+description: "Diagram alur interaktif 2D untuk Hadoop, MapReduce, YARN, dan Hive."
 layout: false
 ---
 

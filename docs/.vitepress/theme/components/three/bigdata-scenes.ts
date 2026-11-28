@@ -1,3 +1,5 @@
+/* 2D Flowchart & Data Architecture scenes for Big Data stories (rendered by flowchart-kit.ts). */
+
 import type { IsoScene } from './iso-kit'
 import { PALETTE } from './iso-kit'
 import type { StoryVariant } from './bigdata-story'
@@ -5,477 +7,467 @@ import type { StoryVariant } from './bigdata-story'
 const P = PALETTE
 
 /* ------------------------------------------------------------------ */
-/* Foundation & Arsitektur                                             */
+/* 1. Foundation & Arsitektur (9 steps)                                */
 /* ------------------------------------------------------------------ */
 
 const foundation: IsoScene[] = [
+  // 1. Batas satu server
   {
     nodes: [
-      { id: 'src', type: 'source', x: -2.8, y: 1.4, label: 'DATA MASUK', color: P.raw },
-      { id: 'srv', type: 'server', x: 0.2, y: -0.2, label: 'SERVER 01', status: 'smoke', scale: 1.05 },
-      { id: 'b1', type: 'block', x: 1.4, y: 0.6, color: P.raw, scale: 0.8 },
-      { id: 'b2', type: 'block', x: 1.9, y: 0.2, color: P.violet, scale: 0.7 },
-      { id: 'b3', type: 'block', x: 0.9, y: 1.1, color: P.process, scale: 0.7 },
-      { id: 'b4', type: 'block', x: 2.2, y: 0.8, color: P.output, scale: 0.66 },
-      { id: 'b5', type: 'block', x: 2.6, y: 1.1, color: P.raw, scale: 0.6 },
-      { id: 'b6', type: 'block', x: 2.9, y: 0.6, color: P.process, scale: 0.56 },
-      { id: 'b7', type: 'block', x: 2.4, y: 1.5, color: P.violet, scale: 0.5 },
-      { id: 'b8', type: 'block', x: 3.1, y: 1.0, color: P.raw, scale: 0.46 },
+      { id: 'src', type: 'io', x: -1.8, y: 0, label: 'Data Masuk', sub: 'app + log + IoT', color: P.raw },
+      { id: 'srv', type: 'process', x: 0, y: 0, label: 'Server Tunggal', sub: 'disk · RAM · I/O', color: P.process },
+      { id: 'err', type: 'end', x: 1.8, y: 0, label: 'Macet / Penuh', sub: 'single bottleneck', status: 'failed' },
     ],
     links: [
-      { from: 'src', to: 'srv', label: '1 TB', color: P.danger, packets: 2 },
+      { from: 'src', to: 'srv', color: P.processDark, packets: 2, label: 'volume ↑' },
+      { from: 'srv', to: 'err', color: P.dangerDark, dashed: true, packets: 2, label: 'limit I/O' },
     ],
   },
+  // 2. Scale-up vs Scale-out
   {
     nodes: [
-      { id: 'up', type: 'tower', x: -2.4, y: 1.0, label: 'Scale-up', color: P.process },
-      { id: 'n1', type: 'server', x: 0.6, y: -0.2, label: 'Node 1', color: P.greenDark, status: 'active' },
-      { id: 'n2', type: 'server', x: 1.6, y: -0.8, label: 'Node 2', color: P.greenDark },
-      { id: 'n3', type: 'server', x: 2.6, y: -1.4, label: 'Node 3', color: P.greenDark },
+      { id: 'q', type: 'decision', x: 0, y: -1.1, label: 'Pilih Skala?', color: P.goldSoft },
+      { id: 'up', type: 'process', x: -1.4, y: 0.35, label: 'Scale-Up', sub: '1 mesin raksasa', color: P.raw },
+      { id: 'out', type: 'process', x: 1.4, y: 0.35, label: 'Scale-Out', sub: 'cluster banyak node', color: P.green },
+      { id: 'n1', type: 'end', x: 0.7, y: 1.4, label: 'Node 1–N Aktif', color: P.green },
+      { id: 'spof', type: 'end', x: -1.4, y: 1.4, label: 'SPOF & Mahal', status: 'failed' },
     ],
     links: [
-      { from: 'n1', to: 'n2', color: P.greenDark, packets: 1, dashed: true },
-      { from: 'n2', to: 'n3', color: P.greenDark, packets: 1, dashed: true },
+      { from: 'q', to: 'up', color: P.rawDark, dashed: true, packets: 1, label: 'vertikal' },
+      { from: 'q', to: 'out', color: P.greenDark, packets: 2, label: 'horizontal' },
+      { from: 'up', to: 'spof', color: P.dangerDark, dashed: true, packets: 1 },
+      { from: 'out', to: 'n1', color: P.greenDark, packets: 2 },
     ],
   },
+  // 3. Blok penyimpanan 128 MB
   {
     nodes: [
-      { id: 'file', type: 'file', x: -2.8, y: 1.2, label: 'FILE 1 TB', color: P.raw, scale: 1.1 },
-      { id: 'wall', type: 'wall', x: -1.4, y: 0.6, label: 'laser split' },
-      { id: 's1', type: 'block', x: 0.2, y: 0.4, color: P.raw, label: 'S1' },
-      { id: 's2', type: 'block', x: 1.0, y: 0.0, color: P.raw, label: 'S2' },
-      { id: 's3', type: 'block', x: 1.8, y: -0.4, color: P.raw, label: 'S3' },
-      { id: 's4', type: 'block', x: 2.6, y: -0.8, color: P.raw, label: 'S4' },
+      { id: 'file', type: 'io', x: -1.7, y: 0, label: 'File Besar 1 TB', sub: 'log mentah', color: P.raw },
+      { id: 'split', type: 'process', x: 0, y: 0, label: 'Pecah Blok', sub: '128 MB / blok', color: P.process },
+      { id: 'b1', type: 'codebox', x: 1.65, y: -0.85, label: 'Blok S1 (128 MB)', color: P.output },
+      { id: 'b2', type: 'codebox', x: 1.65, y: 0, label: 'Blok S2 (128 MB)', color: P.output },
+      { id: 'b3', type: 'codebox', x: 1.65, y: 0.85, label: 'Blok S3 (128 MB)', color: P.output },
     ],
     links: [
-      { from: 'file', to: 's1', color: P.ink2, dashed: true, packets: 1, label: '128 MB' },
-      { from: 'file', to: 's2', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'file', to: 's3', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'file', to: 's4', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'file', to: 'split', color: P.processDark, packets: 2 },
+      { from: 'split', to: 'b1', color: P.outputDark, packets: 1 },
+      { from: 'split', to: 'b2', color: P.outputDark, packets: 1 },
+      { from: 'split', to: 'b3', color: P.outputDark, packets: 1 },
     ],
   },
+  // 4. Distribusi & Metadata
   {
     nodes: [
-      { id: 'meta', type: 'book', x: -2.6, y: 1.2, label: 'Metadata' },
-      { id: 'na', type: 'server', x: 0.2, y: 0.2, label: 'Node A', color: P.process },
-      { id: 'nb', type: 'server', x: 1.4, y: -0.4, label: 'Node B', color: P.process },
-      { id: 'nc', type: 'server', x: 2.6, y: -1.0, label: 'Node C', color: P.process },
-      { id: 'ba', type: 'block', x: 0.2, y: 0.9, color: P.raw, label: 'blok' },
-      { id: 'bb', type: 'block', x: 1.4, y: 0.3, color: P.raw, label: 'blok' },
-      { id: 'bc', type: 'block', x: 2.6, y: -0.3, color: P.raw, label: 'blok' },
+      { id: 'meta', type: 'codebox', x: 0, y: -1.05, label: 'Metadata Service', sub: 'peta lokasi blok', color: P.violet },
+      { id: 'na', type: 'process', x: -1.55, y: 0.45, label: 'Node A', sub: 'simpan [Blok 1]', color: P.process },
+      { id: 'nb', type: 'process', x: 0, y: 0.45, label: 'Node B', sub: 'simpan [Blok 2]', color: P.process },
+      { id: 'nc', type: 'process', x: 1.55, y: 0.45, label: 'Node C', sub: 'simpan [Blok 3]', color: P.process },
     ],
     links: [
-      { from: 'meta', to: 'na', color: P.process, dashed: true, packets: 1 },
-      { from: 'meta', to: 'nb', color: P.process, dashed: true, packets: 1 },
-      { from: 'meta', to: 'nc', color: P.process, dashed: true, packets: 1 },
+      { from: 'meta', to: 'na', color: P.processDark, dashed: true, packets: 1, label: 'lacak' },
+      { from: 'meta', to: 'nb', color: P.processDark, dashed: true, packets: 1 },
+      { from: 'meta', to: 'nc', color: P.processDark, dashed: true, packets: 1 },
     ],
   },
+  // 5. Replikasi factor 3
   {
     nodes: [
-      { id: 'na', type: 'server', x: -0.4, y: 0.8, label: 'Node A', color: P.process },
-      { id: 'nb', type: 'server', x: 1.0, y: 0.0, label: 'Node B', color: P.process },
-      { id: 'nc', type: 'server', x: 2.4, y: -0.8, label: 'Node C', color: P.process },
-      { id: 'ba', type: 'block', x: -0.4, y: 1.7, color: P.violet },
-      { id: 'bb', type: 'block', x: 1.0, y: 0.9, color: P.violet },
-      { id: 'bc', type: 'block', x: 2.4, y: 0.1, color: P.violet },
+      { id: 'src', type: 'io', x: -1.8, y: 0, label: 'Blok Primer S1', sub: 'replication = 3', color: P.violet },
+      { id: 'na', type: 'process', x: 0, y: -0.9, label: 'Node A (Aktif)', sub: 'salinan #1', color: P.green },
+      { id: 'nb', type: 'end', x: 0, y: 0, label: 'Node B (Mati)', sub: 'gagal hardware', status: 'failed' },
+      { id: 'nc', type: 'process', x: 0, y: 0.9, label: 'Node C (Aktif)', sub: 'salinan #3', color: P.green },
+      { id: 'ok', type: 'end', x: 1.85, y: 0, label: 'Data Tetap Aman', color: P.green },
     ],
     links: [
-      { from: 'na', to: 'nb', color: P.greenDark, dashed: true, packets: 1, label: 'replica', lift: 54 },
-      { from: 'nb', to: 'nc', color: P.greenDark, dashed: true, packets: 1 },
-      { from: 'ba', to: 'bb', color: P.output, dashed: true, packets: 1 },
+      { from: 'src', to: 'na', color: P.greenDark, packets: 1 },
+      { from: 'src', to: 'nb', color: P.dangerDark, dashed: true, packets: 1 },
+      { from: 'src', to: 'nc', color: P.greenDark, packets: 1 },
+      { from: 'na', to: 'ok', color: P.greenDark, packets: 2 },
+      { from: 'nc', to: 'ok', color: P.greenDark, packets: 2 },
     ],
   },
+  // 6. HDFS NameNode & DataNode
   {
     nodes: [
-      { id: 'nn', type: 'book', x: -2.6, y: 1.2, label: 'NameNode' },
-      { id: 'd1', type: 'server', x: 0.2, y: 0.2, label: 'DataNode 1', color: P.process },
-      { id: 'd2', type: 'server', x: 1.4, y: -0.4, label: 'DataNode 2', color: P.process },
-      { id: 'd3', type: 'server', x: 2.6, y: -1.0, label: 'DataNode 3', color: P.process },
-      { id: 'b1', type: 'block', x: 0.2, y: 0.9, color: P.raw },
-      { id: 'b2', type: 'block', x: 1.4, y: 0.3, color: P.raw },
-      { id: 'b3', type: 'block', x: 2.6, y: -0.3, color: P.raw },
+      { id: 'cli', type: 'start', x: -1.65, y: -0.7, label: 'Client App', color: P.goldSoft },
+      { id: 'nn', type: 'codebox', x: 0.35, y: -0.7, label: 'NameNode', sub: 'metadata · peta blok', color: P.violet },
+      { id: 'dn1', type: 'process', x: -1.4, y: 0.7, label: 'DataNode 1', sub: 'blok fisik A', color: P.process },
+      { id: 'dn2', type: 'process', x: 0.35, y: 0.7, label: 'DataNode 2', sub: 'blok fisik B', color: P.process },
+      { id: 'dn3', type: 'process', x: 2.0, y: 0.7, label: 'DataNode 3', sub: 'blok fisik C', color: P.process },
     ],
     links: [
-      { from: 'nn', to: 'd1', color: P.process, dashed: true, packets: 1, label: 'peta blok' },
-      { from: 'nn', to: 'd2', color: P.process, dashed: true, packets: 1 },
-      { from: 'nn', to: 'd3', color: P.process, dashed: true, packets: 1 },
-      { from: 'd1', to: 'b1', color: P.ink2, packets: 1 },
+      { from: 'cli', to: 'nn', color: P.processDark, dashed: true, packets: 1, label: '1. tanya lokasi' },
+      { from: 'cli', to: 'dn1', color: P.greenDark, packets: 2, label: '2. baca blok' },
+      { from: 'nn', to: 'dn2', color: P.rawDark, dashed: true, packets: 1, label: 'heartbeat' },
+      { from: 'nn', to: 'dn3', color: P.rawDark, dashed: true, packets: 1 },
     ],
   },
+  // 7. CAP Theorem trade-off
   {
     nodes: [
-      { id: 'c', type: 'server', x: -2.2, y: 0.9, label: 'Consistency', color: P.process },
-      { id: 'a', type: 'server', x: 2.2, y: -0.9, label: 'Availability', color: P.output },
-      { id: 'wall', type: 'wall', x: 0, y: 0, label: 'network partition' },
-      { id: 'bc', type: 'block', x: -2.2, y: 1.8, color: P.raw, label: 'C' },
-      { id: 'ba', type: 'block', x: 2.2, y: 0, color: P.raw, label: 'A' },
+      { id: 'part', type: 'decision', x: 0, y: -1.0, label: 'Network Partition?', sub: 'jaringan terbelah', color: P.redSoft, status: 'failed' },
+      { id: 'cp', type: 'process', x: -1.35, y: 0.45, label: 'Pilih CP (Consistent)', sub: 'tolak tulis sementara', color: P.process },
+      { id: 'ap', type: 'process', x: 1.35, y: 0.45, label: 'Pilih AP (Available)', sub: 'layani baca terbaru', color: P.output },
     ],
     links: [
-      { from: 'c', to: 'a', color: P.danger, dashed: true, packets: 1, label: 'salinan tertunda', lift: 80 },
-      { from: 'bc', to: 'ba', color: P.rawDark, dashed: true, packets: 1, lift: 110 },
+      { from: 'part', to: 'cp', color: P.processDark, packets: 1, label: 'jaga data sama' },
+      { from: 'part', to: 'ap', color: P.outputDark, packets: 1, label: 'tetap merespons' },
     ],
   },
+  // 8. Object storage & data lake
   {
     nodes: [
-      { id: 'bucket', type: 'bucket', x: -1.6, y: 0.8, label: 'Bucket', color: P.output },
-      { id: 'f1', type: 'folder', x: -2.9, y: 1.7, label: 'objek' },
-      { id: 'f2', type: 'folder', x: -2.1, y: 2.3, label: 'objek' },
-      { id: 'lake', type: 'dashboard', x: 2.0, y: -0.8, label: 'Data lake' },
+      { id: 'obj1', type: 'io', x: -1.65, y: -0.55, label: 'File JSON / Log', color: P.raw },
+      { id: 'obj2', type: 'io', x: -1.65, y: 0.55, label: 'Tabel Parquet', color: P.raw },
+      { id: 'bkt', type: 'process', x: 0, y: 0, label: 'Object Bucket', sub: 'elastis + tahan lama', color: P.output },
+      { id: 'lake', type: 'end', x: 1.75, y: 0, label: 'Data Lake Cloud', sub: 'hemat biaya arsip', color: P.blueSoft },
     ],
     links: [
-      { from: 'f1', to: 'bucket', color: P.output, packets: 1 },
-      { from: 'f2', to: 'bucket', color: P.output, packets: 1 },
-      { from: 'bucket', to: 'lake', color: P.output, packets: 2, label: 'data lake' },
+      { from: 'obj1', to: 'bkt', color: P.outputDark, packets: 1 },
+      { from: 'obj2', to: 'bkt', color: P.outputDark, packets: 1 },
+      { from: 'bkt', to: 'lake', color: P.processDark, packets: 2, label: 'put / get API' },
     ],
   },
+  // 9. Rekap arsitektur data end-to-end
   {
     nodes: [
-      { id: 'src', type: 'source', x: -2.8, y: 1.4, label: 'Sumber', color: P.raw },
-      { id: 'ing', type: 'funnel', x: -1.5, y: 0.7, label: 'Ingestion', color: P.process },
-      { id: 'sto', type: 'disk', x: -0.2, y: 0.0, label: 'Storage', color: P.process },
-      { id: 'com', type: 'factory', x: 1.1, y: -0.7, label: 'Compute', color: P.process, scale: 0.9 },
-      { id: 'srv', type: 'dashboard', x: 3.1, y: -2.0, label: 'Serving' },
+      { id: 's', type: 'start', x: -2.0, y: -0.55, label: '1. Sumber', sub: 'DB · IoT · App', color: P.raw },
+      { id: 'i', type: 'io', x: -0.35, y: -0.55, label: '2. Ingestion', sub: 'batch / stream', color: P.blueSoft },
+      { id: 'st', type: 'process', x: 1.35, y: -0.55, label: '3. Storage', sub: 'HDFS / Lake', color: P.process },
+      { id: 'c', type: 'process', x: -0.35, y: 0.7, label: '4. Compute', sub: 'Spark / Engine', color: P.violet },
+      { id: 'sv', type: 'end', x: 1.35, y: 0.7, label: '5. Serving', sub: 'BI · ML · API', color: P.green },
     ],
     links: [
-      { from: 'src', to: 'ing', color: P.rawDark, packets: 2 },
-      { from: 'ing', to: 'sto', color: P.process, packets: 2 },
-      { from: 'sto', to: 'com', color: P.process, packets: 2 },
-      { from: 'com', to: 'srv', color: P.output, packets: 2, label: 'insight' },
+      { from: 's', to: 'i', color: P.rawDark, packets: 2 },
+      { from: 'i', to: 'st', color: P.processDark, packets: 2 },
+      { from: 'st', to: 'c', color: P.processDark, packets: 2 },
+      { from: 'c', to: 'sv', color: P.greenDark, packets: 2, label: 'insight' },
     ],
   },
 ]
 
 /* ------------------------------------------------------------------ */
-/* Hadoop, MapReduce, YARN & Hive                                      */
+/* 2. Hadoop, MapReduce, YARN & Hive (12 steps)                        */
 /* ------------------------------------------------------------------ */
 
 const hadoop: IsoScene[] = [
+  // 1. Masalah file 1 TB di satu server
   {
     nodes: [
-      { id: 'file', type: 'file', x: -2.6, y: 1.2, label: '1 TB event', color: P.raw, scale: 1.2 },
-      { id: 'srv', type: 'server', x: 0.2, y: -0.2, label: 'SERVER 01', status: 'smoke', scale: 1.05 },
-      { id: 'b1', type: 'block', x: 1.3, y: 0.6, color: P.raw, scale: 0.8 },
-      { id: 'b2', type: 'block', x: 1.8, y: 0.2, color: P.process, scale: 0.72 },
-      { id: 'b3', type: 'block', x: 0.9, y: 1.1, color: P.violet, scale: 0.72 },
-      { id: 'b4', type: 'block', x: 2.1, y: 0.8, color: P.output, scale: 0.68 },
-      { id: 'b5', type: 'block', x: 2.5, y: 1.1, color: P.raw, scale: 0.62 },
-      { id: 'b6', type: 'block', x: 2.9, y: 0.6, color: P.process, scale: 0.56 },
-      { id: 'b7', type: 'block', x: 2.6, y: 1.5, color: P.violet, scale: 0.5 },
+      { id: 'f', type: 'io', x: -1.7, y: 0, label: '1 TB Event Log', sub: '1 file raksasa', color: P.raw },
+      { id: 'srv', type: 'process', x: 0, y: 0, label: 'Server Tunggal', sub: 'disk penuh + crash', color: P.redSoft, status: 'failed' },
+      { id: 'fail', type: 'end', x: 1.75, y: 0, label: 'Job Berhenti Total', status: 'failed' },
     ],
     links: [
-      { from: 'file', to: 'srv', label: '1 TB', color: P.danger, packets: 2 },
+      { from: 'f', to: 'srv', color: P.dangerDark, packets: 2, label: 'I/O jenuh' },
+      { from: 'srv', to: 'fail', color: P.dangerDark, dashed: true, packets: 2 },
     ],
   },
+  // 2. Ekosistem Hadoop (5 komponen)
   {
     nodes: [
-      { id: 'hdfs', type: 'disk', x: -2.6, y: 1.2, label: 'HDFS', color: P.process },
-      { id: 'yarn', type: 'tower', x: -1.3, y: 0.6, label: 'YARN', color: P.process },
-      { id: 'mr', type: 'factory', x: 0, y: 0, label: 'MapReduce', color: P.process },
-      { id: 'hive', type: 'hive', x: 1.3, y: -0.6, label: 'Hive', color: P.output },
-      { id: 'hbase', type: 'grid', x: 2.6, y: -1.2, label: 'HBase', color: P.violet },
-    ],
-  },
-  {
-    nodes: [
-      { id: 'job', type: 'file', x: -2.6, y: 1.2, label: 'JOB (kode)', color: P.process, scale: 0.95 },
-      { id: 'na', type: 'server', x: 0.4, y: 0.0, label: 'NODE A', color: P.process, status: 'active' },
-      { id: 'nb', type: 'server', x: 1.8, y: -0.8, label: 'NODE B', color: P.process },
-      { id: 'd1', type: 'block', x: 0.4, y: 0.9, color: P.raw, label: 'blok' },
-      { id: 'd2', type: 'block', x: 1.8, y: 0.1, color: P.raw },
+      { id: 'hdfs', type: 'process', x: -1.5, y: 0.65, label: 'HDFS', sub: 'simpan terdistribusi', color: P.process },
+      { id: 'yarn', type: 'process', x: 0, y: 0.65, label: 'YARN', sub: 'bagi CPU & RAM', color: P.violet },
+      { id: 'mr', type: 'process', x: 1.5, y: 0.65, label: 'MapReduce', sub: 'komputasi paralel', color: P.green },
+      { id: 'hive', type: 'codebox', x: -0.85, y: -0.65, label: 'Hive (SQL Engine)', sub: 'query deklaratif', color: P.output },
+      { id: 'hb', type: 'codebox', x: 0.95, y: -0.65, label: 'HBase (NoSQL)', sub: 'akses acak real-time', color: P.blueSoft },
     ],
     links: [
-      { from: 'job', to: 'na', color: P.process, packets: 2, label: 'kode kecil' },
+      { from: 'hive', to: 'mr', color: P.outputDark, dashed: true, packets: 1 },
+      { from: 'hive', to: 'yarn', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'hb', to: 'hdfs', color: P.processDark, dashed: true, packets: 1 },
+      { from: 'yarn', to: 'mr', color: P.processDark, packets: 1 },
     ],
   },
+  // 3. Move compute to data
   {
     nodes: [
-      { id: 'file', type: 'file', x: -2.8, y: 1.2, label: 'FILE 1 TB', color: P.raw, scale: 1.15 },
-      { id: 'wall', type: 'wall', x: -1.4, y: 0.6, label: 'laser split' },
-      { id: 's1', type: 'block', x: 0.2, y: 0.4, color: P.raw, label: 'S1' },
-      { id: 's2', type: 'block', x: 1.0, y: 0.0, color: P.raw, label: 'S2' },
-      { id: 's3', type: 'block', x: 1.8, y: -0.4, color: P.raw, label: 'S3' },
-      { id: 's4', type: 'block', x: 2.6, y: -0.8, color: P.raw, label: 'S4' },
+      { id: 'job', type: 'codebox', x: -1.55, y: -0.45, label: 'Kode Program', sub: 'hanya beberapa KB', color: P.green },
+      { id: 'node', type: 'process', x: 0.95, y: -0.45, label: 'Node A (Data Lokal)', sub: 'menyimpan 1 TB blok', color: P.process },
+      { id: 'bad', type: 'end', x: 0.95, y: 0.75, label: 'Hindari Tarik 1 TB lewat Jaringan', status: 'failed' },
     ],
     links: [
-      { from: 'file', to: 's1', color: P.ink2, dashed: true, packets: 1, label: '128 MB' },
-      { from: 'file', to: 's2', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'file', to: 's3', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'file', to: 's4', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'job', to: 'node', color: P.greenDark, packets: 2, label: 'kirim kode kecil' },
+      { from: 'node', to: 'bad', color: P.dangerDark, dashed: true, packets: 1, label: 'mahal!' },
     ],
   },
+  // 4. Input Split
   {
     nodes: [
-      { id: 'split', type: 'file', x: -2.6, y: 1.2, label: 'Split', color: P.raw, scale: 0.9 },
-      { id: 'm1', type: 'factory', x: -0.6, y: 1.0, label: 'Map 1', color: P.process, scale: 0.85 },
-      { id: 'm2', type: 'factory', x: 0.7, y: 0.4, label: 'Map 2', color: P.process, scale: 0.85 },
-      { id: 'm3', type: 'factory', x: 2.0, y: -0.2, label: 'Map 3', color: P.process, scale: 0.85 },
-      { id: 'k1', type: 'block', x: -0.6, y: 1.75, color: P.output, label: '(kota,1)' },
-      { id: 'k2', type: 'block', x: 0.7, y: 1.15, color: P.blueSoft, label: '(kota,1)' },
-      { id: 'k3', type: 'block', x: 2.0, y: 0.55, color: P.output, label: '(kota,1)' },
+      { id: 'f', type: 'io', x: -1.7, y: 0, label: 'File 1 TB (HDFS)', color: P.raw },
+      { id: 'sp', type: 'process', x: -0.1, y: 0, label: 'InputSplit', sub: '128 MB / unit', color: P.output },
+      { id: 's1', type: 'codebox', x: 1.65, y: -0.8, label: 'Split 1 → Map 1', color: P.process },
+      { id: 's2', type: 'codebox', x: 1.65, y: 0, label: 'Split 2 → Map 2', color: P.process },
+      { id: 's3', type: 'codebox', x: 1.65, y: 0.8, label: 'Split 3 → Map 3', color: P.process },
     ],
     links: [
-      { from: 'split', to: 'm1', color: P.ink2, dashed: true, packets: 2 },
-      { from: 'split', to: 'm2', color: P.ink2, dashed: true, packets: 2 },
-      { from: 'split', to: 'm3', color: P.ink2, dashed: true, packets: 2 },
-      { from: 'm1', to: 'k1', color: P.ink2, packets: 1 },
-      { from: 'm2', to: 'k2', color: P.ink2, packets: 1 },
-      { from: 'm3', to: 'k3', color: P.ink2, packets: 1 },
+      { from: 'f', to: 'sp', color: P.ink2, packets: 2 },
+      { from: 'sp', to: 's1', color: P.processDark, packets: 1 },
+      { from: 'sp', to: 's2', color: P.processDark, packets: 1 },
+      { from: 'sp', to: 's3', color: P.processDark, packets: 1 },
     ],
   },
+  // 5. Fase Map
   {
     nodes: [
-      { id: 'c1', type: 'block', x: -2.9, y: 1.0, color: P.raw, scale: 0.62 },
-      { id: 'c2', type: 'block', x: -2.5, y: 1.4, color: P.process, scale: 0.62 },
-      { id: 'c3', type: 'block', x: -2.1, y: 1.8, color: P.violet, scale: 0.62 },
-      { id: 'c4', type: 'block', x: -2.5, y: 0.9, color: P.raw, scale: 0.58 },
-      { id: 'c5', type: 'block', x: -2.1, y: 1.3, color: P.process, scale: 0.58 },
-      { id: 'c6', type: 'block', x: -1.7, y: 1.7, color: P.violet, scale: 0.58 },
-      { id: 'fun', type: 'funnel', x: 0, y: 0.4, label: 'Combiner', color: P.process },
-      { id: 'out', type: 'block', x: 2.2, y: -0.4, color: P.output, label: '1000', scale: 1.7 },
+      { id: 's1', type: 'io', x: -1.6, y: -0.65, label: 'Split 1: "Aceh Bandung"', color: P.raw },
+      { id: 's2', type: 'io', x: -1.6, y: 0.65, label: 'Split 2: "Aceh Medan"', color: P.raw },
+      { id: 'm1', type: 'process', x: 0.1, y: -0.65, label: 'Mapper 1', sub: 'independen', color: P.process },
+      { id: 'm2', type: 'process', x: 0.1, y: 0.65, label: 'Mapper 2', sub: 'independen', color: P.process },
+      { id: 'o1', type: 'codebox', x: 1.7, y: -0.65, label: '(Aceh,1), (Bandung,1)', color: P.output },
+      { id: 'o2', type: 'codebox', x: 1.7, y: 0.65, label: '(Aceh,1), (Medan,1)', color: P.output },
     ],
     links: [
-      { from: 'c1', to: 'fun', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'c3', to: 'fun', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'c5', to: 'fun', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'c6', to: 'fun', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'fun', to: 'out', color: P.output, packets: 2, label: 'mini reduce' },
+      { from: 's1', to: 'm1', color: P.processDark, packets: 2 },
+      { from: 's2', to: 'm2', color: P.processDark, packets: 2 },
+      { from: 'm1', to: 'o1', color: P.outputDark, packets: 1 },
+      { from: 'm2', to: 'o2', color: P.outputDark, packets: 1 },
     ],
   },
+  // 6. Combiner (mini-reduce lokal)
   {
     nodes: [
-      { id: 'm1', type: 'factory', x: -2.8, y: 1.3, label: 'Map 1', color: P.process, scale: 0.78 },
-      { id: 'm2', type: 'factory', x: -2.0, y: 0.9, label: 'Map 2', color: P.process, scale: 0.78 },
-      { id: 'm3', type: 'factory', x: -1.2, y: 0.5, label: 'Map 3', color: P.process, scale: 0.78 },
-      { id: 'r1', type: 'factory', x: 1.4, y: -0.2, label: 'Reduce 1', color: P.output, scale: 0.88 },
-      { id: 'r2', type: 'factory', x: 2.6, y: -0.8, label: 'Reduce 2', color: P.output, scale: 0.88 },
+      { id: 'raw', type: 'io', x: -1.75, y: 0, label: '1.000.000x', sub: '(kota, 1)', color: P.raw },
+      { id: 'dec', type: 'decision', x: -0.15, y: 0, label: 'Asosiatif?', color: P.goldSoft },
+      { id: 'cmb', type: 'process', x: 1.4, y: -0.55, label: 'Combiner Lokal', sub: 'padat di sisi map', color: P.violet },
+      { id: 'out', type: 'end', x: 1.4, y: 0.65, label: '1.000x (kota, 1000)', sub: 'hemat jaringan!', color: P.green },
     ],
     links: [
-      { from: 'm1', to: 'r1', color: P.danger, dashed: true, packets: 2, lift: 54 },
-      { from: 'm2', to: 'r2', color: P.danger, dashed: true, packets: 2, lift: 14 },
-      { from: 'm3', to: 'r1', color: P.danger, dashed: true, packets: 2, lift: 74 },
-      { from: 'm1', to: 'r2', color: P.danger, dashed: true, packets: 1, lift: 96 },
+      { from: 'raw', to: 'dec', color: P.ink2, packets: 2 },
+      { from: 'dec', to: 'cmb', color: P.processDark, packets: 2, label: 'Ya' },
+      { from: 'cmb', to: 'out', color: P.greenDark, packets: 2, label: 'mini-reduce' },
     ],
   },
+  // 7. Shuffle & Sort
   {
     nodes: [
-      { id: 'red', type: 'factory', x: -1.6, y: 0.8, label: 'Reducer', color: P.output, scale: 1.05 },
-      { id: 'r1', type: 'disk', x: 0.6, y: -0.2, label: 'Replica 1', color: P.output },
-      { id: 'r2', type: 'disk', x: 1.6, y: -0.8, label: 'Replica 2', color: P.output },
-      { id: 'r3', type: 'disk', x: 2.6, y: -1.4, label: 'Replica 3', color: P.output },
+      { id: 'm1', type: 'process', x: -1.65, y: -0.65, label: 'Mapper 1', color: P.process },
+      { id: 'm2', type: 'process', x: -1.65, y: 0.65, label: 'Mapper 2', color: P.process },
+      { id: 'pt', type: 'codebox', x: 0, y: 0, label: 'Shuffle & Sort', sub: 'hash(key) lintas node', color: P.redSoft, status: 'failed' },
+      { id: 'r1', type: 'process', x: 1.65, y: -0.65, label: 'Reducer 1', color: P.output },
+      { id: 'r2', type: 'process', x: 1.65, y: 0.65, label: 'Reducer 2', color: P.output },
     ],
     links: [
-      { from: 'red', to: 'r1', color: P.output, packets: 2 },
-      { from: 'red', to: 'r2', color: P.output, packets: 2 },
-      { from: 'red', to: 'r3', color: P.output, packets: 2 },
+      { from: 'm1', to: 'pt', color: P.dangerDark, dashed: true, packets: 2 },
+      { from: 'm2', to: 'pt', color: P.dangerDark, dashed: true, packets: 2 },
+      { from: 'pt', to: 'r1', color: P.dangerDark, dashed: true, packets: 2, label: 'bottleneck I/O' },
+      { from: 'pt', to: 'r2', color: P.dangerDark, dashed: true, packets: 2 },
     ],
   },
+  // 8. Reduce & Output HDFS
   {
     nodes: [
-      { id: 'jak', type: 'truck', x: -2.8, y: 1.2, label: 'Jakarta 80%', color: P.danger, status: 'overloaded' },
-      { id: 'j1', type: 'truck', x: -0.2, y: 0.2, label: 'J1', color: P.output, scale: 0.8 },
-      { id: 'j2', type: 'truck', x: 0.6, y: -0.2, label: 'J2', color: P.output, scale: 0.8 },
-      { id: 'j3', type: 'truck', x: 1.4, y: -0.6, label: 'J3', color: P.output, scale: 0.8 },
-      { id: 'j4', type: 'truck', x: 2.2, y: -1.0, label: 'J4', color: P.output, scale: 0.8 },
+      { id: 'grp', type: 'io', x: -1.7, y: 0, label: 'Group By Key', sub: 'Aceh: [1, 1, 1]', color: P.violet },
+      { id: 'red', type: 'process', x: -0.05, y: 0, label: 'Reducer', sub: 'jumlah & agregasi', color: P.output },
+      { id: 'hdfs', type: 'end', x: 1.7, y: 0, label: 'Output HDFS (3x)', sub: 'part-r-00000', color: P.green },
     ],
     links: [
-      { from: 'jak', to: 'j1', color: P.danger, dashed: true, packets: 1 },
-      { from: 'jak', to: 'j2', color: P.danger, dashed: true, packets: 1 },
-      { from: 'jak', to: 'j3', color: P.danger, dashed: true, packets: 1 },
-      { from: 'jak', to: 'j4', color: P.danger, dashed: true, packets: 1 },
+      { from: 'grp', to: 'red', color: P.outputDark, packets: 2 },
+      { from: 'red', to: 'hdfs', color: P.greenDark, packets: 2, label: 'replikasi 3' },
     ],
   },
+  // 9. Data Skew & Salting
   {
     nodes: [
-      { id: 'rm', type: 'tower', x: -2.6, y: 1.2, label: 'ResourceManager', color: P.process },
-      { id: 'am', type: 'container', x: -0.2, y: 0.2, label: 'AM · container', color: P.output },
-      { id: 'nm1', type: 'container', x: 1.0, y: -0.4, label: 'NodeManager 1', color: P.blueSoft },
-      { id: 'nm2', type: 'container', x: 2.2, y: -1.0, label: 'NodeManager 2', color: P.blueSoft },
+      { id: 'sk', type: 'decision', x: -1.55, y: 0, label: '80% "Jakarta"?', status: 'failed', color: P.redSoft },
+      { id: 'bad', type: 'end', x: 0.3, y: -0.7, label: 'Macet di 99%', sub: '1 reducer overload', status: 'failed' },
+      { id: 'slt', type: 'process', x: 0.3, y: 0.7, label: 'Terapkan Salting', sub: 'Jakarta-0 … Jakarta-9', color: P.green },
+      { id: 'ok', type: 'end', x: 1.9, y: 0.7, label: 'Beban Merata', color: P.green },
     ],
     links: [
-      { from: 'rm', to: 'am', color: P.ink2, dashed: true, packets: 2 },
-      { from: 'rm', to: 'nm1', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'rm', to: 'nm2', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'sk', to: 'bad', color: P.dangerDark, dashed: true, packets: 2, label: 'tanpa salt' },
+      { from: 'sk', to: 'slt', color: P.greenDark, packets: 2, label: 'solusi' },
+      { from: 'slt', to: 'ok', color: P.greenDark, packets: 2 },
     ],
   },
+  // 10. Arsitektur YARN
   {
     nodes: [
-      { id: 'hive', type: 'hive', x: -2.6, y: 1.2, label: 'Hive', color: P.output },
-      { id: 'meta', type: 'book', x: -0.8, y: 0.2, label: 'Metastore' },
-      { id: 'd1', type: 'folder', x: 0.6, y: -0.4, label: 'dt=09-01' },
-      { id: 'd2', type: 'folder', x: 1.6, y: -0.9, label: 'dt=09-02' },
-      { id: 'd3', type: 'folder', x: 2.6, y: -1.4, label: 'dt=09-03' },
+      { id: 'rm', type: 'codebox', x: 0, y: -1.0, label: 'ResourceManager', sub: 'scheduler global CPU/RAM', color: P.process },
+      { id: 'nm1', type: 'process', x: -1.35, y: 0.4, label: 'NodeManager 1', sub: 'Container + AppMaster', color: P.output },
+      { id: 'nm2', type: 'process', x: 1.35, y: 0.4, label: 'NodeManager 2', sub: 'Container Task A & B', color: P.blueSoft },
     ],
     links: [
-      { from: 'hive', to: 'meta', color: P.process, packets: 2, label: 'SQL' },
-      { from: 'meta', to: 'd1', color: P.output, dashed: true, packets: 1 },
-      { from: 'meta', to: 'd2', color: P.output, dashed: true, packets: 1 },
-      { from: 'meta', to: 'd3', color: P.output, dashed: true, packets: 1 },
+      { from: 'rm', to: 'nm1', color: P.processDark, packets: 2, label: 'alokasi container' },
+      { from: 'rm', to: 'nm2', color: P.processDark, packets: 2, label: 'pantau resource' },
+      { from: 'nm1', to: 'nm2', color: P.ink2, dashed: true, packets: 1, label: 'koordinasi AM' },
     ],
   },
+  // 11. Hive Metastore & Partisi
   {
     nodes: [
-      { id: 'file', type: 'file', x: -2.6, y: 1.2, label: 'Parquet / ORC', color: P.output, scale: 1.1 },
-      { id: 'q', type: 'funnel', x: -0.6, y: 0.2, label: 'Query', color: P.process },
-      { id: 'dash', type: 'dashboard', x: 1.8, y: -0.8, label: 'Revenue' },
+      { id: 'sql', type: 'io', x: -1.75, y: -0.45, label: 'SQL SELECT', sub: "WHERE dt='09-02'", color: P.output },
+      { id: 'ms', type: 'codebox', x: 0, y: -0.45, label: 'Hive Metastore', sub: 'katalog skema + partisi', color: P.violet },
+      { id: 'd1', type: 'end', x: -0.8, y: 0.75, label: 'dt=09-01 (Lewati)', color: P.raw },
+      { id: 'd2', type: 'end', x: 1.25, y: 0.75, label: 'dt=09-02 (Baca!)', color: P.green },
     ],
     links: [
-      { from: 'file', to: 'q', color: P.output, packets: 2, label: 'baca kolom' },
-      { from: 'q', to: 'dash', color: P.output, packets: 2, label: 'BI' },
+      { from: 'sql', to: 'ms', color: P.processDark, packets: 2 },
+      { from: 'ms', to: 'd1', color: P.rawDark, dashed: true, packets: 1, label: 'prune' },
+      { from: 'ms', to: 'd2', color: P.greenDark, packets: 2, label: 'partition pruning' },
+    ],
+  },
+  // 12. Format Kolumnar & Hasil Analitik
+  {
+    nodes: [
+      { id: 'col', type: 'io', x: -1.7, y: 0, label: 'Parquet / ORC', sub: 'format kolumnar', color: P.output },
+      { id: 'cbo', type: 'process', x: 0, y: 0, label: 'Column Pruning + CBO', sub: 'hindari SELECT *', color: P.process },
+      { id: 'bi', type: 'end', x: 1.75, y: 0, label: 'Query Cepat → BI', color: P.green },
+    ],
+    links: [
+      { from: 'col', to: 'cbo', color: P.outputDark, packets: 2 },
+      { from: 'cbo', to: 'bi', color: P.greenDark, packets: 2, label: 'baca kolom perlu' },
     ],
   },
 ]
 
 /* ------------------------------------------------------------------ */
-/* Apache Spark & Optimasi ETL                                         */
+/* 3. Apache Spark & Optimasi ETL (11 steps)                           */
 /* ------------------------------------------------------------------ */
 
 const spark: IsoScene[] = [
+  // 1. Masalah I/O MapReduce
   {
     nodes: [
-      { id: 'd1', type: 'disk', x: -1.6, y: 0.8, label: 'Fase 1', color: P.raw, status: 'tired' },
-      { id: 'd2', type: 'disk', x: 1.6, y: -0.8, label: 'Fase 2', color: P.raw, status: 'tired' },
+      { id: 'f1', type: 'process', x: -1.65, y: 0, label: 'MapReduce Fase 1', color: P.process },
+      { id: 'hdfs', type: 'codebox', x: 0, y: 0, label: 'Tulis & Baca HDFS', sub: 'disk I/O mahal', status: 'failed', color: P.redSoft },
+      { id: 'f2', type: 'process', x: 1.65, y: 0, label: 'MapReduce Fase 2', color: P.process },
     ],
     links: [
-      { from: 'd1', to: 'd2', color: P.danger, dashed: true, packets: 2, label: 'tulis HDFS', lift: 34 },
-      { from: 'd2', to: 'd1', color: P.danger, dashed: true, packets: 2, label: 'baca', lift: 132, reverse: true },
+      { from: 'f1', to: 'hdfs', color: P.dangerDark, dashed: true, packets: 2, label: 'tulis disk' },
+      { from: 'hdfs', to: 'f2', color: P.dangerDark, dashed: true, packets: 2, label: 'baca lagi' },
     ],
   },
+  // 2. Spark In-Memory & DAG
   {
     nodes: [
-      { id: 'chip', type: 'chip', x: 0, y: 0, label: 'SPARK · in-memory' },
-      { id: 'b1', type: 'block', x: -2.2, y: 1.2, color: P.raw },
-      { id: 'b2', type: 'block', x: -1.2, y: 1.8, color: P.process },
-      { id: 'b3', type: 'block', x: 1.2, y: -0.6, color: P.output },
-      { id: 'b4', type: 'block', x: 2.1, y: 0.1, color: P.violet },
-    ],
-  },
-  {
-    nodes: [
-      { id: 'drv', type: 'tower', x: -2.6, y: 1.2, label: 'Driver', color: P.process },
-      { id: 'e1', type: 'server', x: 0.0, y: 0.2, label: 'Executor 1', color: P.greenDark, status: 'active' },
-      { id: 'e2', type: 'server', x: 1.2, y: -0.4, label: 'Executor 2', color: P.greenDark },
-      { id: 'e3', type: 'server', x: 2.4, y: -1.0, label: 'Executor 3', color: P.greenDark },
+      { id: 'in', type: 'io', x: -1.75, y: 0, label: 'Data Masuk', color: P.raw },
+      { id: 'ram', type: 'process', x: 0, y: 0, label: 'Spark In-Memory RAM', sub: 'rantai DAG tanpa spill', color: P.green },
+      { id: 'out', type: 'end', x: 1.75, y: 0, label: 'Iterasi Cepat', color: P.green },
     ],
     links: [
-      { from: 'drv', to: 'e1', color: P.process, dashed: true, packets: 2, label: 'task' },
-      { from: 'drv', to: 'e2', color: P.process, dashed: true, packets: 2 },
-      { from: 'drv', to: 'e3', color: P.process, dashed: true, packets: 2 },
+      { from: 'in', to: 'ram', color: P.greenDark, packets: 2 },
+      { from: 'ram', to: 'out', color: P.greenDark, packets: 2, label: 'cache memori' },
     ],
   },
+  // 3. Arsitektur Cluster Spark
   {
     nodes: [
-      { id: 'read', type: 'block', x: -2.8, y: 1.3, color: P.raw, label: 'read', scale: 1.3 },
-      { id: 'filter', type: 'block', x: -1.6, y: 0.7, color: P.process, label: 'filter', scale: 1.3 },
-      { id: 'group', type: 'block', x: -0.4, y: 0.1, color: P.violet, label: 'groupBy', scale: 1.3 },
-      { id: 'show', type: 'block', x: 0.8, y: -0.5, color: P.green, label: 'show()', scale: 1.3 },
+      { id: 'drv', type: 'codebox', x: -1.65, y: 0, label: 'Spark Driver', sub: 'SparkSession + DAG', color: P.process },
+      { id: 'cm', type: 'decision', x: -0.05, y: 0, label: 'Cluster Mgr', sub: 'YARN / K8s', color: P.goldSoft },
+      { id: 'e1', type: 'process', x: 1.65, y: -0.75, label: 'Executor 1 (Cache)', color: P.green },
+      { id: 'e2', type: 'process', x: 1.65, y: 0, label: 'Executor 2 (Cache)', color: P.green },
+      { id: 'e3', type: 'process', x: 1.65, y: 0.75, label: 'Executor 3 (Cache)', color: P.green },
     ],
     links: [
-      { from: 'read', to: 'filter', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'filter', to: 'group', color: P.ink2, dashed: true, packets: 1 },
-      { from: 'group', to: 'show', color: P.greenDark, dashed: true, packets: 1 },
+      { from: 'drv', to: 'cm', color: P.processDark, packets: 2, label: 'minta slot' },
+      { from: 'cm', to: 'e1', color: P.greenDark, packets: 1 },
+      { from: 'cm', to: 'e2', color: P.greenDark, packets: 1 },
+      { from: 'cm', to: 'e3', color: P.greenDark, packets: 1 },
     ],
   },
+  // 4. Lazy Evaluation & DAG
   {
     nodes: [
-      { id: 'prism', type: 'prism', x: -2.2, y: 0.9, label: 'Catalyst' },
-      { id: 'a', type: 'block', x: 0.0, y: 0.3, color: P.raw, label: 'Analysis', scale: 1.5 },
-      { id: 'l', type: 'block', x: 0.9, y: -0.15, color: P.process, label: 'Logical', scale: 1.5 },
-      { id: 'p', type: 'block', x: 1.8, y: -0.6, color: P.violet, label: 'Physical', scale: 1.5 },
-      { id: 'c', type: 'block', x: 2.7, y: -1.05, color: P.output, label: 'Codegen', scale: 1.5 },
+      { id: 'r', type: 'io', x: -1.85, y: 0, label: 'read()', sub: 'lazy', color: P.raw },
+      { id: 'f', type: 'process', x: -0.65, y: 0, label: 'filter()', sub: 'lazy plan', color: P.blueSoft },
+      { id: 'g', type: 'process', x: 0.6, y: 0, label: 'groupBy()', sub: 'lazy plan', color: P.violet },
+      { id: 'act', type: 'end', x: 1.85, y: 0, label: 'show() / write()', sub: 'ACTION → eksekusi!', color: P.green },
     ],
     links: [
-      { from: 'prism', to: 'a', color: P.violet, dashed: true, packets: 1 },
-      { from: 'prism', to: 'l', color: P.violet, dashed: true, packets: 1 },
-      { from: 'prism', to: 'p', color: P.violet, dashed: true, packets: 1 },
-      { from: 'prism', to: 'c', color: P.violet, dashed: true, packets: 1 },
+      { from: 'r', to: 'f', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'f', to: 'g', color: P.ink2, dashed: true, packets: 1 },
+      { from: 'g', to: 'act', color: P.greenDark, packets: 2, label: 'nyalakan DAG' },
     ],
   },
+  // 5. Catalyst Optimizer & Tungsten
   {
     nodes: [
-      { id: 's1', type: 'block', x: -2.8, y: 1.3, color: P.process, label: 'Stage 1', scale: 1.5 },
-      { id: 's2', type: 'block', x: 2.8, y: -1.3, color: P.output, label: 'Stage 2', scale: 1.5 },
-      { id: 'wall', type: 'wall', x: 0, y: 0, label: 'stage boundary' },
+      { id: 'an', type: 'process', x: -1.8, y: 0, label: '1. Analysis', sub: 'cek skema', color: P.raw },
+      { id: 'lg', type: 'process', x: -0.6, y: 0, label: '2. Logical Plan', sub: 'pushdown + prune', color: P.blueSoft },
+      { id: 'ph', type: 'process', x: 0.65, y: 0, label: '3. Physical Plan', sub: 'pilih join terbaik', color: P.violet },
+      { id: 'cg', type: 'end', x: 1.85, y: 0, label: '4. Tungsten Codegen', color: P.output },
     ],
     links: [
-      { from: 's1', to: 's2', color: P.process, packets: 2, label: 'narrow · tanpa shuffle', lift: 118 },
-      { from: 's1', to: 's2', color: P.danger, dashed: true, packets: 2, label: 'wide · shuffle', lift: 24 },
+      { from: 'an', to: 'lg', color: P.processDark, packets: 2 },
+      { from: 'lg', to: 'ph', color: P.processDark, packets: 2 },
+      { from: 'ph', to: 'cg', color: P.outputDark, packets: 2 },
     ],
   },
+  // 6. Narrow vs Wide Transformation (Shuffle Boundary)
   {
     nodes: [
-      { id: 'bronze', type: 'block', x: -2.8, y: 1.3, color: P.raw, label: 'Bronze', scale: 1.6 },
-      { id: 'q', type: 'filter', x: 0, y: 0.2, label: 'null · tipe · negatif · duplikat' },
-      { id: 'silver', type: 'block', x: 2.2, y: -0.8, color: P.process, label: 'Silver', scale: 1.5 },
+      { id: 's1', type: 'process', x: -1.55, y: -0.65, label: 'filter() / map()', sub: '1 partisi → 1 partisi', color: P.green },
+      { id: 's2', type: 'end', x: 1.55, y: -0.65, label: 'Narrow (Tanpa Shuffle)', color: P.green },
+      { id: 'w1', type: 'process', x: -1.55, y: 0.65, label: 'groupBy() / join()', sub: 'lintas banyak partisi', color: P.redSoft, status: 'failed' },
+      { id: 'w2', type: 'end', x: 1.55, y: 0.65, label: 'Wide (Batas Stage + Shuffle)', status: 'failed' },
     ],
     links: [
-      { from: 'bronze', to: 'q', color: P.rawDark, packets: 2 },
-      { from: 'q', to: 'silver', color: P.process, packets: 2 },
+      { from: 's1', to: 's2', color: P.greenDark, packets: 2, label: 'cepat (lokal)' },
+      { from: 'w1', to: 'w2', color: P.dangerDark, dashed: true, packets: 2, label: 'shuffle jaringan!' },
     ],
   },
+  // 7. Medallion Bronze -> Silver
   {
     nodes: [
-      { id: 'silver', type: 'block', x: -2.8, y: 1.3, color: P.process, label: 'Silver', scale: 1.4 },
-      { id: 'bc', type: 'tower', x: -1.0, y: 0.4, label: 'Broadcast', color: P.output },
-      { id: 'e1', type: 'server', x: 0.6, y: -0.2, label: 'Exec 1', color: P.greenDark, scale: 0.85 },
-      { id: 'e2', type: 'server', x: 1.6, y: -0.8, label: 'Exec 2', color: P.greenDark, scale: 0.85 },
-      { id: 'gold', type: 'block', x: 2.9, y: -1.5, color: P.output, label: 'Gold', scale: 1.4 },
+      { id: 'br', type: 'io', x: -1.7, y: 0, label: 'Bronze Layer', sub: 'JSON mentah', color: P.raw },
+      { id: 'qc', type: 'decision', x: -0.05, y: 0, label: 'Quality Check', sub: 'null · tipe · duplikat', color: P.goldSoft },
+      { id: 'sv', type: 'end', x: 1.7, y: 0, label: 'Silver Parquet', sub: 'partisi dt=...', color: P.process },
     ],
     links: [
-      { from: 'silver', to: 'bc', color: P.process, dashed: true, packets: 2 },
-      { from: 'bc', to: 'e1', color: P.output, dashed: true, packets: 2, label: 'broadcast' },
-      { from: 'bc', to: 'e2', color: P.output, dashed: true, packets: 2 },
-      { from: 'e2', to: 'gold', color: P.greenDark, packets: 2, label: 'revenue' },
+      { from: 'br', to: 'qc', color: P.ink2, packets: 2 },
+      { from: 'qc', to: 'sv', color: P.processDark, packets: 2, label: 'bersih & tervalidasi' },
     ],
   },
+  // 8. Silver -> Gold & Broadcast Join
   {
     nodes: [
-      { id: 'g', type: 'gauge', x: -0.6, y: 0.2, label: 'shuffle partitions' },
-      { id: 'e1', type: 'block', x: -2.9, y: 1.0, color: P.rawDark, scale: 0.7 },
-      { id: 'e2', type: 'block', x: -2.4, y: 0.5, color: P.raw, scale: 0.7 },
-      { id: 'e3', type: 'block', x: -1.9, y: 0.0, color: P.rawDark, scale: 0.7 },
-      { id: 'e4', type: 'block', x: -2.4, y: 1.5, color: P.raw, scale: 0.66 },
-      { id: 'e5', type: 'block', x: -1.9, y: 1.0, color: P.rawDark, scale: 0.66 },
-      { id: 'e6', type: 'block', x: -1.4, y: 0.5, color: P.raw, scale: 0.66 },
-      { id: 'f1', type: 'block', x: 1.2, y: -0.2, color: P.process, scale: 0.8 },
-      { id: 'f2', type: 'block', x: 1.7, y: -0.7, color: P.output, scale: 0.8 },
-      { id: 'f3', type: 'block', x: 2.2, y: -1.2, color: P.process, scale: 0.8 },
-      { id: 'f4', type: 'block', x: 2.7, y: -1.7, color: P.output, scale: 0.8 },
-      { id: 'f5', type: 'block', x: 1.7, y: 0.3, color: P.output, scale: 0.76 },
-      { id: 'f6', type: 'block', x: 2.2, y: -0.2, color: P.process, scale: 0.76 },
-      { id: 'f7', type: 'block', x: 2.7, y: -0.7, color: P.output, scale: 0.76 },
-      { id: 'f8', type: 'block', x: 3.2, y: -1.2, color: P.process, scale: 0.76 },
+      { id: 'dim', type: 'io', x: -1.55, y: -0.65, label: 'Tabel Produk Kecil', color: P.output },
+      { id: 'bc', type: 'codebox', x: 0.1, y: -0.65, label: 'Broadcast Join', sub: 'salin ke semua executor', color: P.green },
+      { id: 'sv', type: 'process', x: -1.55, y: 0.65, label: 'Data Silver Besar', color: P.process },
+      { id: 'gd', type: 'end', x: 1.65, y: 0, label: 'Gold Table', sub: 'revenue · KPI bisnis', color: P.output },
     ],
     links: [
-      { from: 'e3', to: 'g', color: P.rawDark, dashed: true, packets: 1 },
-      { from: 'g', to: 'f1', color: P.output, packets: 2, label: '→ 8 partisi' },
+      { from: 'dim', to: 'bc', color: P.outputDark, packets: 2 },
+      { from: 'bc', to: 'gd', color: P.greenDark, packets: 2, label: 'tanpa shuffle!' },
+      { from: 'sv', to: 'gd', color: P.processDark, packets: 2, label: 'agregasi' },
     ],
   },
+  // 9. Tuning Partisi
   {
     nodes: [
-      { id: 'skew', type: 'block', x: -2.8, y: 1.3, color: P.danger, label: 'Skew 80%', scale: 2.0 },
-      { id: 'a1', type: 'block', x: -0.6, y: 0.6, color: P.process, label: 'AQE 1', scale: 1.1 },
-      { id: 'a2', type: 'block', x: 0.3, y: 0.2, color: P.process, label: 'AQE 2', scale: 1.1 },
-      { id: 'a3', type: 'block', x: 1.2, y: -0.2, color: P.process, label: 'AQE 3', scale: 1.1 },
-      { id: 'f1', type: 'folder', x: 2.1, y: -0.7, label: '128 MB' },
-      { id: 'f2', type: 'folder', x: 3.3, y: -2.0, label: '512 MB' },
+      { id: 'raw', type: 'io', x: -1.7, y: 0, label: '200 Partisi Kecil', sub: 'task overhead tinggi', color: P.redSoft, status: 'failed' },
+      { id: 'aqe', type: 'process', x: -0.05, y: 0, label: 'coalesce() / AQE', sub: 'gabung otomatis', color: P.process },
+      { id: 'opt', type: 'end', x: 1.7, y: 0, label: '8 Partisi Optimal', sub: '~128 MB per partisi', color: P.green },
     ],
     links: [
-      { from: 'skew', to: 'a1', color: P.danger, dashed: true, packets: 2 },
-      { from: 'skew', to: 'a2', color: P.danger, dashed: true, packets: 2 },
-      { from: 'skew', to: 'a3', color: P.danger, dashed: true, packets: 2 },
-      { from: 'a3', to: 'f1', color: P.output, packets: 2 },
-      { from: 'a3', to: 'f2', color: P.output, packets: 2 },
+      { from: 'raw', to: 'aqe', color: P.dangerDark, dashed: true, packets: 2 },
+      { from: 'aqe', to: 'opt', color: P.greenDark, packets: 2, label: 'tuning ukuran' },
     ],
   },
+  // 10. Skew & Compaction Small Files
   {
     nodes: [
-      { id: 'tube', type: 'tube', x: -2.4, y: 1.2, label: 'pytest ✓' },
-      { id: 'shield', type: 'shield', x: -0.4, y: 0.4, label: 'CI · release' },
-      { id: 'gold', type: 'block', x: 2.0, y: -0.8, color: P.output, label: 'Gold', scale: 1.5 },
+      { id: 'sk', type: 'process', x: -1.55, y: -0.65, label: 'Partisi Skew Raksasa', status: 'failed', color: P.redSoft },
+      { id: 'aq', type: 'end', x: 1.55, y: -0.65, label: 'AQE Skew Join / Salting', color: P.green },
+      { id: 'sf', type: 'process', x: -1.55, y: 0.65, label: 'Jutaan File Kecil', status: 'failed', color: P.redSoft },
+      { id: 'cp', type: 'end', x: 1.55, y: 0.65, label: 'Compaction 128 MB–1 GB', color: P.output },
     ],
     links: [
-      { from: 'tube', to: 'shield', color: P.greenDark, packets: 2 },
-      { from: 'shield', to: 'gold', color: P.output, packets: 2, label: 'rilis' },
+      { from: 'sk', to: 'aq', color: P.greenDark, packets: 2, label: 'pecah key panas' },
+      { from: 'sf', to: 'cp', color: P.outputDark, packets: 2, label: 'pres file output' },
+    ],
+  },
+  // 11. Uji, Ukur, Rilis
+  {
+    nodes: [
+      { id: 'py', type: 'codebox', x: -1.7, y: 0, label: 'pytest Unit Test', sub: 'fungsi transformasi murni', color: P.process },
+      { id: 'ci', type: 'decision', x: -0.05, y: 0, label: 'CI + Metrik Lolos?', color: P.goldSoft },
+      { id: 'rel', type: 'end', x: 1.7, y: 0, label: 'Rilis Gold Produksi', sub: 'siap pantau SLA', color: P.green },
+    ],
+    links: [
+      { from: 'py', to: 'ci', color: P.processDark, packets: 2 },
+      { from: 'ci', to: 'rel', color: P.greenDark, packets: 2, label: 'terverifikasi' },
     ],
   },
 ]

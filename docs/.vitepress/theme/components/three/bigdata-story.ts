@@ -1,4 +1,4 @@
-/* Shared story data for the Big Data 2.5D canvases. */
+/* Shared story data for the Big Data 2D Flowchart & Architecture canvases. */
 
 export type StoryVariant = 'foundation' | 'hadoop' | 'spark'
 export type {
@@ -22,13 +22,15 @@ const foundationStory: Story = {
     href: '/big-data/canvas-foundation',
     moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-1-big-data',
+    renderMode: 'flowchart',
     crumb: 'Bagian 1 · Fondasi',
     title: 'Fondasi & Arsitektur',
     subtitle: 'Cerita data dari satu disk ke pusat data terdistribusi.',
     duration: '18 mnt',
     level: 'Pemula',
     longTitle: false,
-    footnote: 'Kanvas 2.5D low-poly untuk memperjelas fondasi arsitektur data. Warna: data mentah (abu), proses (biru), hasil (emas), bahaya (merah-oranye). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
+    chipLabels: ['NODE', 'DATA', 'ALUR', 'FOKUS'],
+    footnote: 'Kanvas diagram 2D arsitektur Big Data. Warna: input mentah (abu/biru), proses (biru), output (emas), bottleneck/gagal (merah). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
     searchHint: 'Coba “blok”, “hdfs”, atau “cap”.',
   },
   steps: [
@@ -192,13 +194,15 @@ const hadoopStory: Story = {
     href: '/big-data/canvas-hadoop',
     moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-3-big-data',
+    renderMode: 'flowchart',
     crumb: 'Bagian 2 · Hadoop',
     title: 'Satu Berkas, Seribu Pekerja',
     subtitle: 'Hadoop, MapReduce, YARN, dan Hive — satu file, banyak pekerja.',
     duration: '20 mnt',
     level: 'Menengah',
-    longTitle: false,
-    footnote: 'Kanvas 2.5D low-poly untuk memperjelas alur Hadoop. Warna: data mentah (abu), proses (biru), hasil (emas), bahaya (merah-oranye). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
+    longTitle: true,
+    chipLabels: ['NODE', 'DATA', 'ALUR', 'FOKUS'],
+    footnote: 'Kanvas diagram 2D alur Hadoop, MapReduce, YARN & Hive. Warna: input mentah (abu), proses (biru), hasil (emas), bottleneck/skew (merah). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
     searchHint: 'Coba “shuffle”, “skew”, atau “yarn”.',
   },
   steps: [
@@ -407,13 +411,15 @@ const sparkStory: Story = {
     href: '/big-data/canvas-spark',
     moduleHref: '/big-data/',
     slideHref: '/presentasi/pertemuan-4-big-data',
+    renderMode: 'flowchart',
     crumb: 'Bagian 2 · Spark',
     title: 'Dari Disk yang Lelah ke Memori yang Gesit',
     subtitle: 'Apache Spark dan optimasi ETL — dari I/O disk ke memori dan DAG.',
     duration: '22 mnt',
     level: 'Menengah',
     longTitle: true,
-    footnote: 'Kanvas 2.5D low-poly untuk memperjelas alur Spark ETL. Warna: data mentah (abu), proses (biru), hasil (emas), bahaya (merah-oranye). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
+    chipLabels: ['NODE', 'DATA', 'ALUR', 'FOKUS'],
+    footnote: 'Kanvas diagram 2D alur Apache Spark & optimasi ETL. Warna: input mentah (abu), proses (biru), hasil (emas), shuffle/skew (merah). Geser untuk memindah, scroll untuk zoom, double-click untuk mereset.',
     searchHint: 'Coba “catalyst”, “shuffle”, atau “broadcast”.',
   },
   steps: [
